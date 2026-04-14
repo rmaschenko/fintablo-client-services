@@ -1,0 +1,100 @@
+/* ═══════════════════════════════════════════════════════════
+   MONEY-PROFIT · Fintablo PLG microservice
+   DS tokens based on Fintablo Design System Kit v1.0
+   ═══════════════════════════════════════════════════════════ */
+
+@import url('../fonts/fonts.css');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  /* Primary */
+  --navy-900:#0f1d2f; --navy-800:#1a2e47; --navy-700:#1e3a5f; --navy-600:#254d7a;
+  --blue-600:#2563eb; --blue-500:#3b82f6; --blue-400:#60a5fa;
+  --blue-300:#93bbfd; --blue-200:#bfdbfe; --blue-100:#dbeafe; --blue-50:#eff6ff;
+
+  /* Neutrals */
+  --slate-900:#0f172a; --slate-800:#1e293b; --slate-700:#334155;
+  --slate-600:#475569; --slate-500:#64748b; --slate-400:#94a3b8;
+  --slate-300:#cbd5e1; --slate-200:#e2e8f0; --slate-100:#f1f5f9; --slate-50:#f8fafc;
+  --white:#ffffff;
+
+  /* Semantic */
+  --profit:#16a34a; --profit-bg:#f0fdf4; --profit-border:#bbf7d0;
+  --loss:#dc2626; --loss-bg:#fef2f2; --loss-border:#fecaca;
+  --caution:#d97706; --caution-bg:#fffbeb; --caution-border:#fde68a;
+  --info:#2563eb; --info-bg:#eff6ff; --info-border:#bfdbfe;
+  --insight:#7c3aed; --insight-bg:#f5f3ff; --insight-border:#ddd6fe;
+
+  /* Typography */
+  --font-sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono','SF Mono','Courier New',monospace;
+  --font-serif:'Literata',Georgia,'Times New Roman',serif;
+
+  --text-xs:11px; --text-sm:13px; --text-base:15px; --text-lg:17px;
+  --text-xl:19px; --text-2xl:24px; --text-3xl:30px; --text-4xl:36px; --text-hero:42px;
+
+  --leading-tight:1.2; --leading-snug:1.35; --leading-normal:1.6; --leading-relaxed:1.7;
+  --tracking-tight:-0.01em; --tracking-normal:0; --tracking-wide:0.04em; --tracking-caps:0.08em;
+
+  /* Spacing (4px step) */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px;
+  --sp-8:32px; --sp-10:40px; --sp-12:48px; --sp-16:64px; --sp-20:80px;
+
+  /* Radii */
+  --radius-sm:4px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px;
+
+  /* Shadows */
+  --shadow-sm:0 1px 2px rgba(15,23,42,.05);
+  --shadow-md:0 2px 8px rgba(15,23,42,.08);
+  --shadow-lg:0 4px 16px rgba(15,23,42,.1);
+  --shadow-focus:0 0 0 3px rgba(37,99,235,.2);
+}
+
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  font-family:var(--font-sans);
+  background:var(--slate-50);
+  color:var(--slate-800);
+  font-size:var(--text-base);
+  line-height:var(--leading-relaxed);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  min-height:100vh;
+}
+
+/* Tabular figures для чисел */
+.num,.mono,[data-num]{
+  font-family:var(--font-mono);
+  font-variant-numeric:tabular-nums lining-nums;
+}
+
+a{color:var(--blue-600);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;cursor:pointer}
+img,svg{max-width:100%;display:block}
+
+/* Скелет — компоненты добавятся итеративно по мере разработки. */
+.container{max-width:720px;margin:0 auto;padding:0 var(--sp-5)}
+@media(min-width:768px){.container{padding:0 var(--sp-8)}}
+
+/* Временная заглушка главного экрана до наполнения */
+.scaffold{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:var(--sp-12) var(--sp-5);text-align:center;
+}
+.scaffold h1{
+  font-family:var(--font-serif);font-size:var(--text-hero);
+  font-weight:700;line-height:var(--leading-tight);
+  color:var(--slate-900);margin-bottom:var(--sp-4);max-width:640px;
+}
+.scaffold h1 span{color:var(--blue-600)}
+.scaffold p{color:var(--slate-600);font-size:var(--text-lg);max-width:540px;margin-bottom:var(--sp-6)}
+.scaffold .stub-num{
+  font-family:var(--font-mono);font-size:var(--text-xs);
+  font-weight:600;letter-spacing:var(--tracking-caps);
+  text-transform:uppercase;color:var(--blue-600);
+  padding:var(--sp-1) var(--sp-3);background:var(--blue-50);
+  border:1px solid var(--blue-200);border-radius:var(--radius-sm);
+}

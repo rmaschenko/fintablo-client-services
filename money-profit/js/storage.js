@@ -1,56 +1,79 @@
-/* ═════ LOCALSTORAGE + UTM ═════ */
+/* ═════ STORAGE · state 48h TTL + UTM ═════ */
 (function(global){
   'use strict';
+  var MP = global.MoneyProfit = global.MoneyProfit || {};
 
-  var MoneyProfit = global.MoneyProfit = global.MoneyProfit || {};
-  var KEY = 'mp_state_v1';
-  var UTM_KEY = 'mp_utm_v1';
+  var STATE_KEY  = 'moneyprofit_state';
+  var UTM_KEY    = 'fintablo_utm';
+  var COOKIE_KEY = 'fintablo_cookies';
+  var TTL_MS     = 48 * 3600 * 1000; // 48 часов
 
   function get(){
-    try { return JSON.parse(localStorage.getItem(KEY) || '{}'); }
-    catch(e){ return {}; }
+    try {
+      var raw = localStorage.getItem(STATE_KEY);
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      if (!data || !data._ts) return null;
+      if (Date.now() - data._ts > TTL_MS) {
+        localStorage.removeItem(STATE_KEY);
+        return null;
+      }
+      return data;
+    } catch(e){ return null; }
   }
 
   function set(patch){
-    var cur = get();
+    var cur = get() || {};
     var next = Object.assign({}, cur, patch, { _ts: Date.now() });
-    try { localStorage.setItem(KEY, JSON.stringify(next)); } catch(e){}
+    try { localStorage.setItem(STATE_KEY, JSON.stringify(next)); } catch(e){}
     return next;
   }
 
   function clear(){
-    try { localStorage.removeItem(KEY); } catch(e){}
+    try {
+      localStorage.removeItem(STATE_KEY);
+      sessionStorage.removeItem(UTM_KEY);
+      sessionStorage.removeItem('utm_captured');
+    } catch(e){}
   }
 
-  // ── UTM-метки: ловим при первом заходе, храним постоянно ──
+  // UTM — sessionStorage, не перезаписывается при повторном заходе (first-click attribution)
   function captureUtm(){
     try {
+      if (sessionStorage.getItem('utm_captured')) return;
       var params = new URLSearchParams(location.search);
-      var utmKeys = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','yclid','gclid'];
-      var found = {};
+      var keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','yclid','gclid'];
+      var utm = {};
       var hasAny = false;
-      utmKeys.forEach(function(k){
+      keys.forEach(function(k){
         var v = params.get(k);
-        if (v) { found[k] = v; hasAny = true; }
+        if (v) { utm[k] = v; hasAny = true; }
       });
       if (hasAny) {
-        found._captured_at = new Date().toISOString();
-        found._referrer = document.referrer || '';
-        localStorage.setItem(UTM_KEY, JSON.stringify(found));
+        utm._captured_at = new Date().toISOString();
+        utm._referrer = document.referrer || '';
+        sessionStorage.setItem(UTM_KEY, JSON.stringify(utm));
       }
+      sessionStorage.setItem('utm_captured', '1');
     } catch(e){}
   }
 
   function getUtm(){
-    try { return JSON.parse(localStorage.getItem(UTM_KEY) || '{}'); }
+    try { return JSON.parse(sessionStorage.getItem(UTM_KEY) || '{}'); }
     catch(e){ return {}; }
   }
 
-  MoneyProfit.storage = {
-    get: get, set: set, clear: clear,
-    captureUtm: captureUtm, getUtm: getUtm
-  };
+  function timeAgo(ts){
+    if (!ts) return 'недавно';
+    var diff = Math.floor((Date.now() - ts) / 1000);
+    if (diff < 60) return 'менее минуты назад';
+    if (diff < 3600) return Math.floor(diff/60) + ' мин. назад';
+    if (diff < 86400) return Math.floor(diff/3600) + ' ч. назад';
+    return Math.floor(diff/86400) + ' дн. назад';
+  }
+
+  MP.storage = { get:get, set:set, clear:clear, captureUtm:captureUtm, getUtm:getUtm,
+                 timeAgo:timeAgo, STATE_KEY:STATE_KEY, COOKIE_KEY:COOKIE_KEY };
 
   captureUtm();
-
 })(typeof window !== 'undefined' ? window : globalThis);

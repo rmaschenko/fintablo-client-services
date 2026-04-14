@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f1d2f">
-<meta name="format-detection" content="telephone=no">
-<title>Деньги есть — прибыли нет · Диагностика от Финтабло</title>
-<meta name="description" content="Узнайте, сколько денег в вашем бизнесе не превращается в прибыль. Персональная диагностика за 3 минуты от Финтабло.">
-<meta property="og:title" content="Деньги есть — прибыли нет">
-<meta property="og:description" content="Персональная диагностика разрыва между деньгами на счёте и реальной прибылью. 3 минуты, бесплатно.">
+<meta name="theme-color" content="#1A1F36">
+<meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+<title>Деньги есть — прибыли нет? | Финтабло</title>
+<meta name="description" content="Введите 4 цифры — и узнайте, где именно теряется ваша прибыль и сколько это стоит в рублях. Персональная диагностика от Финтабло за 2 минуты.">
+<meta property="og:title" content="Деньги есть — прибыли нет? | Финтабло">
+<meta property="og:description" content="Персональная диагностика разрыва между деньгами и прибылью для проектного бизнеса.">
 <meta property="og:type" content="website">
-<link rel="preload" href="fonts/literata-cyrillic-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/ibm-plex-sans-cyrillic-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="https://fintablo.ru/favicon.ico">
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="css/style.css">
 
 <!-- Yandex.Metrika counter -->
@@ -27,206 +27,295 @@
 </head>
 <body>
 
-<!-- ════════════════════════ HEADER ════════════════════════ -->
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="/" aria-label="Финтабло">
-      <span class="brand-mark" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#2563eb"/><path d="M8 9h12M8 14h8M8 19h10" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-      </span>
-      <span class="brand-name">Финтабло</span>
-      <span class="brand-pill">Диагностика</span>
+<!-- ═════ HEADER ═════ -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
+      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32">
+      <span class="logo-fallback">Финтабло</span>
     </a>
-    <div class="header-trust">
-      <span class="dot dot-green" aria-hidden="true"></span>
-      <span><b class="mono" data-num>1 243</b> собственника уже прошли</span>
-    </div>
+    <div class="header-meta">Диагностика · 2 минуты</div>
   </div>
 </header>
 
-<!-- ════════════════════════ HERO ════════════════════════ -->
-<section class="hero">
-  <div class="container hero-inner">
-    <div class="hero-left">
-      <div class="eyebrow">Диагностика · Финтабло · ~2 минуты</div>
-      <h1 class="hero-title">Деньги есть — <span class="accent">прибыли нет</span>.<br>Где они?</h1>
-      <p class="hero-sub">
-        Узнайте сумму, которая <b>есть в вашем бизнесе на бумаге</b>, но не видна на счёте.
-        Три цифры — и вы увидите разрыв. Данные считаются локально, ничего не уходит.
-      </p>
+<!-- ═════ PROGRESS ═════ -->
+<div class="progress-wrapper" id="progress-wrapper">
+  <div class="progress-steps">
+    <span class="ps-item" data-stage="1">О бизнесе</span>
+    <span class="ps-sep">›</span>
+    <span class="ps-item" data-stage="2">Ваши цифры</span>
+    <span class="ps-sep">›</span>
+    <span class="ps-item" data-stage="3">Получить анализ</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
 
-      <div class="hero-badges">
-        <span class="badge badge-blue">IBM Plex · Literata</span>
-        <span class="badge badge-green">ГОСТ 8.417</span>
-        <span class="badge badge-amber">Без регистрации</span>
+<!-- ═════ RESUME BANNER (showed if saved state within 48h) ═════ -->
+<div class="resume-banner" id="resume-banner" hidden>
+  <div class="container">
+    <div class="rb-inner">
+      <div class="rb-text">
+        <b>У вас есть незавершённый расчёт</b>
+        <span>Сохранён <span id="rb-ago">недавно</span> · можно продолжить с места остановки</span>
       </div>
-
-      <a href="#calc" class="btn btn-primary btn-lg hero-cta">
-        Посчитать разрыв
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <div class="hero-micro">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 7V5a5 5 0 0 0-10 0v2M4 7h8a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
-        Данные не уходят с вашего устройства
+      <div class="rb-actions">
+        <button class="btn-secondary btn-sm" id="rb-reset" type="button">Начать заново</button>
+        <button class="btn-primary btn-sm" id="rb-resume" type="button">Продолжить</button>
       </div>
     </div>
-
-    <aside class="hero-right" aria-hidden="true">
-      <div class="hero-preview">
-        <div class="hp-head">
-          <div class="hp-label">Ваш будущий отчёт</div>
-          <span class="pill pill-info">preview</span>
-        </div>
-        <div class="hp-kpi">
-          <div class="hp-kpi-label">Разрыв «деньги → прибыль»</div>
-          <div class="hp-kpi-value mono">?&thinsp;<span class="hp-kpi-unit">млн&nbsp;₽</span></div>
-          <div class="hp-kpi-delta">Заполните форму ниже →</div>
-        </div>
-        <div class="hp-breakdown">
-          <div class="hp-bar">
-            <div class="hp-bar-label"><span>Наивная прибыль</span><span class="mono">—</span></div>
-            <div class="hp-bar-track"><div class="hp-bar-fill" style="width:78%;background:var(--loss)"></div></div>
-          </div>
-          <div class="hp-bar">
-            <div class="hp-bar-label"><span>Деньги на счёте</span><span class="mono">—</span></div>
-            <div class="hp-bar-track"><div class="hp-bar-fill" style="width:22%;background:var(--profit)"></div></div>
-          </div>
-        </div>
-      </div>
-    </aside>
   </div>
-</section>
+</div>
 
-<!-- ════════════════════════ CALCULATOR ════════════════════════ -->
-<section class="calc-section" id="calc">
-  <div class="container">
-    <div class="sec-num">Шаг 1 из 2 · Первый слой</div>
-    <h2 class="sec-title">Посчитаем разрыв <span class="accent">за 30 секунд</span></h2>
-    <p class="sec-sub">
-      Три цифры из вашей головы — и вы увидите сумму, которая есть в бизнесе,
-      но не считается прибылью. Формулу объясним ниже.
+<!-- ═════ STEPS ═════ -->
+<div class="container">
+
+  <!-- ── Step 0: Welcome ── -->
+  <section class="step step-welcome active" id="step-0">
+    <div class="social-proof">
+      <span class="dot-green" aria-hidden="true"></span>
+      <span><b>2 200+</b> проектных компаний управляют финансами в Финтабло</span>
+    </div>
+
+    <h1 class="hero-h1" id="hero-h1">Деньги есть — <span class="accent">прибыли нет</span>?</h1>
+    <p class="hero-sub">
+      Введите 4 цифры — и мы покажем, где именно теряется ваша прибыль
+      и сколько это стоит в рублях.
     </p>
 
-    <div class="calc-card" role="form" aria-label="Калькулятор разрыва">
-      <div class="calc-inputs">
+    <ul class="hero-bullets">
+      <li><span class="bullet-ico" aria-hidden="true">→</span> Увидите реальный разрыв между деньгами на счёте и прибылью — в рублях</li>
+      <li><span class="bullet-ico" aria-hidden="true">→</span> Поймёте, из-за чего возникает этот разрыв в вашем типе бизнеса</li>
+      <li><span class="bullet-ico" aria-hidden="true">→</span> Узнаете, почему это нельзя увидеть без учёта по каждому проекту</li>
+    </ul>
+
+    <button class="btn-primary btn-lg" id="btn-start" type="button">
+      Найти где теряется прибыль
+      <span class="btn-arrow">→</span>
+    </button>
+
+    <div class="trust-row">
+      <span class="trust-item">⏱ 2 минуты</span>
+      <span class="trust-sep">·</span>
+      <span class="trust-item">🔒 Данные в браузере</span>
+      <span class="trust-sep">·</span>
+      <span class="trust-item">Без регистрации</span>
+    </div>
+  </section>
+
+  <!-- ── Step 1: Role ── -->
+  <section class="step" id="step-1">
+    <div class="step-eyebrow">Шаг 1 из 3 · О бизнесе</div>
+    <h2 class="step-q">Кто вы?</h2>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="owner">
+        <span class="oc-title">Собственник / Генеральный директор</span>
+        <span class="oc-sub">Хочу понять, почему прибыль не совпадает с деньгами</span>
+      </button>
+      <button class="option-card" type="button" data-value="cfo">
+        <span class="oc-title">Финансовый директор / Финансист</span>
+        <span class="oc-sub">Хочу наглядно объяснить разрыв собственнику</span>
+      </button>
+    </div>
+    <div class="insight-box" id="insight-role" hidden></div>
+  </section>
+
+  <!-- ── Step 2: Industry ── -->
+  <section class="step" id="step-2">
+    <div class="step-eyebrow">Шаг 2 из 3 · О бизнесе</div>
+    <h2 class="step-q">Чем занимается компания?</h2>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="construction"><span class="oc-icon">🏗️</span><span class="oc-title">Строительство / ремонт / инжиниринг</span></button>
+      <button class="option-card" type="button" data-value="it"><span class="oc-icon">💻</span><span class="oc-title">IT-проекты / разработка / интеграции</span></button>
+      <button class="option-card" type="button" data-value="agency"><span class="oc-icon">🎯</span><span class="oc-title">Агентство / маркетинг / дизайн / консалтинг</span></button>
+      <button class="option-card" type="button" data-value="production"><span class="oc-icon">⚙️</span><span class="oc-title">Производство / монтаж / оборудование</span></button>
+      <button class="option-card" type="button" data-value="other"><span class="oc-icon">📦</span><span class="oc-title">Другой проектный бизнес</span></button>
+    </div>
+    <div class="insight-box" id="insight-industry" hidden></div>
+  </section>
+
+  <!-- ── Step 3: Revenue ── -->
+  <section class="step" id="step-3">
+    <div class="step-eyebrow">Шаг 3 из 3 · О бизнесе</div>
+    <h2 class="step-q">Какой примерный оборот компании в месяц?</h2>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="1500000" data-label="До 2 млн ₽/мес"><span class="oc-title">До 2 млн ₽/мес</span></button>
+      <button class="option-card" type="button" data-value="3500000" data-label="2–5 млн ₽/мес"><span class="oc-title">2–5 млн ₽/мес</span></button>
+      <button class="option-card" type="button" data-value="10000000" data-label="5–15 млн ₽/мес"><span class="oc-title">5–15 млн ₽/мес</span></button>
+      <button class="option-card" type="button" data-value="30000000" data-label="15–50 млн ₽/мес"><span class="oc-title">15–50 млн ₽/мес</span></button>
+      <button class="option-card" type="button" data-value="60000000" data-label="Более 50 млн ₽/мес"><span class="oc-title">Более 50 млн ₽/мес</span></button>
+    </div>
+  </section>
+
+  <!-- ── Step 3.5: Anti-ICP soft gate (shown if revenue < 2M) ── -->
+  <section class="step step-anti-icp" id="step-anti-icp">
+    <div class="anti-icp-card">
+      <div class="aic-badge">Наш инструмент настроен под компании от 5 млн/мес</div>
+      <h2 class="step-q">Для вашего этапа полезнее другие инструменты</h2>
+      <p class="aic-sub">
+        Квиз оптимизирован под проектный бизнес с оборотом от 5 млн ₽/мес.
+        При меньшем обороте расчёт разрыва может не отражать реальную картину.
+      </p>
+      <div class="aic-actions">
+        <a class="aic-option" href="https://fintablo.ru/trial" target="_blank" rel="noopener">
+          <div class="aic-opt-title">Начать с бесплатного периода</div>
+          <div class="aic-opt-sub">Войдите в Финтабло без обязательств — 14 дней бесплатно</div>
+          <div class="aic-opt-cta">Зарегистрироваться →</div>
+        </a>
+        <a class="aic-option" href="https://fintablo.ru/blog" target="_blank" rel="noopener">
+          <div class="aic-opt-title">Прочитать материал</div>
+          <div class="aic-opt-sub">«Как навести порядок в финансах небольшой компании»</div>
+          <div class="aic-opt-cta">Читать статью →</div>
+        </a>
+      </div>
+      <button class="btn-ghost aic-back" id="aic-back" type="button">← Всё равно продолжить</button>
+    </div>
+  </section>
+
+  <!-- ── Step 4: Calculator (4 fields + live viz) ── -->
+  <section class="step step-calc" id="step-4">
+    <div class="step-eyebrow">Этап 2 · Ваши цифры</div>
+    <h2 class="step-q">Введите данные <span class="accent">за последний месяц</span></h2>
+    <p class="step-sub">Расчёт обновляется сразу. Данные остаются в вашем браузере.</p>
+
+    <div class="calc-grid">
+      <!-- ── Inputs ── -->
+      <div class="calc-inputs-col">
         <div class="field">
-          <label class="label" for="i-cash">
-            <span class="label-num">1</span>
-            Деньги на счетах и в кассе <b>сейчас</b>
-            <span class="label-hint">остаток на <span id="today-date">сегодня</span></span>
+          <label class="label" for="f-cashIn">
+            <span class="label-main">Сколько денег <b>пришло</b> от клиентов за месяц</span>
+            <span class="label-hint">Реальные поступления на счёт, не выставленные счета</span>
           </label>
           <div class="input-wrap input-suffix-rub">
-            <input id="i-cash" class="input input-money" type="text" inputmode="numeric" placeholder="например, 1 500 000" autocomplete="off">
+            <input id="f-cashIn" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 2 500 000" autocomplete="off">
           </div>
         </div>
 
         <div class="field">
-          <label class="label" for="i-revenue">
-            <span class="label-num">2</span>
-            Выручка за <b>12 месяцев</b>
-            <span class="label-hint">сумма всех продаж с НДС</span>
+          <label class="label" for="f-receivables">
+            <span class="label-main">Сколько вам <b>должны</b> клиенты (не заплатили ещё)</span>
+            <span class="label-hint">Выполненные работы / услуги, за которые ещё не получили деньги</span>
           </label>
           <div class="input-wrap input-suffix-rub">
-            <input id="i-revenue" class="input input-money" type="text" inputmode="numeric" placeholder="например, 60 000 000" autocomplete="off">
+            <input id="f-receivables" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 800 000" autocomplete="off">
           </div>
         </div>
 
         <div class="field">
-          <label class="label" for="i-expenses">
-            <span class="label-num">3</span>
-            Расходы за <b>12 месяцев</b>
-            <span class="label-hint">зарплаты, материалы, аренда, налоги — всё, что ушло</span>
+          <label class="label" for="f-expenses">
+            <span class="label-main">Сколько <b>потратили</b> за месяц (все расходы)</span>
+            <span class="label-hint">ФОТ, субподряд, материалы, аренда, налоги — всё</span>
           </label>
           <div class="input-wrap input-suffix-rub">
-            <input id="i-expenses" class="input input-money" type="text" inputmode="numeric" placeholder="например, 52 000 000" autocomplete="off">
+            <input id="f-expenses" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 2 100 000" autocomplete="off">
           </div>
         </div>
 
-        <div class="calc-privacy">
+        <div class="field">
+          <label class="label" for="f-balance">
+            <span class="label-main"><b>Остаток</b> на счетах прямо сейчас</span>
+            <span class="label-hint">Если несколько счетов — суммарный остаток</span>
+          </label>
+          <div class="input-wrap input-suffix-rub">
+            <input id="f-balance" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 1 200 000" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="privacy-note">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 7V5a5 5 0 0 0-10 0v2M4 7h8a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
-          Локальный расчёт в браузере · данные не отправляются на сервер
+          Локальный расчёт · данные не отправляются
         </div>
       </div>
 
-      <div class="calc-result" id="calc-result" aria-live="polite" aria-atomic="true">
-        <div class="result-placeholder">
-          <div class="result-placeholder-ico" aria-hidden="true">
-            <svg width="40" height="40" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5" opacity=".3"/><path d="M16 10v7M16 21v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <!-- ── Live visualization ── -->
+      <div class="calc-viz-col">
+        <div class="viz-empty" id="viz-empty">
+          <div class="viz-empty-ico" aria-hidden="true">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="1.5" opacity=".3"/><path d="M16 32V20M24 32v-8M32 32v-16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           </div>
-          <div class="result-placeholder-title">Введите три числа</div>
-          <div class="result-placeholder-text">Результат появится сразу — по мере ввода</div>
+          <div class="viz-empty-title">Введите данные слева</div>
+          <div class="viz-empty-sub">И здесь появится ваша финансовая картина</div>
         </div>
+        <div class="viz-chart" id="viz-chart" hidden></div>
       </div>
     </div>
 
-    <details class="calc-explainer">
-      <summary>
-        <span class="chev-wrap">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="chev"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <b>Как устроена формула разрыва?</b>
-        </span>
-        <span class="summary-time">1 минута чтения</span>
-      </summary>
-      <div class="calc-explainer-body">
-        <p><b>Наивная прибыль</b> = выручка − расходы. Так её считает большинство собственников «в голове».</p>
-        <p><b>Деньги на счёте</b> — то, что <b>реально</b> лежит в банке и кассе сейчас.</p>
-        <p><b>Разрыв</b> — разница между этими цифрами. Если наивная прибыль больше денег в 2+ раза — часть прибыли «застряла» в дебиторке, незавершёнке, авансах, складе. Эти деньги считаются прибылью в ОПиУ, но их нет в кассе.</p>
-        <div class="alert alert-insight">
-          <b>Это первый слой.</b> <b>Где конкретно</b> застряли эти деньги (в каком проекте, в какой транзакции) — покажет квиз на шаге 2 и отчёт Финтабло.
-        </div>
-      </div>
-    </details>
-  </div>
-</section>
-
-<!-- ════════════════════════ NEXT-STEP CTA ════════════════════════ -->
-<section class="next-section" id="next" hidden>
-  <div class="container">
-    <div class="next-card">
-      <div class="next-left">
-        <div class="eyebrow eyebrow-light">Шаг 2 из 2 · Второй слой</div>
-        <h2 class="next-title">Хотите увидеть, <span class="accent">где именно</span><br>утекает ваш разрыв?</h2>
-        <p class="next-sub">
-          8 вопросов о вашем бизнесе — и мы покажем <b>2–3 конкретные точки</b>, где разрыв образуется.
-          Это то же, что видит финдиректор в Финтабло через 2 недели внедрения.
-        </p>
-        <button class="btn btn-primary btn-lg" id="start-quiz" type="button">
-          Начать диагностику · 2 минуты
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <!-- Sticky CTA (hidden until 4 fields filled) -->
+    <div class="sticky-cta" id="sticky-cta" hidden>
+      <div class="container sc-inner">
+        <div class="sc-summary" id="sc-summary"></div>
+        <button class="btn-primary" id="btn-to-contact" type="button">
+          <span id="btn-to-contact-text">Узнать подробно — откуда берётся разрыв</span>
+          <span class="btn-arrow">→</span>
         </button>
-        <div class="next-trust">
-          <span class="check-ico" aria-hidden="true">✓</span> Персональный отчёт
-          <span class="check-ico" aria-hidden="true">✓</span> Данные в браузере
-          <span class="check-ico" aria-hidden="true">✓</span> Никакого спама
-        </div>
-      </div>
-      <div class="next-right" aria-hidden="true">
-        <div class="next-stats">
-          <div class="nst">
-            <div class="nst-num mono">2 нед.</div>
-            <div class="nst-lbl">Среднее время внедрения</div>
-          </div>
-          <div class="nst">
-            <div class="nst-num mono">73%</div>
-            <div class="nst-lbl">Находят скрытый разрыв &gt;20%</div>
-          </div>
-          <div class="nst">
-            <div class="nst-num mono">1 243</div>
-            <div class="nst-lbl">Собственников прошли</div>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ════════════════════════ FOOTER ════════════════════════ -->
+  <!-- ── Step 5: Contact capture ── -->
+  <section class="step step-contact" id="step-5">
+    <div class="step-eyebrow">Этап 3 · Получить анализ</div>
+    <h2 class="step-q" id="contact-h"></h2>
+    <p class="step-sub" id="contact-sub"></p>
+
+    <div class="contact-summary" id="contact-summary"></div>
+
+    <form class="contact-form" id="lead-form" autocomplete="on">
+      <div class="field">
+        <label class="label" for="f-name"><span class="label-main">Имя</span></label>
+        <input id="f-name" class="input" type="text" placeholder="Как к вам обращаться" required>
+      </div>
+
+      <div class="field">
+        <label class="label" for="f-phone"><span class="label-main">Телефон</span></label>
+        <input id="f-phone" class="input" type="tel" placeholder="+7 (___) ___-__-__" required inputmode="numeric">
+        <div class="field-error" id="err-phone" hidden></div>
+      </div>
+
+      <div class="field">
+        <label class="label" for="f-email">
+          <span class="label-main">Email <span class="label-opt">(необязательно)</span></span>
+          <span class="label-hint">для получения анализа на почту</span>
+        </label>
+        <input id="f-email" class="input" type="email" placeholder="name@company.ru">
+      </div>
+
+      <!-- Honeypot -->
+      <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <button class="btn-primary btn-lg" id="btn-submit" type="submit" disabled>
+        Получить полный анализ
+        <span class="btn-arrow">→</span>
+      </button>
+
+      <p class="consent">
+        Нажимая кнопку, вы даёте согласие на обработку персональных данных в соответствии
+        с <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой конфиденциальности</a>
+        в целях предоставления консультации.
+      </p>
+      <p class="consent-sub">Мы не передаём данные третьим лицам и не рассылаем спам.</p>
+
+      <button class="btn-share" id="btn-share" type="button">
+        🔗 Поделиться результатом
+      </button>
+    </form>
+  </section>
+</div>
+
+<!-- ═════ STEP NAVIGATION ═════ -->
+<div class="step-nav" id="step-nav" hidden>
+  <div class="container nav-inner">
+    <button class="btn-back" id="btn-back" type="button">← Назад</button>
+    <button class="btn-primary" id="btn-next" type="button" disabled>Далее →</button>
+  </div>
+</div>
+
+<!-- ═════ FOOTER ═════ -->
 <footer class="site-footer">
-  <div class="container footer-inner">
+  <div class="footer-inner">
     <div class="footer-company">
       <div class="footer-brand">© 2026, «Финтабло»</div>
       <div class="footer-legal">
-        ООО «Нескучный Финансовый Софт»<br>
+        ООО «НЕСКУЧНЫЙ ФИНАНСОВЫЙ СОФТ»<br>
         ИНН 2311303019 · ОГРН 1202300015103
       </div>
     </div>
@@ -238,19 +327,21 @@
   </div>
 </footer>
 
-<!-- ════════════════════════ COOKIE BANNER (152-ФЗ) ════════════════════════ -->
-<div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Cookie">
-  <div class="container cb-inner">
+<!-- ═════ COOKIE BANNER (152-ФЗ) ═════ -->
+<div class="cookie-banner" id="cookie-banner">
+  <div class="cb-inner">
     <div class="cb-text">
-      Мы используем cookie для улучшения работы сервиса. Продолжая, вы соглашаетесь с
+      Мы используем файлы cookie для улучшения работы сервиса. Продолжая использовать сайт, вы соглашаетесь с
       <a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой обработки персональных данных</a>.
     </div>
-    <button class="btn btn-primary btn-sm cb-btn" type="button" id="cb-accept">Принять</button>
+    <button class="cb-btn" type="button" id="cb-accept">Принять</button>
   </div>
 </div>
 
 <script src="js/storage.js"></script>
 <script src="js/calculator.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/lead.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

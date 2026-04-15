@@ -196,27 +196,6 @@
       attachMoneyInput(el, debouncedRender);
     });
 
-    // Quick-chip handlers (+100k, +1млн, ×, clear)
-    document.querySelectorAll('.quick-chips').forEach(function(group){
-      var inputId = group.getAttribute('data-for');
-      var input = $(inputId);
-      if (!input) return;
-      group.querySelectorAll('.qc').forEach(function(btn){
-        btn.addEventListener('click', function(){
-          if (btn.hasAttribute('data-clear')) {
-            input.value = '';
-          } else {
-            var add = parseInt(btn.getAttribute('data-add'), 10) || 0;
-            var cur = C.parseRub(input.value);
-            input.value = formatInputValue(cur + add);
-          }
-          input.focus();
-          debouncedRender();
-          track('moneyprofit_chip_used', { field: inputId, add: btn.getAttribute('data-add') || 'clear' });
-        });
-      });
-    });
-
     $('btn-to-report').addEventListener('click', function(){
       track('moneyprofit_report_view');
       showStep(4.5);
@@ -259,29 +238,12 @@
     var model = C.calcModel(state);
 
     var empty = $('viz-empty'), chart = $('viz-chart'), sticky = $('sticky-cta');
-    var wrap = $('viz-wrap'), nextHint = $('next-hint');
-
-    // Прогресс заполнения (0..4) → подсветить точки, обновить текст
-    var vals = [state.cashIn, state.receivables, state.expenses, state.balance];
-    var filledCount = vals.filter(function(v){ return v > 0; }).length;
-    var dots = document.querySelectorAll('.vpd');
-    dots.forEach(function(d, i){ d.classList.toggle('filled', i < filledCount); });
-    var emptyText = $('viz-empty-text');
-    if (emptyText) {
-      if (filledCount === 0) emptyText.textContent = 'Заполните 4 поля — разбор появится сразу';
-      else if (filledCount < 4) emptyText.textContent = 'Осталось ' + (4 - filledCount) + ' — продолжайте';
-      else emptyText.textContent = 'Готовим ваш разбор…';
-    }
 
     if (!model.filled) {
       empty.hidden = false; chart.hidden = true; sticky.classList.remove('visible');
-      if (wrap) wrap.classList.add('empty');
-      if (nextHint) nextHint.hidden = false;
       return;
     }
     empty.hidden = true; chart.hidden = false;
-    if (wrap) wrap.classList.remove('empty');
-    if (nextHint) nextHint.hidden = true;
     CH.renderLive(chart, model, state.industry);
 
     S.set({ cashIn: state.cashIn, receivables: state.receivables, expenses: state.expenses, balance: state.balance, model: {

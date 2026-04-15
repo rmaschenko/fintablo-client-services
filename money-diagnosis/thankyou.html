@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1A1F36">
+<title>Заявка получена | Финтабло</title>
+<meta name="description" content="Ваша заявка получена. Наш эксперт свяжется с вами в рабочее время.">
+<link rel="icon" href="https://fintablo.ru/favicon.ico">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+<script type="text/javascript">
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();k=e.createElement(t);a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a)})
+  (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+  ym(61131877,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+</script>
+<style>
+.ty-hero{padding:40px 0 24px;text-align:left}
+.ty-check{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:48px;height:48px;border-radius:50%;
+  background:var(--accent-green-light);color:var(--accent-green);
+  margin-bottom:16px;
+}
+.ty-h1{
+  font-family:var(--font-serif);font-size:32px;font-weight:700;
+  line-height:1.2;color:var(--text-primary);margin-bottom:8px;letter-spacing:-.01em;
+}
+.ty-sub{font-size:16px;color:var(--text-secondary);margin-bottom:28px}
+.ty-timer{
+  background:var(--brand-blue-light);border-left:3px solid var(--brand-blue);
+  border-radius:0 var(--radius) var(--radius) 0;padding:14px 16px;margin-bottom:24px;
+  display:flex;align-items:center;gap:10px;
+}
+.ty-timer-label{font-size:13px;color:var(--text-secondary)}
+.ty-timer-value{font-weight:600;color:var(--brand-blue)}
+.ty-section{margin-bottom:28px}
+.ty-section-title{
+  font-family:var(--font-mono);font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);
+  margin-bottom:12px;
+}
+.ty-steps{display:flex;flex-direction:column;gap:12px}
+.ty-step{
+  display:flex;gap:14px;padding:16px 18px;background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--radius);
+}
+.ty-step-num{
+  flex-shrink:0;width:28px;height:28px;border-radius:50%;
+  background:var(--brand-blue-light);color:var(--brand-blue);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:14px;
+}
+.ty-step-body b{display:block;font-size:14px;color:var(--text-primary);margin-bottom:2px}
+.ty-step-body span{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.ty-results{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px 20px;
+}
+.ty-cta{margin-top:24px}
+</style>
+</head>
+<body class="page-thankyou">
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
+      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32">
+      <span class="logo-fallback">Финтабло</span>
+    </a>
+    <div class="header-meta">Заявка получена</div>
+  </div>
+</header>
+
+<div class="container">
+  <section class="ty-hero">
+    <div class="ty-check">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 class="ty-h1" id="ty-h1">Заявка получена</h1>
+    <p class="ty-sub">Мы уже изучаем ваш расчёт. Менеджер свяжется с вами в ближайшее рабочее время.</p>
+
+    <div class="ty-timer">
+      <span class="ty-timer-label">Время работы:</span>
+      <span class="ty-timer-value">10:00–19:00 МСК, пн–пт</span>
+    </div>
+  </section>
+
+  <section class="ty-section">
+    <div class="ty-section-title">Что произойдёт дальше</div>
+    <div class="ty-steps">
+      <div class="ty-step">
+        <div class="ty-step-num">1</div>
+        <div class="ty-step-body">
+          <b>Ваша заявка в очереди</b>
+          <span>Менеджер свяжется в рабочее время (10:00–19:00 МСК)</span>
+        </div>
+      </div>
+      <div class="ty-step">
+        <div class="ty-step-num">2</div>
+        <div class="ty-step-body">
+          <b>Подготовка к разговору</b>
+          <span>Мы изучим ваш расчёт до звонка — чтобы не тратить ваше время на объяснения</span>
+        </div>
+      </div>
+      <div class="ty-step">
+        <div class="ty-step-num">3</div>
+        <div class="ty-step-body">
+          <b>Разбор вашей ситуации</b>
+          <span>30 минут с экспертом: где конкретно теряется прибыль и как Финтабло это решает</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ty-section" id="ty-results-section" hidden>
+    <div class="ty-section-title">Ваш расчёт</div>
+    <div class="ty-results" id="ty-results"></div>
+  </section>
+
+  <section class="ty-section">
+    <div class="ty-section-title">Пока ждёте</div>
+    <a href="https://fintablo.ru/case" target="_blank" rel="noopener" class="btn-primary ty-cta">
+      Посмотреть кейсы клиентов
+      <span class="btn-arrow">→</span>
+    </a>
+  </section>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-company">
+      <div class="footer-brand">© 2026, «Финтабло»</div>
+      <div class="footer-legal">
+        ООО «НЕСКУЧНЫЙ ФИНАНСОВЫЙ СОФТ»<br>
+        ИНН 2311303019 · ОГРН 1202300015103
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+      <a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">Оферта</a>
+      <a href="mailto:support@help.fintablo.ru">support@help.fintablo.ru</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/calculator.js"></script>
+<script>
+(function(){
+  try { if (typeof ym === 'function') ym(61131877, 'reachGoal', 'moneyprofit_thankyou'); } catch(e){}
+
+  var saved = window.MoneyProfit.storage.get();
+  var payload = saved && saved.payload ? saved.payload : null;
+  if (!payload) return;
+
+  if (payload.name) {
+    document.getElementById('ty-h1').textContent = payload.name + ', заявка получена';
+  }
+
+  var C = window.MoneyProfit.calc;
+  var html =
+    '<div class="cs-row"><div class="cs-label">Реальная прибыль за месяц</div><div class="cs-value ' + (payload.realProfit >= 0 ? 'pos' : 'neg') + '">' +
+      (payload.realProfit >= 0 ? '' : '−') + C.formatRub(Math.abs(payload.realProfit)) + ' ₽</div></div>' +
+    '<div class="cs-row"><div class="cs-label">Разрыв «деньги → прибыль»</div><div class="cs-value warn">' +
+      (payload.gap >= 0 ? '+' : '−') + C.formatRub(Math.abs(payload.gap)) + ' ₽</div></div>' +
+    '<div class="cs-row highlight"><div class="cs-label">Потенциальный эффект за год</div><div class="cs-value">≈ ' +
+      C.formatRub(payload.annualGap) + ' ₽</div></div>';
+  document.getElementById('ty-results').innerHTML = html;
+  document.getElementById('ty-results-section').hidden = false;
+
+  // Logo fallback
+  var img = document.querySelector('.logo img');
+  if (img) img.onerror = function(){ this.style.display='none'; var f=this.parentElement.querySelector('.logo-fallback'); if(f)f.style.display='block'; };
+})();
+</script>
+</body>
+</html>

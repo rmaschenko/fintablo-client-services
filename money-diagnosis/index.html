@@ -175,27 +175,7 @@
   <section class="step step-calc" id="step-4">
     <div class="step-eyebrow">Этап 2 · Ваши цифры</div>
     <h2 class="step-q">Введите данные <span class="accent">за последний месяц</span></h2>
-    <p class="step-sub">Примерные цифры — ок. Можно быстро подкрутить чипами под каждым полем.</p>
-
-    <!-- ── Privacy reassurance (big, on top) ── -->
-    <div class="privacy-hero">
-      <div class="ph-icon" aria-hidden="true">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="ph-body">
-        <div class="ph-title">Данные не покидают ваш браузер</div>
-        <div class="ph-text">
-          Расчёт происходит локально — прямо на вашем устройстве.
-          <b>Ни одно число не отправляется на сервер</b> до момента, когда вы сами заполните форму контакта.
-          Можно проверить через DevTools → Network: ни одного запроса.
-        </div>
-        <div class="ph-chips">
-          <span class="ph-chip"><span class="ph-chip-dot ok"></span>Не сохраняем в базе</span>
-          <span class="ph-chip"><span class="ph-chip-dot ok"></span>Не передаём третьим лицам</span>
-          <span class="ph-chip"><span class="ph-chip-dot ok"></span>Не записываем в аналитику</span>
-        </div>
-      </div>
-    </div>
+    <p class="step-sub">Расчёт обновляется сразу. Данные остаются в вашем браузере.</p>
 
     <!-- ── Inputs (full width) ── -->
     <div class="calc-inputs-stack">
@@ -208,13 +188,6 @@
           <div class="input-wrap input-suffix-rub">
             <input id="f-cashIn" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 2 500 000" autocomplete="off">
           </div>
-          <div class="quick-chips" data-for="f-cashIn">
-            <button type="button" class="qc" data-add="100000">+100k</button>
-            <button type="button" class="qc" data-add="500000">+500k</button>
-            <button type="button" class="qc" data-add="1000000">+1 млн</button>
-            <button type="button" class="qc" data-add="5000000">+5 млн</button>
-            <button type="button" class="qc qc-clear" data-clear="1">✕</button>
-          </div>
         </div>
 
         <div class="field">
@@ -224,13 +197,6 @@
           </label>
           <div class="input-wrap input-suffix-rub">
             <input id="f-receivables" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 800 000" autocomplete="off">
-          </div>
-          <div class="quick-chips" data-for="f-receivables">
-            <button type="button" class="qc" data-add="100000">+100k</button>
-            <button type="button" class="qc" data-add="500000">+500k</button>
-            <button type="button" class="qc" data-add="1000000">+1 млн</button>
-            <button type="button" class="qc" data-add="5000000">+5 млн</button>
-            <button type="button" class="qc qc-clear" data-clear="1">✕</button>
           </div>
         </div>
 
@@ -242,13 +208,6 @@
           <div class="input-wrap input-suffix-rub">
             <input id="f-expenses" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 2 100 000" autocomplete="off">
           </div>
-          <div class="quick-chips" data-for="f-expenses">
-            <button type="button" class="qc" data-add="100000">+100k</button>
-            <button type="button" class="qc" data-add="500000">+500k</button>
-            <button type="button" class="qc" data-add="1000000">+1 млн</button>
-            <button type="button" class="qc" data-add="5000000">+5 млн</button>
-            <button type="button" class="qc qc-clear" data-clear="1">✕</button>
-          </div>
         </div>
 
         <div class="field">
@@ -259,39 +218,25 @@
           <div class="input-wrap input-suffix-rub">
             <input id="f-balance" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 1 200 000" autocomplete="off">
           </div>
-          <div class="quick-chips" data-for="f-balance">
-            <button type="button" class="qc" data-add="100000">+100k</button>
-            <button type="button" class="qc" data-add="500000">+500k</button>
-            <button type="button" class="qc" data-add="1000000">+1 млн</button>
-            <button type="button" class="qc" data-add="5000000">+5 млн</button>
-            <button type="button" class="qc qc-clear" data-clear="1">✕</button>
-          </div>
         </div>
       </div>
+
+      <div class="privacy-note">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 7V5a5 5 0 0 0-10 0v2M4 7h8a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        Локальный расчёт · данные не отправляются
+      </div>
     </div>
 
-    <!-- ── Live visualization: compact when empty, full when filled ── -->
-    <div class="viz-wrap" id="viz-wrap">
-      <div class="viz-empty-compact" id="viz-empty">
-        <span class="viz-progress-dots" id="viz-progress-dots">
-          <span class="vpd" data-idx="0"></span>
-          <span class="vpd" data-idx="1"></span>
-          <span class="vpd" data-idx="2"></span>
-          <span class="vpd" data-idx="3"></span>
-        </span>
-        <span class="viz-empty-text" id="viz-empty-text">Заполните 4 поля — разбор появится сразу</span>
+    <!-- ── Live visualization (full width below inputs) ── -->
+    <div class="viz-wrap">
+      <div class="viz-empty" id="viz-empty">
+        <div class="viz-empty-ico" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="1.5" opacity=".3"/><path d="M16 32V20M24 32v-8M32 32v-16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="viz-empty-title">Заполните 4 поля выше</div>
+        <div class="viz-empty-sub">Сразу увидите визуальный разбор вашей финансовой картины</div>
       </div>
       <div class="viz-chart" id="viz-chart" hidden></div>
-    </div>
-
-    <!-- ── «Что будет после» hint block ── -->
-    <div class="next-hint" id="next-hint">
-      <div class="nh-title">Что будет после заполнения</div>
-      <div class="nh-steps">
-        <div class="nh-step"><span class="nh-num">1</span><b>Визуальный разбор</b> — прямо на этой странице, бесплатно</div>
-        <div class="nh-step"><span class="nh-num">2</span><b>3 типовые точки утечки</b> по вашей отрасли</div>
-        <div class="nh-step"><span class="nh-num">3</span><b>Звонок эксперта</b> — только если оставите контакт</div>
-      </div>
     </div>
 
     <!-- Sticky CTA -->

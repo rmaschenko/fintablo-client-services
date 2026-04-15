@@ -343,51 +343,10 @@ header{
   padding:8px 12px;background:var(--bg);border-radius:var(--radius-sm);
 }
 
-/* ═════ PRIVACY HERO (big trust block above inputs) ═════ */
-.privacy-hero{
-  display:flex;gap:14px;align-items:flex-start;
-  background:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%);
-  border:1px solid #a7f3d0;border-radius:var(--radius-lg);
-  padding:18px 20px;margin:16px 0 20px;
-}
-@media(max-width:480px){.privacy-hero{padding:14px 16px}}
-.ph-icon{
-  flex-shrink:0;width:40px;height:40px;border-radius:50%;
-  background:#10b981;color:#fff;
-  display:flex;align-items:center;justify-content:center;
-}
-.ph-body{flex:1;min-width:0}
-.ph-title{
-  font-size:15px;font-weight:700;color:#065f46;margin-bottom:4px;
-  letter-spacing:-.01em;
-}
-.ph-text{font-size:13px;line-height:1.55;color:#065f46;opacity:.85;margin-bottom:10px}
-.ph-text b{font-weight:700;opacity:1}
-.ph-chips{display:flex;flex-wrap:wrap;gap:6px}
-.ph-chip{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:11px;font-weight:600;padding:4px 10px;
-  background:rgba(255,255,255,.7);border-radius:999px;color:#065f46;
-}
-.ph-chip-dot{width:6px;height:6px;border-radius:50%;background:#10b981}
-
-/* ═════ QUICK CHIPS (+ 100k / +1 млн / clear) ═════ */
-.quick-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.qc{
-  font-family:var(--font-mono);font-size:11px;font-weight:600;
-  padding:5px 10px;border:1px solid var(--border);
-  background:var(--surface);color:var(--brand-blue);
-  border-radius:999px;cursor:pointer;transition:all .12s;
-  min-height:28px;line-height:1;
-}
-.qc:hover{border-color:var(--brand-blue);background:var(--brand-blue-light)}
-.qc:active{transform:scale(.95)}
-.qc.qc-clear{color:var(--text-muted);margin-left:auto}
-.qc.qc-clear:hover{border-color:var(--danger);color:var(--danger);background:var(--danger-light)}
-
 /* Honeypot */
 .hp-field{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 
+/* ═════ VISUALIZATION ═════ */
 /* ═════ LIVE VIZ (full width, below inputs) ═════ */
 .viz-wrap{
   margin-top:20px;
@@ -395,23 +354,7 @@ header{
   border-radius:var(--radius-lg);padding:24px;
   box-shadow:var(--shadow);
 }
-.viz-wrap.empty{
-  padding:14px 20px;background:var(--bg);box-shadow:none;
-}
-@media(max-width:480px){.viz-wrap{padding:18px}.viz-wrap.empty{padding:12px 16px}}
-
-/* Compact empty state (single row, no giant void) */
-.viz-empty-compact{
-  display:flex;align-items:center;gap:14px;
-  font-size:13px;color:var(--text-muted);
-}
-.viz-progress-dots{display:inline-flex;gap:6px;flex-shrink:0}
-.vpd{
-  width:10px;height:10px;border-radius:50%;
-  background:var(--border);transition:background .2s,transform .2s;
-}
-.vpd.filled{background:var(--accent-green);transform:scale(1.15)}
-.viz-empty-text{flex:1;line-height:1.4}
+@media(max-width:480px){.viz-wrap{padding:18px}}
 
 .viz-empty{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -723,27 +666,3 @@ body:has(.cookie-banner.visible) .sticky-cta{bottom:60px}
 
 .report-cta-wrap{margin-top:20px;text-align:center}
 .report-cta-sub{font-size:12px;color:var(--text-muted);margin-top:10px;line-height:1.4}
-
-/* ═════ NEXT-HINT (что будет после заполнения) ═════ */
-.next-hint{
-  margin-top:20px;padding:20px 22px;
-  background:linear-gradient(135deg,var(--brand-blue-light) 0%,#f0f4ff 100%);
-  border:1px solid rgba(26,86,219,.15);border-radius:var(--radius-lg);
-}
-@media(max-width:480px){.next-hint{padding:16px 18px}}
-.nh-title{
-  font-size:13px;font-weight:700;color:var(--brand-blue);
-  text-transform:uppercase;letter-spacing:.06em;font-family:var(--font-mono);
-  margin-bottom:12px;
-}
-.nh-steps{display:flex;flex-direction:column;gap:8px}
-.nh-step{
-  display:flex;gap:10px;align-items:baseline;
-  font-size:13px;line-height:1.5;color:var(--text-primary);
-}
-.nh-step b{color:var(--text-primary);font-weight:600}
-.nh-num{
-  flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;
-  width:20px;height:20px;border-radius:50%;background:var(--brand-blue);color:#fff;
-  font-family:var(--font-mono);font-size:11px;font-weight:700;
-}

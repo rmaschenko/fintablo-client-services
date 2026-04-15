@@ -12,9 +12,9 @@
   }
 
   // ── Конфиг шагов ──
-  // 0 welcome · 1 role · 2 industry · 3 revenue · 3.5 anti-icp · 4 calc · 5 contact
-  var STAGE_OF_STEP = { 0:0, 1:1, 2:1, 3:1, 4:2, 5:3 };
-  var PROGRESS_STEPS = [0, 1, 2, 3, 4, 5];
+  // 0 welcome · 1 role · 2 industry · 3 revenue · 3.5 anti-icp · 4 calc · 4.5 report · 5 contact
+  var STAGE_OF_STEP = { 0:0, 1:1, 2:1, 3:1, 4:2, 4.5:2, 5:3 };
+  var PROGRESS_STEPS = [0, 1, 2, 3, 4, 4.5, 5];
 
   var state = {
     step: 0,
@@ -71,7 +71,9 @@
     if (current) {
       current.classList.remove('active');
     }
-    var targetId = step === 3.5 ? 'step-anti-icp' : ('step-' + step);
+    var targetId = step === 3.5 ? 'step-anti-icp'
+                 : step === 4.5 ? 'step-report'
+                 : ('step-' + step);
     var target = $(targetId);
     if (!target) return;
     target.classList.add('active');
@@ -87,8 +89,8 @@
     var nav = $('step-nav');
     var backBtn = $('btn-back');
     var nextBtn = $('btn-next');
-    // Nav hidden на welcome / anti-icp / contact / calc (там свои кнопки)
-    if (state.step === 0 || state.step === 3.5 || state.step === 4 || state.step === 5) {
+    // Nav hidden на welcome / anti-icp / calc / report / contact (там свои кнопки)
+    if (state.step === 0 || state.step === 3.5 || state.step === 4 || state.step === 4.5 || state.step === 5) {
       nav.hidden = true;
       return;
     }
@@ -194,11 +196,31 @@
       attachMoneyInput(el, debouncedRender);
     });
 
-    $('btn-to-contact').addEventListener('click', function(){
+    $('btn-to-report').addEventListener('click', function(){
+      track('moneyprofit_report_view');
+      showStep(4.5);
+      renderReport();
+    });
+
+    var reportCta = $('btn-report-to-contact');
+    if (reportCta) reportCta.addEventListener('click', function(){
       track('moneyprofit_contact');
       showStep(5);
       prepareContactStep();
     });
+  }
+
+  // ── Step 4.5: Personal report render ──
+  function renderReport(){
+    var model = C.calcModel(state);
+    if (!model.filled) return;
+    CH.renderReport({
+      hero:  $('report-hero'),
+      chart: $('report-chart'),
+      kpis:  $('report-kpis'),
+      leaks: $('report-leaks'),
+      plg:   $('report-plg')
+    }, model, state.industry, state.name);
   }
 
   var renderTimer = null;
@@ -222,7 +244,7 @@
       return;
     }
     empty.hidden = true; chart.hidden = false;
-    CH.render(chart, model, state.industry);
+    CH.renderLive(chart, model, state.industry);
 
     S.set({ cashIn: state.cashIn, receivables: state.receivables, expenses: state.expenses, balance: state.balance, model: {
       diagnosisType: model.diagnosisType, gap: model.gap, realProfit: model.realProfit, annualGap: model.annualGap
@@ -239,18 +261,16 @@
 
     // Sticky CTA
     var summary = '';
-    var ctaText = 'Узнать подробно — откуда берётся разрыв';
+    var ctaText = 'Посмотреть персональный разбор';
     if (model.diagnosisType === 'loss') {
       summary = '<b>Разрыв ' + (model.gap >= 0 ? '+' : '−') + C.formatShort(Math.abs(model.gap)) + ' ₽</b>· ' + model.diagnosis;
-      ctaText = 'Получить анализ — где конкретно теряется прибыль';
     } else if (model.diagnosisType === 'healthy') {
-      summary = '<b>' + model.diagnosis + '</b>· По общему обороту';
-      ctaText = 'Получить полный анализ вашей финансовой картины';
+      summary = '<b>' + model.diagnosis + '</b>· Проверим по сегментам';
     } else {
       summary = '<b>Разрыв: ' + C.formatShort(Math.abs(model.gap)) + ' ₽/мес</b>· ≈ ' + C.formatShort(model.annualGap) + ' ₽ в год';
     }
     $('sc-summary').innerHTML = summary;
-    $('btn-to-contact-text').textContent = ctaText;
+    $('btn-to-report-text').textContent = ctaText;
     sticky.classList.add('visible');
   }
 

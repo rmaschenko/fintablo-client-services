@@ -233,8 +233,12 @@
 
   // ── Step 4.5: Personal report render ──
   function renderReport(){
+    // Если попал без данных — возвращаем на калькулятор
+    if (!state.cashIn && !state.receivables && !state.expenses && !state.balance) {
+      showStep(4);
+      return;
+    }
     var model = C.calcModel(state);
-    if (!model.filled) return;
     CH.renderReport({
       hero:  $('report-hero'),
       chart: $('report-chart'),

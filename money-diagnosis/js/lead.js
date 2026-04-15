@@ -1,18 +1,16 @@
-/* ═════ LEAD · валидация + отправка ═════ */
-(function(global){
+/* ═════ LEAD · валидация + отправка формы на шаге 10 ═════ */
+(function (global) {
   'use strict';
-  var MP = global.MoneyProfit = global.MoneyProfit || {};
 
-  // Маска телефона: +7 (___) ___-__-__
-  function maskPhone(v){
-    var d = String(v || '').replace(/\D/g, '');
-    // Норма: начинаем с 7, если первая 8 или 9 — приводим к 7-формату
-    if (d.length === 0) return '';
+  // ── Валидация ────────────────────────────────────────────
+  function maskPhone(v) {
+    let d = String(v || '').replace(/\D/g, '');
+    if (!d.length) return '';
     if (d[0] === '8') d = '7' + d.slice(1);
     if (d[0] === '9') d = '7' + d;
     if (d[0] !== '7') d = '7' + d;
     d = d.slice(0, 11);
-    var out = '+7';
+    let out = '+7';
     if (d.length > 1) out += ' (' + d.slice(1, 4);
     if (d.length >= 4) out += ') ' + d.slice(4, 7);
     if (d.length >= 7) out += '-' + d.slice(7, 9);
@@ -20,57 +18,151 @@
     return out;
   }
 
-  // Валидация телефона: длина + коды + антифейк
-  function validatePhone(v){
-    var d = String(v || '').replace(/\D/g, '');
-    if (d.length !== 11 || d[0] !== '7') return { ok:false, msg:'Введите телефон в формате +7 (XXX) XXX-XX-XX' };
-    var body = d.slice(1); // 10 цифр после 7
-    // Мобильные операторы 9XX; городские 3XX-8XX (в т.ч. 495, 499, 812)
-    var code = body.slice(0, 3);
-    var firstDigit = code[0];
-    if (!/^[3-9]/.test(firstDigit)) return { ok:false, msg:'Проверьте код оператора/города' };
-
-    // Антифейк: все одинаковые
-    if (/^(\d)\1+$/.test(body)) return { ok:false, msg:'Похоже, это не настоящий номер' };
-    // Антифейк: последовательность 1234567890
-    if (body === '1234567890' || body === '0123456789' || body === '9876543210') return { ok:false, msg:'Похоже, это не настоящий номер' };
-    // Антифейк: повторяющиеся блоки 123123123_
-    if (/^(\d{3})\1{2,}/.test(body)) return { ok:false, msg:'Похоже, это не настоящий номер' };
-
-    return { ok:true };
+  function validatePhone(v) {
+    const d = String(v || '').replace(/\D/g, '');
+    if (d.length !== 11 || d[0] !== '7') return { ok: false, msg: 'Введите телефон в формате +7 (XXX) XXX-XX-XX' };
+    const body = d.slice(1);
+    if (!/^[3-9]/.test(body[0])) return { ok: false, msg: 'Проверьте код оператора' };
+    if (/^(\d)\1+$/.test(body)) return { ok: false, msg: 'Похоже, это не настоящий номер' };
+    if (body === '1234567890' || body === '0123456789' || body === '9876543210') return { ok: false, msg: 'Похоже, это не настоящий номер' };
+    if (/^(\d{3})\1{2,}/.test(body)) return { ok: false, msg: 'Похоже, это не настоящий номер' };
+    return { ok: true };
   }
 
-  function validateName(v){
-    var s = String(v || '').trim();
-    if (s.length < 2) return { ok:false, msg:'Укажите имя (минимум 2 символа)' };
-    if (/\d/.test(s)) return { ok:false, msg:'Имя не должно содержать цифры' };
-    return { ok:true };
+  function validateName(v) {
+    const s = String(v || '').trim();
+    if (s.length < 2) return { ok: false, msg: 'Укажите имя (минимум 2 символа)' };
+    if (/\d/.test(s)) return { ok: false, msg: 'Имя не должно содержать цифры' };
+    return { ok: true };
   }
 
-  function validateEmail(v){
-    if (!v) return { ok:true };
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return { ok:false, msg:'Проверьте email' };
-    return { ok:true };
+  function validateEmail(v) {
+    if (!v) return { ok: true };
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return { ok: false, msg: 'Проверьте email' };
+    return { ok: true };
   }
 
-  // Отправка лида в api/lead.php
-  function submit(payload){
-    var apiPath = (window.location.pathname.replace(/[^/]*$/, '')) + 'api/lead.php';
+  function submitToApi(payload) {
+    const apiPath = (global.location.pathname.replace(/[^/]*$/, '')) + 'api/lead.php';
     return fetch(apiPath, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }).then(function(r){
+    }).then(r => {
       if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json().catch(function(){ return { success:true }; });
+      return r.json().catch(() => ({ success: true }));
     });
   }
 
-  MP.lead = {
-    maskPhone: maskPhone,
-    validatePhone: validatePhone,
-    validateName: validateName,
-    validateEmail: validateEmail,
-    submit: submit
-  };
-})(typeof window !== 'undefined' ? window : globalThis);
+  // ── Форма на шаге 10 ─────────────────────────────────────
+  function initForm() {
+    const form = document.getElementById('lead-form');
+    if (!form) return;
+
+    const fName = document.getElementById('f-contact-name');
+    const fPhone = document.getElementById('f-phone');
+    const fEmail = document.getElementById('f-email');
+    const errPhone = document.getElementById('err-phone');
+    const btnSubmit = document.getElementById('btn-submit');
+    const hp = form.querySelector('input[name="website"]');
+
+    function checkValid() {
+      const nameOk = validateName(fName.value).ok;
+      const phoneOk = validatePhone(fPhone.value).ok;
+      const emailOk = validateEmail(fEmail.value).ok;
+      btnSubmit.disabled = !(nameOk && phoneOk && emailOk);
+    }
+
+    fName.addEventListener('input', checkValid);
+    fPhone.addEventListener('input', (e) => {
+      e.target.value = maskPhone(e.target.value);
+      const r = validatePhone(e.target.value);
+      if (e.target.value.replace(/\D/g, '').length === 11 && !r.ok) {
+        errPhone.textContent = r.msg; errPhone.hidden = false;
+      } else {
+        errPhone.hidden = true;
+      }
+      checkValid();
+    });
+    fEmail.addEventListener('input', checkValid);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (btnSubmit.disabled) return;
+
+      // Honeypot
+      if (hp && hp.value) {
+        // Тихо — имитируем успех
+        if (typeof global._moneydiag_finishContact === 'function') global._moneydiag_finishContact();
+        return;
+      }
+
+      const C = global.Calculator, S = global.Storage;
+      const utm = S.getUTM() || {};
+      const reportDraft = S.loadReportData() || {};
+      const state = (S.loadState() || {}).data || {};
+
+      const computed = C.computeAll({
+        role: state.role,
+        industry: state.industry,
+        monthlyRevenue: state.monthlyRevenue,
+        activeProjects: state.activeProjects,
+        accountingSystem: state.accountingSystem || [],
+        mainProblems: state.mainProblems || [],
+        hasFinancist: state.hasFinancist
+      });
+
+      const payload = {
+        name: fName.value.trim(),
+        phone: fPhone.value,
+        email: fEmail.value.trim(),
+        service: 'money-diagnosis',
+        answers: {
+          role: state.role,
+          industry: state.industry,
+          monthlyRevenue: state.monthlyRevenue,
+          activeProjects: state.activeProjects,
+          accountingSystem: state.accountingSystem || [],
+          mainProblems: state.mainProblems || [],
+          desiredResult: state.desiredResult,
+          hasFinancist: state.hasFinancist
+        },
+        metrics: computed,
+        utm,
+        pageUrl: global.location.href,
+        referrer: document.referrer || '',
+        timestamp: new Date().toISOString()
+      };
+
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = 'Отправляем…';
+
+      submitToApi(payload)
+        .then(() => {
+          ym('reachGoal', 'moneydiag_lead');
+          ym('reachGoal', 'moneydiag_pixel_hot');
+          // Сохраняем данные для report.html
+          S.saveReportData(Object.assign({}, computed, {
+            name: payload.name,
+            desiredResult: state.desiredResult,
+            leadSent: true
+          }));
+          if (typeof global._moneydiag_finishContact === 'function') global._moneydiag_finishContact();
+        })
+        .catch(() => {
+          // Даже при ошибке API — пускаем дальше (CSV backup сработал на сервере если был)
+          ym('reachGoal', 'moneydiag_lead');
+          S.saveReportData(Object.assign({}, computed, {
+            name: payload.name,
+            desiredResult: state.desiredResult,
+            leadSent: true
+          }));
+          if (typeof global._moneydiag_finishContact === 'function') global._moneydiag_finishContact();
+        });
+    });
+  }
+
+  global.Lead = { maskPhone, validatePhone, validateName, validateEmail, submitToApi };
+  document.addEventListener('DOMContentLoaded', initForm);
+
+})(window);

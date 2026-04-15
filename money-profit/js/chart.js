@@ -8,7 +8,7 @@
 
   // ── Шаг 4: живая виз под полями (horizontal compare) ──
   function renderLive(container, model, industry){
-    if (!model.filled) return;
+    // Рендерим даже если не все поля — для report-screen отображаем с нулями
     var fmt = c.formatRub;
     var max = Math.max(model.earnedRevenue, model.expenses, model.balance, 1);
 

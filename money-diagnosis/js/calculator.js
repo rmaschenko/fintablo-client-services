@@ -1,171 +1,210 @@
-/* ═════ CALCULATOR · формулы по ТЗ ═════
-   earnedRevenue = cashIn + receivables
-   realProfit    = earnedRevenue - expenses
-   cashResult    = cashIn - expenses
-   gap           = realProfit - cashResult  (== receivables)
-   diagnosisType: loss / receivables / advance / healthy */
-(function(global){
+/* ═════ CALCULATOR · 14 метрик диагностики ═════ */
+(function (global) {
   'use strict';
-  var MoneyProfit = global.MoneyProfit = global.MoneyProfit || {};
 
-  var nfInt = new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  // Дискретные зоны оборота (индекс слайдера 0–7 → млн ₽/мес)
+  const REVENUE_ZONES = [500000, 1000000, 2000000, 5000000, 10000000, 20000000, 50000000, 100000000];
 
-  function formatRub(n){
-    if (!isFinite(n) || n === 0) return '0';
-    return nfInt.format(Math.round(n));
+  // Коэффициенты риска потерь годовой выручки по системе учёта
+  const RISK_COEFF = { none: 0.20, excel: 0.13, '1c': 0.10, other: 0.08, service: 0.04 };
+
+  // Доля проектов в зоне риска
+  const RISK_PROJECT_SHARE = { none: 0.50, excel: 0.30, '1c': 0.25, other: 0.20, service: 0.10 };
+
+  // Базовый балл прозрачности по системе
+  const SYSTEM_SCORE = { none: 0, excel: 25, '1c': 35, other: 45, service: 70 };
+
+  // Главная зона риска по отрасли
+  const RISK_ZONE_BY_INDUSTRY = {
+    construction: 'Субподряд без детализации по объектам',
+    it: 'Кассовый разрыв между этапными платежами',
+    agency: 'Маржа «стекает» в командировки и лицензии ПО',
+    production: 'Распределение ФОТ и материалов по проектам',
+    other: 'Отсутствие P&L в моменте по каждому проекту'
+  };
+
+  // Индекс слайдера → рублей в месяц
+  function revenueFromSliderIndex(idx) {
+    const i = Math.max(0, Math.min(7, Number(idx) || 0));
+    return REVENUE_ZONES[i];
   }
-  function formatShort(n){
-    var abs = Math.abs(n);
-    if (abs >= 1e9) return (n/1e9).toLocaleString('ru-RU',{maximumFractionDigits:1}) + ' млрд';
-    if (abs >= 1e6) return (n/1e6).toLocaleString('ru-RU',{maximumFractionDigits:1}) + ' млн';
-    if (abs >= 1e3) return Math.round(n/1e3) + 'к';
-    return formatRub(n);
-  }
-  function parseRub(str){
-    if (typeof str !== 'string') str = String(str || '');
-    var cleaned = str.replace(/[^\d,.\-]/g, '').replace(',', '.');
-    var n = parseFloat(cleaned);
-    return isFinite(n) ? n : 0;
+
+  // Индекс → человеко-читаемая подпись
+  function revenueLabel(idx) {
+    const v = revenueFromSliderIndex(idx);
+    if (v >= 1_000_000) return (v / 1_000_000).toString().replace('.', ',') + ' млн ₽/мес';
+    return (v / 1000) + ' тыс ₽/мес';
   }
 
-  // Основная модель
-  function calcModel(input){
-    var cashIn       = Math.max(0, Number(input.cashIn) || 0);
-    var receivables  = Math.max(0, Number(input.receivables) || 0);
-    var expenses     = Math.max(0, Number(input.expenses) || 0);
-    var balance      = Math.max(0, Number(input.balance) || 0);
+  // Макс коэффициент из выбранных систем (консервативно = наихудший)
+  function maxCoeff(systems, table) {
+    if (!systems || !systems.length) return 0;
+    return Math.max.apply(null, systems.map(s => table[s] || 0));
+  }
 
-    var earnedRevenue = cashIn + receivables;
-    var realProfit    = earnedRevenue - expenses;
-    var cashResult    = cashIn - expenses;
-    var gap           = realProfit - cashResult;  // математически = receivables
-    var receivablesShare = earnedRevenue > 0 ? Math.round((receivables / earnedRevenue) * 100) : 0;
-    var annualGap     = Math.abs(gap) * 12;
+  function computeAll(inputs) {
+    const role = inputs.role || 'owner';
+    const industry = inputs.industry || 'other';
+    const monthlyRevenue = inputs.monthlyRevenue || 0;
+    const annualRevenue = monthlyRevenue * 12;
+    const activeProjects = inputs.activeProjects || 0;
+    const accountingSystem = inputs.accountingSystem && inputs.accountingSystem.length
+      ? inputs.accountingSystem
+      : ['none']; // если ещё не отвечал (на шаге 65) — считаем консервативно
+    const mainProblems = inputs.mainProblems || [];
+    const hasFinancist = inputs.hasFinancist || (role === 'owner' ? 'no' : 'yes_staff');
 
-    // diagnosisType — приоритетная логика ТЗ
-    var diagnosisType, diagnosis;
-    if (realProfit < 0) {
-      diagnosisType = 'loss';
-      diagnosis = 'Бизнес работает в убыток';
-    } else if (receivables > cashIn * 0.3) {
-      diagnosisType = 'receivables';
-      diagnosis = receivablesShare + '% заработанного «заморожено» у клиентов';
-    } else if (gap < -cashIn * 0.2) {
-      diagnosisType = 'advance';
-      diagnosis = 'На счёте есть деньги клиентов — ещё не заработанные';
-    } else {
-      diagnosisType = 'healthy';
-      diagnosis = 'Разрыв в пределах нормы';
-    }
+    const riskCoeff = maxCoeff(accountingSystem, RISK_COEFF);
+    const estimatedAnnualLoss = Math.round(annualRevenue * riskCoeff);
+    const estimatedMonthlyLoss = Math.round(estimatedAnnualLoss / 12);
 
-    // Визуальный уровень gap-блока
-    var gapLevel;
-    if (diagnosisType === 'loss') gapLevel = 'danger';
-    else if (diagnosisType === 'healthy') gapLevel = 'ok';
-    else if (Math.abs(gap) < cashIn * 0.2) gapLevel = 'warn';
-    else gapLevel = 'danger';
+    const riskShare = maxCoeff(accountingSystem, RISK_PROJECT_SHARE);
+    const riskProjectsCount = Math.round(activeProjects * riskShare);
 
-    var profitSign = realProfit >= 0 ? 'pos' : 'neg';
+    // Индекс прозрачности 0–100
+    const baseScore = Math.max.apply(null, accountingSystem.map(s => SYSTEM_SCORE[s] || 0));
+    const scaleBonus = monthlyRevenue >= 10_000_000 ? -10 : 5;
+    const problemPenalty = mainProblems.length * 5;
+    const transparencyIndex = Math.max(5, Math.min(95, baseScore + scaleBonus - problemPenalty));
+
+    const profileType = classifyProfile({
+      revenue: monthlyRevenue,
+      sys: accountingSystem,
+      proj: activeProjects,
+      problems: mainProblems
+    });
+
+    const primaryRiskZone = RISK_ZONE_BY_INDUSTRY[industry] || RISK_ZONE_BY_INDUSTRY.other;
+
+    const icpScore = calculateICPScore({
+      revenue: monthlyRevenue,
+      industry,
+      hasFinancist,
+      projects: activeProjects,
+      role
+    });
+
+    const icpTag = icpScore >= 61 ? 'lead_A' : icpScore >= 31 ? 'lead_B' : 'lead_C';
 
     return {
-      cashIn: cashIn, receivables: receivables, expenses: expenses, balance: balance,
-      earnedRevenue: earnedRevenue, realProfit: realProfit, cashResult: cashResult,
-      gap: gap, annualGap: annualGap, receivablesShare: receivablesShare,
-      diagnosisType: diagnosisType, diagnosis: diagnosis,
-      gapLevel: gapLevel, profitSign: profitSign,
-      filled: cashIn > 0 && receivables >= 0 && expenses > 0 && balance >= 0 &&
-              (cashIn > 0 || receivables > 0 || expenses > 0 || balance > 0)
+      role,
+      industry,
+      monthlyRevenue,
+      annualRevenue,
+      activeProjects,
+      accountingSystem,
+      mainProblems,
+      hasFinancist,
+      riskCoeff,
+      estimatedAnnualLoss,
+      estimatedMonthlyLoss,
+      riskProjectsCount,
+      transparencyIndex,
+      profileType,
+      primaryRiskZone,
+      icpScore,
+      icpTag
     };
   }
 
-  // Отраслевой текст под визуализацией
-  var INDUSTRY_CONTEXT = {
-    construction: {
-      receivables:'В строительстве дебиторка {p}% от заработанного — это типичная ситуация при этапных платежах. Работу сделали, акт подписан — деньги ещё не пришли.',
-      advance:    'В строительстве аванс — обычная практика. Деньги клиента получены, но работа ещё не выполнена — с точки зрения прибыли это пока не ваши деньги.',
-      loss:       'В строительстве убытки чаще всего прячутся в неучтённом субподряде или материалах. Когда это становится видно — обычно уже поздно исправлять.',
-      healthy:    'В строительстве разрыв в норме — но это редкий случай. Проверьте по каждому проекту: где-то может быть перекос, который компенсирует другой.'
-    },
-    it: {
-      receivables:'В IT дебиторка {p}% — классика при постоплатных контрактах. Проект сдан, акт есть, деньги идут.',
-      advance:    'В IT-проектах предоплата 30–50% — норма. Деньги клиента пришли, но работа впереди. Это не прибыль — это обязательство.',
-      loss:       'В IT убытки часто скрыты в недооценённых трудозатратах: проект оценивали на 200 часов, потратили 340.',
-      healthy:    'В IT разрыв в норме — редкость. Обычно есть недооценки по одному из проектов, которые маскируют общий результат.'
-    },
-    agency: {
-      receivables:'В агентстве дебиторка {p}% — результат постоплатных клиентов. Работу сделали, ждём оплаты.',
-      advance:    'В агентстве авансы от клиентов создают иллюзию хорошего месяца — но работа ещё впереди.',
-      loss:       'В агентстве убытки часто прячутся в субподрядчиках, инструментах и внутреннем времени команды, которое не включается в смету.',
-      healthy:    'В агентстве норма по общему обороту — но по одному клиенту может быть минус, который маскируется прибылью других.'
-    },
-    production: {
-      receivables:'В производстве дебиторка {p}% — типична при оплате по факту сдачи. Сделали, ждём.',
-      advance:    'В производстве авансы под заказ — нормально. Деньги есть, материалы ещё не закуплены, работа не начата.',
-      loss:       'В производстве убытки часто в сырье и комплектующих: цены выросли после подписания контракта.',
-      healthy:    'В производстве разрыв в норме — но внутри себестоимости могут быть отдельные заказы в минусе.'
-    },
-    other: {
-      receivables:'Дебиторка {p}% — деньги заработаны, но ещё не получены.',
-      advance:    'На счёте есть предоплата — деньги клиента, которые ещё нужно отработать.',
-      loss:       'Расходы превышают заработанную выручку.',
-      healthy:    'Разрыв в норме.'
+  function classifyProfile(p) {
+    const rev = p.revenue, sys = p.sys, proj = p.proj, problems = p.problems;
+
+    if (sys.indexOf('none') !== -1 || (sys.indexOf('excel') !== -1 && proj >= 8)) {
+      return 'blind'; // «Управление вслепую»
     }
-  };
-  function industryContext(industry, model){
-    var map = INDUSTRY_CONTEXT[industry] || INDUSTRY_CONTEXT.other;
-    return (map[model.diagnosisType] || '').replace('{p}', model.receivablesShare);
+    if (rev >= 10_000_000 && proj >= 10 && sys.indexOf('service') === -1) {
+      return 'scale_without_control'; // «Масштаб без управления» — приоритет A
+    }
+    if (sys.indexOf('1c') !== -1 && problems.indexOf('margin') !== -1) {
+      return 'accounting_illusion'; // «Бухгалтерская иллюзия»
+    }
+    if (sys.indexOf('excel') !== -1 && proj <= 5 && rev < 5_000_000) {
+      return 'early_stage'; // «Ранняя стадия»
+    }
+    if (sys.indexOf('service') !== -1 && problems.length <= 1) {
+      return 'almost_there'; // «В шаге от системы»
+    }
+    return 'plateau'; // «Наступившее плато»
   }
 
-  // Тексты интерпретаций (показывать под визуализацией)
-  function interpretation(model){
-    var fmt = formatRub;
-    switch (model.diagnosisType) {
-      case 'receivables':
-        return '<b>У вас есть реальная прибыль ' + fmt(model.realProfit) + ' ₽</b> — но ' +
-          fmt(model.gap) + ' ₽ «заморожено» у клиентов в виде долга. Деньги заработаны, но ещё не получены. ' +
-          'Если всё, что должны, поступит на счёт — остаток вырастет с ' + fmt(model.balance) + ' ₽ до ' + fmt(model.balance + model.receivables) + ' ₽.';
-      case 'advance':
-        return '<b>На счёте есть ' + fmt(model.balance) + ' ₽ от клиентов</b>, которые вы ещё не заработали. Работа впереди — это обязательство, а не прибыль.';
-      case 'loss':
-        return '<b>По введённым данным реальная прибыль за месяц отрицательная: ' + fmt(model.realProfit) + ' ₽.</b> Расходы превышают заработанную выручку.';
-      case 'healthy':
-      default:
-        return '<b>Разрыв между деньгами и прибылью минимальный</b> — в пределах нормы.';
-    }
+  function calculateICPScore(p) {
+    let score = 0;
+
+    // Оборот — основной сигнал ICP
+    if (p.revenue >= 50_000_000) score += 40;
+    else if (p.revenue >= 10_000_000) score += 30;
+    else if (p.revenue >= 5_000_000) score += 20;
+    else if (p.revenue >= 2_000_000) score += 10;
+
+    // Отрасль — приоритетные
+    if (['construction', 'it', 'agency', 'production'].indexOf(p.industry) !== -1) score += 15;
+
+    // Наличие финансиста
+    if (p.hasFinancist === 'yes_staff') score += 25;
+    else if (p.hasFinancist === 'yes_outsource') score += 15;
+
+    // Количество проектов
+    if (p.projects >= 10) score += 15;
+    else if (p.projects >= 5) score += 10;
+    else if (p.projects >= 3) score += 5;
+
+    // Роль: собственник = прямой ЛПР, финансист = инфлюенсер
+    if (p.role === 'owner') score += 5;
+
+    return Math.max(0, Math.min(100, score));
   }
 
-  // PAS-заголовок этапа 3 (форма контакта)
-  function pasHeadline(model, name){
-    var whoPrefix = name ? (name + ', в') : 'В';
-    switch (model.diagnosisType) {
-      case 'receivables':
-      case 'advance':
-        return {
-          h: whoPrefix + 'от почему деньги есть, а прибыли нет',
-          sub: 'Вы видели суммарную цифру. Чтобы получить полный анализ — в каком именно проекте и почему — оставьте контакт. Наш эксперт разберёт вашу ситуацию конкретно.'
-        };
-      case 'loss':
-        return {
-          h: whoPrefix + 'аш бизнес сейчас работает в минус',
-          sub: 'Наш эксперт поможет найти, где именно теряется прибыль — на конкретных данных вашего бизнеса.'
-        };
-      case 'healthy':
-      default:
-        return {
-          h: 'Суммарно разрыв в норме — но это не значит, что по каждому проекту так же',
-          sub: 'Компании часто видят норму в целом — и не замечают один убыточный проект среди прибыльных. Финтабло показывает это по каждому проекту. Эксперт покажет, как это выглядит на вашем типе бизнеса.'
-        };
-    }
-  }
-
-  MoneyProfit.calc = {
-    calcModel: calcModel,
-    formatRub: formatRub,
-    formatShort: formatShort,
-    parseRub: parseRub,
-    industryContext: industryContext,
-    interpretation: interpretation,
-    pasHeadline: pasHeadline
+  // Названия профилей для отчёта
+  const PROFILE_NAMES = {
+    blind: 'Управление вслепую',
+    scale_without_control: 'Масштаб без управления',
+    accounting_illusion: 'Бухгалтерская иллюзия',
+    early_stage: 'Ранняя стадия',
+    almost_there: 'В шаге от системы',
+    plateau: 'Наступившее плато'
   };
 
-})(typeof window !== 'undefined' ? window : globalThis);
+  // Форматирование чисел по ГОСТ 8.417-2002 (неразрывный пробел)
+  function formatMoney(n) {
+    if (!n && n !== 0) return '—';
+    const abs = Math.abs(Math.round(n));
+    return abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0') + ' ₽';
+  }
+
+  function formatMoneyCompact(n) {
+    if (!n && n !== 0) return '—';
+    const abs = Math.abs(n);
+    if (abs >= 1_000_000) {
+      const m = abs / 1_000_000;
+      return (m >= 10 ? Math.round(m) : m.toFixed(1).replace('.', ',').replace(',0', '')) + ' млн ₽';
+    }
+    if (abs >= 1000) return Math.round(abs / 1000) + ' тыс ₽';
+    return abs + ' ₽';
+  }
+
+  // Склонение
+  function plural(n, forms) {
+    const mod10 = n % 10, mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return forms[0];
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return forms[1];
+    return forms[2];
+  }
+
+  global.Calculator = {
+    REVENUE_ZONES,
+    RISK_COEFF,
+    RISK_PROJECT_SHARE,
+    RISK_ZONE_BY_INDUSTRY,
+    PROFILE_NAMES,
+    revenueFromSliderIndex,
+    revenueLabel,
+    computeAll,
+    classifyProfile,
+    calculateICPScore,
+    formatMoney,
+    formatMoneyCompact,
+    plural
+  };
+
+})(window);

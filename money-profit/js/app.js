@@ -549,6 +549,36 @@
 
     initResumeBanner();
     updateProgress();
+
+    // Dev: ?step=N&demo=1 — прыгнуть на любой экран с пресетами для демонстрации
+    var params = new URLSearchParams(location.search);
+    var jumpStep = params.get('step');
+    if (jumpStep !== null) {
+      // Пресеты-демо чтобы экраны с расчётом/разбором заполнились
+      if (params.get('demo') === '1' || parseFloat(jumpStep) >= 4) {
+        state.name = state.name || 'Алексей';
+        state.role = state.role || 'owner';
+        state.industry = state.industry || 'construction';
+        state.industryLabel = state.industryLabel || 'Строительство / ремонт / инжиниринг';
+        state.revenue = state.revenue || 10000000;
+        state.revenueLabel = state.revenueLabel || '5–15 млн ₽/мес';
+        state.cashIn = state.cashIn || 2500000;
+        state.receivables = state.receivables || 3500000;
+        state.expenses = state.expenses || 2100000;
+        state.balance = state.balance || 1200000;
+        try {
+          $('f-cashIn').value = formatInputValue(state.cashIn);
+          $('f-receivables').value = formatInputValue(state.receivables);
+          $('f-expenses').value = formatInputValue(state.expenses);
+          $('f-balance').value = formatInputValue(state.balance);
+        } catch(e){}
+      }
+      var target = parseFloat(jumpStep);
+      showStep(target);
+      if (target === 4) renderCalc();
+      else if (target === 4.5) { renderCalc(); renderReport(); }
+      else if (target === 5) { renderCalc(); prepareContactStep(); }
+    }
   });
 
 })();

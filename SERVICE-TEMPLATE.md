@@ -63,21 +63,22 @@ fintablo-client-services/
 
 ## 3. Фирстиль и шрифты
 
-**Источник истины:** Fintablo Design System Kit v1.0 (токены) + growth_cfo (структура).
+**Источник истины:** growth_cfo (`~/Вайбкод/fintablo/`) — там же, что и основной сайт fintablo.ru. Это ключевое условие для message match трафика из Яндекс.Директа.
 
-### Шрифты (все локально, SIL OFL 1.1 — см. `money-profit/fonts/OFL.txt`):
-- **IBM Plex Sans** 400/500/600/700 — UI, body
-- **IBM Plex Mono** 400/500/700 — все числа, tabular-nums (обязательно для финансовых значений)
-- **Literata** 400/600/700 — заголовки H1/H2, hero
+### Шрифты (все локально, только Inter):
+- **Inter** 400/500/600/700 — единственный шрифт для всего UI: body, заголовки, числа.
+- Числа в финансовых таблицах и KPI — тот же Inter с `font-variant-numeric: tabular-nums lining-nums`.
 
-**Запрещено:** любые CDN-шрифты (Google Fonts, IBM CDN, typekit, FontShare). Причина — 152-ФЗ, трансграничная передача ПДн. Шрифты должны отдаваться с того же домена, что и страница.
+**Не использовать:** IBM Plex Sans/Mono, Literata, любые serif-шрифты. Был короткий период Design System Kit с другими шрифтами — отклонён пользователем.
+
+**Запрещено:** любые CDN-шрифты (Google Fonts, IBM CDN, typekit, FontShare). Причина — 152-ФЗ, трансграничная передача ПДн. Шрифты отдаются с того же домена, что и страница.
 
 ### Как копировать шрифты в новый сервис:
 ```bash
 cp -r ~/Вайбкод/fintablo-client-services/money-profit/fonts \
        ~/Вайбкод/fintablo-client-services/<твой-сервис>/
 ```
-`fonts.css` с `@font-face` и `unicode-range` для latin+cyrillic subsets — просто скопируй, не переписывай.
+`fonts.css` простой — 4 `@font-face` на TTF-файлы Inter. Просто копируй, не переписывай.
 
 ### CSS-токены (скопировать `:root` из `money-profit/css/style.css`):
 ```css
@@ -101,9 +102,9 @@ cp -r ~/Вайбкод/fintablo-client-services/money-profit/fonts \
 --surface:#FFFFFF;
 --border:#E5E7EB;
 
---font:'IBM Plex Sans','Inter',system-ui,sans-serif;
---font-mono:'IBM Plex Mono','SF Mono',monospace;
---font-serif:'Literata',Georgia,serif;
+--font:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+/* Для моно-контекстов (tabular числа) используем тот же Inter с tabular-nums */
+--font-mono:'Inter',system-ui,sans-serif;
 
 --radius-sm:8px; --radius:12px; --radius-lg:16px;
 --shadow:0 1px 3px rgba(0,0,0,0.08);
@@ -112,9 +113,11 @@ cp -r ~/Вайбкод/fintablo-client-services/money-profit/fonts \
 ```
 
 ### Правила применения шрифтов:
-- **Literata** — только заголовки hero (H1 40–52px) и section-title (H2 26–30px). Нигде больше.
-- **Plex Mono** — **все** денежные значения (с `font-variant-numeric: tabular-nums lining-nums`), KPI-числа, caps-лейблы (eyebrow/section-num), ₽-суффиксы.
-- **Plex Sans** — весь остальной UI, кнопки, формы, body-текст.
+- **Inter 700** — hero H1 (32–44px в зависимости от сервиса) и section-title (H2 22–30px).
+- **Inter 600** — кнопки, лейблы карточек, KPI-значения, акценты.
+- **Inter 500** — meta, подзаголовки, caps-лейблы.
+- **Inter 400** — body text.
+- **Числа** (денежные значения, KPI, таблицы) — **Inter с `font-variant-numeric: tabular-nums lining-nums`**. Не отдельный шрифт.
 
 ---
 

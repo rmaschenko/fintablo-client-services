@@ -197,6 +197,7 @@
   // ── Event wiring ─────────────────────────────────────────
   function init() {
     ym('reachGoal', 'moneydiag_landing_view');
+    ym('reachGoal', 'moneydiag_pixel_cold');
 
     // Resume banner
     const saved = S.loadState();
@@ -320,8 +321,8 @@
           btn.classList.add('selected');
           state.accountingSystem = ['none'];
         } else {
-          // Снимаем «Нигде» если было
-          const noneBtn = $$('#step-6 .option-card')[4];
+          // Снимаем «Нигде» если было (ищем по data-value, не по индексу)
+          const noneBtn = document.querySelector('#step-6 .option-card[data-value="none"]');
           if (noneBtn) noneBtn.classList.remove('selected');
           state.accountingSystem = state.accountingSystem.filter(s => s !== 'none');
           btn.classList.toggle('selected');
@@ -389,7 +390,10 @@
     window.addEventListener('beforeunload', (e) => {
       if (window._moneydiag_navigating) return;
       if (state.cursor > 2 && !state.leadSent) {
-        if (countAnswered() >= 5) ym('reachGoal', 'moneydiag_abandoned_50+');
+        if (countAnswered() >= 5) {
+          ym('reachGoal', 'moneydiag_abandoned_50+');
+          ym('reachGoal', 'moneydiag_pixel_warm');
+        }
         e.preventDefault();
         e.returnValue = '';
       }

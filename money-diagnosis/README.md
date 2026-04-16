@@ -16,7 +16,7 @@
 - `js/report.js` — рендер отчёта
 - `js/lead.js` — отправка формы, редирект
 - `api/lead.php` — CSV backup + AmoCRM
-- `fonts/` — IBM Plex Sans/Mono + Literata (локально)
+- `fonts/` — Inter 400/500/600/700 (локально, из growth_cfo)
 
 ## Локальный запуск
 

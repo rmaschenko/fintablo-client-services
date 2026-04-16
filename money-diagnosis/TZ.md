@@ -75,7 +75,7 @@
 - 2 ссылки на кейсы
 
 ## Фирменный стиль
-По DS Kit v1.0: IBM Plex Sans + Plex Mono (числа) + Literata (H1/H2).
+Inter (4 начертания 400/500/600/700, локально из growth_cfo) — единство с fintablo.ru.
 
 ## События Яндекс.Метрики (префикс `moneydiag_`)
 Минимум 10 целей: `landing_view`, `start`, `role_selected`, `step_N`, `midpoint`, `contact_form`, `lead`, `report_view`, `thankyou`, `abandoned_50+` + сегменты пикселя (hot/warm/cold).

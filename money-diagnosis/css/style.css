@@ -1,8 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
-   MONEY-PROFIT · Fintablo PLG microservice
-   Brand tokens from growth_cfo (Inter + #1A56DB) — based on TZ
-   Serif accent (Literata) from DS Kit for hero H1 only
-   Tabular mono (IBM Plex Mono) for all monetary numbers
+   MONEY-DIAGNOSIS · Fintablo PLG microservice
+   Brand: Inter (из growth_cfo) + #1A56DB — единство с fintablo.ru
    ═══════════════════════════════════════════════════════════ */
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -30,10 +28,10 @@
   --border:#E5E7EB;
   --border-hover:#D1D5DB;
 
-  /* Typography */
-  --font:'IBM Plex Sans','Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
-  --font-mono:'IBM Plex Mono','SF Mono','Courier New',monospace;
-  --font-serif:'Literata',Georgia,serif;
+  /* Typography — Inter everywhere (единство с fintablo.ru) */
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'Inter','SF Mono','Courier New',monospace;
+  --font-serif:'Inter',system-ui,sans-serif;
 
   --radius-sm:8px;
   --radius:12px;

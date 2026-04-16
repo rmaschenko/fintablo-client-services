@@ -32,13 +32,13 @@ js/quiz.js          — навигация по STEP_ORDER, валидация, 
 js/report.js        — рендер отчёта (5 секций, режим превью/полный)
 js/lead.js          — отправка формы, редирект
 api/lead.php        — CSV backup + AmoCRM (из .env)
-fonts/              — IBM Plex Sans/Mono + Literata (локально, 152-ФЗ)
+fonts/              — Inter 400/500/600/700 (локально, 152-ФЗ)
 ```
 
 ---
 
 ## Фирменный стиль
-DS Kit v1.0: IBM Plex Sans 400/500/600/700 (UI), Plex Mono 400/500/700 (числа, tabular-nums), Literata 400/600/700 (H1/H2).
+Inter 400/500/600/700 (локально, из growth_cfo) — единство с fintablo.ru для message match трафика из Яндекс.Директа. Числа с `font-variant-numeric: tabular-nums lining-nums`.
 
 Токены брендовых цветов — из `money-profit/css/style.css` (`:root`). Радиусы 8/12/16, тени sm/md/lg.
 

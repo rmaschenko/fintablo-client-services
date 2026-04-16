@@ -1,8 +1,8 @@
 <?php
 /**
- * money-profit · lead intake endpoint
- * 1) CSV backup (api/leads/moneyprofit_YYYY-MM.csv, UTF-8 BOM, ;)
- * 2) AmoCRM /api/v4/leads/complex (при заполненных credentials в .env)
+ * money-diagnosis · lead intake endpoint
+ * 1) CSV backup (api/leads/fin_diagnostics_YYYY-MM.csv, UTF-8 BOM, ;)
+ * 2) AmoCRM /api/v4/leads/complex (если заполнен ../.env)
  */
 
 declare(strict_types=1);
@@ -15,7 +15,6 @@ header('X-Content-Type-Options: nosniff');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 if ($_SERVER['REQUEST_METHOD'] !== 'POST')   { http_response_code(405); echo '{"error":"POST only"}'; exit; }
 
-// ── Читаем JSON ──
 $raw = file_get_contents('php://input');
 $data = json_decode($raw, true);
 if (!is_array($data) || empty($data['phone']) || empty($data['name'])) {
@@ -24,42 +23,67 @@ if (!is_array($data) || empty($data['phone']) || empty($data['name'])) {
   exit;
 }
 
-// ── Honeypot (если прилетел website-поле — спамер) ──
+// Honeypot
 if (!empty($data['website'])) {
   http_response_code(200); echo '{"success":true}'; exit;
 }
 
-// ── Нормализация ──
+$answers = is_array($data['answers'] ?? null) ? $data['answers'] : [];
+$metrics = is_array($data['metrics'] ?? null) ? $data['metrics'] : [];
+$utm     = is_array($data['utm']     ?? null) ? $data['utm']     : [];
+
+$industryLabels = [
+  'construction' => 'Строительство',
+  'it'           => 'IT',
+  'agency'       => 'Агентство',
+  'production'   => 'Производство',
+  'other'        => 'Другой'
+];
+$profileLabels = [
+  'blind' => 'Управление вслепую',
+  'scale_without_control' => 'Масштаб без управления',
+  'accounting_illusion' => 'Бухгалтерская иллюзия',
+  'early_stage' => 'Ранняя стадия',
+  'almost_there' => 'В шаге от системы',
+  'plateau' => 'Наступившее плато'
+];
+
+$industry = (string)($answers['industry'] ?? '');
+$revenue  = (int)($answers['monthlyRevenue'] ?? 0);
+$profile  = (string)($metrics['profileType'] ?? '');
+
 $lead = [
-  'timestamp'        => date('c'),
-  'name'             => (string)($data['name'] ?? ''),
-  'phone'            => (string)($data['phone'] ?? ''),
-  'email'            => (string)($data['email'] ?? ''),
-  'role'             => (string)($data['role'] ?? ''),
-  'industry'         => (string)($data['industry'] ?? ''),
-  'industryLabel'    => (string)($data['industryLabel'] ?? ''),
-  'revenueRange'     => (string)($data['revenueRange'] ?? ''),
-  'revenueValue'     => (int)($data['revenueValue'] ?? 0),
-  'cashIn'           => (int)($data['cashIn'] ?? 0),
-  'receivables'      => (int)($data['receivables'] ?? 0),
-  'expenses'         => (int)($data['expenses'] ?? 0),
-  'balance'          => (int)($data['balance'] ?? 0),
-  'earnedRevenue'    => (int)($data['earnedRevenue'] ?? 0),
-  'realProfit'       => (int)($data['realProfit'] ?? 0),
-  'gap'              => (int)($data['gap'] ?? 0),
-  'annualGap'        => (int)($data['annualGap'] ?? 0),
-  'diagnosisType'    => (string)($data['diagnosisType'] ?? ''),
-  'diagnosis'        => (string)($data['diagnosis'] ?? ''),
-  'receivablesShare' => (int)($data['receivablesShare'] ?? 0),
-  'utm_source'       => (string)($data['utm']['utm_source'] ?? ''),
-  'utm_medium'       => (string)($data['utm']['utm_medium'] ?? ''),
-  'utm_campaign'     => (string)($data['utm']['utm_campaign'] ?? ''),
-  'utm_content'      => (string)($data['utm']['utm_content'] ?? ''),
-  'utm_term'         => (string)($data['utm']['utm_term'] ?? ''),
-  'referrer'         => (string)($data['referrer'] ?? ''),
-  'pageUrl'          => (string)($data['pageUrl'] ?? ''),
-  'ip'               => $_SERVER['REMOTE_ADDR'] ?? '',
-  'userAgent'        => $_SERVER['HTTP_USER_AGENT'] ?? ''
+  'timestamp'          => date('c'),
+  'name'               => (string)($data['name'] ?? ''),
+  'phone'              => (string)($data['phone'] ?? ''),
+  'email'              => (string)($data['email'] ?? ''),
+  'role'               => (string)($answers['role'] ?? ''),
+  'industry'           => $industry,
+  'industryLabel'      => $industryLabels[$industry] ?? $industry,
+  'monthlyRevenue'     => $revenue,
+  'annualRevenue'      => $revenue * 12,
+  'activeProjects'     => (int)($answers['activeProjects'] ?? 0),
+  'accountingSystem'   => implode(',', (array)($answers['accountingSystem'] ?? [])),
+  'mainProblems'       => implode(',', (array)($answers['mainProblems'] ?? [])),
+  'desiredResult'      => (string)($answers['desiredResult'] ?? ''),
+  'hasFinancist'       => (string)($answers['hasFinancist'] ?? ''),
+  'profileType'        => $profile,
+  'profileLabel'       => $profileLabels[$profile] ?? $profile,
+  'transparencyIndex'  => (int)($metrics['transparencyIndex'] ?? 0),
+  'estimatedAnnualLoss'=> (int)($metrics['estimatedAnnualLoss'] ?? 0),
+  'riskProjectsCount'  => (int)($metrics['riskProjectsCount'] ?? 0),
+  'icpScore'           => (int)($metrics['icpScore'] ?? 0),
+  'icpTag'             => (string)($metrics['icpTag'] ?? ''),
+  'primaryRiskZone'    => (string)($metrics['primaryRiskZone'] ?? ''),
+  'utm_source'         => (string)($utm['source']   ?? ''),
+  'utm_medium'         => (string)($utm['medium']   ?? ''),
+  'utm_campaign'       => (string)($utm['campaign'] ?? ''),
+  'utm_content'        => (string)($utm['content']  ?? ''),
+  'utm_term'           => (string)($utm['term']     ?? ''),
+  'referrer'           => (string)($data['referrer'] ?? ''),
+  'pageUrl'            => (string)($data['pageUrl'] ?? ''),
+  'ip'                 => $_SERVER['REMOTE_ADDR'] ?? '',
+  'userAgent'          => $_SERVER['HTTP_USER_AGENT'] ?? ''
 ];
 
 // ── CSV backup ──
@@ -68,19 +92,19 @@ if (!is_dir($csvDir)) { @mkdir($csvDir, 0755, true); }
 $ht = $csvDir . '/.htaccess';
 if (!file_exists($ht)) { @file_put_contents($ht, "Deny from all\n"); }
 
-$csvFile = $csvDir . '/moneyprofit_' . date('Y-m') . '.csv';
+$csvFile = $csvDir . '/fin_diagnostics_' . date('Y-m') . '.csv';
 $isNew = !file_exists($csvFile);
 $fp = @fopen($csvFile, 'a');
 if ($fp) {
   if ($isNew) {
-    fwrite($fp, "\xEF\xBB\xBF"); // UTF-8 BOM for Excel
+    fwrite($fp, "\xEF\xBB\xBF");
     fputcsv($fp, array_keys($lead), ';');
   }
   fputcsv($fp, array_values($lead), ';');
   fclose($fp);
 }
 
-// ── AmoCRM (опционально, из .env) ──
+// ── AmoCRM (опционально) ──
 $envPath = __DIR__ . '/../.env';
 $env = [];
 if (file_exists($envPath)) {
@@ -98,21 +122,18 @@ $amoStatusId   = (int)($env['AMO_STATUS_ID']   ?? 0);
 
 $amoResult = null;
 if ($amoDomain && $amoToken && $amoPipelineId && $amoStatusId && function_exists('curl_init')) {
-  // Теги квалификации
   $tags = [
     ['name' => 'micro_service'],
-    ['name' => 'money_profit'],
+    ['name' => 'fin_diagnostics'],
     ['name' => 'direct_client'],
+    ['name' => $lead['icpTag'] ?: 'lead_C'],
   ];
-  if ($lead['realProfit'] < 0 || $lead['annualGap'] > $lead['revenueValue'] * 3) {
-    $tags[] = ['name' => 'lead_A'];
-  } elseif ($lead['revenueValue'] < 5_000_000) {
-    $tags[] = ['name' => 'lead_C'];
-  } else {
-    $tags[] = ['name' => 'lead_B'];
-  }
 
-  $leadName = 'Деньги/прибыль: ' . $lead['name'] . ' — ' . ($lead['industryLabel'] ?: 'other') . ' — ' . $lead['revenueRange'];
+  $revLabel = $revenue >= 1_000_000
+    ? (round($revenue / 1_000_000, 1) . ' млн/мес')
+    : (round($revenue / 1000) . ' тыс/мес');
+
+  $leadName = 'Диагностика: ' . $lead['name'] . ' — ' . $lead['industryLabel'] . ' — ' . $lead['profileLabel'] . ' — ' . $revLabel;
 
   $amoLead = [[
     'name'         => $leadName,
@@ -144,24 +165,24 @@ if ($amoDomain && $amoToken && $amoPipelineId && $amoStatusId && function_exists
   $amoResponse = json_decode($amoResponseRaw ?: 'null', true);
   $leadId = $amoResponse[0]['id'] ?? null;
 
-  // Примечание с расчётом
   if ($leadId) {
     $note =
-      "=== ДАННЫЕ РАСЧЁТА ===\n" .
+      "=== ДИАГНОСТИКА ФИНАНСОВОГО УЧЁТА ===\n" .
       "Роль: {$lead['role']}\n" .
       "Отрасль: {$lead['industryLabel']}\n" .
-      "Оборот: {$lead['revenueRange']}\n\n" .
-      "Поступило от клиентов: " . number_format($lead['cashIn'], 0, ',', ' ') . " ₽\n" .
-      "Дебиторка: " . number_format($lead['receivables'], 0, ',', ' ') . " ₽\n" .
-      "Расходы: " . number_format($lead['expenses'], 0, ',', ' ') . " ₽\n" .
-      "Остаток на счёте: " . number_format($lead['balance'], 0, ',', ' ') . " ₽\n\n" .
-      "--- РЕЗУЛЬТАТ ---\n" .
-      "Заработано (начисл.): " . number_format($lead['earnedRevenue'], 0, ',', ' ') . " ₽\n" .
-      "Реальная прибыль: " . number_format($lead['realProfit'], 0, ',', ' ') . " ₽\n" .
-      "Разрыв: " . number_format($lead['gap'], 0, ',', ' ') . " ₽\n" .
-      "Тип разрыва: {$lead['diagnosisType']}\n" .
-      "Диагноз: {$lead['diagnosis']}\n" .
-      "Потенциал год: " . number_format($lead['annualGap'], 0, ',', ' ') . " ₽\n\n" .
+      "Оборот: {$revLabel}\n" .
+      "Проектов одновременно: {$lead['activeProjects']}\n" .
+      "Системы учёта: {$lead['accountingSystem']}\n" .
+      "Главные боли: {$lead['mainProblems']}\n" .
+      "Желаемый результат: {$lead['desiredResult']}\n" .
+      "Финансист в штате: {$lead['hasFinancist']}\n\n" .
+      "=== РЕЗУЛЬТАТ РАСЧЁТА ===\n" .
+      "Профиль: {$lead['profileLabel']}\n" .
+      "Индекс прозрачности: {$lead['transparencyIndex']}/100\n" .
+      "Оценочные потери: " . number_format($lead['estimatedAnnualLoss'], 0, ',', ' ') . " ₽/год\n" .
+      "Проектов в зоне риска: {$lead['riskProjectsCount']} из {$lead['activeProjects']}\n" .
+      "Главная зона риска: {$lead['primaryRiskZone']}\n" .
+      "ICP-балл: {$lead['icpScore']}/100 ({$lead['icpTag']})\n\n" .
       "=== ИСТОЧНИК ===\n" .
       "UTM: {$lead['utm_source']} / {$lead['utm_medium']} / {$lead['utm_campaign']} / {$lead['utm_content']} / {$lead['utm_term']}\n" .
       "Referrer: {$lead['referrer']}\n" .

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1A1F36">
+<meta name="robots" content="noindex,nofollow">
+<title>Ваш отчёт · Диагностика финансового учёта | Финтабло</title>
+<link rel="icon" href="https://fintablo.ru/favicon.ico">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+
+<script type="text/javascript">
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();
+  for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+  k=e.createElement(t);a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a)})
+  (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+  ym(61131877,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true,params:{service:"money-diagnosis-report"}});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/61131877" style="position:absolute;left:-9999px" alt=""></div></noscript>
+</head>
+<body class="report-page">
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
+      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
+      <span class="logo-fallback" style="display:none">Финтабло</span>
+    </a>
+    <div class="header-meta">Персональный отчёт</div>
+  </div>
+</header>
+
+<!-- Страница ошибки, если данных нет -->
+<div class="container" id="no-data" hidden>
+  <div class="step active">
+    <h1 class="hero-h1">Отчёт недоступен</h1>
+    <p class="hero-sub">Данные диагностики не найдены. Возможно, вы открыли эту страницу напрямую или данные очищены. Пройдите диагностику заново.</p>
+    <a class="btn-primary btn-lg" href="index.html">Пройти диагностику →</a>
+  </div>
+</div>
+
+<div class="container" id="report-root">
+
+  <!-- ── Section 1: Финансовый профиль ── -->
+  <section class="report-section report-s1">
+    <div class="rs-eyebrow">Секция 1 из 5</div>
+    <h1 class="rs-title" id="rs1-title">Ваш финансовый профиль</h1>
+
+    <div class="rs-metrics">
+      <div class="rs-metric rs-metric-index">
+        <div class="rsm-label">Индекс прозрачности</div>
+        <div class="rsm-value mono" id="rs1-index">— / 100</div>
+        <div class="rsm-bar"><div class="rsm-bar-fill" id="rs1-index-bar"></div></div>
+      </div>
+      <div class="rs-metric rs-metric-risk">
+        <div class="rsm-label">Проектов в зоне риска</div>
+        <div class="rsm-value mono" id="rs1-risk-proj">— из —</div>
+        <div class="rsm-hint" id="rs1-risk-proj-hint">—</div>
+      </div>
+      <div class="rs-metric rs-metric-loss">
+        <div class="rsm-label">Потенциал улучшения</div>
+        <div class="rsm-value mono" id="rs1-loss">— ₽/год</div>
+        <div class="rsm-hint">Оценочные потери без системного контроля</div>
+      </div>
+    </div>
+
+    <div class="rs-profile-card">
+      <div class="rsp-name" id="rs1-profile-name">Профиль</div>
+      <p class="rsp-desc" id="rs1-profile-desc">—</p>
+    </div>
+  </section>
+
+  <!-- ── Section 2: Где теряется ── -->
+  <section class="report-section report-s2">
+    <div class="rs-eyebrow">Секция 2 из 5</div>
+    <h2 class="rs-title">Главные зоны потерь в вашей ситуации</h2>
+    <div class="rs-leaks-grid" id="rs2-leaks">
+      <!-- rendered by report.js -->
+    </div>
+  </section>
+
+  <!-- ── Section 3: Вопросы без ответа (locked in preview) ── -->
+  <section class="report-section report-s3 report-section-locked" id="rs3">
+    <div class="rs-eyebrow">Секция 3 из 5</div>
+    <h2 class="rs-title">Вопросы, на которые вы сейчас не можете ответить</h2>
+    <ul class="rs-questions" id="rs3-questions">
+      <!-- rendered by report.js -->
+    </ul>
+    <div class="rs-plg-bridge">
+      Финтабло отвечает на эти вопросы автоматически — каждый день, по каждому проекту, без ручного сбора данных.
+    </div>
+  </section>
+
+  <!-- ── Section 4: Сценарии ── -->
+  <section class="report-section report-s4 report-section-locked" id="rs4">
+    <div class="rs-eyebrow">Секция 4 из 5</div>
+    <h2 class="rs-title">Что можно сделать — от простого к системному</h2>
+    <div class="rs-scenarios">
+      <div class="rs-sc">
+        <div class="rs-sc-head">
+          <span class="rs-sc-letter">А</span>
+          <span class="rs-sc-name">Улучшить текущий Excel</span>
+        </div>
+        <div class="rs-sc-body">
+          <div class="rs-sc-row"><span>Что даёт</span><b>Частично закроет пробелы на 3–6 мес.</b></div>
+          <div class="rs-sc-row"><span>Сложность</span><b>Низкая</b></div>
+        </div>
+      </div>
+      <div class="rs-sc rs-sc-recommended">
+        <div class="rs-sc-head">
+          <span class="rs-sc-letter">Б</span>
+          <span class="rs-sc-name">Финтабло</span>
+          <span class="rs-sc-badge">Рекомендовано</span>
+        </div>
+        <div class="rs-sc-body">
+          <div class="rs-sc-row"><span>Что даёт</span><b>P&L, ДДС, план-факт по каждому проекту</b></div>
+          <div class="rs-sc-row"><span>Сложность</span><b>Низкая</b></div>
+          <div class="rs-sc-row"><span>Внедрение</span><b>От 2 недель, с поддержкой</b></div>
+        </div>
+      </div>
+      <div class="rs-sc">
+        <div class="rs-sc-head">
+          <span class="rs-sc-letter">В</span>
+          <span class="rs-sc-name">1С УПП / ERP</span>
+        </div>
+        <div class="rs-sc-body">
+          <div class="rs-sc-row"><span>Что даёт</span><b>Мощно, но долго и дорого внедряется</b></div>
+          <div class="rs-sc-row"><span>Сложность</span><b>Высокая</b></div>
+        </div>
+      </div>
+      <div class="rs-sc">
+        <div class="rs-sc-head">
+          <span class="rs-sc-letter">Г</span>
+          <span class="rs-sc-name">Нанять финдиректора</span>
+        </div>
+        <div class="rs-sc-body">
+          <div class="rs-sc-row"><span>Что даёт</span><b>Человек без инструмента — не решение</b></div>
+          <div class="rs-sc-row"><span>Сложность</span><b>Средняя</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 5: Финтабло для вашей ситуации ── -->
+  <section class="report-section report-s5 report-section-locked" id="rs5">
+    <div class="rs-eyebrow">Секция 5 из 5</div>
+    <h2 class="rs-title">Финтабло для вашей ситуации</h2>
+    <p class="rs-sub">5 функций, закрывающих ваши главные зоны риска</p>
+
+    <div class="rs-features">
+      <div class="rs-feat">
+        <div class="rs-feat-ico">📊</div>
+        <div class="rs-feat-body">
+          <div class="rs-feat-name">P&L по каждому проекту</div>
+          <div class="rs-feat-desc">Маржа видна в моменте, не после закрытия</div>
+        </div>
+      </div>
+      <div class="rs-feat">
+        <div class="rs-feat-ico">📅</div>
+        <div class="rs-feat-body">
+          <div class="rs-feat-name">Платёжный календарь</div>
+          <div class="rs-feat-desc">Кассовый разрыв виден за 3–5 недель</div>
+        </div>
+      </div>
+      <div class="rs-feat">
+        <div class="rs-feat-ico">📈</div>
+        <div class="rs-feat-body">
+          <div class="rs-feat-name">Бюджет и план-факт</div>
+          <div class="rs-feat-desc">Отклонения фиксируются сразу, не в конце квартала</div>
+        </div>
+      </div>
+      <div class="rs-feat">
+        <div class="rs-feat-ico">💸</div>
+        <div class="rs-feat-body">
+          <div class="rs-feat-name">Прогноз ДДС</div>
+          <div class="rs-feat-desc">Кривая остатка по всем проектам сразу</div>
+        </div>
+      </div>
+      <div class="rs-feat">
+        <div class="rs-feat-ico">👥</div>
+        <div class="rs-feat-body">
+          <div class="rs-feat-name">Контроль дебиторки</div>
+          <div class="rs-feat-desc">Кто и сколько должен, с датами</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rs-cases">
+      <div class="rs-case">
+        <div class="rs-case-head">Кейс 1 · Строительство</div>
+        <div class="rs-case-body">Подставим 2 реальных кейса из fintablo.ru/case при финальной правке.</div>
+      </div>
+      <div class="rs-case">
+        <div class="rs-case-head">Кейс 2 · IT / агентство</div>
+        <div class="rs-case-body">Подставим 2 реальных кейса из fintablo.ru/case при финальной правке.</div>
+      </div>
+    </div>
+
+    <div class="rs-cta-block">
+      <p class="rs-cta-text" id="rs5-cta-text">Хотите разобрать ваш отчёт с экспертом? Покажем, как именно Финтабло закрывает ваши зоны риска — на примере вашего бизнеса.</p>
+      <a class="btn-primary btn-lg" id="rs5-cta" href="thankyou.html">
+        Записаться на бесплатный разбор
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Оверлей замка для превью-режима -->
+  <div class="preview-lock-overlay" id="preview-lock" hidden>
+    <div class="plo-card">
+      <div class="plo-ico">🔒</div>
+      <div class="plo-title">Секции 3–5 разблокируются после отправки контакта</div>
+      <a class="btn-primary" href="index.html#step-10">Оставить контакт →</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-company">
+      <div class="footer-brand">© 2026, «Финтабло»</div>
+      <div class="footer-legal">
+        ООО «НЕСКУЧНЫЙ ФИНАНСОВЫЙ СОФТ»<br>
+        ИНН 2311303019 · ОГРН 1202300015103
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+      <a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">Оферта</a>
+      <a href="mailto:support@help.fintablo.ru">support@help.fintablo.ru</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/report.js"></script>
+</body>
+</html>

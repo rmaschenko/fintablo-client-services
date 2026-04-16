@@ -6,15 +6,14 @@
 <meta name="theme-color" content="#1A1F36">
 <meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
 <title>Деньги есть — прибыли нет? | Финтабло</title>
-<meta name="description" content="Введите 4 цифры — и узнайте, где именно теряется ваша прибыль и сколько это стоит в рублях. Персональная диагностика от Финтабло за 2 минуты.">
+<meta name="description" content="Персональная диагностика разрыва между деньгами и прибылью. 4 минуты — увидите, где именно теряется ваша прибыль и план восстановления.">
 <meta property="og:title" content="Деньги есть — прибыли нет? | Финтабло">
-<meta property="og:description" content="Персональная диагностика разрыва между деньгами и прибылью для проектного бизнеса.">
+<meta property="og:description" content="Диагностика проектного бизнеса: где именно «заморожены» деньги и как их вернуть в кассу.">
 <meta property="og:type" content="website">
 <link rel="icon" href="https://fintablo.ru/favicon.ico">
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="css/style.css">
 
-<!-- Yandex.Metrika counter -->
 <script type="text/javascript">
   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
   m[i].l=1*new Date();
@@ -34,7 +33,7 @@
       <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32">
       <span class="logo-fallback">Финтабло</span>
     </a>
-    <div class="header-meta">Диагностика · 2 минуты</div>
+    <div class="header-meta">Диагностика · 4 минуты</div>
   </div>
 </header>
 
@@ -45,18 +44,18 @@
     <span class="ps-sep">›</span>
     <span class="ps-item" data-stage="2">Ваши цифры</span>
     <span class="ps-sep">›</span>
-    <span class="ps-item" data-stage="3">Получить анализ</span>
+    <span class="ps-item" data-stage="3">Ваш план</span>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
 </div>
 
-<!-- ═════ RESUME BANNER (showed if saved state within 48h) ═════ -->
+<!-- ═════ RESUME BANNER ═════ -->
 <div class="resume-banner" id="resume-banner" hidden>
   <div class="container">
     <div class="rb-inner">
       <div class="rb-text">
         <b>У вас есть незавершённый расчёт</b>
-        <span>Сохранён <span id="rb-ago">недавно</span> · можно продолжить с места остановки</span>
+        <span>Сохранён <span id="rb-ago">недавно</span></span>
       </div>
       <div class="rb-actions">
         <button class="btn-secondary btn-sm" id="rb-reset" type="button">Начать заново</button>
@@ -69,42 +68,37 @@
 <!-- ═════ STEPS ═════ -->
 <div class="container">
 
-  <!-- ── Step 0: Welcome ── -->
-  <section class="step step-welcome active" id="step-0">
+  <!-- 0 · WELCOME -->
+  <section class="step step-welcome active" id="step-welcome">
     <div class="social-proof">
       <span class="dot-green" aria-hidden="true"></span>
       <span><b>2 200+</b> проектных компаний управляют финансами в Финтабло</span>
     </div>
-
     <h1 class="hero-h1" id="hero-h1">Деньги есть — <span class="accent">прибыли нет</span>?</h1>
     <p class="hero-sub">
-      Введите 4 цифры — и мы покажем, где именно теряется ваша прибыль
-      и сколько это стоит в рублях.
+      За 4 минуты вы увидите сумму, которая <b>есть в бизнесе на бумаге</b>, но не видна на счёте.
+      И конкретные точки, где она «застревает» — по вашей отрасли.
     </p>
-
     <ul class="hero-bullets">
-      <li><span class="bullet-ico" aria-hidden="true">→</span> Увидите реальный разрыв между деньгами на счёте и прибылью — в рублях</li>
-      <li><span class="bullet-ico" aria-hidden="true">→</span> Поймёте, из-за чего возникает этот разрыв в вашем типе бизнеса</li>
-      <li><span class="bullet-ico" aria-hidden="true">→</span> Узнаете, почему это нельзя увидеть без учёта по каждому проекту</li>
+      <li><span class="bullet-ico">→</span> <b>Сумма вашего разрыва</b> в рублях</li>
+      <li><span class="bullet-ico">→</span> <b>Сравнение с отраслью</b> — вы vs медиана и топ‑25%</li>
+      <li><span class="bullet-ico">→</span> <b>3 точки утечки</b> в вашем типе бизнеса + план на 30 дней</li>
     </ul>
-
     <button class="btn-primary btn-lg" id="btn-start" type="button">
-      Найти где теряется прибыль
-      <span class="btn-arrow">→</span>
+      Начать диагностику <span class="btn-arrow">→</span>
     </button>
-
     <div class="trust-row">
-      <span class="trust-item">⏱ 2 минуты</span>
+      <span class="trust-item">⏱ 4 минуты</span>
       <span class="trust-sep">·</span>
-      <span class="trust-item">🔒 Данные в браузере</span>
+      <span class="trust-item">🔒 Расчёт в браузере</span>
       <span class="trust-sep">·</span>
-      <span class="trust-item">Без регистрации</span>
+      <span class="trust-item">Бесплатно</span>
     </div>
   </section>
 
-  <!-- ── Step 1: Role ── -->
-  <section class="step" id="step-1">
-    <div class="step-eyebrow">Шаг 1 из 3 · О бизнесе</div>
+  <!-- 1 · QUIZ: ROLE -->
+  <section class="step" id="step-role">
+    <div class="step-eyebrow">Блок 1 · Контекст · 1/4</div>
     <h2 class="step-q">Кто вы?</h2>
     <div class="options-group">
       <button class="option-card" type="button" data-value="owner">
@@ -119,9 +113,9 @@
     <div class="insight-box" id="insight-role" hidden></div>
   </section>
 
-  <!-- ── Step 2: Industry ── -->
-  <section class="step" id="step-2">
-    <div class="step-eyebrow">Шаг 2 из 3 · О бизнесе</div>
+  <!-- 2 · QUIZ: INDUSTRY -->
+  <section class="step" id="step-industry">
+    <div class="step-eyebrow">Блок 1 · Контекст · 2/4</div>
     <h2 class="step-q">Чем занимается компания?</h2>
     <div class="options-group">
       <button class="option-card" type="button" data-value="construction"><span class="oc-icon">🏗️</span><span class="oc-title">Строительство / ремонт / инжиниринг</span></button>
@@ -133,10 +127,10 @@
     <div class="insight-box" id="insight-industry" hidden></div>
   </section>
 
-  <!-- ── Step 3: Revenue ── -->
-  <section class="step" id="step-3">
-    <div class="step-eyebrow">Шаг 3 из 3 · О бизнесе</div>
-    <h2 class="step-q">Какой примерный оборот компании в месяц?</h2>
+  <!-- 3 · QUIZ: REVENUE -->
+  <section class="step" id="step-revenue">
+    <div class="step-eyebrow">Блок 1 · Контекст · 3/4</div>
+    <h2 class="step-q">Какой примерный оборот в месяц?</h2>
     <div class="options-group">
       <button class="option-card" type="button" data-value="1500000" data-label="До 2 млн ₽/мес"><span class="oc-title">До 2 млн ₽/мес</span></button>
       <button class="option-card" type="button" data-value="3500000" data-label="2–5 млн ₽/мес"><span class="oc-title">2–5 млн ₽/мес</span></button>
@@ -146,14 +140,14 @@
     </div>
   </section>
 
-  <!-- ── Step 3.5: Anti-ICP soft gate (shown if revenue < 2M) ── -->
+  <!-- 3.5 · ANTI-ICP -->
   <section class="step step-anti-icp" id="step-anti-icp">
     <div class="anti-icp-card">
-      <div class="aic-badge">Наш инструмент настроен под компании от 5 млн/мес</div>
+      <div class="aic-badge">Инструмент настроен под компании от 5 млн/мес</div>
       <h2 class="step-q">Для вашего этапа полезнее другие инструменты</h2>
       <p class="aic-sub">
-        Квиз оптимизирован под проектный бизнес с оборотом от 5 млн ₽/мес.
-        При меньшем обороте расчёт разрыва может не отражать реальную картину.
+        Расчёт разрыва оптимизирован для проектного бизнеса с оборотом от 5 млн ₽/мес.
+        При меньшем обороте модель может показать искажённую картину.
       </p>
       <div class="aic-actions">
         <a class="aic-option" href="https://fintablo.ru/trial" target="_blank" rel="noopener">
@@ -171,13 +165,55 @@
     </div>
   </section>
 
-  <!-- ── Step 4: Calculator (4 fields + live viz) ── -->
-  <section class="step step-calc" id="step-4">
-    <div class="step-eyebrow">Этап 2 · Ваши цифры</div>
-    <h2 class="step-q">Введите данные <span class="accent">за последний месяц</span></h2>
-    <p class="step-sub">Примерные цифры — ок. Можно быстро подкрутить чипами под каждым полем.</p>
+  <!-- 4 · QUIZ: ACCOUNTING SYSTEM -->
+  <section class="step" id="step-accounting">
+    <div class="step-eyebrow">Блок 1 · Контекст · 4/4</div>
+    <h2 class="step-q">Как вы сейчас ведёте управленческий учёт?</h2>
+    <p class="step-sub">От этого зависит, где именно чаще всего «прячется» разрыв в вашем случае.</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="none">
+        <span class="oc-title">Никак системно — смотрю остаток на счёте</span>
+        <span class="oc-sub">Деньги есть — значит всё ок; нет — разбираемся</span>
+      </button>
+      <button class="option-card" type="button" data-value="excel">
+        <span class="oc-title">Excel или Google Sheets</span>
+        <span class="oc-sub">Таблицы ведёт бухгалтер или я сам — данные часто с опозданием</span>
+      </button>
+      <button class="option-card" type="button" data-value="1c">
+        <span class="oc-title">1С или аналог</span>
+        <span class="oc-sub">Бухгалтерский учёт ведётся, но управленческого почти нет</span>
+      </button>
+      <button class="option-card" type="button" data-value="outsource">
+        <span class="oc-title">Бухгалтер на аутсорсе</span>
+        <span class="oc-sub">Раз в месяц приходит отчёт — иногда с задержкой</span>
+      </button>
+      <button class="option-card" type="button" data-value="cfo">
+        <span class="oc-title">Штатный финдиректор</span>
+        <span class="oc-sub">Еженедельные отчёты, но хочу проверить диагноз</span>
+      </button>
+    </div>
+    <div class="insight-box" id="insight-accounting" hidden></div>
+  </section>
 
-    <!-- ── Privacy reassurance (big, on top) ── -->
+  <!-- 5 · CHECKPOINT 1 -->
+  <section class="step step-checkpoint" id="step-checkpoint">
+    <div class="cp-badge">Блок 1 из 2 пройден · 4 ответа собрано</div>
+    <h2 class="cp-title">Вот ваш <span class="accent">профиль</span></h2>
+    <div class="cp-profile" id="cp-profile"></div>
+    <div class="cp-bench" id="cp-bench"></div>
+    <div class="cp-insight" id="cp-insight"></div>
+    <button class="btn-primary btn-lg" id="btn-to-calc" type="button">
+      Перейти к вашим цифрам <span class="btn-arrow">→</span>
+    </button>
+    <p class="cp-sub-cta">3 минуты · 4 поля · бесплатный расчёт</p>
+  </section>
+
+  <!-- 6 · CALCULATOR -->
+  <section class="step step-calc" id="step-calc">
+    <div class="step-eyebrow">Блок 2 · Ваши цифры</div>
+    <h2 class="step-q">Введите данные <span class="accent">за последний месяц</span></h2>
+    <p class="step-sub">Примерные цифры подходят. Чипы под полями помогают быстро набрать.</p>
+
     <div class="privacy-hero">
       <div class="ph-icon" aria-hidden="true">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -185,92 +221,81 @@
       <div class="ph-body">
         <div class="ph-title">Данные не покидают ваш браузер</div>
         <div class="ph-text">
-          Расчёт происходит локально — прямо на вашем устройстве.
-          <b>Ни одно число не отправляется на сервер</b> до момента, когда вы сами заполните форму контакта.
-          Можно проверить через DevTools → Network: ни одного запроса.
-        </div>
-        <div class="ph-chips">
-          <span class="ph-chip"><span class="ph-chip-dot ok"></span>Не сохраняем в базе</span>
-          <span class="ph-chip"><span class="ph-chip-dot ok"></span>Не передаём третьим лицам</span>
-          <span class="ph-chip"><span class="ph-chip-dot ok"></span>Не записываем в аналитику</span>
+          Расчёт локальный, прямо на вашем устройстве. Можно проверить через DevTools → Network: <b>ни одного запроса</b> не уходит до отправки формы контакта.
         </div>
       </div>
     </div>
 
-    <!-- ── Inputs (full width) ── -->
-    <div class="calc-inputs-stack">
-      <div class="calc-fields-grid">
-        <div class="field">
-          <label class="label" for="f-cashIn">
-            <span class="label-main">Сколько денег <b>пришло</b> от клиентов за месяц</span>
-            <span class="label-hint">Реальные поступления на счёт, не выставленные счета</span>
-          </label>
-          <div class="input-wrap input-suffix-rub">
-            <input id="f-cashIn" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 2 500 000" autocomplete="off">
-          </div>
-          <div class="quick-chips" data-for="f-cashIn">
-            <button type="button" class="qc" data-add="100000">+100k</button>
-            <button type="button" class="qc" data-add="500000">+500k</button>
-            <button type="button" class="qc" data-add="1000000">+1 млн</button>
-            <button type="button" class="qc" data-add="5000000">+5 млн</button>
-            <button type="button" class="qc qc-clear" data-clear="1">✕</button>
-          </div>
+    <div class="calc-fields-grid">
+      <div class="field">
+        <label class="label" for="f-cashIn">
+          <span class="label-main">Сколько денег <b>пришло</b> от клиентов</span>
+          <span class="label-hint">Реальные поступления на счёт за месяц</span>
+        </label>
+        <div class="input-wrap input-suffix-rub">
+          <input id="f-cashIn" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 2 500 000" autocomplete="off">
         </div>
-
-        <div class="field">
-          <label class="label" for="f-receivables">
-            <span class="label-main">Сколько вам <b>должны</b> клиенты</span>
-            <span class="label-hint">Выполненные работы, за которые ещё не получили деньги</span>
-          </label>
-          <div class="input-wrap input-suffix-rub">
-            <input id="f-receivables" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 800 000" autocomplete="off">
-          </div>
-          <div class="quick-chips" data-for="f-receivables">
-            <button type="button" class="qc" data-add="100000">+100k</button>
-            <button type="button" class="qc" data-add="500000">+500k</button>
-            <button type="button" class="qc" data-add="1000000">+1 млн</button>
-            <button type="button" class="qc" data-add="5000000">+5 млн</button>
-            <button type="button" class="qc qc-clear" data-clear="1">✕</button>
-          </div>
+        <div class="quick-chips" data-for="f-cashIn">
+          <button type="button" class="qc" data-add="100000">+100k</button>
+          <button type="button" class="qc" data-add="500000">+500k</button>
+          <button type="button" class="qc" data-add="1000000">+1 млн</button>
+          <button type="button" class="qc" data-add="5000000">+5 млн</button>
+          <button type="button" class="qc qc-clear" data-clear="1">✕</button>
         </div>
+      </div>
 
-        <div class="field">
-          <label class="label" for="f-expenses">
-            <span class="label-main">Сколько <b>потратили</b> за месяц</span>
-            <span class="label-hint">ФОТ, субподряд, материалы, аренда, налоги</span>
-          </label>
-          <div class="input-wrap input-suffix-rub">
-            <input id="f-expenses" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 2 100 000" autocomplete="off">
-          </div>
-          <div class="quick-chips" data-for="f-expenses">
-            <button type="button" class="qc" data-add="100000">+100k</button>
-            <button type="button" class="qc" data-add="500000">+500k</button>
-            <button type="button" class="qc" data-add="1000000">+1 млн</button>
-            <button type="button" class="qc" data-add="5000000">+5 млн</button>
-            <button type="button" class="qc qc-clear" data-clear="1">✕</button>
-          </div>
+      <div class="field">
+        <label class="label" for="f-receivables">
+          <span class="label-main">Сколько вам <b>должны</b> клиенты</span>
+          <span class="label-hint">Выполненная работа без оплаты</span>
+        </label>
+        <div class="input-wrap input-suffix-rub">
+          <input id="f-receivables" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 800 000" autocomplete="off">
         </div>
+        <div class="quick-chips" data-for="f-receivables">
+          <button type="button" class="qc" data-add="100000">+100k</button>
+          <button type="button" class="qc" data-add="500000">+500k</button>
+          <button type="button" class="qc" data-add="1000000">+1 млн</button>
+          <button type="button" class="qc" data-add="5000000">+5 млн</button>
+          <button type="button" class="qc qc-clear" data-clear="1">✕</button>
+        </div>
+      </div>
 
-        <div class="field">
-          <label class="label" for="f-balance">
-            <span class="label-main"><b>Остаток</b> на счетах сейчас</span>
-            <span class="label-hint">Суммарный по всем счетам</span>
-          </label>
-          <div class="input-wrap input-suffix-rub">
-            <input id="f-balance" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 1 200 000" autocomplete="off">
-          </div>
-          <div class="quick-chips" data-for="f-balance">
-            <button type="button" class="qc" data-add="100000">+100k</button>
-            <button type="button" class="qc" data-add="500000">+500k</button>
-            <button type="button" class="qc" data-add="1000000">+1 млн</button>
-            <button type="button" class="qc" data-add="5000000">+5 млн</button>
-            <button type="button" class="qc qc-clear" data-clear="1">✕</button>
-          </div>
+      <div class="field">
+        <label class="label" for="f-expenses">
+          <span class="label-main">Сколько <b>потратили</b> за месяц</span>
+          <span class="label-hint">ФОТ, субподряд, материалы, аренда, налоги</span>
+        </label>
+        <div class="input-wrap input-suffix-rub">
+          <input id="f-expenses" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 2 100 000" autocomplete="off">
+        </div>
+        <div class="quick-chips" data-for="f-expenses">
+          <button type="button" class="qc" data-add="100000">+100k</button>
+          <button type="button" class="qc" data-add="500000">+500k</button>
+          <button type="button" class="qc" data-add="1000000">+1 млн</button>
+          <button type="button" class="qc" data-add="5000000">+5 млн</button>
+          <button type="button" class="qc qc-clear" data-clear="1">✕</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label" for="f-balance">
+          <span class="label-main"><b>Остаток</b> на счетах сейчас</span>
+          <span class="label-hint">Суммарный по всем счетам</span>
+        </label>
+        <div class="input-wrap input-suffix-rub">
+          <input id="f-balance" class="input input-money" type="text" inputmode="numeric" placeholder="Например: 1 200 000" autocomplete="off">
+        </div>
+        <div class="quick-chips" data-for="f-balance">
+          <button type="button" class="qc" data-add="100000">+100k</button>
+          <button type="button" class="qc" data-add="500000">+500k</button>
+          <button type="button" class="qc" data-add="1000000">+1 млн</button>
+          <button type="button" class="qc" data-add="5000000">+5 млн</button>
+          <button type="button" class="qc qc-clear" data-clear="1">✕</button>
         </div>
       </div>
     </div>
 
-    <!-- ── Live visualization: compact when empty, full when filled ── -->
     <div class="viz-wrap" id="viz-wrap">
       <div class="viz-empty-compact" id="viz-empty">
         <span class="viz-progress-dots" id="viz-progress-dots">
@@ -284,52 +309,145 @@
       <div class="viz-chart" id="viz-chart" hidden></div>
     </div>
 
-    <!-- ── «Что будет после» hint block ── -->
-    <div class="next-hint" id="next-hint">
-      <div class="nh-title">Что будет после заполнения</div>
-      <div class="nh-steps">
-        <div class="nh-step"><span class="nh-num">1</span><b>Визуальный разбор</b> — прямо на этой странице, бесплатно</div>
-        <div class="nh-step"><span class="nh-num">2</span><b>3 типовые точки утечки</b> по вашей отрасли</div>
-        <div class="nh-step"><span class="nh-num">3</span><b>Звонок эксперта</b> — только если оставите контакт</div>
-      </div>
-    </div>
-
-    <!-- Sticky CTA -->
     <div class="sticky-cta" id="sticky-cta">
       <div class="container sc-inner">
         <div class="sc-summary" id="sc-summary"></div>
-        <button class="btn-primary" id="btn-to-report" type="button">
-          <span id="btn-to-report-text">Посмотреть персональный разбор</span>
-          <span class="btn-arrow">→</span>
+        <button class="btn-primary" id="btn-to-teaser" type="button">
+          Увидеть мой разрыв <span class="btn-arrow">→</span>
         </button>
       </div>
     </div>
   </section>
 
-  <!-- ── Step 4.5: Personal Report (AHA moment, PLG core) ── -->
-  <section class="step step-report" id="step-report">
-    <div class="step-eyebrow">Ваш персональный разбор</div>
-    <h2 class="step-q" id="report-h">Вот что мы нашли в ваших данных</h2>
-
-    <div class="report-hero" id="report-hero"></div>
-    <div class="report-chart" id="report-chart"></div>
-    <div class="report-kpis" id="report-kpis"></div>
-    <div class="report-leaks" id="report-leaks"></div>
-    <div class="report-plg" id="report-plg"></div>
-
-    <div class="report-cta-wrap">
-      <button class="btn-primary btn-lg" id="btn-report-to-contact" type="button">
-        Получить полный анализ от эксперта
-        <span class="btn-arrow">→</span>
+  <!-- 7 · TEASER (first layer reveal) -->
+  <section class="step step-teaser" id="step-teaser">
+    <div class="teaser-hero" id="teaser-hero"></div>
+    <div class="teaser-lock">
+      <div class="tl-head">
+        <span class="tl-lock-ico" aria-hidden="true">🔒</span>
+        <span class="tl-lock-title">Что именно «съедает» ваш разрыв</span>
+      </div>
+      <div class="tl-items">
+        <div class="tl-item"><span class="tl-num">1</span><span>Точка утечки #1 — <i>скрыта</i></span></div>
+        <div class="tl-item"><span class="tl-num">2</span><span>Точка утечки #2 — <i>скрыта</i></span></div>
+        <div class="tl-item"><span class="tl-num">3</span><span>Точка утечки #3 — <i>скрыта</i></span></div>
+      </div>
+      <p class="tl-note">Ответьте на 3 коротких вопроса — и мы покажем, где искать в вашем случае. <b>Бесплатно, без регистрации.</b></p>
+      <button class="btn-primary btn-lg" id="btn-to-payment" type="button">
+        Раскрыть 3 точки утечки <span class="btn-arrow">→</span>
       </button>
-      <p class="report-cta-sub">Бесплатный 30-минутный разбор · где именно теряется прибыль в вашем бизнесе</p>
     </div>
   </section>
 
-  <!-- ── Step 5: Contact capture ── -->
-  <section class="step step-contact" id="step-5">
-    <div class="step-eyebrow">Этап 3 · Получить анализ</div>
-    <h2 class="step-q" id="contact-h"></h2>
+  <!-- 8 · QUIZ: PAYMENT TERMS -->
+  <section class="step" id="step-payment">
+    <div class="step-eyebrow">Блок 2 · Углубление · 1/3</div>
+    <h2 class="step-q">Средняя <span class="accent">отсрочка оплаты</span> у клиентов?</h2>
+    <p class="step-sub">Влияет на риск «заморозки» денег в дебиторке.</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="prepay">
+        <span class="oc-title">Предоплата 100% / почти всегда</span>
+        <span class="oc-sub">Клиенты платят вперёд</span>
+      </button>
+      <button class="option-card" type="button" data-value="short">
+        <span class="oc-title">До 15 дней</span>
+        <span class="oc-sub">По факту сдачи или аванс + остаток сразу</span>
+      </button>
+      <button class="option-card" type="button" data-value="medium">
+        <span class="oc-title">30 дней</span>
+        <span class="oc-sub">Стандарт по договору</span>
+      </button>
+      <button class="option-card" type="button" data-value="long">
+        <span class="oc-title">45–60 дней</span>
+        <span class="oc-sub">Крупные клиенты / B2B-сети</span>
+      </button>
+      <button class="option-card" type="button" data-value="very-long">
+        <span class="oc-title">90+ дней</span>
+        <span class="oc-sub">Госконтракты / крупные ритейлеры</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 9 · QUIZ: PLANNING HORIZON -->
+  <section class="step" id="step-planning">
+    <div class="step-eyebrow">Блок 2 · Углубление · 2/3</div>
+    <h2 class="step-q">На какой <span class="accent">горизонт</span> видите деньги вперёд?</h2>
+    <p class="step-sub">Показывает, насколько вы защищены от кассового разрыва.</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="none">
+        <span class="oc-title">Не планируем</span>
+        <span class="oc-sub">Реагируем по ситуации</span>
+      </button>
+      <button class="option-card" type="button" data-value="week">
+        <span class="oc-title">На неделю вперёд</span>
+        <span class="oc-sub">Знаем что придёт и уйдёт в ближайшие 7 дней</span>
+      </button>
+      <button class="option-card" type="button" data-value="month">
+        <span class="oc-title">На месяц вперёд</span>
+        <span class="oc-sub">Понимаем движение денег на ~30 дней</span>
+      </button>
+      <button class="option-card" type="button" data-value="quarter">
+        <span class="oc-title">На квартал и больше</span>
+        <span class="oc-sub">Есть план, прогноз, сценарии</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 10 · QUIZ: MAIN PAIN -->
+  <section class="step" id="step-pain">
+    <div class="step-eyebrow">Блок 2 · Углубление · 3/3</div>
+    <h2 class="step-q">Что сейчас <span class="accent">больше всего мешает</span>?</h2>
+    <p class="step-sub">Одно главное — чтобы разбор был про вас, а не универсальный.</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="profit-unclear">
+        <span class="oc-title">Не знаю реальную прибыль в моменте</span>
+        <span class="oc-sub">Отчёт раз в месяц — и то с задержкой</span>
+      </button>
+      <button class="option-card" type="button" data-value="cash-gap">
+        <span class="oc-title">Регулярные кассовые разрывы</span>
+        <span class="oc-sub">Деньги уходят быстрее, чем приходят</span>
+      </button>
+      <button class="option-card" type="button" data-value="project-economy">
+        <span class="oc-title">Не знаю экономику по проектам</span>
+        <span class="oc-sub">Общая цифра есть, но непонятно какие проекты в плюсе</span>
+      </button>
+      <button class="option-card" type="button" data-value="where-money">
+        <span class="oc-title">Не понимаю куда уходят деньги</span>
+        <span class="oc-sub">Выручка есть, а прибыли на счёте нет</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 11 · PRE-REPORT ANIMATION -->
+  <section class="step step-prereport" id="step-prereport">
+    <div class="pr-card">
+      <div class="pr-title">Готовим ваш разбор…</div>
+      <div class="pr-sub">Персональный анализ на основе 7 ответов и вашего расчёта</div>
+      <div class="pr-steps" id="pr-steps">
+        <div class="pr-step" data-i="0">
+          <span class="prs-ico"></span>
+          <span>Считаем ваш разрыв и severity</span>
+        </div>
+        <div class="pr-step" data-i="1">
+          <span class="prs-ico"></span>
+          <span>Сравниваем с медианой по вашей отрасли</span>
+        </div>
+        <div class="pr-step" data-i="2">
+          <span class="prs-ico"></span>
+          <span>Находим 3 точки утечки по вашему профилю</span>
+        </div>
+        <div class="pr-step" data-i="3">
+          <span class="prs-ico"></span>
+          <span>Готовим план действий на 30 дней</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · CONTACT (GATE) -->
+  <section class="step step-contact" id="step-contact">
+    <div class="step-eyebrow">Шаг 3 · Получить персональный разбор</div>
+    <h2 class="step-q" id="contact-h">Разбор готов — где выслать?</h2>
     <p class="step-sub" id="contact-sub"></p>
 
     <div class="contact-summary" id="contact-summary"></div>
@@ -339,40 +457,55 @@
         <label class="label" for="f-name"><span class="label-main">Имя</span></label>
         <input id="f-name" class="input" type="text" placeholder="Как к вам обращаться" required>
       </div>
-
       <div class="field">
         <label class="label" for="f-phone"><span class="label-main">Телефон</span></label>
         <input id="f-phone" class="input" type="tel" placeholder="+7 (___) ___-__-__" required inputmode="numeric">
         <div class="field-error" id="err-phone" hidden></div>
       </div>
-
       <div class="field">
         <label class="label" for="f-email">
           <span class="label-main">Email <span class="label-opt">(необязательно)</span></span>
-          <span class="label-hint">для получения анализа на почту</span>
+          <span class="label-hint">для отправки PDF-отчёта на почту</span>
         </label>
         <input id="f-email" class="input" type="email" placeholder="name@company.ru">
       </div>
-
-      <!-- Honeypot -->
       <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
 
       <button class="btn-primary btn-lg" id="btn-submit" type="submit" disabled>
-        Получить полный анализ
-        <span class="btn-arrow">→</span>
+        Получить разбор и записаться на разговор <span class="btn-arrow">→</span>
       </button>
 
       <p class="consent">
         Нажимая кнопку, вы даёте согласие на обработку персональных данных в соответствии
-        с <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой конфиденциальности</a>
-        в целях предоставления консультации.
+        с <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой конфиденциальности</a>.
       </p>
       <p class="consent-sub">Мы не передаём данные третьим лицам и не рассылаем спам.</p>
-
-      <button class="btn-share" id="btn-share" type="button">
-        🔗 Поделиться результатом
-      </button>
     </form>
+
+    <div class="contact-trust">
+      <div class="ct-item">✓ Звоним <b>только в рабочее время</b> (10:00–19:00 МСК)</div>
+      <div class="ct-item">✓ Разбор — <b>30 минут</b>, без продажи</div>
+      <div class="ct-item">✓ Если неудобно — <b>можно отменить</b> одним сообщением</div>
+    </div>
+  </section>
+
+  <!-- 13 · FULL REPORT (second layer after gate) -->
+  <section class="step step-report" id="step-report">
+    <div class="report-header" id="report-header"></div>
+    <div class="report-kpis" id="report-kpis"></div>
+    <div class="report-bench" id="report-bench"></div>
+    <div class="report-chart" id="report-chart"></div>
+    <div class="report-leaks" id="report-leaks"></div>
+    <div class="report-plan" id="report-plan"></div>
+    <div class="report-projection" id="report-projection"></div>
+    <div class="report-plg" id="report-plg"></div>
+
+    <div class="report-cta-wrap">
+      <a class="btn-primary btn-lg" href="https://fintablo.ru/trial" target="_blank" rel="noopener" id="report-trial-cta">
+        Попробовать Финтабло бесплатно 14 дней <span class="btn-arrow">→</span>
+      </a>
+      <p class="report-cta-sub">Или ждите звонок эксперта — он уже изучает ваш расчёт</p>
+    </div>
   </section>
 </div>
 
@@ -402,11 +535,11 @@
   </div>
 </footer>
 
-<!-- ═════ COOKIE BANNER (152-ФЗ) ═════ -->
+<!-- ═════ COOKIE BANNER ═════ -->
 <div class="cookie-banner" id="cookie-banner">
   <div class="cb-inner">
     <div class="cb-text">
-      Мы используем файлы cookie для улучшения работы сервиса. Продолжая использовать сайт, вы соглашаетесь с
+      Мы используем файлы cookie для улучшения работы сервиса. Продолжая, вы соглашаетесь с
       <a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой обработки персональных данных</a>.
     </div>
     <button class="cb-btn" type="button" id="cb-accept">Принять</button>

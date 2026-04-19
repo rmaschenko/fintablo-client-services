@@ -37,8 +37,9 @@
   }
 
   function validateEmail(v) {
-    if (!v) return { ok: true };
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return { ok: false, msg: 'Проверьте email' };
+    const s = String(v || '').trim();
+    if (!s) return { ok: false, msg: 'Укажите email' };
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s)) return { ok: false, msg: 'Проверьте email' };
     return { ok: true };
   }
 
@@ -92,24 +93,20 @@
 
       // Honeypot
       if (hp && hp.value) {
-        // Тихо — имитируем успех
         if (typeof global._moneydiag_finishContact === 'function') global._moneydiag_finishContact();
         return;
       }
 
       const C = global.Calculator, S = global.Storage;
       const utm = S.getUTM() || {};
-      const reportDraft = S.loadReportData() || {};
       const state = (S.loadState() || {}).data || {};
 
       const computed = C.computeAll({
         role: state.role,
         industry: state.industry,
         monthlyRevenue: state.monthlyRevenue,
-        activeProjects: state.activeProjects,
-        accountingSystem: state.accountingSystem || [],
-        mainProblems: state.mainProblems || [],
-        hasFinancist: state.hasFinancist
+        accountingSystem: state.accountingSystem,
+        primaryPain: state.primaryPain
       });
 
       const payload = {
@@ -121,11 +118,8 @@
           role: state.role,
           industry: state.industry,
           monthlyRevenue: state.monthlyRevenue,
-          activeProjects: state.activeProjects,
-          accountingSystem: state.accountingSystem || [],
-          mainProblems: state.mainProblems || [],
-          desiredResult: state.desiredResult,
-          hasFinancist: state.hasFinancist
+          accountingSystem: state.accountingSystem,
+          primaryPain: state.primaryPain
         },
         metrics: computed,
         utm,
@@ -137,28 +131,17 @@
       btnSubmit.disabled = true;
       btnSubmit.textContent = 'Отправляем…';
 
-      submitToApi(payload)
-        .then(() => {
-          ym('reachGoal', 'moneydiag_lead');
-          ym('reachGoal', 'moneydiag_pixel_hot');
-          // Сохраняем данные для report.html
-          S.saveReportData(Object.assign({}, computed, {
-            name: payload.name,
-            desiredResult: state.desiredResult,
-            leadSent: true
-          }));
-          if (typeof global._moneydiag_finishContact === 'function') global._moneydiag_finishContact();
-        })
-        .catch(() => {
-          // Даже при ошибке API — пускаем дальше (CSV backup сработал на сервере если был)
-          ym('reachGoal', 'moneydiag_lead');
-          S.saveReportData(Object.assign({}, computed, {
-            name: payload.name,
-            desiredResult: state.desiredResult,
-            leadSent: true
-          }));
-          if (typeof global._moneydiag_finishContact === 'function') global._moneydiag_finishContact();
-        });
+      const finish = () => {
+        ym('reachGoal', 'moneydiag_lead_submitted');
+        ym('reachGoal', 'moneydiag_pixel_hot');
+        S.saveReportData(Object.assign({}, computed, {
+          name: payload.name,
+          leadSent: true
+        }));
+        if (typeof global._moneydiag_finishContact === 'function') global._moneydiag_finishContact();
+      };
+
+      submitToApi(payload).then(finish).catch(finish);
     });
   }
 

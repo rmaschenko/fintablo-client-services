@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1A1F36">
 <meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
-<title>Диагностика финансового учёта вашего бизнеса | Финтабло</title>
-<meta name="description" content="Бесплатная диагностика финансового учёта для проектного бизнеса от 60 млн ₽/год. 10 вопросов — персональный отчёт с оценкой потерь и индексом прозрачности. Без регистрации.">
+<title>Диагностика финансового учёта — Финтабло</title>
+<meta name="description" content="Бесплатная диагностика финансового учёта вашего бизнеса. 5 вопросов — персональный разбор профиля и зон потерь. Без регистрации.">
 <meta property="og:title" content="Диагностика финансового учёта — Финтабло">
-<meta property="og:description" content="Узнайте, где ваш проектный бизнес теряет деньги. Персональный отчёт за 3 минуты.">
+<meta property="og:description" content="Узнайте, где ваш бизнес теряет деньги. Персональный разбор за 2 минуты.">
 <meta property="og:type" content="website">
 <link rel="icon" href="https://fintablo.ru/favicon.ico">
 <link rel="preload" href="fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf" as="font" type="font/ttf" crossorigin>
@@ -28,6 +28,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
 <!-- ═════ HEADER ═════ -->
 <header>
   <div class="header-inner">
@@ -35,16 +37,14 @@
       <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
       <span class="logo-fallback" style="display:none">Финтабло</span>
     </a>
-    <div class="header-meta">Диагностика · 3 минуты</div>
+    <div class="header-meta">Диагностика · 2 минуты</div>
   </div>
 </header>
 
-<!-- ═════ PROGRESS (2 blocks) ═════ -->
+<!-- ═════ PROGRESS (single line) ═════ -->
 <div class="progress-wrapper" id="progress-wrapper" hidden>
   <div class="progress-steps">
-    <span class="ps-item" data-stage="1">О вас и бизнесе</span>
-    <span class="ps-sep">›</span>
-    <span class="ps-item" data-stage="2">Финансовый контроль</span>
+    <span class="ps-label" id="progress-label">Шаг 1 из 5</span>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
 </div>
@@ -66,117 +66,108 @@
 </div>
 
 <!-- ═════ STEPS ═════ -->
-<div class="container">
+<main class="container" id="main">
 
   <!-- ── Step 0: Welcome ── -->
   <section class="step step-welcome active" id="step-0">
     <div class="social-proof">
       <span class="dot-green" aria-hidden="true"></span>
-      <span><b>2 200+</b> проектных компаний управляют финансами в Финтабло</span>
+      <span><b>2 200+</b> компаний ведут управленческий учёт в Финтабло</span>
     </div>
 
-    <h1 class="hero-h1" id="hero-h1">Узнайте, где ваш бизнес теряет деньги <span class="accent">прямо сейчас</span></h1>
+    <h1 class="hero-h1" id="hero-h1">Где ваш бизнес теряет деньги <span class="accent">прямо сейчас</span></h1>
     <p class="hero-sub">
-      Диагностика финансового учёта для проектного бизнеса от 60 млн ₽/год.
-      10 вопросов — персональный отчёт с оценкой потерь и индексом прозрачности.
+      Диагностика финансового учёта. 5 вопросов за 2 минуты — персональный разбор вашего профиля,
+      зон потерь и главных вопросов, на которые у вас пока нет ответов.
     </p>
 
     <ul class="hero-bullets">
-      <li><span class="bullet-ico" aria-hidden="true">→</span> Оценка потерь в рублях — сколько уходит из-за отсутствия системного контроля</li>
-      <li><span class="bullet-ico" aria-hidden="true">→</span> Индекс прозрачности вашего бизнеса — от 0 до 100</li>
-      <li><span class="bullet-ico" aria-hidden="true">→</span> Вопросы, на которые вы сейчас не можете ответить — и как их закрыть</li>
+      <li><span class="bullet-ico" aria-hidden="true">→</span> Ваш финансовый профиль — один из 6, с разбором сильных и слабых сторон</li>
+      <li><span class="bullet-ico" aria-hidden="true">→</span> 3 вопроса, на которые вы сейчас не можете ответить — и почему это дорого стоит</li>
+      <li><span class="bullet-ico" aria-hidden="true">→</span> Оценка потерь в рублях и индекс прозрачности бизнеса</li>
     </ul>
 
     <button class="btn-primary btn-lg" id="btn-start" type="button">
-      Пройти диагностику бесплатно
+      Пройти диагностику
       <span class="btn-arrow">→</span>
     </button>
 
     <div class="trust-row">
-      <span class="trust-item">⏱ 3 минуты</span>
+      <span class="trust-item">2 минуты</span>
       <span class="trust-sep">·</span>
-      <span class="trust-item">🔒 Данные в браузере</span>
+      <span class="trust-item">Без регистрации</span>
       <span class="trust-sep">·</span>
-      <span class="trust-item">Персональный отчёт</span>
+      <span class="trust-item">Данные в браузере</span>
     </div>
   </section>
 
   <!-- ── Step 1: Role ── -->
   <section class="step" id="step-1">
-    <div class="step-eyebrow">Блок 1 из 2 · О вас и бизнесе</div>
-    <h2 class="step-q">Кто вы?</h2>
-    <p class="step-sub">Подберём вопросы и отчёт под вашу роль</p>
+    <h2 class="step-q">Кто вы в компании?</h2>
+    <p class="step-sub">Подбираем разбор под вашу роль и задачи</p>
     <div class="options-group">
       <button class="option-card" type="button" data-value="owner">
         <span class="oc-title">Собственник / Генеральный директор</span>
-        <span class="oc-sub">Хочу понять, что не так с финансами в моём бизнесе</span>
+        <span class="oc-sub">Хочу понять, что происходит с деньгами в моём бизнесе</span>
       </button>
       <button class="option-card" type="button" data-value="financier">
         <span class="oc-title">Финансовый директор / Финансист</span>
         <span class="oc-sub">Хочу проверить, каких инструментов не хватает</span>
       </button>
+      <button class="option-card" type="button" data-value="other">
+        <span class="oc-title">Другая роль</span>
+        <span class="oc-sub">Руководитель направления, управляющий, партнёр</span>
+      </button>
     </div>
-    <div class="insight-box" id="insight-role" hidden></div>
+    <div class="step-reward" id="reward-1" hidden></div>
   </section>
 
-  <!-- ── Step 2: Name ── -->
+  <!-- ── Step 2: Revenue (slider) ── -->
   <section class="step" id="step-2">
-    <div class="step-eyebrow">Блок 1 · О вас и бизнесе</div>
-    <h2 class="step-q">Как вас зовут?</h2>
-    <div class="field field-name">
-      <input id="f-name" class="input input-lg" type="text" placeholder="Имя" autocomplete="given-name" maxlength="40">
-      <div class="field-error" id="err-name" hidden></div>
-    </div>
-    <div class="insight-box" id="insight-name" hidden>
-      Отчёт будет персональным — с вашими цифрами.
-    </div>
-  </section>
+    <h2 class="step-q">Какой годовой оборот вашей компании?</h2>
+    <p class="step-sub">Примерное значение — точность не требуется</p>
 
-  <!-- ── Step 3: Industry ── -->
-  <section class="step" id="step-3">
-    <div class="step-eyebrow">Блок 1 · О вас и бизнесе</div>
-    <h2 class="step-q">Чем занимается ваша компания?</h2>
-    <div class="options-group">
-      <button class="option-card" type="button" data-value="construction"><span class="oc-icon" aria-hidden="true">🏗️</span><span class="oc-title">Строительство / ремонт / инжиниринг</span></button>
-      <button class="option-card" type="button" data-value="it"><span class="oc-icon" aria-hidden="true">💻</span><span class="oc-title">IT-проекты / разработка / интеграции</span></button>
-      <button class="option-card" type="button" data-value="agency"><span class="oc-icon" aria-hidden="true">🎯</span><span class="oc-title">Агентство / маркетинг / дизайн / консалтинг</span></button>
-      <button class="option-card" type="button" data-value="production"><span class="oc-icon" aria-hidden="true">⚙️</span><span class="oc-title">Производство / монтаж / оборудование</span></button>
-      <button class="option-card" type="button" data-value="other"><span class="oc-icon" aria-hidden="true">📦</span><span class="oc-title">Другой проектный бизнес</span></button>
-    </div>
-    <div class="insight-box" id="insight-industry" hidden></div>
-  </section>
-
-  <!-- ── Step 4: Revenue (discrete slider) ── -->
-  <section class="step" id="step-4">
-    <div class="step-eyebrow">Блок 1 · О вас и бизнесе</div>
-    <h2 class="step-q">Какой оборот вашей компании в месяц?</h2>
-    <p class="step-sub">Укажите примерное значение — точность не важна</p>
-
-    <div class="slider-group" id="slider-revenue">
+    <div class="slider-group slider-group-v2" id="slider-revenue">
       <div class="slider-readout">
-        <span class="sr-value mono" id="sr-revenue-value">5 млн ₽/мес</span>
+        <span class="sr-value mono" id="sr-revenue-value">60 млн ₽/год</span>
+        <span class="sr-sub mono" id="sr-revenue-sub">~ 5 млн ₽/мес</span>
       </div>
-      <input type="range" id="f-revenue" class="slider" min="0" max="7" step="1" value="3">
-      <div class="slider-ticks">
-        <span>500к</span><span>1м</span><span>2м</span><span>5м</span><span>10м</span><span>20м</span><span>50м</span><span>100м</span>
+      <div class="slider-track-wrap">
+        <div class="slider-zones" aria-hidden="true">
+          <div class="sz sz-red"   style="flex:2"></div>
+          <div class="sz sz-amber" style="flex:1"></div>
+          <div class="sz sz-green" style="flex:4"></div>
+        </div>
+        <input type="range" id="f-revenue" class="slider slider-v2" min="0" max="7" step="1" value="3" aria-label="Годовой оборот">
       </div>
+      <div class="slider-ticks slider-ticks-v2">
+        <span data-pos="0">6м</span>
+        <span data-pos="14.29">12м</span>
+        <span data-pos="28.57">24м</span>
+        <span data-pos="42.86">60м</span>
+        <span data-pos="57.14">120м</span>
+        <span data-pos="71.43">240м</span>
+        <span data-pos="85.71">600м</span>
+        <span data-pos="100">1,2млрд</span>
+      </div>
+      <div class="slider-zone-label" id="sr-zone-label">—</div>
     </div>
-    <div class="insight-box" id="insight-revenue" hidden></div>
   </section>
 
-  <!-- ── Step 4.5: Anti-ICP gate (hidden; shown if revenue < 2M) ── -->
+  <!-- ── Anti-ICP soft gate (< 24M/год) ── -->
   <section class="step step-anti-icp" id="step-anti-icp">
     <div class="anti-icp-card">
-      <div class="aic-badge">Наш инструмент оптимизирован под бизнес от 5 млн/мес</div>
+      <div class="aic-badge">Инструмент оптимален для бизнеса от 24 млн ₽/год</div>
       <h2 class="step-q">Для вашего этапа полезнее другие материалы</h2>
       <p class="aic-sub">
-        Диагностика рассчитана на проектный бизнес с выручкой от 5 млн ₽/мес.
-        При меньшем обороте оценка потерь будет неточной.
+        Диагностика рассчитана на компании с оборотом от 24 млн ₽/год (2 млн ₽/мес).
+        На меньшем масштабе управленческие решения, как правило, ещё держатся «в голове»,
+        и точная оценка потерь будет условной.
       </p>
       <div class="aic-actions">
         <a class="aic-option" href="https://fintablo.ru/registration" target="_blank" rel="noopener">
           <div class="aic-opt-title">Зарегистрироваться в Финтабло бесплатно</div>
-          <div class="aic-opt-sub">14 дней доступа, без обязательств</div>
+          <div class="aic-opt-sub">Пробный период без обязательств</div>
           <div class="aic-opt-cta">Перейти →</div>
         </a>
         <a class="aic-option" href="https://fintablo.ru/case" target="_blank" rel="noopener">
@@ -185,57 +176,208 @@
           <div class="aic-opt-cta">Читать →</div>
         </a>
       </div>
-      <button class="btn-ghost aic-back" id="aic-back" type="button">← Всё равно продолжить</button>
+      <button class="btn-ghost aic-back" id="aic-back" type="button">Всё равно продолжить →</button>
     </div>
   </section>
 
-  <!-- ── Step 5: Active projects (slider) ── -->
+  <!-- ── Step 3: Industry ── -->
+  <section class="step" id="step-3">
+    <h2 class="step-q">Чем занимается ваша компания?</h2>
+    <p class="step-sub">Настроим формулировки разбора под вашу отрасль</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="construction"><span class="oc-title">Строительство / ремонт / инжиниринг</span></button>
+      <button class="option-card" type="button" data-value="it"><span class="oc-title">IT / разработка / интеграции</span></button>
+      <button class="option-card" type="button" data-value="agency"><span class="oc-title">Агентство / маркетинг / дизайн / консалтинг</span></button>
+      <button class="option-card" type="button" data-value="production"><span class="oc-title">Производство / монтаж / оборудование</span></button>
+      <button class="option-card" type="button" data-value="services"><span class="oc-title">Услуги / B2B / B2C</span></button>
+      <button class="option-card" type="button" data-value="other"><span class="oc-title">Другое / смешанная модель</span></button>
+    </div>
+    <div class="step-reward" id="reward-3" hidden></div>
+  </section>
+
+  <!-- ── Step 4: Accounting system (single) ── -->
+  <section class="step" id="step-4">
+    <h2 class="step-q">Где сейчас ведёте финансовый учёт?</h2>
+    <p class="step-sub">Выберите основной вариант</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="none"><span class="oc-title">Нигде системно — держу в голове</span></button>
+      <button class="option-card" type="button" data-value="excel"><span class="oc-title">Excel / Google Sheets</span></button>
+      <button class="option-card" type="button" data-value="1c"><span class="oc-title">1С (бухгалтерская)</span></button>
+      <button class="option-card" type="button" data-value="other"><span class="oc-title">Другие сервисы / самописная система</span></button>
+      <button class="option-card" type="button" data-value="service"><span class="oc-title">Специализированный сервис управленческого учёта</span></button>
+    </div>
+    <div class="step-reward" id="reward-4" hidden></div>
+  </section>
+
+  <!-- ── Step 5: Primary pain (single) ── -->
   <section class="step" id="step-5">
-    <div class="step-eyebrow">Блок 1 · О вас и бизнесе</div>
-    <h2 class="step-q">Сколько проектов ведёте одновременно?</h2>
-    <div class="slider-group" id="slider-projects">
-      <div class="slider-readout">
-        <span class="sr-value mono" id="sr-projects-value">5 проектов</span>
-      </div>
-      <input type="range" id="f-projects" class="slider" min="1" max="30" step="1" value="5">
-      <div class="slider-ticks ticks-range">
-        <span>1</span><span>10</span><span>20</span><span>30+</span>
-      </div>
+    <h2 class="step-q">Что беспокоит больше всего?</h2>
+    <p class="step-sub">Выберите самое сильное ощущение — под него соберём разбор</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="margin_blind"><span class="oc-title">Не вижу прибыль по направлениям</span><span class="oc-sub">Непонятно, какое направление/продукт/клиент реально прибыльное</span></button>
+      <button class="option-card" type="button" data-value="late_loss"><span class="oc-title">Узнаю об убытках задним числом</span><span class="oc-sub">Минус виден только после закрытия периода или проекта</span></button>
+      <button class="option-card" type="button" data-value="cash_surprise"><span class="oc-title">Не понимаю, когда будет кассовый разрыв</span><span class="oc-sub">Узнаю о нехватке денег в последний момент</span></button>
+      <button class="option-card" type="button" data-value="data_lag"><span class="oc-title">Цифры приходят с задержкой, решения — наугад</span><span class="oc-sub">Управленческие данные всегда «про прошлое»</span></button>
+      <button class="option-card" type="button" data-value="no_big_picture"><span class="oc-title">Учёт есть, картины нет</span><span class="oc-sub">Цифры собираются, но единого обзора бизнеса нет</span></button>
     </div>
-    <div class="insight-box" id="insight-projects" hidden></div>
+    <div class="step-reward" id="reward-5" hidden></div>
   </section>
 
-  <!-- ── Step 65: AHA intermediate screen ── -->
+  <!-- ── Step 65: AHA screen (v3 · чистый hero) ── -->
   <section class="step step-aha" id="step-65">
-    <div class="aha-hero">
-      <div class="aha-eyebrow">Промежуточный расчёт</div>
-      <h2 class="step-q" id="aha-title">Данные уже работают</h2>
-      <p class="step-sub" id="aha-sub">По вашим ответам мы видим характерные зоны риска. Ответьте ещё на 4 вопроса, чтобы получить полный отчёт.</p>
+    <div class="aha-hero aha-hero-v3">
+      <div class="profile-icon profile-icon-lg" id="aha-profile-icon" aria-hidden="true"></div>
+      <div class="aha-eyebrow">Ваш профиль</div>
+      <h2 class="aha-profile-name" id="aha-profile-name">—</h2>
+      <p class="aha-lede" id="aha-role-frame">—</p>
     </div>
 
-    <div class="aha-cards">
-      <div class="aha-card aha-card-loss">
-        <div class="ac-label">Оценочные потери</div>
-        <div class="ac-value mono" id="aha-loss">— ₽/год</div>
-        <div class="ac-hint">При вашем обороте без системного контроля</div>
+    <!-- Цена бездействия + путь выхода (PLG-глубина) -->
+    <div class="profile-deep">
+      <div class="pd-card pd-inaction">
+        <div class="pd-card-label">Цена бездействия</div>
+        <div class="pd-card-title" id="aha-inaction-title">—</div>
+        <p class="pd-card-body" id="aha-inaction-body">—</p>
       </div>
-      <div class="aha-card aha-card-index">
-        <div class="ac-label">Индекс прозрачности (предварительный)</div>
-        <div class="ac-value mono" id="aha-index">— / 100</div>
-        <div class="ac-hint">По масштабу и числу проектов</div>
-      </div>
-      <div class="aha-card aha-card-risk">
-        <div class="ac-label">Главная зона риска</div>
-        <div class="ac-value ac-value-text" id="aha-risk">—</div>
-        <div class="ac-hint">По вашей отрасли</div>
+      <div class="pd-card pd-path">
+        <div class="pd-card-label">Путь выхода из профиля</div>
+        <div class="pd-card-title">Типовая последовательность, 30 / 60 / 90 дней</div>
+        <ol id="aha-path-out">
+          <li>—</li><li>—</li><li>—</li>
+        </ol>
       </div>
     </div>
 
-    <p class="aha-note">Это предварительная оценка. Полный расчёт — после следующих 4 вопросов.</p>
+    <p class="aha-cohort-below" id="aha-cohort-insight">—</p>
+
+    <div class="aha-mirror">
+      <div class="aha-mirror-title">Ответьте себе честно, за 30 секунд, без таблиц:</div>
+      <ol class="aha-questions" id="aha-questions">
+        <li>—</li>
+        <li>—</li>
+        <li>—</li>
+      </ol>
+      <div class="aha-mirror-hint">Если хотя бы на один — «не знаю», это и есть слепая зона.</div>
+    </div>
+
+    <aside class="aha-benchmark" aria-label="Контекст по вашей отрасли">
+      <div class="aha-benchmark-label">Контекст по вашей отрасли</div>
+      <p class="aha-benchmark-line" id="aha-benchmark-industry">—</p>
+      <p class="aha-benchmark-line aha-benchmark-line-sub" id="aha-benchmark-scale">—</p>
+    </aside>
 
     <div class="step-actions-center">
       <button class="btn-primary btn-lg" id="btn-aha-continue" type="button">
-        Продолжить
+        Продолжить — увидеть данные
+        <span class="btn-arrow">→</span>
+      </button>
+      <p class="aha-gate-hint">Дальше — ваш индекс прозрачности в сравнении с похожими компаниями, топ-2 зоны потерь и что можно попробовать уже на этой неделе.</p>
+    </div>
+  </section>
+
+  <!-- ── Step 66: Micro-breakdown (pre-gate value reveal) ── -->
+  <section class="step step-micro" id="step-66">
+    <div class="mb-eyebrow">Предварительный разбор</div>
+    <h2 class="mb-title">Вот что уже видно по вашим ответам</h2>
+    <p class="mb-subtitle">Свободная часть. Детальный разбор в рублях и траектория роста — в полном отчёте ниже.</p>
+
+    <!-- Block 1: Где вы на шкале прозрачности -->
+    <div class="mb-card">
+      <div class="mb-card-head">
+        <div class="mb-card-label">Ваш индекс прозрачности</div>
+        <div class="mb-card-hint">Оценка системности управленческого учёта в сравнении с похожими компаниями вашего масштаба и системы учёта</div>
+      </div>
+      <div class="mb-index-row">
+        <div class="mb-index-val mono"><span id="mb-index">—</span><span class="mb-index-of"> / 100</span></div>
+        <div class="mb-zone" id="mb-zone">—</div>
+      </div>
+      <div class="bm-bar" id="mb-bm-bar">
+        <div class="bm-zones">
+          <div class="bm-zone bm-zone-red"></div>
+          <div class="bm-zone bm-zone-orange"></div>
+          <div class="bm-zone bm-zone-green"></div>
+          <div class="bm-zone bm-zone-blue"></div>
+        </div>
+        <div class="bm-scale"><span>0</span><span>30</span><span>60</span><span>80</span><span>100</span></div>
+        <div class="bm-marker bm-marker-you" id="mb-bm-you"><span>Вы</span></div>
+        <div class="bm-marker bm-marker-peer" id="mb-bm-peer"><span>Похожие</span></div>
+        <div class="bm-marker bm-marker-top" id="mb-bm-top"><span>Топ 25%</span></div>
+      </div>
+      <p class="mb-cohort" id="mb-cohort">—</p>
+    </div>
+
+    <!-- Block 2: Топ-2 зоны потерь в отрасли -->
+    <div class="mb-card">
+      <div class="mb-card-head">
+        <div class="mb-card-label">Две главные зоны потерь в вашей отрасли</div>
+        <div class="mb-card-hint">Остальное — в полном разборе, с оценкой в рублях</div>
+      </div>
+      <div class="mb-leaks" id="mb-leaks">
+        <!-- rendered by quiz.js -->
+      </div>
+    </div>
+
+    <!-- Block 3: Actionable tip — что попробовать уже на этой неделе -->
+    <div class="mb-card mb-tip-card">
+      <div class="mb-card-head">
+        <div class="mb-card-label">Что попробовать уже на этой неделе</div>
+        <div class="mb-card-hint">Подобрано под ваш профиль и роль. Без инструментов и подписок.</div>
+      </div>
+      <div class="mb-tip-title" id="mb-tip-title">—</div>
+      <p class="mb-tip-body" id="mb-tip-body">—</p>
+    </div>
+
+    <!-- Block 4: Превью Финтабло dashboard -->
+    <div class="mb-card mb-mock-card">
+      <div class="mb-card-head">
+        <div class="mb-card-label">Так выглядят цифры, когда они собраны системно</div>
+        <div class="mb-card-hint">Пример из Финтабло под вашу отрасль — не реальные ваши цифры, образец подачи</div>
+      </div>
+      <div class="mock-card mock-card-margin">
+        <div class="mc-head"><span class="mc-title">Прибыль по направлениям</span><span class="mc-period">Текущий месяц</span></div>
+        <div class="mc-bars">
+          <div class="mc-bar"><span class="mc-bar-name" id="mb-mc-m1">—</span><span class="mc-bar-track"><span class="mc-bar-fill" style="width:82%"></span></span><span class="mc-bar-val mono">+28%</span></div>
+          <div class="mc-bar"><span class="mc-bar-name" id="mb-mc-m2">—</span><span class="mc-bar-track"><span class="mc-bar-fill" style="width:54%"></span></span><span class="mc-bar-val mono">+14%</span></div>
+          <div class="mc-bar mc-bar-neg"><span class="mc-bar-name" id="mb-mc-m3">—</span><span class="mc-bar-track"><span class="mc-bar-fill" style="width:32%"></span></span><span class="mc-bar-val mono">−6%</span></div>
+        </div>
+        <div class="mc-foot">Один «минусовый» сегмент виден сразу, не после закрытия квартала.</div>
+      </div>
+    </div>
+
+    <!-- Block 5: Обещание гейта -->
+    <div class="mb-promise-v2">
+      <div class="mb-promise-head">
+        <div class="mb-promise-eyebrow">Далее в полном разборе</div>
+        <div class="mb-promise-title">Три блока, которые откроются на следующем шаге</div>
+      </div>
+      <div class="mb-promise-items">
+        <div class="mb-promise-item">
+          <div class="mb-promise-num">1</div>
+          <div class="mb-promise-body">
+            <div class="mb-promise-item-title">Размер слепой зоны в рублях</div>
+            <div class="mb-promise-item-desc">Декомпозиция по трём источникам с расшифровкой методики под ваши данные.</div>
+          </div>
+        </div>
+        <div class="mb-promise-item">
+          <div class="mb-promise-num">2</div>
+          <div class="mb-promise-body">
+            <div class="mb-promise-item-title">Траектория роста индекса прозрачности</div>
+            <div class="mb-promise-item-desc">Куда, по нашим данным, приходят компании вашего профиля через 2–3 месяца системной работы.</div>
+          </div>
+        </div>
+        <div class="mb-promise-item">
+          <div class="mb-promise-num">3</div>
+          <div class="mb-promise-body">
+            <div class="mb-promise-item-title">Разбор с экспертом Финтабло</div>
+            <div class="mb-promise-item-desc">20 минут под вашу ситуацию, без навязывания. Менеджер свяжется в рабочее время.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-actions-center">
+      <button class="btn-primary btn-lg" id="btn-mb-continue" type="button">
+        Открыть полный разбор
         <span class="btn-arrow">→</span>
       </button>
     </div>
@@ -244,131 +386,62 @@
   <!-- ── Step 10: Contact gate ── -->
   <section class="step step-contact" id="step-10">
     <div class="contact-hero">
-      <div class="step-eyebrow">Получить отчёт</div>
-      <h2 class="step-q" id="contact-h">Ваш отчёт готов</h2>
-      <p class="step-sub" id="contact-sub">Индекс прозрачности вашего бизнеса: <b class="mono" id="contact-index">— / 100</b></p>
-    </div>
-
-    <!-- Blurred report preview -->
-    <div class="report-preview">
-      <div class="rp-visible">
-        <div class="rp-block">
-          <div class="rp-title">Ваш финансовый профиль</div>
-          <div class="rp-desc" id="rp-profile-desc">—</div>
-        </div>
-        <div class="rp-block">
-          <div class="rp-title">Главные зоны потерь</div>
-          <ul class="rp-leaks" id="rp-leaks">
-            <li>—</li><li>—</li><li>—</li>
-          </ul>
-        </div>
-      </div>
-      <div class="rp-locked">
-        <div class="rp-lock-ico" aria-hidden="true">🔒</div>
-        <div class="rp-lock-text">Разблокируется после отправки</div>
-        <div class="rp-sections-preview">
-          <div class="rp-section-preview">Вопросы без ответа — 4 вопроса</div>
-          <div class="rp-section-preview">Сценарии роста — 4 варианта</div>
-          <div class="rp-section-preview">Финтабло для вашей ситуации — 5 функций</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Form -->
-    <form class="contact-form" id="lead-form" autocomplete="on">
-      <div class="contact-form-grid">
-        <div class="field">
-          <label class="label" for="f-contact-name"><span class="label-main">Имя</span></label>
-          <input id="f-contact-name" class="input" type="text" required autocomplete="given-name">
-        </div>
-        <div class="field">
-          <label class="label" for="f-phone"><span class="label-main">Телефон</span></label>
-          <input id="f-phone" class="input" type="tel" placeholder="+7 (___) ___-__-__" required inputmode="numeric" autocomplete="tel">
-          <div class="field-error" id="err-phone" hidden></div>
-        </div>
-        <div class="field field-full">
-          <label class="label" for="f-email">
-            <span class="label-main">Email <span class="label-opt">(необязательно)</span></span>
-            <span class="label-hint">для получения отчёта на почту</span>
-          </label>
-          <input id="f-email" class="input" type="email" placeholder="name@company.ru" autocomplete="email">
-        </div>
-      </div>
-
-      <!-- Honeypot -->
-      <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-      <button class="btn-primary btn-lg btn-full" id="btn-submit" type="submit" disabled>
-        Получить полный отчёт
-        <span class="btn-arrow">→</span>
-      </button>
-
-      <p class="consent">
-        Нажимая кнопку, вы даёте согласие на обработку персональных данных в соответствии
-        с <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой конфиденциальности</a>
-        в целях предоставления консультации. Мы не передаём данные третьим лицам.
+      <div class="step-eyebrow">Подробный разбор</div>
+      <h2 class="step-q">Ваш разбор готов</h2>
+      <p class="step-sub">
+        Профиль: <b id="contact-profile-name">—</b> ·
+        Оценка потерь: <b class="mono" id="contact-loss">—</b> ·
+        Индекс: <b class="mono" id="contact-index">—</b>
       </p>
-
-      <button class="btn-link" id="btn-example" type="button">Посмотреть пример отчёта</button>
-    </form>
-  </section>
-
-  <!-- ── Step 6: Accounting system (multichoice) ── -->
-  <section class="step" id="step-6">
-    <div class="step-eyebrow">Блок 2 · Финансовый контроль</div>
-    <h2 class="step-q">Где сейчас ведёте финансовый учёт?</h2>
-    <p class="step-sub">Можно выбрать несколько вариантов</p>
-    <div class="options-group options-multi">
-      <button class="option-card option-multi" type="button" data-value="excel"><span class="oc-icon" aria-hidden="true">📊</span><span class="oc-title">Excel / Google Sheets</span></button>
-      <button class="option-card option-multi" type="button" data-value="1c"><span class="oc-icon" aria-hidden="true">💭</span><span class="oc-title">1С (бухгалтерия)</span></button>
-      <button class="option-card option-multi" type="button" data-value="service"><span class="oc-icon" aria-hidden="true">💼</span><span class="oc-title">Сервис управленческого учёта (не Финтабло)</span></button>
-      <button class="option-card option-multi" type="button" data-value="other"><span class="oc-icon" aria-hidden="true">🔧</span><span class="oc-title">Другие сервисы</span></button>
-      <button class="option-card option-multi" type="button" data-value="none"><span class="oc-icon" aria-hidden="true">❌</span><span class="oc-title">Нигде / держу в голове</span></button>
     </div>
-    <div class="insight-box" id="insight-accounting" hidden></div>
-  </section>
 
-  <!-- ── Step 7: Main pains (multichoice, max 2) ── -->
-  <section class="step" id="step-7">
-    <div class="step-eyebrow">Блок 2 · Финансовый контроль</div>
-    <h2 class="step-q">Что беспокоит больше всего?</h2>
-    <p class="step-sub">Выберите до 2 вариантов</p>
-    <div class="options-group options-multi" data-max="2">
-      <button class="option-card option-multi" type="button" data-value="margin"><span class="oc-title">Не вижу маржу по каждому проекту в моменте</span></button>
-      <button class="option-card option-multi" type="button" data-value="loss_late"><span class="oc-title">Узнаю об убытках только после закрытия проекта</span></button>
-      <button class="option-card option-multi" type="button" data-value="cashgap"><span class="oc-title">Нет понимания, когда будет кассовый разрыв</span></button>
-      <button class="option-card option-multi" type="button" data-value="eating"><span class="oc-title">Не могу понять, какой проект «съедает» прибыль</span></button>
-      <button class="option-card option-multi" type="button" data-value="planfact"><span class="oc-title">Расхождение плана и факта — постоянно</span></button>
-      <button class="option-card option-multi" type="button" data-value="free_cash"><span class="oc-title">Деньги есть, но непонятно сколько реально свободно</span></button>
-    </div>
-    <div class="insight-box" id="insight-pains" hidden></div>
-  </section>
+    <div class="contact-card">
+      <div class="contact-card-top">
+        <div class="manager-info">
+          <div class="manager-avatar" aria-hidden="true">
+            <img src="https://ui-avatars.com/api/?name=Финтабло&background=1A1F36&color=fff&size=128" alt="Менеджер Финтабло" width="56" height="56">
+          </div>
+          <div class="manager-text">
+            <div class="manager-name">Разбор проведёт менеджер Финтабло</div>
+            <div class="manager-hint">Позвонит в рабочее время, расскажет про зоны потерь и предложит сценарий внедрения под ваш профиль. Без навязывания — только по вашему запросу.</div>
+          </div>
+        </div>
+      </div>
 
-  <!-- ── Step 8: Desired result ── -->
-  <section class="step" id="step-8">
-    <div class="step-eyebrow">Блок 2 · Финансовый контроль</div>
-    <h2 class="step-q">Что хотите получить в первую очередь?</h2>
-    <div class="options-group">
-      <button class="option-card" type="button" data-value="margin_online"><span class="oc-title">Видеть маржу каждого проекта онлайн — без лишних телодвижений</span></button>
-      <button class="option-card" type="button" data-value="cashgap_forecast"><span class="oc-title">Знать о кассовом разрыве за 3–4 недели, а не за 3 дня</span></button>
-      <button class="option-card" type="button" data-value="planfact_auto"><span class="oc-title">Автоматический план-факт без ручной сборки</span></button>
-      <button class="option-card" type="button" data-value="profit_gap"><span class="oc-title">Понять, почему прибыль есть, а деньги заканчиваются</span></button>
-      <button class="option-card" type="button" data-value="system"><span class="oc-title">Всё сразу — нужна единая система</span></button>
-    </div>
-  </section>
+      <form class="contact-form" id="lead-form" autocomplete="on">
+        <div class="contact-form-grid">
+          <div class="field">
+            <label class="label" for="f-contact-name"><span class="label-main">Имя</span></label>
+            <input id="f-contact-name" class="input" type="text" required autocomplete="given-name" placeholder="Как к вам обращаться">
+          </div>
+          <div class="field">
+            <label class="label" for="f-phone"><span class="label-main">Телефон</span></label>
+            <input id="f-phone" class="input" type="tel" placeholder="+7 (___) ___-__-__" required inputmode="numeric" autocomplete="tel">
+            <div class="field-error" id="err-phone" hidden></div>
+          </div>
+          <div class="field field-full">
+            <label class="label" for="f-email"><span class="label-main">Email</span><span class="label-hint">для отчёта на почту</span></label>
+            <input id="f-email" class="input" type="email" placeholder="name@company.ru" required autocomplete="email">
+          </div>
+        </div>
 
-  <!-- ── Step 9: Financier in team (owner-only) ── -->
-  <section class="step" id="step-9">
-    <div class="step-eyebrow">Блок 2 · Финансовый контроль</div>
-    <h2 class="step-q">Есть ли в компании выделенный финансист?</h2>
-    <div class="options-group">
-      <button class="option-card" type="button" data-value="yes_staff"><span class="oc-title">Да, штатный финдиректор или финансовый менеджер</span></button>
-      <button class="option-card" type="button" data-value="yes_outsource"><span class="oc-title">Работаем с внешним финансистом (аутсорс / фриланс)</span></button>
-      <button class="option-card" type="button" data-value="no"><span class="oc-title">Нет, финансами занимаюсь сам или бухгалтер</span></button>
+        <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <button class="btn-primary btn-lg btn-full" id="btn-submit" type="submit" disabled>
+          Открыть отчёт
+          <span class="btn-arrow">→</span>
+        </button>
+
+        <p class="consent">
+          Нажимая кнопку, вы даёте согласие на обработку персональных данных в соответствии
+          с <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой конфиденциальности</a>.
+          Данные передаются только внутри Финтабло.
+        </p>
+      </form>
     </div>
   </section>
 
-</div>
+</main>
 
 <!-- ═════ STEP NAVIGATION ═════ -->
 <div class="step-nav" id="step-nav" hidden>
@@ -404,36 +477,6 @@
       <a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой обработки персональных данных</a>.
     </div>
     <button class="cb-btn" type="button" id="cb-accept">Принять</button>
-  </div>
-</div>
-
-<!-- ═════ EXAMPLE REPORT MODAL ═════ -->
-<div class="modal" id="modal-example" hidden>
-  <div class="modal-backdrop" data-close></div>
-  <div class="modal-card">
-    <button class="modal-close" type="button" data-close aria-label="Закрыть">×</button>
-    <div class="modal-head">
-      <div class="step-eyebrow">Пример отчёта</div>
-      <h3>Компания: обезличено · Строительство · 15 проектов · Оборот ~18 млн/мес</h3>
-    </div>
-    <div class="modal-body">
-      <div class="ex-row"><span class="ex-label">Индекс прозрачности</span><span class="ex-value mono">34 / 100</span></div>
-      <div class="ex-row"><span class="ex-label">Профиль</span><span class="ex-value">«Масштаб без управления»</span></div>
-      <div class="ex-row"><span class="ex-label">Потенциальные потери</span><span class="ex-value mono">~ 21,6 млн ₽/год</span></div>
-      <h4>Главные зоны риска</h4>
-      <ul class="ex-list">
-        <li>Субподряд без детализации по объектам</li>
-        <li>Кассовые разрывы в периоды перехода между этапами</li>
-        <li>P&amp;L недоступен до закрытия проекта</li>
-      </ul>
-      <h4>Вопросы без ответа</h4>
-      <ul class="ex-list">
-        <li>На каком из 15 объектов сейчас наименьшая маржа?</li>
-        <li>Когда через 5 недель не хватит денег на выплаты?</li>
-        <li>Что именно «съело» маржу на объекте №7?</li>
-        <li>Финтабло отвечает на эти вопросы автоматически.</li>
-      </ul>
-    </div>
   </div>
 </div>
 

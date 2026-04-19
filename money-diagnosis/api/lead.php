@@ -1,6 +1,6 @@
 <?php
 /**
- * money-diagnosis · lead intake endpoint
+ * money-diagnosis · lead intake endpoint (v2)
  * 1) CSV backup (api/leads/fin_diagnostics_YYYY-MM.csv, UTF-8 BOM, ;)
  * 2) AmoCRM /api/v4/leads/complex (если заполнен ../.env)
  */
@@ -17,9 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST')   { http_response_code(405); echo '{"
 
 $raw = file_get_contents('php://input');
 $data = json_decode($raw, true);
-if (!is_array($data) || empty($data['phone']) || empty($data['name'])) {
+if (!is_array($data) || empty($data['phone']) || empty($data['name']) || empty($data['email'])) {
   http_response_code(400);
-  echo json_encode(['error' => 'name and phone required']);
+  echo json_encode(['error' => 'name, phone and email required']);
   exit;
 }
 
@@ -37,20 +37,37 @@ $industryLabels = [
   'it'           => 'IT',
   'agency'       => 'Агентство',
   'production'   => 'Производство',
-  'other'        => 'Другой'
+  'services'     => 'Услуги',
+  'other'        => 'Другое'
 ];
 $profileLabels = [
-  'blind' => 'Управление вслепую',
-  'scale_without_control' => 'Масштаб без управления',
-  'accounting_illusion' => 'Бухгалтерская иллюзия',
-  'early_stage' => 'Ранняя стадия',
-  'almost_there' => 'В шаге от системы',
-  'plateau' => 'Наступившее плато'
+  'blind'                  => 'Полёт по приборам, которых нет',
+  'scale_without_control'  => 'Масштаб без штурвала',
+  'accounting_illusion'    => 'Бухгалтерия есть, управленческого учёта нет',
+  'early_stage'            => 'Молодой рост',
+  'almost_there'           => 'Одна деталь до системы',
+  'plateau'                => 'Учёт на плато'
+];
+$painLabels = [
+  'margin_blind'    => 'Не вижу прибыль по направлениям',
+  'late_loss'       => 'Узнаю об убытках задним числом',
+  'cash_surprise'   => 'Не понимаю, когда будет кассовый разрыв',
+  'data_lag'        => 'Цифры с задержкой, решения наугад',
+  'no_big_picture'  => 'Учёт есть, картины нет'
+];
+$systemLabels = [
+  'none'    => 'Нигде системно',
+  'excel'   => 'Excel / Google Sheets',
+  '1c'      => '1С (бухгалтерская)',
+  'other'   => 'Другие сервисы',
+  'service' => 'Спец. сервис управленческого учёта'
 ];
 
 $industry = (string)($answers['industry'] ?? '');
 $revenue  = (int)($answers['monthlyRevenue'] ?? 0);
-$profile  = (string)($metrics['profileType'] ?? '');
+$profile  = (string)($metrics['profileCode'] ?? '');
+$pain     = (string)($answers['primaryPain'] ?? '');
+$system   = (string)($answers['accountingSystem'] ?? '');
 
 $lead = [
   'timestamp'          => date('c'),
@@ -62,19 +79,16 @@ $lead = [
   'industryLabel'      => $industryLabels[$industry] ?? $industry,
   'monthlyRevenue'     => $revenue,
   'annualRevenue'      => $revenue * 12,
-  'activeProjects'     => (int)($answers['activeProjects'] ?? 0),
-  'accountingSystem'   => implode(',', (array)($answers['accountingSystem'] ?? [])),
-  'mainProblems'       => implode(',', (array)($answers['mainProblems'] ?? [])),
-  'desiredResult'      => (string)($answers['desiredResult'] ?? ''),
-  'hasFinancist'       => (string)($answers['hasFinancist'] ?? ''),
-  'profileType'        => $profile,
+  'accountingSystem'   => $system,
+  'accountingLabel'    => $systemLabels[$system] ?? $system,
+  'primaryPain'        => $pain,
+  'primaryPainLabel'   => $painLabels[$pain] ?? $pain,
+  'profileCode'        => $profile,
   'profileLabel'       => $profileLabels[$profile] ?? $profile,
   'transparencyIndex'  => (int)($metrics['transparencyIndex'] ?? 0),
   'estimatedAnnualLoss'=> (int)($metrics['estimatedAnnualLoss'] ?? 0),
-  'riskProjectsCount'  => (int)($metrics['riskProjectsCount'] ?? 0),
   'icpScore'           => (int)($metrics['icpScore'] ?? 0),
   'icpTag'             => (string)($metrics['icpTag'] ?? ''),
-  'primaryRiskZone'    => (string)($metrics['primaryRiskZone'] ?? ''),
   'utm_source'         => (string)($utm['source']   ?? ''),
   'utm_medium'         => (string)($utm['medium']   ?? ''),
   'utm_campaign'       => (string)($utm['campaign'] ?? ''),
@@ -129,9 +143,13 @@ if ($amoDomain && $amoToken && $amoPipelineId && $amoStatusId && function_exists
     ['name' => $lead['icpTag'] ?: 'lead_C'],
   ];
 
-  $revLabel = $revenue >= 1_000_000
-    ? (round($revenue / 1_000_000, 1) . ' млн/мес')
-    : (round($revenue / 1000) . ' тыс/мес');
+  // ICP оценивается по годовому обороту → sales видит именно его
+  $annual = $revenue * 12;
+  $revLabel = $annual >= 1_000_000_000
+    ? (round($annual / 1_000_000_000, 1) . ' млрд/год')
+    : ($annual >= 1_000_000
+        ? (round($annual / 1_000_000) . ' млн/год')
+        : (round($annual / 1000) . ' тыс/год'));
 
   $leadName = 'Диагностика: ' . $lead['name'] . ' — ' . $lead['industryLabel'] . ' — ' . $lead['profileLabel'] . ' — ' . $revLabel;
 
@@ -171,17 +189,12 @@ if ($amoDomain && $amoToken && $amoPipelineId && $amoStatusId && function_exists
       "Роль: {$lead['role']}\n" .
       "Отрасль: {$lead['industryLabel']}\n" .
       "Оборот: {$revLabel}\n" .
-      "Проектов одновременно: {$lead['activeProjects']}\n" .
-      "Системы учёта: {$lead['accountingSystem']}\n" .
-      "Главные боли: {$lead['mainProblems']}\n" .
-      "Желаемый результат: {$lead['desiredResult']}\n" .
-      "Финансист в штате: {$lead['hasFinancist']}\n\n" .
+      "Система учёта: {$lead['accountingLabel']}\n" .
+      "Главная боль: {$lead['primaryPainLabel']}\n\n" .
       "=== РЕЗУЛЬТАТ РАСЧЁТА ===\n" .
       "Профиль: {$lead['profileLabel']}\n" .
       "Индекс прозрачности: {$lead['transparencyIndex']}/100\n" .
       "Оценочные потери: " . number_format($lead['estimatedAnnualLoss'], 0, ',', ' ') . " ₽/год\n" .
-      "Проектов в зоне риска: {$lead['riskProjectsCount']} из {$lead['activeProjects']}\n" .
-      "Главная зона риска: {$lead['primaryRiskZone']}\n" .
       "ICP-балл: {$lead['icpScore']}/100 ({$lead['icpTag']})\n\n" .
       "=== ИСТОЧНИК ===\n" .
       "UTM: {$lead['utm_source']} / {$lead['utm_medium']} / {$lead['utm_campaign']} / {$lead['utm_content']} / {$lead['utm_term']}\n" .

@@ -22,6 +22,8 @@
 </head>
 <body class="report-page">
 
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
 <header>
   <div class="header-inner">
     <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
@@ -32,7 +34,6 @@
   </div>
 </header>
 
-<!-- Страница ошибки, если данных нет -->
 <div class="container" id="no-data" hidden>
   <div class="step active">
     <h1 class="hero-h1">Отчёт недоступен</h1>
@@ -41,71 +42,167 @@
   </div>
 </div>
 
-<div class="container" id="report-root">
+<main class="container" id="main">
 
-  <!-- ── Section 1: Финансовый профиль ── -->
+  <!-- ── TL;DR — резюме разбора на первом экране ── -->
+  <section class="rs-tldr">
+    <div class="rs-tldr-eyebrow">Резюме диагностики</div>
+    <h1 class="rs-tldr-title" id="tldr-title">—</h1>
+    <p class="rs-tldr-body" id="tldr-body">—</p>
+    <div class="rs-tldr-grid">
+      <div><div class="tldr-stat-label">Профиль</div><div class="tldr-stat-val" id="tldr-profile">—</div></div>
+      <div><div class="tldr-stat-label">Индекс прозрачности</div><div class="tldr-stat-val" id="tldr-index">—</div></div>
+      <div><div class="tldr-stat-label">Размер слепой зоны</div><div class="tldr-stat-val" id="tldr-loss">—</div></div>
+    </div>
+  </section>
+
+  <!-- ── Section 1: Профиль + карточки индекса/зоны ── -->
   <section class="report-section report-s1">
-    <div class="rs-eyebrow">Секция 1 из 5</div>
+    <div class="rs-eyebrow">Секция · Ваш профиль</div>
     <h1 class="rs-title" id="rs1-title">Ваш финансовый профиль</h1>
 
-    <div class="rs-metrics">
-      <div class="rs-metric rs-metric-index">
-        <div class="rsm-label">Индекс прозрачности</div>
-        <div class="rsm-value mono" id="rs1-index">— / 100</div>
-        <div class="rsm-bar"><div class="rsm-bar-fill" id="rs1-index-bar"></div></div>
-      </div>
-      <div class="rs-metric rs-metric-risk">
-        <div class="rsm-label">Проектов в зоне риска</div>
-        <div class="rsm-value mono" id="rs1-risk-proj">— из —</div>
-        <div class="rsm-hint" id="rs1-risk-proj-hint">—</div>
-      </div>
-      <div class="rs-metric rs-metric-loss">
-        <div class="rsm-label">Потенциал улучшения</div>
-        <div class="rsm-value mono" id="rs1-loss">— ₽/год</div>
-        <div class="rsm-hint">Оценочные потери без системного контроля</div>
-      </div>
-    </div>
-
     <div class="rs-profile-card">
-      <div class="rsp-name" id="rs1-profile-name">Профиль</div>
-      <p class="rsp-desc" id="rs1-profile-desc">—</p>
+      <div class="rsp-head">
+        <div class="profile-icon profile-icon-lg" id="rs1-profile-icon" aria-hidden="true"></div>
+        <div class="rsp-head-text">
+          <div class="rsp-name" id="rs1-profile-name">—</div>
+          <p class="rsp-desc" id="rs1-profile-desc">—</p>
+        </div>
+      </div>
+      <p class="rsp-role-frame" id="rs1-role-frame">—</p>
+    </div>
+
+    <!-- Индекс прозрачности с бенчмарком и зоной -->
+    <div class="rs-index-card">
+      <div class="ric-head">
+        <div class="ric-label">Индекс прозрачности</div>
+        <div class="ric-value mono"><span id="rs1-index">—</span> <span class="ric-of">/ 100</span></div>
+        <div class="ric-zone" id="rs1-zone">—</div>
+      </div>
+      <div class="bm-bar" id="rs1-bm-bar">
+        <div class="bm-zones">
+          <div class="bm-zone bm-zone-red"></div>
+          <div class="bm-zone bm-zone-orange"></div>
+          <div class="bm-zone bm-zone-green"></div>
+          <div class="bm-zone bm-zone-blue"></div>
+        </div>
+        <div class="bm-scale"><span>0</span><span>30</span><span>60</span><span>80</span><span>100</span></div>
+        <div class="bm-marker bm-marker-you" id="rs1-bm-you" title="Вы"><span>Вы</span></div>
+        <div class="bm-marker bm-marker-peer" id="rs1-bm-peer" title="Похожие компании"><span>Похожие</span></div>
+        <div class="bm-marker bm-marker-top" id="rs1-bm-top" title="Топ 25%"><span>Топ 25%</span></div>
+      </div>
+      <p class="ric-zone-hint" id="rs1-zone-hint">—</p>
+      <p class="ric-cohort-hint" id="rs1-cohort-hint">—</p>
+    </div>
+
+    <!-- Размер слепой зоны — 3-компонентный разбор -->
+    <div class="rs-blindzone">
+      <div class="rbz-head">
+        <div class="rbz-label">Размер слепой зоны</div>
+        <div class="rbz-value mono" id="rs1-loss">—</div>
+        <div class="rbz-hint">Сумма трёх компонентов ниже. Оценка по нашим данным — не гарантия, порядок величины.</div>
+      </div>
+      <div class="rbz-breakdown" id="rs1-breakdown">
+        <!-- rendered by report.js -->
+      </div>
     </div>
   </section>
 
-  <!-- ── Section 2: Где теряется ── -->
+  <!-- ── Section 2: Зеркальные вопросы — то, что увидели в AHA ── -->
   <section class="report-section report-s2">
-    <div class="rs-eyebrow">Секция 2 из 5</div>
-    <h2 class="rs-title">Главные зоны потерь в вашей ситуации</h2>
-    <div class="rs-leaks-grid" id="rs2-leaks">
+    <div class="rs-eyebrow">Секция · Слепые зоны</div>
+    <h2 class="rs-title">Три вопроса, на которые у вас сейчас нет быстрого ответа</h2>
+    <p class="rs-sub">По выбранной вами главной боли: <span id="rs2-pain-label">—</span></p>
+    <ol class="rs-questions" id="rs2-questions">
+      <!-- rendered by report.js -->
+    </ol>
+    <div class="rs-plg-bridge" id="rs2-benchmark">—</div>
+  </section>
+
+  <!-- ── Section 3: Зоны потерь по отрасли ── -->
+  <section class="report-section report-s3">
+    <div class="rs-eyebrow">Секция · Где теряется</div>
+    <h2 class="rs-title">Характерные зоны потерь в вашей ситуации</h2>
+    <div class="rs-leaks-grid" id="rs3-leaks">
       <!-- rendered by report.js -->
     </div>
   </section>
 
-  <!-- ── Section 3: Вопросы без ответа (locked in preview) ── -->
-  <section class="report-section report-s3 report-section-locked" id="rs3">
-    <div class="rs-eyebrow">Секция 3 из 5</div>
-    <h2 class="rs-title">Вопросы, на которые вы сейчас не можете ответить</h2>
-    <ul class="rs-questions" id="rs3-questions">
+  <!-- ── Цена бездействия (PLG-глубина) ── -->
+  <section class="report-section">
+    <div class="rs-eyebrow">Секция · Цена бездействия</div>
+    <h2 class="rs-title" id="rsi-title">Что, как правило, происходит, если сохранять текущий режим</h2>
+    <div class="profile-deep" style="max-width:none;margin:16px 0">
+      <div class="pd-card pd-inaction" style="grid-column:1 / -1">
+        <div class="pd-card-label">Типовой сценарий по нашим данным</div>
+        <div class="pd-card-title" id="rsi-sub">—</div>
+        <p class="pd-card-body" id="rsi-body">—</p>
+      </div>
+    </div>
+    <p class="pd-cohort" id="rsi-cohort" style="max-width:none;text-align:left;font-style:normal">—</p>
+  </section>
+
+  <!-- ── План выхода 30/60/90 ── -->
+  <section class="report-section">
+    <div class="rs-eyebrow">Секция · План выхода</div>
+    <h2 class="rs-title">30 / 60 / 90 дней — типовая последовательность для вашего профиля</h2>
+    <p class="rs-sub">Базовая траектория. В полной версии Финтабло эти шаги закрываются инструментом автоматически, но последовательность работает и без него.</p>
+    <div class="rs-plan" id="rs-plan">
       <!-- rendered by report.js -->
-    </ul>
-    <div class="rs-plg-bridge">
-      Финтабло отвечает на эти вопросы автоматически — каждый день, по каждому проекту, без ручного сбора данных.
+    </div>
+  </section>
+
+  <!-- ── Self-check ── -->
+  <section class="report-section">
+    <div class="rs-eyebrow">Секция · Проверка готовности</div>
+    <h2 class="rs-title">Короткий чек-лист: где вы сейчас</h2>
+    <p class="rs-sub">Отметьте мысленно — сколько пунктов вы можете ответить «да, это у нас есть и работает».</p>
+    <div class="rs-checklist">
+      <div class="rs-checklist-label">Управленческая зрелость · 7 признаков</div>
+      <ul id="rs-checklist-list">
+        <!-- rendered by report.js -->
+      </ul>
+      <p class="rs-checklist-hint" id="rs-checklist-hint">—</p>
+    </div>
+  </section>
+
+  <!-- ── Похожий профиль — анонимный кейс ── -->
+  <section class="report-section">
+    <div class="rs-eyebrow">Секция · Похожий путь</div>
+    <h2 class="rs-title">Как обычно меняется ситуация у компаний вашего профиля</h2>
+    <p class="rs-sub">Анонимный кейс из наших наблюдений. Цифры — типовые для профиля, не прогноз.</p>
+    <div class="rs-anon-case" id="rs-anon-case">
+      <div class="rac-head">
+        <span class="rac-badge">Похожий профиль</span>
+        <span class="rac-title" id="rac-title">—</span>
+      </div>
+      <div class="rac-cols">
+        <div class="rac-col rac-before">
+          <h4>До</h4>
+          <ul id="rac-before-list"></ul>
+        </div>
+        <div class="rac-col rac-after">
+          <h4>Через 3 месяца</h4>
+          <ul id="rac-after-list"></ul>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ── Section 4: Сценарии ── -->
-  <section class="report-section report-s4 report-section-locked" id="rs4">
-    <div class="rs-eyebrow">Секция 4 из 5</div>
-    <h2 class="rs-title">Что можно сделать — от простого к системному</h2>
+  <section class="report-section report-s4">
+    <div class="rs-eyebrow">Секция · Варианты решения</div>
+    <h2 class="rs-title">Варианты решения — от простого к системному</h2>
     <div class="rs-scenarios">
       <div class="rs-sc">
         <div class="rs-sc-head">
           <span class="rs-sc-letter">А</span>
-          <span class="rs-sc-name">Улучшить текущий Excel</span>
+          <span class="rs-sc-name">Улучшить текущую систему</span>
         </div>
         <div class="rs-sc-body">
-          <div class="rs-sc-row"><span>Что даёт</span><b>Частично закроет пробелы на 3–6 мес.</b></div>
-          <div class="rs-sc-row"><span>Сложность</span><b>Низкая</b></div>
+          <div class="rs-sc-row"><span>Что даёт</span><b>Частично закроет пробелы на 3–6 месяцев</b></div>
+          <div class="rs-sc-row"><span>Сложность</span><b>Низкая, быстро</b></div>
+          <div class="rs-sc-row"><span>Ограничение</span><b>С ростом снова упрётся в потолок</b></div>
         </div>
       </div>
       <div class="rs-sc rs-sc-recommended">
@@ -115,9 +212,9 @@
           <span class="rs-sc-badge">Рекомендовано</span>
         </div>
         <div class="rs-sc-body">
-          <div class="rs-sc-row"><span>Что даёт</span><b>P&L, ДДС, план-факт по каждому проекту</b></div>
-          <div class="rs-sc-row"><span>Сложность</span><b>Низкая</b></div>
-          <div class="rs-sc-row"><span>Внедрение</span><b>От 2 недель, с поддержкой</b></div>
+          <div class="rs-sc-row"><span>Что даёт</span><b>ОПиУ, ДДС, план-факт по каждому направлению</b></div>
+          <div class="rs-sc-row"><span>Сложность</span><b>Низкая, с поддержкой внедрения</b></div>
+          <div class="rs-sc-row"><span>Внедрение</span><b>От 2 недель, с экспертом</b></div>
         </div>
       </div>
       <div class="rs-sc">
@@ -126,8 +223,8 @@
           <span class="rs-sc-name">1С УПП / ERP</span>
         </div>
         <div class="rs-sc-body">
-          <div class="rs-sc-row"><span>Что даёт</span><b>Мощно, но долго и дорого внедряется</b></div>
-          <div class="rs-sc-row"><span>Сложность</span><b>Высокая</b></div>
+          <div class="rs-sc-row"><span>Что даёт</span><b>Мощно, гибко, но долго и дорого</b></div>
+          <div class="rs-sc-row"><span>Сложность</span><b>Высокая, 6–12 месяцев</b></div>
         </div>
       </div>
       <div class="rs-sc">
@@ -137,88 +234,96 @@
         </div>
         <div class="rs-sc-body">
           <div class="rs-sc-row"><span>Что даёт</span><b>Человек без инструмента — не решение</b></div>
-          <div class="rs-sc-row"><span>Сложность</span><b>Средняя</b></div>
+          <div class="rs-sc-row"><span>Сложность</span><b>Средняя, но дорого в штате</b></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── Section 5: Финтабло для вашей ситуации ── -->
-  <section class="report-section report-s5 report-section-locked" id="rs5">
-    <div class="rs-eyebrow">Секция 5 из 5</div>
-    <h2 class="rs-title">Финтабло для вашей ситуации</h2>
-    <p class="rs-sub">5 функций, закрывающих ваши главные зоны риска</p>
+  <!-- ── Section 5: Финтабло + траектория + CTA ── -->
+  <section class="report-section report-s5">
+    <div class="rs-eyebrow">Секция · Как это закрывается</div>
+    <h2 class="rs-title">Финтабло для вашего профиля</h2>
+    <p class="rs-sub" id="rs5-sub">Функции, закрывающие характерные для вашей ситуации зоны риска</p>
 
-    <div class="rs-features">
-      <div class="rs-feat">
-        <div class="rs-feat-ico">📊</div>
-        <div class="rs-feat-body">
-          <div class="rs-feat-name">P&L по каждому проекту</div>
-          <div class="rs-feat-desc">Маржа видна в моменте, не после закрытия</div>
-        </div>
+    <!-- Траектория роста индекса — нативная демонстрация эффекта -->
+    <div class="rs-trajectory">
+      <div class="rt-head">
+        <div class="rt-label">Траектория с Финтабло</div>
+        <div class="rt-hint">Компании, похожие на ваш профиль, по нашим данным, за 2–3 месяца обычно переходят из текущей зоны в «системную прозрачность».</div>
       </div>
-      <div class="rs-feat">
-        <div class="rs-feat-ico">📅</div>
-        <div class="rs-feat-body">
-          <div class="rs-feat-name">Платёжный календарь</div>
-          <div class="rs-feat-desc">Кассовый разрыв виден за 3–5 недель</div>
+      <div class="rt-bar">
+        <div class="rt-now">
+          <div class="rt-now-label">Сейчас</div>
+          <div class="rt-now-val mono" id="rt-now-val">— / 100</div>
+          <div class="rt-now-zone" id="rt-now-zone">—</div>
         </div>
-      </div>
-      <div class="rs-feat">
-        <div class="rs-feat-ico">📈</div>
-        <div class="rs-feat-body">
-          <div class="rs-feat-name">Бюджет и план-факт</div>
-          <div class="rs-feat-desc">Отклонения фиксируются сразу, не в конце квартала</div>
+        <div class="rt-arrow" aria-hidden="true">
+          <svg viewBox="0 0 60 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h52"/><path d="M48 6l8 6-8 6"/></svg>
+          <span class="rt-arrow-label">2–3 месяца</span>
         </div>
-      </div>
-      <div class="rs-feat">
-        <div class="rs-feat-ico">💸</div>
-        <div class="rs-feat-body">
-          <div class="rs-feat-name">Прогноз ДДС</div>
-          <div class="rs-feat-desc">Кривая остатка по всем проектам сразу</div>
-        </div>
-      </div>
-      <div class="rs-feat">
-        <div class="rs-feat-ico">👥</div>
-        <div class="rs-feat-body">
-          <div class="rs-feat-name">Контроль дебиторки</div>
-          <div class="rs-feat-desc">Кто и сколько должен, с датами</div>
+        <div class="rt-target">
+          <div class="rt-target-label">Типовая цель</div>
+          <div class="rt-target-val mono" id="rt-target-val">— / 100</div>
+          <div class="rt-target-zone">Системная прозрачность</div>
         </div>
       </div>
     </div>
 
-    <div class="rs-cases">
-      <div class="rs-case">
-        <div class="rs-case-head">Кейс 1 · Строительство</div>
-        <div class="rs-case-body">Подставим 2 реальных кейса из fintablo.ru/case при финальной правке.</div>
+    <!-- Ваши данные в визуализации — реальные цифры из ваших ответов -->
+    <div class="rs-mock">
+      <div class="rs-mock-head">Ваши данные в визуализации</div>
+      <div class="rs-mock-grid">
+        <!-- Card 1 · Структура слепой зоны (3 компонента, реальные ₽) -->
+        <div class="mock-card mock-card-breakdown">
+          <div class="mc-head"><span class="mc-title">Структура слепой зоны</span><span class="mc-period" id="mc-bd-period">₽/год</span></div>
+          <div class="mc-bars" id="mc-bd-bars">
+            <!-- rendered by report.js -->
+          </div>
+          <div class="mc-foot" id="mc-bd-foot">—</div>
+        </div>
+
+        <!-- Card 2 · Сравнение: вы, похожие, топ-25% (реальные индексы) -->
+        <div class="mock-card mock-card-cohort">
+          <div class="mc-head"><span class="mc-title">Индекс прозрачности</span><span class="mc-period">на фоне похожих</span></div>
+          <div class="mc-bars" id="mc-cohort-bars">
+            <!-- rendered by report.js -->
+          </div>
+          <div class="mc-foot" id="mc-cohort-foot">—</div>
+        </div>
+
+        <!-- Card 3 · ОПиУ за период — оборот и чистая прибыль масштабируются под ответы -->
+        <div class="mock-card mock-card-pl">
+          <div class="mc-head"><span class="mc-title">ОПиУ за период</span><span class="mc-period">оценка по вашим данным</span></div>
+          <div class="mc-kpi">
+            <div class="mc-kpi-row"><span>Выручка / мес</span><b class="mono" id="mc-pl-rev">—</b></div>
+            <div class="mc-kpi-row"><span>Потери / год</span><b class="mono" id="mc-pl-loss">—</b></div>
+            <div class="mc-kpi-row"><span>Индекс</span><b class="mono" id="mc-pl-idx">—</b></div>
+          </div>
+          <div class="mc-foot">Это цифры, выведенные из ваших ответов. Закрытие месяца в Финтабло — 1 час, без ручного сбора.</div>
+        </div>
       </div>
-      <div class="rs-case">
-        <div class="rs-case-head">Кейс 2 · IT / агентство</div>
-        <div class="rs-case-body">Подставим 2 реальных кейса из fintablo.ru/case при финальной правке.</div>
-      </div>
+    </div>
+
+    <div class="rs-features" id="rs5-features">
+      <!-- rendered by report.js -->
     </div>
 
     <div class="rs-cta-block">
-      <p class="rs-cta-text" id="rs5-cta-text">Хотите разобрать ваш отчёт с экспертом? Покажем, как именно Финтабло закрывает ваши зоны риска — на примере вашего бизнеса.</p>
+      <p class="rs-cta-text" id="rs5-cta-text">
+        Менеджер Финтабло свяжется с вами в рабочее время и проведёт разбор
+        на примере вашего бизнеса — без навязывания, только по вашему запросу.
+      </p>
       <a class="btn-primary btn-lg" id="rs5-cta" href="thankyou.html">
-        Записаться на бесплатный разбор
+        Продолжить
         <span class="btn-arrow">→</span>
       </a>
+      <p class="rs-cta-fine">Посмотреть продукт без заявки — <a href="https://fintablo.ru/registration" target="_blank" rel="noopener">fintablo.ru/registration</a>. Полный разбор — в звонке с экспертом, под вашу ситуацию.</p>
     </div>
   </section>
 
-  <!-- Оверлей замка для превью-режима -->
-  <div class="preview-lock-overlay" id="preview-lock" hidden>
-    <div class="plo-card">
-      <div class="plo-ico">🔒</div>
-      <div class="plo-title">Секции 3–5 разблокируются после отправки контакта</div>
-      <a class="btn-primary" href="index.html">Продолжить и получить полный отчёт →</a>
-    </div>
-  </div>
+</main>
 
-</div>
-
-<!-- Footer -->
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-company">

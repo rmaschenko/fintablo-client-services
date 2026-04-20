@@ -2119,11 +2119,57 @@ body:has(.cookie-banner.visible) .sticky-cta{bottom:60px}
   .option-card.selected::after{top:11px;right:11px;width:16px;height:16px;background-size:12px}
 }
 
+/* 360 — бюджетные Android (Galaxy A-series и т.п.) */
+@media (max-width:360px){
+  .hero-h1{font-size:19px;line-height:1.25}
+  .step-q{font-size:17px}
+  .aha-profile-name{font-size:20px}
+  .mb-title{font-size:18px}
+  .rs-title{font-size:17px}
+  .rs-tldr-title{font-size:16px}
+  .bm-marker span{font-size:9px;padding:1px 3px}
+  .slider-group-v2 .sr-value{font-size:22px}
+  .ric-value{font-size:22px}
+  .rbz-value{font-size:20px}
+}
+
+/* 320 — iPhone SE 1-го поколения и устаревшие устройства */
+@media (max-width:320px){
+  .container{padding:0 10px}
+  .hero-h1{font-size:18px}
+  .step-q{font-size:16px}
+  .btn-primary.btn-lg{font-size:14px;padding:13px 18px}
+  .option-card{padding:10px 34px 10px 10px;min-height:48px}
+  .oc-title{font-size:13px}
+  .oc-sub{font-size:11px}
+  .aha-profile-name{font-size:19px}
+  .aha-lede{font-size:13px}
+  .mb-card{padding:14px 14px}
+  .mb-promise-v2{padding:18px 14px}
+  .aha-mirror{padding:14px 14px}
+  .aha-questions li{font-size:13px;padding-left:26px}
+  .aha-questions li::before{width:20px;height:20px;font-size:10px;top:12px}
+  .slider-group-v2{padding:18px 12px 16px}
+  .slider-ticks-v2 span{font-size:9.5px}
+  .rs-blindzone, .rs-index-card, .rs-checklist, .rs-anon-case, .contact-card{padding:14px}
+  .rs-tldr{padding:16px 14px}
+  .mb-promise-num{width:26px;height:26px;font-size:12px}
+  .plan-card{padding:14px 14px}
+}
+
 /* Hover-only: отключаем эффекты там где нет hover (touch devices) */
 @media (hover:none){
   .option-card:hover:not(.selected){transform:none;box-shadow:none;border-color:var(--border)}
   .slider-v2::-webkit-slider-thumb:hover{transform:none}
   .ty-case:hover{border-color:var(--border);background:transparent}
+}
+
+/* Tablet polish: 768-1024 — чтобы не выглядело как растянутый мобильник */
+@media (min-width:720px) and (max-width:1024px){
+  .container{max-width:680px}
+  .aha-hero-v3 .aha-profile-name{font-size:36px}
+  .hero-h1{font-size:30px}
+  .step-q{font-size:26px}
 }
 
 /* ═════ v2.5 · Accessibility ═════ */
@@ -2152,4 +2198,27 @@ body:has(.cookie-banner.visible) .sticky-cta{bottom:60px}
   }
   .slider-v2::-webkit-slider-thumb:hover{transform:none}
   .option-card:hover:not(.selected){transform:none}
+}
+
+/* ═════ v2.6 · Stagger fade-in для профильной глубины и микро-разбора ═════ */
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.step-aha.active .aha-hero-v3{animation:fadeInUp .45s ease both}
+.step-aha.active .profile-deep .pd-card:nth-child(1){animation:fadeInUp .5s ease .15s both}
+.step-aha.active .profile-deep .pd-card:nth-child(2){animation:fadeInUp .5s ease .25s both}
+.step-aha.active .aha-cohort-below{animation:fadeInUp .45s ease .3s both}
+.step-aha.active .aha-mirror{animation:fadeInUp .5s ease .35s both}
+.step-aha.active .aha-benchmark{animation:fadeInUp .5s ease .45s both}
+
+.step-micro.active .mb-card:nth-of-type(1){animation:fadeInUp .5s ease .05s both}
+.step-micro.active .mb-card:nth-of-type(2){animation:fadeInUp .5s ease .15s both}
+.step-micro.active .mb-card:nth-of-type(3){animation:fadeInUp .5s ease .25s both}
+.step-micro.active .mb-card:nth-of-type(4){animation:fadeInUp .5s ease .35s both}
+.step-micro.active .mb-promise-v2{animation:fadeInUp .5s ease .45s both}
+
+@media (prefers-reduced-motion:reduce){
+  .step-aha.active *, .step-micro.active *{animation:none !important}
 }

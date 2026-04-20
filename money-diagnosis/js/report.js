@@ -387,14 +387,14 @@
     render(data);
     if (data.leadSent) ym('reachGoal', 'moneydiag_pixel_hot');
 
-    // Lead modal (soft opt-in: кнопка «Записаться на разбор» → модальное окно)
+    // Lead modal (soft opt-in: любая кнопка [data-open-lead-modal] или #rs5-cta → модальное окно)
     const modal = document.getElementById('lead-modal');
-    const openBtn = document.getElementById('rs5-cta');
-    if (modal && openBtn) {
-      const show = () => {
+    if (modal) {
+      const show = (trigger) => {
         modal.hidden = false;
         document.body.style.overflow = 'hidden';
         ym('reachGoal', 'moneydiag_lead_modal_open');
+        if (trigger) ym('reachGoal', 'moneydiag_lead_modal_open_' + trigger);
         setTimeout(() => {
           const firstInput = modal.querySelector('input:not([type="hidden"]):not(.hp-field)');
           if (firstInput) firstInput.focus();
@@ -404,13 +404,43 @@
         modal.hidden = true;
         document.body.style.overflow = '';
       };
-      openBtn.addEventListener('click', show);
+      // Все триггеры: rs5-cta (dual-cta primary) + любой data-open-lead-modal (inline-cta, fab)
+      const triggers = Array.prototype.slice.call(document.querySelectorAll('#rs5-cta, [data-open-lead-modal]'));
+      triggers.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const src = btn.closest('.inline-cta-top') ? 'top'
+            : btn.closest('.inline-cta-mid') ? 'mid'
+            : btn.closest('.rs-fab') ? 'fab'
+            : btn.id === 'rs5-cta' ? 'bottom'
+            : 'other';
+          show(src);
+        });
+      });
       modal.addEventListener('click', (e) => {
         if (e.target === modal || e.target.hasAttribute('data-modal-close')) hide();
       });
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !modal.hidden) hide();
       });
+    }
+
+    // Sticky FAB: показываем после того, как TL;DR ушёл выше вьюпорта (на мобильных)
+    const fab = document.getElementById('rs-fab');
+    const tldr = document.querySelector('.rs-tldr');
+    if (fab && tldr && 'IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          // Когда TL;DR уходит из вьюпорта — показываем FAB
+          if (!e.isIntersecting && e.boundingClientRect.top < 0) {
+            fab.hidden = false;
+            fab.setAttribute('aria-hidden', 'false');
+          } else {
+            fab.hidden = true;
+            fab.setAttribute('aria-hidden', 'true');
+          }
+        });
+      }, { threshold: 0, rootMargin: '-40px 0px 0px 0px' });
+      obs.observe(tldr);
     }
   }
 

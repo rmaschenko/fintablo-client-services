@@ -56,6 +56,19 @@
     </div>
   </section>
 
+  <!-- ── Inline CTA #1 · сразу после TL;DR (hi-intent user ловит здесь) ── -->
+  <aside class="inline-cta inline-cta-top" aria-label="Записаться на разбор">
+    <div class="inline-cta-body">
+      <div class="inline-cta-eyebrow">Разбор с экспертом Финтабло</div>
+      <div class="inline-cta-title">Пройдём по вашему отчёту за 20 минут — бесплатно</div>
+      <div class="inline-cta-sub">Менеджер разберёт ваш профиль и покажет, как закрыть зоны потерь. Отчёт ниже, если хотите прочитать сами.</div>
+    </div>
+    <button class="btn-primary inline-cta-btn" data-open-lead-modal type="button">
+      Записаться на разбор
+      <span class="btn-arrow">→</span>
+    </button>
+  </aside>
+
   <!-- ── Section 1: Профиль + карточки индекса/зоны ── -->
   <section class="report-section report-s1">
     <div class="rs-eyebrow">Секция · Ваш профиль</div>
@@ -151,6 +164,19 @@
       <!-- rendered by report.js -->
     </div>
   </section>
+
+  <!-- ── Inline CTA #2 · mid-funnel, ловит тех кто увидел план и хочет помощь ── -->
+  <aside class="inline-cta inline-cta-mid" aria-label="Разбор плана с экспертом">
+    <div class="inline-cta-body">
+      <div class="inline-cta-eyebrow">Разбор плана под вашу компанию</div>
+      <div class="inline-cta-title">Хотите пройти этот план с экспертом Финтабло?</div>
+      <div class="inline-cta-sub">20 минут, бесплатно. Покажем, какие из шагов закрываются в Финтабло в первую очередь и сколько это займёт у вас.</div>
+    </div>
+    <button class="btn-primary inline-cta-btn" data-open-lead-modal type="button">
+      Записаться
+      <span class="btn-arrow">→</span>
+    </button>
+  </aside>
 
   <!-- ── Self-check ── -->
   <section class="report-section">
@@ -345,6 +371,16 @@
 
 </main>
 
+<!-- ═════ STICKY FAB · на мобильных, после TL;DR ═════ -->
+<div class="rs-fab" id="rs-fab" hidden aria-hidden="true">
+  <button class="rs-fab-btn" data-open-lead-modal type="button">
+    <span class="rs-fab-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V21a1 1 0 01-1.08 1 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 013.22 4.18 1 1 0 014.2 3h4.09a1 1 0 011 .75l1.5 5a1 1 0 01-.29 1L9 11.09a16 16 0 006 6l1.34-1.5a1 1 0 011-.29l5 1.5a1 1 0 01.66.97z"/></svg>
+    </span>
+    <span class="rs-fab-text">Записаться на разбор</span>
+  </button>
+</div>
+
 <!-- ═════ LEAD MODAL · soft opt-in на разбор с экспертом ═════ -->
 <div class="modal-overlay" id="lead-modal" hidden>
   <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
@@ -352,21 +388,21 @@
     <div class="modal-header">
       <div class="modal-eyebrow">Разбор с экспертом Финтабло</div>
       <h3 id="lead-modal-title" class="modal-title">20 минут · бесплатно · по вашему отчёту</h3>
-      <p class="modal-sub">Менеджер свяжется в рабочее время, пройдёт по вашему профилю и покажет, как закрываются зоны потерь. Без навязывания.</p>
+      <p class="modal-sub">Менеджер свяжется в рабочее время, пройдёт по вашему профилю и покажет, как закрываются зоны потерь.</p>
     </div>
     <form class="contact-form" id="lead-form" autocomplete="on">
       <div class="contact-form-grid">
-        <div class="field">
-          <label class="label" for="f-contact-name"><span class="label-main">Имя</span></label>
-          <input id="f-contact-name" class="input" type="text" required autocomplete="given-name" placeholder="Как к вам обращаться">
-        </div>
-        <div class="field">
-          <label class="label" for="f-phone"><span class="label-main">Телефон</span></label>
+        <div class="field field-full">
+          <label class="label" for="f-phone"><span class="label-main">Телефон</span><span class="label-hint">позвоним в рабочее время</span></label>
           <input id="f-phone" class="input" type="tel" placeholder="+7 (___) ___-__-__" required inputmode="numeric" autocomplete="tel">
           <div class="field-error" id="err-phone" hidden></div>
         </div>
-        <div class="field field-full">
-          <label class="label" for="f-email"><span class="label-main">Email</span><span class="label-hint">для отчёта на почту</span></label>
+        <div class="field">
+          <label class="label" for="f-contact-name"><span class="label-main">Имя</span></label>
+          <input id="f-contact-name" class="input" type="text" required autocomplete="given-name" placeholder="Как обращаться">
+        </div>
+        <div class="field">
+          <label class="label" for="f-email"><span class="label-main">Email</span><span class="label-hint">отчёт на почту</span></label>
           <input id="f-email" class="input" type="email" placeholder="name@company.ru" required autocomplete="email">
         </div>
       </div>
@@ -375,6 +411,13 @@
         Записаться на разбор
         <span class="btn-arrow">→</span>
       </button>
+      <div class="modal-trust">
+        <span class="mt-item">Без спама</span>
+        <span class="mt-sep">·</span>
+        <span class="mt-item">1 звонок в рабочее время</span>
+        <span class="mt-sep">·</span>
+        <span class="mt-item">Без навязывания</span>
+      </div>
       <p class="consent">
         Нажимая кнопку, вы даёте согласие на обработку персональных данных в соответствии
         с <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой конфиденциальности</a>.

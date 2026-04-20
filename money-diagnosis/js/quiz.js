@@ -5,9 +5,10 @@
   const C = window.Calculator;
   const S = window.Storage;
 
-  // Порядок шагов (v2.2)
-  // 0 welcome → 1 role → 2 revenue → 3 industry → 4 system → 5 pain → 65 AHA → 66 micro-breakdown → 10 gate → report
-  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 65, 66, 10];
+  // Порядок шагов (v3 · PLG без hard-gate)
+  // 0 welcome → 1 role → 2 revenue → 3 industry → 4 system → 5 pain → 65 AHA → 66 micro-breakdown → report
+  // Лид-форма перенесена в report.html как модальное окно (soft opt-in на разбор с экспертом).
+  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 65, 66];
   const TOTAL_QUESTIONS = 5;
 
   // ── State ────────────────────────────────────────────────
@@ -78,7 +79,7 @@
   function updateProgress() {
     const wrap = $('progress-wrapper');
     const stepId = currentStepId();
-    if (stepId === 0 || stepId === 65 || stepId === 66 || stepId === 10) {
+    if (stepId === 0 || stepId === 65 || stepId === 66) {
       wrap.hidden = true;
       return;
     }
@@ -112,12 +113,6 @@
       renderMicrobreakdown();
     }
 
-    if (id === 10) {
-      if (state.leadSent) { state.cursor++; return goCurrent(); }
-      ym('reachGoal', 'moneydiag_contact_form_open');
-      renderContactGate();
-    }
-
     goCurrent();
   }
 
@@ -138,7 +133,7 @@
 
   function showNav(stepId) {
     const nav = $('step-nav');
-    const hideNav = [0, 65, 66, 10].indexOf(stepId) !== -1 || stepId === 'anti-icp';
+    const hideNav = [0, 65, 66].indexOf(stepId) !== -1 || stepId === 'anti-icp';
     nav.hidden = hideNav;
 
     const btnBack = $('btn-back');

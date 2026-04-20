@@ -157,7 +157,13 @@
           name: payload.name,
           leadSent: true
         }));
-        if (typeof global._moneydiag_finishContact === 'function') global._moneydiag_finishContact();
+        if (typeof global._moneydiag_finishContact === 'function') {
+          global._moneydiag_finishContact();
+        } else {
+          // Отчётная страница: после submit → thankyou
+          global._moneydiag_navigating = true;
+          global.location.href = 'thankyou.html';
+        }
       };
 
       submitToApi(payload).then(finish).catch(finish);

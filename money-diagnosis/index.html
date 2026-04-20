@@ -81,22 +81,34 @@
     </p>
 
     <div class="hero-preview">
-      <div class="hp-label">Так выглядит результат</div>
+      <div class="hp-label">Что вы увидите в конце</div>
       <div class="hp-grid">
         <div class="hp-stat">
+          <div class="hp-stat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+          </div>
           <div class="hp-stat-label">Финансовый профиль</div>
-          <div class="hp-stat-val">Масштаб перерос учёт</div>
+          <div class="hp-stat-val">1 из 6 возможных</div>
+          <div class="hp-stat-hint">с ролевым разбором</div>
         </div>
         <div class="hp-stat hp-stat-danger">
+          <div class="hp-stat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M8 6h6a4 4 0 010 8H8a4 4 0 000 8h8"/></svg>
+          </div>
           <div class="hp-stat-label">Цена бездействия</div>
-          <div class="hp-stat-val mono">~ 8 млн ₽/год</div>
+          <div class="hp-stat-val">в рублях за год</div>
+          <div class="hp-stat-hint">3 источника потерь</div>
         </div>
-        <div class="hp-stat">
+        <div class="hp-stat hp-stat-accent">
+          <div class="hp-stat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 019-9v9z"/><circle cx="12" cy="12" r="9"/></svg>
+          </div>
           <div class="hp-stat-label">Индекс прозрачности</div>
-          <div class="hp-stat-val mono">45 / 100</div>
+          <div class="hp-stat-val">от 0 до 100</div>
+          <div class="hp-stat-hint">на фоне похожих</div>
         </div>
       </div>
-      <div class="hp-note">Пример. Ваши цифры будут рассчитаны по ответам.</div>
+      <div class="hp-note">Ваши цифры рассчитываются по ответам — конкретно под ваш масштаб, отрасль и систему учёта.</div>
     </div>
 
     <div class="hero-cta-row">
@@ -405,63 +417,7 @@
     </div>
   </section>
 
-  <!-- ── Step 10: Contact gate ── -->
-  <section class="step step-contact" id="step-10">
-    <div class="contact-hero">
-      <div class="step-eyebrow">Подробный разбор</div>
-      <h2 class="step-q">Ваш разбор готов</h2>
-      <p class="step-sub">
-        Профиль: <b id="contact-profile-name">—</b> ·
-        Оценка потерь: <b class="mono" id="contact-loss">—</b> ·
-        Индекс: <b class="mono" id="contact-index">—</b>
-      </p>
-    </div>
-
-    <div class="contact-card">
-      <div class="contact-card-top">
-        <div class="manager-info">
-          <div class="manager-avatar" aria-hidden="true">
-            <img src="https://ui-avatars.com/api/?name=Финтабло&background=1A1F36&color=fff&size=128" alt="Менеджер Финтабло" width="56" height="56">
-          </div>
-          <div class="manager-text">
-            <div class="manager-name">Разбор проведёт менеджер Финтабло</div>
-            <div class="manager-hint">Позвонит в рабочее время, расскажет про зоны потерь и предложит сценарий внедрения под ваш профиль. Без навязывания — только по вашему запросу.</div>
-          </div>
-        </div>
-      </div>
-
-      <form class="contact-form" id="lead-form" autocomplete="on">
-        <div class="contact-form-grid">
-          <div class="field">
-            <label class="label" for="f-contact-name"><span class="label-main">Имя</span></label>
-            <input id="f-contact-name" class="input" type="text" required autocomplete="given-name" placeholder="Как к вам обращаться">
-          </div>
-          <div class="field">
-            <label class="label" for="f-phone"><span class="label-main">Телефон</span></label>
-            <input id="f-phone" class="input" type="tel" placeholder="+7 (___) ___-__-__" required inputmode="numeric" autocomplete="tel">
-            <div class="field-error" id="err-phone" hidden></div>
-          </div>
-          <div class="field field-full">
-            <label class="label" for="f-email"><span class="label-main">Email</span><span class="label-hint">для отчёта на почту</span></label>
-            <input id="f-email" class="input" type="email" placeholder="name@company.ru" required autocomplete="email">
-          </div>
-        </div>
-
-        <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-        <button class="btn-primary btn-lg btn-full" id="btn-submit" type="submit" disabled>
-          Открыть полный разбор в рублях
-          <span class="btn-arrow">→</span>
-        </button>
-
-        <p class="consent">
-          Нажимая кнопку, вы даёте согласие на обработку персональных данных в соответствии
-          с <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой конфиденциальности</a>.
-          Данные передаются только внутри Финтабло.
-        </p>
-      </form>
-    </div>
-  </section>
+  <!-- Лид-форма перенесена в report.html как soft opt-in модал (v3 · PLG без hard-gate) -->
 
 </main>
 

@@ -309,20 +309,79 @@
       <!-- rendered by report.js -->
     </div>
 
-    <div class="rs-cta-block">
-      <p class="rs-cta-text" id="rs5-cta-text">
-        Менеджер Финтабло свяжется с вами в рабочее время и проведёт разбор
-        на примере вашего бизнеса — без навязывания, только по вашему запросу.
-      </p>
-      <a class="btn-primary btn-lg" id="rs5-cta" href="thankyou.html">
-        Записаться на разбор с экспертом
-        <span class="btn-arrow">→</span>
-      </a>
-      <p class="rs-cta-fine">Посмотреть продукт без заявки — <a href="https://fintablo.ru/registration" target="_blank" rel="noopener">fintablo.ru/registration</a>. Полный разбор — в звонке с экспертом, под вашу ситуацию.</p>
+    <div class="rs-cta-dual">
+      <div class="cta-card cta-card-primary">
+        <div class="cta-card-badge">Рекомендуем</div>
+        <div class="cta-card-eyebrow">Разбор с экспертом Финтабло</div>
+        <div class="cta-card-title">20 минут · бесплатно · под вашу ситуацию</div>
+        <ul class="cta-card-list">
+          <li>Пройдём по вашему отчёту — профиль, зоны потерь, 30 / 60 / 90</li>
+          <li>Покажем, как именно закрываются ваши контуры в Финтабло</li>
+          <li>Без навязывания — только если совпадём по задачам</li>
+        </ul>
+        <button class="btn-primary btn-lg cta-card-btn" id="rs5-cta" type="button">
+          Записаться на разбор
+          <span class="btn-arrow">→</span>
+        </button>
+        <div class="cta-card-meta">Менеджер позвонит в рабочее время</div>
+      </div>
+
+      <div class="cta-card cta-card-secondary">
+        <div class="cta-card-eyebrow cta-card-eyebrow-alt">Или посмотрите продукт сами</div>
+        <div class="cta-card-title">Без звонка · пробный период</div>
+        <ul class="cta-card-list">
+          <li>Зарегистрируйтесь — закроете те же контуры, что в вашем отчёте</li>
+          <li>Шаблоны под вашу отрасль, импорт из 1С и банков</li>
+          <li>Поддержка в чате и база знаний</li>
+        </ul>
+        <a class="btn-ghost cta-card-btn" href="https://fintablo.ru/registration" target="_blank" rel="noopener">
+          Открыть Финтабло
+          <span class="btn-arrow">→</span>
+        </a>
+        <div class="cta-card-meta">fintablo.ru/registration</div>
+      </div>
     </div>
   </section>
 
 </main>
+
+<!-- ═════ LEAD MODAL · soft opt-in на разбор с экспертом ═════ -->
+<div class="modal-overlay" id="lead-modal" hidden>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+    <button class="modal-close" type="button" data-modal-close aria-label="Закрыть">×</button>
+    <div class="modal-header">
+      <div class="modal-eyebrow">Разбор с экспертом Финтабло</div>
+      <h3 id="lead-modal-title" class="modal-title">20 минут · бесплатно · по вашему отчёту</h3>
+      <p class="modal-sub">Менеджер свяжется в рабочее время, пройдёт по вашему профилю и покажет, как закрываются зоны потерь. Без навязывания.</p>
+    </div>
+    <form class="contact-form" id="lead-form" autocomplete="on">
+      <div class="contact-form-grid">
+        <div class="field">
+          <label class="label" for="f-contact-name"><span class="label-main">Имя</span></label>
+          <input id="f-contact-name" class="input" type="text" required autocomplete="given-name" placeholder="Как к вам обращаться">
+        </div>
+        <div class="field">
+          <label class="label" for="f-phone"><span class="label-main">Телефон</span></label>
+          <input id="f-phone" class="input" type="tel" placeholder="+7 (___) ___-__-__" required inputmode="numeric" autocomplete="tel">
+          <div class="field-error" id="err-phone" hidden></div>
+        </div>
+        <div class="field field-full">
+          <label class="label" for="f-email"><span class="label-main">Email</span><span class="label-hint">для отчёта на почту</span></label>
+          <input id="f-email" class="input" type="email" placeholder="name@company.ru" required autocomplete="email">
+        </div>
+      </div>
+      <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn-primary btn-lg btn-full" id="btn-submit" type="submit" disabled>
+        Записаться на разбор
+        <span class="btn-arrow">→</span>
+      </button>
+      <p class="consent">
+        Нажимая кнопку, вы даёте согласие на обработку персональных данных в соответствии
+        с <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой конфиденциальности</a>.
+      </p>
+    </form>
+  </div>
+</div>
 
 <footer class="site-footer">
   <div class="footer-inner">
@@ -344,5 +403,6 @@
 <script src="js/storage.js"></script>
 <script src="js/calculator.js"></script>
 <script src="js/report.js"></script>
+<script src="js/lead.js"></script>
 </body>
 </html>

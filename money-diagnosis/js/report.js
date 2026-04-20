@@ -386,6 +386,32 @@
     }
     render(data);
     if (data.leadSent) ym('reachGoal', 'moneydiag_pixel_hot');
+
+    // Lead modal (soft opt-in: кнопка «Записаться на разбор» → модальное окно)
+    const modal = document.getElementById('lead-modal');
+    const openBtn = document.getElementById('rs5-cta');
+    if (modal && openBtn) {
+      const show = () => {
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        ym('reachGoal', 'moneydiag_lead_modal_open');
+        setTimeout(() => {
+          const firstInput = modal.querySelector('input:not([type="hidden"]):not(.hp-field)');
+          if (firstInput) firstInput.focus();
+        }, 50);
+      };
+      const hide = () => {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+      };
+      openBtn.addEventListener('click', show);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.hasAttribute('data-modal-close')) hide();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.hidden) hide();
+      });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', init);

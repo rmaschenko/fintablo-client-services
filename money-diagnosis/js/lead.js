@@ -43,15 +43,34 @@
     return { ok: true };
   }
 
+  // Демо-хосты, где нет PHP-бэка (GitHub Pages, Netlify без функций и т.п.).
+  // На них пропускаем POST и сразу резолвим — пользователь всё равно
+  // попадает в отчёт через finish() в обработчике формы.
+  function isDemoHost() {
+    const h = global.location.hostname || '';
+    return /github\.io$|netlify\.app$|vercel\.app$|pages\.dev$/i.test(h);
+  }
+
   function submitToApi(payload) {
+    if (isDemoHost()) {
+      return Promise.resolve({ success: true, demo: true });
+    }
     const apiPath = (global.location.pathname.replace(/[^/]*$/, '')) + 'api/lead.php';
+    // Таймаут 8 секунд — чтобы форма не висела бесконечно при сетевых проблемах
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
     return fetch(apiPath, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      signal: controller.signal
     }).then(r => {
+      clearTimeout(timer);
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json().catch(() => ({ success: true }));
+    }).catch(e => {
+      clearTimeout(timer);
+      throw e;
     });
   }
 

@@ -27,6 +27,24 @@
   const $ = (id) => document.getElementById(id);
   const $$ = (sel, root) => (root || document).querySelectorAll(sel);
 
+  // ── Типографика: неразрывные пробелы после коротких слов и перед «ли/же/бы» ──
+  // Убирает висячие предлоги и «голые» цифры с единицами.
+  const SHORT_WORDS = ['в','во','на','с','со','за','по','до','от','из','ко','об','о','у','к','и','а','я','но','не','ни','для','без','про','под','над','при','что','как','это','это','или','же','бы','ли','чем','был','ещё','уж','вы','я'];
+  const SW_RE = new RegExp('(^|[\\s(«"\'—])(' + SHORT_WORDS.join('|') + ')(\\s)', 'giu');
+  function typograph(s) {
+    if (s == null) return s;
+    let out = String(s);
+    for (let i = 0; i < 2; i++) out = out.replace(SW_RE, '$1$2\u00A0');
+    out = out
+      .replace(/(\d)\s(₽|руб|млн|млрд|тыс|ч|мес|%|дн|дней|лет|года|год|месяц[ауев]?|дня|часов|шт|штук)/g, '$1\u00A0$2')
+      .replace(/\s—\s/g, '\u00A0— ')
+      .replace(/\s–\s/g, '\u00A0– ')
+      .replace(/\bот\s(\d)/g, 'от\u00A0$1')
+      .replace(/\bдо\s(\d)/g, 'до\u00A0$1');
+    return out;
+  }
+  function setTyped(el, s) { if (el) el.textContent = typograph(s || '—'); }
+
   function showStep(id) {
     $$('.step').forEach(s => s.classList.remove('active'));
     const el = $('step-' + id);
@@ -416,28 +434,30 @@
     const iconEl = $('aha-profile-icon');
     if (iconEl) iconEl.innerHTML = C.PROFILE_ICONS[full.profileCode] || '';
 
-    $('aha-profile-name').textContent = full.profileName;
-    // aha-profile-desc удалён из разметки v3 — описание перенесено в карточки ниже
-    const descEl = $('aha-profile-desc'); if (descEl) descEl.textContent = full.profileDescription;
+    setTyped($('aha-profile-name'), full.profileName);
+    const descEl = $('aha-profile-desc'); setTyped(descEl, full.profileDescription);
 
     // Ролевой хук
     const frameEl = $('aha-role-frame');
     if (frameEl) {
-      if (full.roleFrame) { frameEl.textContent = full.roleFrame; frameEl.hidden = false; }
+      if (full.roleFrame) { setTyped(frameEl, full.roleFrame); frameEl.hidden = false; }
       else frameEl.hidden = true;
     }
 
     // Когортный инсайт (PLG-глубина)
     const cohEl = $('aha-cohort-insight');
     if (cohEl) {
-      if (full.cohortInsight) { cohEl.textContent = full.cohortInsight; cohEl.hidden = false; }
+      if (full.cohortInsight) { setTyped(cohEl, full.cohortInsight); cohEl.hidden = false; }
       else cohEl.hidden = true;
     }
 
-    // Цена бездействия
+    // Цена бездействия — финансовая оценка наверху карточки
+    const priceEl = $('aha-inaction-price');
+    if (priceEl) priceEl.textContent = C.formatMoneyCompact(full.estimatedAnnualLoss);
+
     if (full.inaction) {
-      $('aha-inaction-title').textContent = full.inaction.title;
-      $('aha-inaction-body').textContent = full.inaction.body;
+      setTyped($('aha-inaction-title'), full.inaction.title);
+      setTyped($('aha-inaction-body'), full.inaction.body);
     }
 
     // Путь выхода (3 шага)
@@ -446,7 +466,7 @@
       pathEl.innerHTML = '';
       (full.pathOut || []).forEach(s => {
         const li = document.createElement('li');
-        li.textContent = s;
+        li.textContent = typograph(s);
         pathEl.appendChild(li);
       });
     }
@@ -455,14 +475,12 @@
     qList.innerHTML = '';
     full.mirrorQuestions.forEach(q => {
       const li = document.createElement('li');
-      li.textContent = q;
+      li.textContent = typograph(q);
       qList.appendChild(li);
     });
 
-    const bmIndEl = $('aha-benchmark-industry');
-    const bmScaleEl = $('aha-benchmark-scale');
-    if (bmIndEl) bmIndEl.textContent = full.industryBenchmark || '';
-    if (bmScaleEl) bmScaleEl.textContent = full.revenueModifier || '';
+    setTyped($('aha-benchmark-industry'), full.industryBenchmark || '');
+    setTyped($('aha-benchmark-scale'), full.revenueModifier || '');
   }
 
   // ── Role-aware labels для step-5 (боли) ─────────────────
@@ -542,8 +560,9 @@
     const top = $('mb-bm-top');   if (top)  top.style.left  = r.topIndex + '%';
     const systemLabels = { none: 'без системного учёта', excel: 'с Excel', '1c': 'с 1С', other: 'с самописной системой', service: 'со специализированным сервисом' };
     const sysLabel = systemLabels[r.accountingSystem] || 'с текущей системой';
-    $('mb-cohort').textContent =
-      'Типовой индекс для компаний вашего масштаба ' + sysLabel + ' — около ' + r.peerIndex + '. У 25% наиболее зрелых похожих компаний — от ' + r.topIndex + '. Разница с вашим ' + r.transparencyIndex + ' — это и есть разрыв, который закрывает система.';
+    $('mb-cohort').textContent = typograph(
+      'Типовой индекс для компаний вашего масштаба ' + sysLabel + ' — около ' + r.peerIndex + '. У 25% наиболее зрелых похожих компаний — от ' + r.topIndex + '. Разница с вашим ' + r.transparencyIndex + ' — это и есть разрыв, который закрывает система.'
+    );
 
     // Block 2: топ-2 зоны потерь
     const leaks = MB_LEAKS[state.industry] || MB_LEAKS.other;
@@ -553,8 +572,8 @@
       leaks.slice(0, 2).forEach(l => {
         const card = document.createElement('div');
         card.className = 'mb-leak-card';
-        const t = document.createElement('div'); t.className = 'mbl-title'; t.textContent = l.title;
-        const b = document.createElement('div'); b.className = 'mbl-body'; b.textContent = l.body;
+        const t = document.createElement('div'); t.className = 'mbl-title'; t.textContent = typograph(l.title);
+        const b = document.createElement('div'); b.className = 'mbl-body'; b.textContent = typograph(l.body);
         card.appendChild(t); card.appendChild(b);
         lEl.appendChild(card);
       });
@@ -562,8 +581,8 @@
 
     // Block 3: actionable tip
     if (r.actionableTip) {
-      $('mb-tip-title').textContent = r.actionableTip.title;
-      $('mb-tip-body').textContent = r.actionableTip.body;
+      setTyped($('mb-tip-title'), r.actionableTip.title);
+      setTyped($('mb-tip-body'), r.actionableTip.body);
     }
 
     // Block 4: мок-карточка с именами под отрасль

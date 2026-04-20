@@ -307,9 +307,9 @@
     const bdBars = $('mc-bd-bars');
     if (bdBars && data.lossBreakdown) {
       const items = [
-        { key: 'team',   label: 'Время команды на сверку',       val: data.lossBreakdown.teamTime.annual,    color: 'amber' },
-        { key: 'hidden', label: 'Невидимые просадки',            val: data.lossBreakdown.hiddenDrops.annual, color: 'red' },
-        { key: 'delay',  label: 'Задержка решений',              val: data.lossBreakdown.delay.annual,       color: 'orange' }
+        { key: 'team',   label: 'Время команды на сверку',       val: data.lossBreakdown.teamTime.annual,    color: 'blue' },
+        { key: 'hidden', label: 'Невидимые просадки',            val: data.lossBreakdown.hiddenDrops.annual, color: 'blue' },
+        { key: 'delay',  label: 'Задержка решений',              val: data.lossBreakdown.delay.annual,       color: 'blue' }
       ];
       const max = Math.max.apply(null, items.map(x => x.val));
       bdBars.innerHTML = '';
@@ -331,9 +331,9 @@
     const cohBars = $('mc-cohort-bars');
     if (cohBars) {
       const items = [
-        { label: 'Вы',                   val: data.transparencyIndex, color: data.zoneCode || 'red', highlight: true },
+        { label: 'Вы',                   val: data.transparencyIndex, color: 'blue', highlight: true },
         { label: 'Похожие компании',     val: data.peerIndex,         color: 'neutral' },
-        { label: 'Топ-25% похожих',      val: data.topIndex,          color: 'green' }
+        { label: 'Топ-25% похожих',      val: data.topIndex,          color: 'neutral' }
       ];
       cohBars.innerHTML = '';
       items.forEach(x => {

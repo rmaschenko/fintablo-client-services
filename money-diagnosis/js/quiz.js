@@ -252,13 +252,6 @@
     const revSub = $('sr-revenue-sub');
     const revZoneLbl = $('sr-zone-label');
 
-    function revenueZone(annual) {
-      if (annual < 24_000_000) return { code: 'red',    text: 'Ниже порога диагностики — предложим альтернативные материалы' };
-      if (annual < 60_000_000) return { code: 'amber',  text: 'Пограничный масштаб — разбор работает, точность с оговорками' };
-      if (annual < 240_000_000) return { code: 'green', text: 'Подходящий масштаб — разбор и бенчмарки будут точными' };
-      return { code: 'green', text: 'Крупный бизнес — разбор с учётом масштаба и сложности' };
-    }
-
     function formatMoneyMonth(m) {
       if (m >= 1_000_000) return Math.round(m / 1_000_000) + ' млн ₽/мес';
       return Math.round(m / 1000) + ' тыс ₽/мес';
@@ -269,11 +262,9 @@
       state.monthlyRevenue = C.revenueFromSliderIndex(state.revenueIdx);
       revReadout.textContent = C.revenueLabel(state.revenueIdx);
       if (revSub) revSub.textContent = '~ ' + formatMoneyMonth(state.monthlyRevenue);
-      if (revZoneLbl) {
-        const z = revenueZone(state.monthlyRevenue * 12);
-        revZoneLbl.textContent = z.text;
-        revZoneLbl.className = 'slider-zone-label zl-' + z.code;
-      }
+      // Убраны «Подходящий/Пограничный масштаб» зоны — это внутренний ICP-фильтр,
+      // клиенту не важно. При обороте < 24 млн ₽/год срабатывает soft-reject экран.
+      if (revZoneLbl) revZoneLbl.hidden = true;
       $('btn-next').disabled = false;
     }
     revSlider.addEventListener('input', updateRevenue);
@@ -522,7 +513,7 @@
   // Имена для мок-карточки — синхронизировано с report.js
   const MOCK_NAMES_BY_INDUSTRY = {
     construction: ['Объект «Невский»',       'Объект «Северный»',    'Объект «Марьино»'],
-    it:           ['Проект A · Enterprise',  'Проект B · Retail',     'Проект C · Fintech'],
+    it:           ['Проект А · корпоративный клиент', 'Проект Б · розничная сеть', 'Проект В · финансовый сервис'],
     agency:       ['Клиент «Альфа»',          'Клиент «Омега»',        'Клиент «Сигма»'],
     production:   ['Линия A',                 'Линия B',               'Линия C'],
     services:     ['Консалтинг',              'Внедрение',             'Сопровождение'],

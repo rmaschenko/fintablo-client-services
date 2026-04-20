@@ -41,12 +41,12 @@ $industryLabels = [
   'other'        => 'Другое'
 ];
 $profileLabels = [
-  'blind'                  => 'Полёт по приборам, которых нет',
-  'scale_without_control'  => 'Масштаб без штурвала',
-  'accounting_illusion'    => 'Бухгалтерия есть, управленческого учёта нет',
-  'early_stage'            => 'Молодой рост',
-  'almost_there'           => 'Одна деталь до системы',
-  'plateau'                => 'Учёт на плато'
+  'blind'                  => 'Управление без цифр',
+  'scale_without_control'  => 'Масштаб перерос учёт',
+  'accounting_illusion'    => 'Только бухгалтерский учёт',
+  'early_stage'            => 'Ранняя стадия учёта',
+  'almost_there'           => 'Почти полная система',
+  'plateau'                => 'Переросший инструмент'
 ];
 $painLabels = [
   'margin_blind'    => 'Не вижу прибыль по направлениям',

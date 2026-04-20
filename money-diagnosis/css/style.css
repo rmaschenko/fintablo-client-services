@@ -1959,10 +1959,10 @@ body:has(.cookie-banner.visible) .sticky-cta{bottom:60px}
 
 /* ═════ v2.4 · Step reward (микро-награды после выбора) ═════ */
 .step-reward{
-  margin:14px auto 0;max-width:520px;padding:10px 14px;
+  margin:14px 0 0;padding:12px 16px;
   background:#E1F5EE;border-left:3px solid #1D9E75;
-  border-radius:8px;
-  font-size:13px;line-height:1.55;color:#085041;
+  border-radius:10px;
+  font-size:14px;line-height:1.55;color:#085041;
   opacity:0;transform:translateY(-4px);
   transition:opacity .35s ease, transform .35s ease;
 }

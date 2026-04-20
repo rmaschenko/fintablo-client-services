@@ -748,7 +748,9 @@ body:has(.cookie-banner.visible) .sticky-cta{bottom:60px}
   text-align:center;font-size:13px;color:var(--text-muted);
   font-style:italic;margin:16px 0 24px;
 }
-.step-actions-center{display:flex;justify-content:center;margin-top:8px}
+.step-actions-center{display:flex;flex-direction:column;align-items:stretch;gap:12px;max-width:520px;margin:24px auto 8px}
+.step-actions-center .btn-primary{width:100%}
+.step-actions-center .aha-gate-hint{margin:0 auto;text-align:center}
 
 /* ── Contact gate (step 10) ────────────────────────────────── */
 .contact-hero{text-align:center;margin-bottom:24px}
@@ -1286,43 +1288,53 @@ body:has(.cookie-banner.visible) .sticky-cta{bottom:60px}
 .ric-zone-green{background:#dcfce7;color:#166534}
 .ric-zone-blue{background:#dbeafe;color:#1e40af}
 
-.bm-bar{position:relative;margin:16px 0 110px;padding-top:8px}
+.bm-bar{position:relative;margin:18px 0 70px;padding:16px 12px 0}
 .bm-zones{
-  display:flex;height:10px;border-radius:5px;overflow:hidden;
-  background:var(--border);
+  position:relative;display:block;height:10px;border-radius:6px;overflow:hidden;
+  background:linear-gradient(90deg,#E5E7EB 0%,#DDE7FB 30%,#B9CCF8 60%,#4B7FE0 100%);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.08);
 }
-.bm-zone{height:100%}
-.bm-zone-red{flex:30;background:linear-gradient(90deg,#fca5a5,#fb923c)}
-.bm-zone-orange{flex:30;background:linear-gradient(90deg,#fb923c,#fde047)}
-.bm-zone-green{flex:20;background:linear-gradient(90deg,#86efac,#4ade80)}
-.bm-zone-blue{flex:20;background:linear-gradient(90deg,#60a5fa,#3b82f6)}
+.bm-zone{display:none}
 .bm-scale{
   display:flex;justify-content:space-between;
-  font-size:11px;color:var(--text-muted);margin-top:6px;
-  font-variant-numeric:tabular-nums;
+  font-size:11px;color:var(--text-muted);margin-top:6px;padding:0 2px;
+  font-variant-numeric:tabular-nums;font-family:var(--font-mono);
 }
-.bm-scale span{flex:0}
-.bm-scale span:first-child{flex:0 0 30%}
-.bm-scale span:nth-child(2){flex:0 0 30%}
-.bm-scale span:nth-child(3){flex:0 0 20%}
-.bm-scale span:nth-child(4){flex:0 0 20%}
+.bm-scale span{flex:0;transform:translateX(-50%)}
+.bm-scale span:first-child{transform:translateX(0)}
+.bm-scale span:last-child{transform:translateX(-100%)}
 
 .bm-marker{
-  position:absolute;top:-4px;transform:translateX(-50%);
-  width:2px;height:22px;background:var(--text-primary);
+  position:absolute;top:12px;left:12px;transform:translateX(-50%);
 }
 .bm-marker span{
-  position:absolute;top:26px;left:50%;transform:translateX(-50%);
-  font-size:11px;font-weight:600;color:var(--text-primary);
-  background:var(--bg);padding:2px 6px;border-radius:4px;
-  white-space:nowrap;border:1px solid var(--border);
+  position:absolute;left:50%;transform:translateX(-50%);
+  font-size:11px;font-weight:600;white-space:nowrap;
+  padding:2px 8px;border-radius:999px;line-height:1.4;
+  font-variant-numeric:tabular-nums;
 }
-.bm-marker-you{background:#1A1F36;height:34px;top:-10px;width:3px;z-index:3;border-radius:2px}
-.bm-marker-you span{top:-26px;background:#1A1F36;color:#fff;border-color:#1A1F36;font-weight:700;padding:3px 8px;box-shadow:0 2px 6px rgba(26,31,54,.25)}
-.bm-marker-peer{background:var(--text-muted);opacity:.7;z-index:2}
-.bm-marker-peer span{top:32px;background:var(--surface);color:var(--text-muted)}
-.bm-marker-top{background:var(--accent-green);opacity:.7;z-index:2}
-.bm-marker-top span{top:60px;background:#dcfce7;color:#166534;border-color:#bbf7d0}
+/* «Вы» — крупный тёмный thumb на баре (без подписи — позицию показывает большой индекс сверху) */
+.bm-marker-you{
+  width:22px;height:22px;border-radius:50%;
+  background:#fff;border:3px solid #1A1F36;
+  box-shadow:0 3px 10px rgba(26,31,54,.35);
+  z-index:3;top:11px;
+}
+.bm-marker-you span{display:none}
+/* «Похожие» и «Топ 25%» — тонкие засечки, подписи под баром, разведены по вертикали */
+.bm-marker-peer{
+  width:2px;height:18px;background:var(--text-muted);opacity:.85;top:8px;z-index:2;border-radius:1px;
+}
+.bm-marker-peer span{
+  top:24px;background:var(--surface);color:var(--text-secondary);
+  border:1px solid var(--border);
+}
+.bm-marker-top{
+  width:2px;height:18px;background:var(--accent-green);opacity:.85;top:8px;z-index:2;border-radius:1px;
+}
+.bm-marker-top span{
+  top:50px;background:#dcfce7;color:#166534;border:1px solid #bbf7d0;
+}
 
 .ric-zone-hint{
   font-size:14px;color:var(--text-secondary);line-height:1.55;

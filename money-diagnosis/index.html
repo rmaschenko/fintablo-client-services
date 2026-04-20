@@ -309,13 +309,19 @@
     </div>
   </section>
 
-  <!-- ── Step GATE: soft lead capture между AHA и микро-разбором ── -->
+  <!-- ── Step GATE: soft opt-in на разбор с экспертом, после peak-value AHA+микро-разбора ── -->
   <section class="step step-gate" id="step-gate">
     <div class="gate-header">
-      <div class="gate-eyebrow">Ваш полный разбор готов</div>
-      <h2 class="gate-title">Оставьте контакт — менеджер пришлёт разбор и ответит на вопросы</h2>
-      <p class="gate-sub">20 минут под вашу ситуацию. Без скриптов и навязывания.</p>
+      <div class="gate-eyebrow">Хотите больше — бесплатно</div>
+      <h2 class="gate-title">Разбор с экспертом Финтабло: 20 минут под вашу ситуацию</h2>
+      <p class="gate-sub">Менеджер пройдёт по вашему профилю, покажет, как закрываются зоны потерь, и ответит на вопросы. Без скриптов и навязывания.</p>
     </div>
+
+    <ul class="gate-benefits" aria-label="Что даёт разбор">
+      <li><span class="gb-ico" aria-hidden="true">→</span> Пройдём по вашему отчёту: профиль, зоны потерь, 30 / 60 / 90</li>
+      <li><span class="gb-ico" aria-hidden="true">→</span> Покажем, как ваши контуры закрываются в Финтабло</li>
+      <li><span class="gb-ico" aria-hidden="true">→</span> Пришлём отчёт на почту + запись разговора, если попросите</li>
+    </ul>
 
     <div class="gate-form" id="gate-form">
       <div class="gate-field">
@@ -323,23 +329,29 @@
         <input id="gate-name" class="gate-input" type="text" placeholder="Иван" autocomplete="given-name" inputmode="text">
       </div>
       <div class="gate-field">
-        <label class="gate-label" for="gate-phone">Телефон</label>
+        <label class="gate-label" for="gate-phone">Телефон <span class="gl-hint">позвоним в рабочее время</span></label>
         <input id="gate-phone" class="gate-input" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel">
         <div class="gate-field-error" id="gate-phone-err" hidden></div>
       </div>
-      <div class="gate-consent">
-        Нажимая «Получить разбор», вы соглашаетесь с
-        <a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой конфиденциальности</a>
-      </div>
       <button class="btn-primary btn-lg gate-submit" id="btn-gate-submit" type="button">
-        Получить полный разбор
+        Записаться на разбор
         <span class="btn-arrow">→</span>
       </button>
-      <div class="gate-skip">
-        <button class="gate-skip-btn" id="btn-gate-skip" type="button">
-          Посмотреть без контакта →
-        </button>
+      <div class="gate-trust">
+        <span>Без спама</span><span class="gt-sep">·</span>
+        <span>1 звонок в рабочее время</span><span class="gt-sep">·</span>
+        <span>Без навязывания</span>
       </div>
+      <div class="gate-consent">
+        Нажимая кнопку, вы соглашаетесь с
+        <a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой конфиденциальности</a>
+      </div>
+    </div>
+
+    <div class="gate-skip">
+      <button class="gate-skip-btn" id="btn-gate-skip" type="button">
+        Перейти к отчёту без звонка →
+      </button>
     </div>
   </section>
 

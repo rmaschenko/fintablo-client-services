@@ -5,11 +5,13 @@
   const C = window.Calculator;
   const S = window.Storage;
 
-  // Порядок шагов (v3.3 · PLG с soft-gate + skip-option)
-  // 0 welcome → 1..5 quiz → 65 AHA → 'gate' (soft) → 66 micro-breakdown → report
-  // Gate собирает контакт между AHA и полным разбором, с видимой кнопкой «Посмотреть без контакта».
-  // Дополнительный capture: в report.html — inline-CTA + sticky FAB + modal.
-  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 65, 'gate', 66];
+  // Порядок шагов (v3.4 · PLG с AHA-first + peak-engagement soft-gate)
+  // 0 welcome → 1..5 quiz → 65 AHA → 66 micro-breakdown → 'gate' (peak, soft) → report
+  // AHA делает откровение (бесплатно), микро-разбор даёт прикладной срез (бесплатно),
+  // только ПОСЛЕ этих двух pay-off моментов пользователь встречает мягкий gate
+  // с видимой кнопкой «Посмотреть без контакта» — читается как «получить полный разбор с менеджером»,
+  // не как стена. Дополнительный capture в report.html (inline-CTA + FAB + modal).
+  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 65, 66, 'gate'];
   const TOTAL_QUESTIONS = 5;
 
   // ── State ────────────────────────────────────────────────

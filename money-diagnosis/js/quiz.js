@@ -5,10 +5,11 @@
   const C = window.Calculator;
   const S = window.Storage;
 
-  // Порядок шагов (v3 · PLG без hard-gate)
-  // 0 welcome → 1 role → 2 revenue → 3 industry → 4 system → 5 pain → 65 AHA → 66 micro-breakdown → report
-  // Лид-форма перенесена в report.html как модальное окно (soft opt-in на разбор с экспертом).
-  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 65, 66];
+  // Порядок шагов (v3.3 · PLG с soft-gate + skip-option)
+  // 0 welcome → 1..5 quiz → 65 AHA → 'gate' (soft) → 66 micro-breakdown → report
+  // Gate собирает контакт между AHA и полным разбором, с видимой кнопкой «Посмотреть без контакта».
+  // Дополнительный capture: в report.html — inline-CTA + sticky FAB + modal.
+  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 65, 'gate', 66];
   const TOTAL_QUESTIONS = 5;
 
   // ── State ────────────────────────────────────────────────
@@ -79,7 +80,7 @@
   function updateProgress() {
     const wrap = $('progress-wrapper');
     const stepId = currentStepId();
-    if (stepId === 0 || stepId === 65 || stepId === 66) {
+    if (stepId === 0 || stepId === 65 || stepId === 66 || stepId === 'gate') {
       wrap.hidden = true;
       return;
     }
@@ -108,6 +109,12 @@
       renderAha();
     }
 
+    if (id === 'gate') {
+      // Если контакт уже собран ранее (повторный проход) — пропускаем гейт
+      if (state.leadSent) { state.cursor++; return goCurrent(); }
+      ym('reachGoal', 'moneydiag_gate_view');
+    }
+
     if (id === 66) {
       ym('reachGoal', 'moneydiag_microbreakdown_view');
       renderMicrobreakdown();
@@ -133,7 +140,7 @@
 
   function showNav(stepId) {
     const nav = $('step-nav');
-    const hideNav = [0, 65, 66].indexOf(stepId) !== -1 || stepId === 'anti-icp';
+    const hideNav = [0, 65, 66].indexOf(stepId) !== -1 || stepId === 'anti-icp' || stepId === 'gate';
     nav.hidden = hideNav;
 
     const btnBack = $('btn-back');
@@ -284,12 +291,9 @@
     revSlider.addEventListener('change', () => {
       updateRevenue();
       ym('reachGoal', 'moneydiag_revenue_selected');
-      if (state.monthlyRevenue < 2_000_000) {
-        ym('reachGoal', 'moneydiag_anti_icp_view');
-        showStep('anti-icp');
-        $('step-nav').hidden = true;
-        $('aic-back').onclick = () => { state.cursor++; goCurrent(); };
-      }
+      // v3.3 · Anti-ICP тупиковый экран отключён — лиды меньше 24 млн ₽/год
+      // тоже идут дальше по воронке (трафик оплачен, не теряем).
+      // Секция #step-anti-icp оставлена в DOM + скрыта в CSS.
     });
     updateRevenue();
 
@@ -340,6 +344,12 @@
     // Micro-breakdown continue
     const btnMb = $('btn-mb-continue');
     if (btnMb) btnMb.onclick = () => goNext();
+
+    // ── GATE · soft lead capture между AHA и микро-разбором ─
+    initGateForm();
+
+    // ── UTM → Dynamic H1 (message match) ─
+    applyUtmHeroVariant();
 
     // Nav buttons
     $('btn-next').onclick = goNext;
@@ -523,14 +533,14 @@
     ]
   };
 
-  // Имена для мок-карточки — синхронизировано с report.js
+  // Имена для мок-карточки — отражают типовые сегменты отрасли
   const MOCK_NAMES_BY_INDUSTRY = {
-    construction: ['Объект «Невский»',       'Объект «Северный»',    'Объект «Марьино»'],
-    it:           ['Проект А · корпоративный клиент', 'Проект Б · розничная сеть', 'Проект В · финансовый сервис'],
-    agency:       ['Клиент «Альфа»',          'Клиент «Омега»',        'Клиент «Сигма»'],
-    production:   ['Линия A',                 'Линия B',               'Линия C'],
-    services:     ['Консалтинг',              'Внедрение',             'Сопровождение'],
-    other:        ['Направление A',           'Направление B',         'Направление C']
+    construction: ['Жилая застройка',         'Коммерческие объекты',  'Инфраструктурные'],
+    it:           ['Проект A',                'Проект B',              'Проект C'],
+    agency:       ['Ретейнеры',               'Проекты',               'Медиабай'],
+    production:   ['Основное производство',   'Спецзаказы',            'Ремонт и сервис'],
+    services:     ['Направление 1',           'Направление 2',         'Направление 3'],
+    other:        ['Сегмент A',               'Сегмент B',             'Сегмент C']
   };
 
   // ── Micro-breakdown (step 66) ───────────────────────────
@@ -600,6 +610,122 @@
     $('contact-profile-name').textContent = r.profileName;
     $('contact-loss').textContent = C.formatMoneyCompact(r.estimatedAnnualLoss) + '/год';
     $('contact-index').textContent = r.transparencyIndex + ' / 100';
+  }
+
+  // ── GATE (soft lead capture между AHA и micro-breakdown) ──
+  function initGateForm() {
+    const nameEl   = $('gate-name');
+    const phoneEl  = $('gate-phone');
+    const submitEl = $('btn-gate-submit');
+    const skipEl   = $('btn-gate-skip');
+    const phoneErr = $('gate-phone-err');
+    if (!nameEl || !phoneEl || !submitEl || !skipEl) return;
+
+    const L = window.Lead;
+
+    // Маска телефона через Lead.maskPhone (уже валидированная и протестированная)
+    phoneEl.addEventListener('input', (e) => {
+      e.target.value = L ? L.maskPhone(e.target.value) : e.target.value;
+      phoneEl.classList.remove('error');
+      if (phoneErr) phoneErr.hidden = true;
+    });
+    nameEl.addEventListener('input', () => nameEl.classList.remove('error'));
+
+    function validate() {
+      let ok = true;
+      const nameR  = L ? L.validateName(nameEl.value)   : { ok: nameEl.value.trim().length >= 2 };
+      const phoneR = L ? L.validatePhone(phoneEl.value) : { ok: phoneEl.value.replace(/\D/g, '').length === 11 };
+      if (!nameR.ok)  { nameEl.classList.add('error');  ok = false; }
+      if (!phoneR.ok) {
+        phoneEl.classList.add('error');
+        if (phoneErr && phoneR.msg) { phoneErr.textContent = phoneR.msg; phoneErr.hidden = false; }
+        ok = false;
+      }
+      return ok;
+    }
+
+    function submitGate(isSkip) {
+      if (!isSkip && !validate()) return;
+
+      const computed = C.computeAll({
+        role: state.role,
+        industry: state.industry,
+        monthlyRevenue: state.monthlyRevenue,
+        accountingSystem: state.accountingSystem,
+        primaryPain: state.primaryPain
+      });
+      const utm = S.getUTM ? (S.getUTM() || {}) : {};
+
+      if (!isSkip) {
+        const payload = {
+          name: nameEl.value.trim(),
+          phone: phoneEl.value,
+          email: '',
+          service: 'money-diagnosis',
+          source: 'gate',
+          answers: {
+            role: state.role,
+            industry: state.industry,
+            monthlyRevenue: state.monthlyRevenue,
+            accountingSystem: state.accountingSystem,
+            primaryPain: state.primaryPain
+          },
+          metrics: computed,
+          utm,
+          pageUrl: window.location.href,
+          referrer: document.referrer || '',
+          timestamp: new Date().toISOString()
+        };
+        if (L && L.submitToApi) L.submitToApi(payload).catch(() => {});
+        state.leadSent = true;
+        ym('reachGoal', 'moneydiag_gate_submit');
+        ym('reachGoal', 'moneydiag_pixel_hot');
+      } else {
+        ym('reachGoal', 'moneydiag_gate_skip');
+      }
+
+      // Кладём данные отчёта в storage — report.html их прочитает
+      S.saveReportData(Object.assign({}, computed, {
+        name: isSkip ? '' : nameEl.value.trim(),
+        leadSent: !isSkip
+      }));
+
+      persistState();
+      // submit-btn защита от повторных кликов
+      submitEl.disabled = true;
+      submitEl.textContent = isSkip ? 'Открываем…' : 'Отправляем…';
+
+      goNext();
+    }
+
+    submitEl.addEventListener('click', () => submitGate(false));
+    skipEl.addEventListener('click',   () => submitGate(true));
+  }
+
+  // ── UTM → Dynamic H1 (message match для сегментированного Директа) ──
+  function applyUtmHeroVariant() {
+    const h1 = document.getElementById('hero-h1');
+    if (!h1) return;
+    const params = new URLSearchParams(window.location.search);
+    const content  = (params.get('utm_content')  || '').toLowerCase();
+    const campaign = (params.get('utm_campaign') || '').toLowerCase();
+
+    const variants = {
+      stroy:      { h1: 'Сколько строительный бизнес теряет из-за учёта — <span class="accent">цифра за 2 минуты</span>',        sub: 'Профиль, цена бездействия и индекс прозрачности — под обороты вашего проекта.' },
+      it:         { h1: 'Сколько IT-компания теряет на размытой аналитике — <span class="accent">цифра за 2 минуты</span>',      sub: 'Ответите на 5 вопросов — узнаете, где прячется прибыль по проектам и клиентам.' },
+      agency:     { h1: 'Сколько агентство теряет из-за учёта по ощущениям — <span class="accent">цифра за 2 минуты</span>',     sub: 'Профиль, цена бездействия и индекс прозрачности — за 2 минуты, без таблиц.' },
+      production: { h1: 'Сколько производство теряет из-за слепых зон в учёте — <span class="accent">цифра за 2 минуты</span>', sub: 'Ответите на 5 вопросов — получите оценку потерь и индекс прозрачности.' },
+      fin_dir:    { h1: 'Диагностика системности управленческого учёта — <span class="accent">индекс за 2 минуты</span>',         sub: 'Сравните свою систему с похожими компаниями. Профиль и зоны роста — сразу.' }
+    };
+
+    const keys = Object.keys(variants);
+    const match = keys.find(k => content.indexOf(k) !== -1 || campaign.indexOf(k) !== -1);
+    if (!match) return;
+
+    h1.innerHTML = variants[match].h1;
+    const heroSub = document.querySelector('.step-welcome .hero-sub');
+    if (heroSub) heroSub.textContent = variants[match].sub;
+    ym('reachGoal', 'moneydiag_utm_variant_' + match);
   }
 
   document.addEventListener('DOMContentLoaded', init);

@@ -17,9 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST')   { http_response_code(405); echo '{"
 
 $raw = file_get_contents('php://input');
 $data = json_decode($raw, true);
-if (!is_array($data) || empty($data['phone']) || empty($data['name']) || empty($data['email'])) {
+// v3.3: email опционален (gate-форма собирает только имя + телефон,
+// модал в отчёте собирает все три). Обязательны — имя и телефон.
+if (!is_array($data) || empty($data['phone']) || empty($data['name'])) {
   http_response_code(400);
-  echo json_encode(['error' => 'name, phone and email required']);
+  echo json_encode(['error' => 'name and phone required']);
   exit;
 }
 

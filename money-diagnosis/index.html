@@ -309,6 +309,40 @@
     </div>
   </section>
 
+  <!-- ── Step GATE: soft lead capture между AHA и микро-разбором ── -->
+  <section class="step step-gate" id="step-gate">
+    <div class="gate-header">
+      <div class="gate-eyebrow">Ваш полный разбор готов</div>
+      <h2 class="gate-title">Оставьте контакт — менеджер пришлёт разбор и ответит на вопросы</h2>
+      <p class="gate-sub">20 минут под вашу ситуацию. Без скриптов и навязывания.</p>
+    </div>
+
+    <div class="gate-form" id="gate-form">
+      <div class="gate-field">
+        <label class="gate-label" for="gate-name">Ваше имя</label>
+        <input id="gate-name" class="gate-input" type="text" placeholder="Иван" autocomplete="given-name" inputmode="text">
+      </div>
+      <div class="gate-field">
+        <label class="gate-label" for="gate-phone">Телефон</label>
+        <input id="gate-phone" class="gate-input" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel">
+        <div class="gate-field-error" id="gate-phone-err" hidden></div>
+      </div>
+      <div class="gate-consent">
+        Нажимая «Получить разбор», вы соглашаетесь с
+        <a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой конфиденциальности</a>
+      </div>
+      <button class="btn-primary btn-lg gate-submit" id="btn-gate-submit" type="button">
+        Получить полный разбор
+        <span class="btn-arrow">→</span>
+      </button>
+      <div class="gate-skip">
+        <button class="gate-skip-btn" id="btn-gate-skip" type="button">
+          Посмотреть без контакта →
+        </button>
+      </div>
+    </div>
+  </section>
+
   <!-- ── Step 66: Micro-breakdown (pre-gate value reveal) ── -->
   <section class="step step-micro" id="step-66">
     <div class="mb-eyebrow">Предварительный разбор</div>
@@ -355,7 +389,7 @@
     <div class="mb-card mb-tip-card">
       <div class="mb-card-head">
         <div class="mb-card-label">Что попробовать уже на этой неделе</div>
-        <div class="mb-card-hint">Подобрано под ваш профиль и роль. Без инструментов и подписок.</div>
+        <div class="mb-card-hint">Первый шаг — без сервисов. Второй и третий — в Финтабло за 30 минут настройки.</div>
       </div>
       <div class="mb-tip-title" id="mb-tip-title">—</div>
       <p class="mb-tip-body" id="mb-tip-body">—</p>

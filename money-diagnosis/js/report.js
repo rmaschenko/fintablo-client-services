@@ -292,18 +292,19 @@
     const rsiCoh = $('rsi-cohort');
     if (rsiCoh) rsiCoh.textContent = data.cohortInsight || '';
 
-    // Секция · План действий на 3 месяца (по этапам)
+    // Секция · План действий на 3 месяца (roadmap с нумерацией и connecting line)
     const planGrid = $('rs-plan');
     if (planGrid && data.pathOut) {
-      const badges = ['1-й месяц', '2-й месяц', '3-й месяц'];
       const titles = ['Базовая гигиена', 'Систематизация', 'Полная картина'];
+      const periods = ['1-й месяц', '2-й месяц', '3-й месяц'];
       planGrid.innerHTML = '';
       data.pathOut.forEach((step, i) => {
         const card = document.createElement('div'); card.className = 'plan-card';
         card.innerHTML =
           '<div class="plan-card-head">' +
-            '<span class="plan-badge">' + badges[i] + '</span>' +
-            '<span class="plan-title">' + titles[i] + '</span>' +
+            '<span class="plan-badge" aria-label="' + periods[i] + '">' + (i + 1) + '</span>' +
+            '<div><div class="plan-period mono">' + periods[i] + '</div>' +
+            '<div class="plan-title">' + titles[i] + '</div></div>' +
           '</div>';
         const ul = document.createElement('ul'); ul.className = 'plan-list';
         const li = document.createElement('li'); li.textContent = step;

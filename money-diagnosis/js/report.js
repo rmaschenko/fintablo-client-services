@@ -194,40 +194,20 @@
   }
 
   function render(data) {
-    const greeting = data.name ? data.name + ', ваш' : 'Ваш';
-    $('rs1-title').textContent = greeting + ' финансовый профиль';
-
-    // TL;DR — резюме диагностики
+    // TL;DR — резюме диагностики (первый и единственный h1 на странице)
     const tldrTitle = $('tldr-title');
     if (tldrTitle) tldrTitle.textContent = (data.name ? data.name + ', ' : '') + 'коротко о вашей ситуации';
     const tldrBody = $('tldr-body');
+    // TL;DR body = только cohortInsight (ценность: «вы не одни, это типовой паттерн»).
+    // roleFrame переехал в Section 1 sub (видно на экране 2), profileDescription — в Section 1.
     if (tldrBody) {
-      const p1 = data.roleFrame || data.profileDescription || '';
-      const p2 = data.cohortInsight || '';
-      tldrBody.innerHTML = '';
-      if (p1) {
-        const a = document.createElement('p');
-        a.textContent = p1;
-        a.style.margin = '0 0 10px';
-        tldrBody.appendChild(a);
-      }
-      if (p2) {
-        const b = document.createElement('p');
-        b.textContent = p2;
-        b.style.margin = '0';
-        tldrBody.appendChild(b);
-      }
+      tldrBody.textContent = data.cohortInsight || data.profileDescription || '';
     }
     const tldrP = $('tldr-profile'); if (tldrP) tldrP.textContent = data.profileName || '—';
     const tldrI = $('tldr-index');   if (tldrI) tldrI.textContent = data.transparencyIndex + ' / 100 · ' + (data.zoneLabel || '');
     const tldrL = $('tldr-loss');    if (tldrL) tldrL.textContent = '~ ' + C.formatMoneyCompact(data.estimatedAnnualLoss) + '/год';
 
-    // Section 1 · Профиль
-    const iconEl = $('rs1-profile-icon');
-    if (iconEl) iconEl.innerHTML = (C.PROFILE_ICONS && C.PROFILE_ICONS[data.profileCode]) || '';
-    $('rs1-profile-name').textContent = data.profileName || '—';
-    $('rs1-profile-desc').textContent = data.profileDescription || '—';
-
+    // Section 1 · Ролевой хук (профиль/описание уже в TL;DR, не дублируем)
     const rf = $('rs1-role-frame');
     if (rf) {
       if (data.roleFrame) { rf.textContent = data.roleFrame; rf.hidden = false; }
@@ -443,10 +423,6 @@
       featsGrid.appendChild(el);
     });
 
-    // Welcome-плашка: персональный заголовок
-    const rwTitle = $('rw-title');
-    if (rwTitle) rwTitle.textContent = data.name ? (data.name + ', разбор готов') : 'Разбор готов';
-
     // Финтабло-проекция возврата — конкретная мотивация, привязанная к цифре потерь
     const proj = data.fintabloProjection || C.fintabloProjection(data.estimatedAnnualLoss);
     const rtProjVal = $('rt-proj-val');
@@ -468,9 +444,10 @@
       midCtaReturn.textContent = '~ ' + C.formatMoneyCompact(proj.low) + ' — ' + C.formatMoneyCompact(proj.high) + '/год';
     }
 
-    // Deep-link в Финтабло с персональными параметрами — 4 trial-CTA (top, mid, bottom, fab)
+    // Deep-link в Финтабло с персональными параметрами — 3 trial-CTA (mid, bottom, fab).
+    // Верхняя welcome-плашка удалена (преждевременный CTA до ценности).
     const deepLink = C.buildFintabloDeepLink(data, 'https://fintablo.ru/registration');
-    ['cta-trial-top', 'cta-trial-mid', 'cta-trial-bottom', 'cta-trial-fab'].forEach(id => {
+    ['cta-trial-mid', 'cta-trial-bottom', 'cta-trial-fab'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         el.setAttribute('href', deepLink);
@@ -530,23 +507,34 @@
       });
     }
 
-    // Sticky FAB: показываем после того, как TL;DR ушёл выше вьюпорта (на мобильных)
+    // Sticky FAB: прячем когда во вьюпорте любой inline CTA (mid/bottom) —
+    // две синие кнопки одновременно размывают conversion-goal.
     const fab = document.getElementById('rs-fab');
     const tldr = document.querySelector('.rs-tldr');
+    const inlineCtas = document.querySelectorAll('.rs-mid-cta, .rs-cta-dual');
     if (fab && tldr && 'IntersectionObserver' in window) {
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          // Когда TL;DR уходит из вьюпорта — показываем FAB
-          if (!e.isIntersecting && e.boundingClientRect.top < 0) {
-            fab.hidden = false;
-            fab.setAttribute('aria-hidden', 'false');
-          } else {
-            fab.hidden = true;
-            fab.setAttribute('aria-hidden', 'true');
-          }
-        });
-      }, { threshold: 0, rootMargin: '-40px 0px 0px 0px' });
-      obs.observe(tldr);
+      let tldrOut = false;
+      let inlineVisible = false;
+      const sync = () => {
+        const show = tldrOut && !inlineVisible;
+        fab.hidden = !show;
+        fab.setAttribute('aria-hidden', String(!show));
+      };
+      new IntersectionObserver(entries => {
+        entries.forEach(e => { tldrOut = !e.isIntersecting && e.boundingClientRect.top < 0; });
+        sync();
+      }, { threshold: 0, rootMargin: '-40px 0px 0px 0px' }).observe(tldr);
+      if (inlineCtas.length) {
+        const visibleSet = new Set();
+        const obs2 = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if (e.isIntersecting) visibleSet.add(e.target); else visibleSet.delete(e.target);
+          });
+          inlineVisible = visibleSet.size > 0;
+          sync();
+        }, { threshold: 0.3 });
+        inlineCtas.forEach(el => obs2.observe(el));
+      }
     }
   }
 

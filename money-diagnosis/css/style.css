@@ -1643,6 +1643,75 @@ body:has(.cookie-banner.visible) .rs-fab{bottom:92px}
   .rt-arrow{transform:rotate(90deg);margin:6px 0}
 }
 
+/* Trajectory · проекция возврата в ₽ (под стрелкой) */
+.rt-proj{
+  margin-top:18px;padding:14px 16px;
+  background:rgba(16,185,129,.06);
+  border:1px solid rgba(16,185,129,.22);
+  border-radius:var(--radius);
+}
+.rt-proj-label{
+  font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--accent-green);font-weight:700;margin-bottom:4px;
+}
+.rt-proj-val{
+  font-family:var(--font-mono);font-size:22px;font-weight:700;
+  color:#047857;letter-spacing:-.01em;line-height:1.15;margin-bottom:6px;
+  font-variant-numeric:tabular-nums lining-nums;
+}
+.rt-proj-hint{
+  font-size:12.5px;color:var(--text-secondary);line-height:1.5;margin:0;
+}
+
+/* ═════ Mid-report CTA · сразу после «Размер слепой зоны» ═════ */
+.rs-mid-cta{
+  margin:20px 0 0;padding:22px 24px;
+  background:linear-gradient(135deg,#EEF4FF 0%,#F7FAFF 100%);
+  border:1px solid #C7D3F3;border-radius:var(--radius-lg);
+  box-shadow:0 4px 16px rgba(26,86,219,.06);
+  display:grid;grid-template-columns:1fr auto;align-items:center;
+  column-gap:24px;row-gap:10px;
+}
+.rs-mid-cta-body{grid-column:1;grid-row:1}
+.rs-mid-cta-eyebrow{
+  font-family:var(--font-mono);font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--brand-blue);
+  margin-bottom:6px;
+}
+.rs-mid-cta-title{
+  font-size:17px;font-weight:700;color:var(--text-primary);
+  line-height:1.35;margin-bottom:10px;
+}
+.rs-mid-cta-loss{color:#B91C1C;font-weight:700}
+.rs-mid-cta-list{
+  list-style:none;padding:0;margin:0;
+  display:flex;flex-direction:column;gap:6px;
+}
+.rs-mid-cta-list li{
+  position:relative;padding-left:22px;
+  font-size:13px;color:var(--text-secondary);line-height:1.5;
+}
+.rs-mid-cta-list li::before{
+  content:'';position:absolute;left:0;top:6px;
+  width:14px;height:8px;background-repeat:no-repeat;background-position:center;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8' fill='none' stroke='%231A56DB' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='1 4 5 7 13 1'/></svg>");
+}
+.rs-mid-cta-list b{color:#047857;font-family:var(--font-mono);font-weight:700}
+.rs-mid-cta-btn{
+  grid-column:2;grid-row:1;
+  width:auto;min-height:auto;white-space:nowrap;
+  padding:14px 24px;
+}
+.rs-mid-cta-meta{
+  grid-column:1 / -1;grid-row:2;
+  font-size:12px;color:var(--text-muted);text-align:left;
+}
+@media (max-width:720px){
+  .rs-mid-cta{grid-template-columns:1fr;padding:20px}
+  .rs-mid-cta-btn{grid-column:1;grid-row:auto;width:100%;justify-content:center}
+  .rs-mid-cta-meta{text-align:center;margin-top:4px}
+}
+
 /* ═════ v2.1 · Fintablo mock cards ═════ */
 .rs-mock{margin:24px 0}
 .rs-mock-head{

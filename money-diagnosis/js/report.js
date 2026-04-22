@@ -447,45 +447,30 @@
     const rwTitle = $('rw-title');
     if (rwTitle) rwTitle.textContent = data.name ? (data.name + ', разбор готов') : 'Разбор готов';
 
-    // Leak decomposition — раскрытие 3 утечек с суммами (бывший teaser на peak-экране)
-    const total = C.formatMoneyCompact(data.estimatedAnnualLoss);
-    const rldTotal = $('rld-total-loss');
-    if (rldTotal) rldTotal.textContent = total;
-
-    const rldGrid = $('rld-grid');
-    if (rldGrid) {
-      const teaserTitles = data.teaserLeaks || [];
-      const leakSums = [
-        data.lossBreakdown.hiddenDrops.annual,
-        data.lossBreakdown.delay.annual,
-        data.lossBreakdown.teamTime.annual
-      ];
-      const industryLeaks = leaksByIndustry(data.industry, data.monthlyRevenue);
-      const max = Math.max.apply(null, leakSums);
-      rldGrid.innerHTML = '';
-      teaserTitles.slice(0, 3).forEach((title, i) => {
-        const sum = leakSums[i] || 0;
-        const pct = Math.max(20, Math.round((sum / max) * 100));
-        const body = (industryLeaks[i] && industryLeaks[i].body) || '';
-        const card = document.createElement('div');
-        card.className = 'rld-card';
-        card.innerHTML =
-          '<div class="rld-head">' +
-            '<span class="rld-num">' + (i + 1) + '</span>' +
-            '<span class="rld-title"></span>' +
-          '</div>' +
-          '<div class="rld-bar"><span class="rld-bar-fill" style="width:' + pct + '%"></span></div>' +
-          '<div class="rld-val mono">~ ' + C.formatMoneyCompact(sum) + '/год</div>' +
-          '<p class="rld-body"></p>';
-        card.querySelector('.rld-title').textContent = title;
-        card.querySelector('.rld-body').textContent = body;
-        rldGrid.appendChild(card);
-      });
+    // Финтабло-проекция возврата — конкретная мотивация, привязанная к цифре потерь
+    const proj = data.fintabloProjection || C.fintabloProjection(data.estimatedAnnualLoss);
+    const rtProjVal = $('rt-proj-val');
+    if (rtProjVal && proj && proj.low) {
+      rtProjVal.textContent = '~ ' + C.formatMoneyCompact(proj.low) + ' — ' + C.formatMoneyCompact(proj.high);
+    }
+    const rtProjHint = $('rt-proj-hint');
+    if (rtProjHint && proj && proj.midpoint) {
+      rtProjHint.textContent = 'Типовой возврат за 3 месяца — 40–60% слепой зоны. Для вашего масштаба это медиана ~' +
+        C.formatMoneyCompact(proj.midpoint) + '/год, окупает подписку Финтабло в десятки раз.';
     }
 
-    // Deep-link в Финтабло с персональными параметрами — 3 trial-CTA (top, bottom, fab)
+    // Mid-report anchor CTA — показываем сразу после «Размер слепой зоны»,
+    // пока эмоциональный пик. Текст динамический: loss + projection.
+    const midCtaLoss = $('rs1-mid-cta-loss');
+    if (midCtaLoss) midCtaLoss.textContent = '~ ' + C.formatMoneyCompact(data.estimatedAnnualLoss) + '/год';
+    const midCtaReturn = $('rs1-mid-cta-return');
+    if (midCtaReturn && proj && proj.low) {
+      midCtaReturn.textContent = '~ ' + C.formatMoneyCompact(proj.low) + ' — ' + C.formatMoneyCompact(proj.high) + '/год';
+    }
+
+    // Deep-link в Финтабло с персональными параметрами — 4 trial-CTA (top, mid, bottom, fab)
     const deepLink = C.buildFintabloDeepLink(data, 'https://fintablo.ru/registration');
-    ['cta-trial-top', 'cta-trial-bottom', 'cta-trial-fab'].forEach(id => {
+    ['cta-trial-top', 'cta-trial-mid', 'cta-trial-bottom', 'cta-trial-fab'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         el.setAttribute('href', deepLink);

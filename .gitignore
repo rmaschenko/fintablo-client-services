@@ -10,3 +10,7 @@ node_modules/
 *.swp
 *.swo
 *~
+
+# Dev-only helpers (headless render seeding, never commit)
+**/_dev_*.html
+

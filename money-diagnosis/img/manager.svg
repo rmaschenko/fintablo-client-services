@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Менеджер Финтабло">
+  <defs>
+    <linearGradient id="mg-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1A1F36"/>
+      <stop offset="1" stop-color="#1648C0"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="64" fill="url(#mg-bg)"/>
+  <circle cx="64" cy="52" r="20" fill="#fff" opacity="0.92"/>
+  <path d="M24 116 C24 92, 44 80, 64 80 C84 80, 104 92, 104 116 L104 128 L24 128 Z" fill="#fff" opacity="0.92"/>
+</svg>

@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST')   { http_response_code(405); echo '{"
 
 $raw = file_get_contents('php://input');
 $data = json_decode($raw, true);
-// v3.3: email опционален (gate-форма собирает только имя + телефон,
-// модал в отчёте собирает все три). Обязательны — имя и телефон.
+// v6: имя собирается на первом шаге квиза, поэтому на форме обязательны
+// имя + телефон. Email — опционально (по гайду UX квизов — одно поле контакта).
 if (!is_array($data) || empty($data['phone']) || empty($data['name'])) {
   http_response_code(400);
   echo json_encode(['error' => 'name and phone required']);
@@ -225,7 +225,7 @@ if ($amoDomain && $amoToken && $amoPipelineId && $amoStatusId && function_exists
 
 http_response_code(200);
 echo json_encode([
-  'success' => true,
-  'csv'     => (bool)$fp,
-  'amo'     => $amoResult,
+  'success'  => true,
+  'csv'      => (bool)$fp,
+  'amo'      => $amoResult,
 ], JSON_UNESCAPED_UNICODE);

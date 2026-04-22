@@ -34,17 +34,16 @@
 <header>
   <div class="header-inner">
     <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
-      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
-      <span class="logo-fallback" style="display:none">Финтабло</span>
+      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.onerror=null;this.src='img/logo.svg';">
     </a>
     <div class="header-meta">Диагностика · 2 минуты</div>
   </div>
 </header>
 
-<!-- ═════ PROGRESS (single line) ═════ -->
+<!-- ═════ PROGRESS (motivational labels вместо «N из 5» — число пугает) ═════ -->
 <div class="progress-wrapper" id="progress-wrapper" hidden>
   <div class="progress-steps">
-    <span class="ps-label" id="progress-label">Шаг 1 из 5</span>
+    <span class="ps-label" id="progress-label">Начало</span>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
 </div>
@@ -72,43 +71,43 @@
   <section class="step step-welcome active" id="step-0">
     <div class="social-proof">
       <span class="dot-green" aria-hidden="true"></span>
-      <span><b>2 300+</b> компаний ведут управленческий учёт в Финтабло</span>
+      <span><b>1 438 собственников</b> уже прошли эту диагностику · <b>2 300+</b> компаний выбрали Финтабло</span>
     </div>
 
-    <h1 class="hero-h1" id="hero-h1">Сколько бизнес теряет из-за учёта — <span class="accent">цифра за 2 минуты</span></h1>
+    <h1 class="hero-h1" id="hero-h1">Упущенная прибыль из-за задержки решений — <span class="accent">оценка за 2 минуты</span></h1>
     <p class="hero-sub">
-      Ответите на 5 вопросов — получите финансовый профиль, оценку слепой зоны в рублях и индекс прозрачности на фоне похожих компаний вашего масштаба.
+      5 вопросов → персональный разбор: декомпозиция потерь в рублях, индекс прозрачности на фоне похожих компаний и проекция возврата в Финтабло.
     </p>
 
     <div class="hero-preview">
-      <div class="hp-label">Что вы увидите в конце</div>
+      <div class="hp-label">Что вы увидите в разборе</div>
       <div class="hp-grid">
-        <div class="hp-stat">
-          <div class="hp-stat-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>
-          </div>
-          <div class="hp-stat-label">Финансовый профиль</div>
-          <div class="hp-stat-val">1 из 6 возможных</div>
-          <div class="hp-stat-hint">с ролевым разбором</div>
-        </div>
         <div class="hp-stat hp-stat-danger">
           <div class="hp-stat-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v16"/><path d="M8 4h4a4 4 0 010 8H8"/><path d="M5 15h9"/></svg>
           </div>
-          <div class="hp-stat-label">Цена бездействия</div>
+          <div class="hp-stat-label">Упущенная прибыль</div>
           <div class="hp-stat-val">в рублях за год</div>
-          <div class="hp-stat-hint">3 источника потерь</div>
+          <div class="hp-stat-hint">3 источника с обоснованием</div>
         </div>
         <div class="hp-stat hp-stat-accent">
           <div class="hp-stat-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 019-9v9z"/><circle cx="12" cy="12" r="9"/></svg>
           </div>
           <div class="hp-stat-label">Индекс прозрачности</div>
-          <div class="hp-stat-val">от 0 до 100</div>
+          <div class="hp-stat-val">0 — 100</div>
           <div class="hp-stat-hint">на фоне похожих</div>
         </div>
+        <div class="hp-stat hp-stat-success">
+          <div class="hp-stat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+          </div>
+          <div class="hp-stat-label">Возврат с Финтабло</div>
+          <div class="hp-stat-val">за 3 месяца</div>
+          <div class="hp-stat-hint">оценка в рублях</div>
+        </div>
       </div>
-      <div class="hp-note">Ваши цифры рассчитываются по ответам — конкретно под ваш масштаб, отрасль и систему учёта.</div>
+      <div class="hp-note">Цифры рассчитываются по вашим ответам — под ваш масштаб, отрасль и систему учёта. Не маркетинговые обещания.</div>
     </div>
 
     <div class="hero-cta-row">
@@ -128,7 +127,7 @@
 
   <!-- ── Step 1: Role ── -->
   <section class="step" id="step-1">
-    <h2 class="step-q">Кто вы в компании?</h2>
+    <h2 class="step-q">Кто вы в&nbsp;компании?</h2>
     <p class="step-sub">Подбираем разбор под вашу роль и задачи</p>
     <div class="options-group">
       <button class="option-card" type="button" data-value="owner">
@@ -147,62 +146,17 @@
     <div class="step-reward" id="reward-1" hidden></div>
   </section>
 
-  <!-- ── Step 2: Revenue (slider) ── -->
+  <!-- ── Step 2: Revenue (4 диапазона, auto-advance — как другие single-choice) ── -->
   <section class="step" id="step-2">
     <h2 class="step-q">Какой годовой оборот вашей компании?</h2>
-    <p class="step-sub">Примерное значение — точность не требуется</p>
-
-    <div class="slider-group slider-group-v2" id="slider-revenue">
-      <div class="slider-readout">
-        <span class="sr-value mono" id="sr-revenue-value">60 млн ₽/год</span>
-        <span class="sr-sub mono" id="sr-revenue-sub">~ 5 млн ₽/мес</span>
-      </div>
-      <div class="slider-track-wrap">
-        <div class="slider-zones" aria-hidden="true">
-          <div class="sz sz-red"   style="flex:2"></div>
-          <div class="sz sz-amber" style="flex:1"></div>
-          <div class="sz sz-green" style="flex:4"></div>
-        </div>
-        <input type="range" id="f-revenue" class="slider slider-v2" min="0" max="7" step="1" value="3" aria-label="Годовой оборот">
-      </div>
-      <div class="slider-ticks slider-ticks-v2">
-        <span data-pos="0">6м</span>
-        <span data-pos="14.29">12м</span>
-        <span data-pos="28.57">24м</span>
-        <span data-pos="42.86">60м</span>
-        <span data-pos="57.14">120м</span>
-        <span data-pos="71.43">240м</span>
-        <span data-pos="85.71">600м</span>
-        <span data-pos="100">1,2млрд</span>
-      </div>
-      <div class="slider-zone-label" id="sr-zone-label">—</div>
+    <p class="step-sub">Ближайший диапазон — точность не&nbsp;требуется</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="12"><span class="oc-title">До&nbsp;24&nbsp;млн&nbsp;₽/год</span><span class="oc-sub">до&nbsp;2&nbsp;млн&nbsp;₽/мес</span></button>
+      <button class="option-card" type="button" data-value="50"><span class="oc-title">24&nbsp;— 100&nbsp;млн&nbsp;₽/год</span><span class="oc-sub">2&nbsp;— 8&nbsp;млн&nbsp;₽/мес</span></button>
+      <button class="option-card" type="button" data-value="250"><span class="oc-title">100&nbsp;— 500&nbsp;млн&nbsp;₽/год</span><span class="oc-sub">8&nbsp;— 40&nbsp;млн&nbsp;₽/мес</span></button>
+      <button class="option-card" type="button" data-value="800"><span class="oc-title">500&nbsp;млн&nbsp;₽/год и&nbsp;выше</span><span class="oc-sub">от&nbsp;40&nbsp;млн&nbsp;₽/мес</span></button>
     </div>
-  </section>
-
-  <!-- ── Anti-ICP soft gate (< 24M/год) ── -->
-  <section class="step step-anti-icp" id="step-anti-icp">
-    <div class="anti-icp-card">
-      <div class="aic-badge">Инструмент оптимален для бизнеса от 24 млн ₽/год</div>
-      <h2 class="step-q">Для вашего этапа полезнее другие материалы</h2>
-      <p class="aic-sub">
-        Диагностика рассчитана на компании с оборотом от 24 млн ₽/год (2 млн ₽/мес).
-        На меньшем масштабе управленческие решения, как правило, ещё держатся «в голове»,
-        и точная оценка потерь будет условной.
-      </p>
-      <div class="aic-actions">
-        <a class="aic-option" href="https://fintablo.ru/registration" target="_blank" rel="noopener">
-          <div class="aic-opt-title">Зарегистрироваться в Финтабло бесплатно</div>
-          <div class="aic-opt-sub">Пробный период без обязательств</div>
-          <div class="aic-opt-cta">Перейти →</div>
-        </a>
-        <a class="aic-option" href="https://fintablo.ru/case" target="_blank" rel="noopener">
-          <div class="aic-opt-title">Кейс: как навести порядок в финансах</div>
-          <div class="aic-opt-sub">На примере небольшой компании</div>
-          <div class="aic-opt-cta">Читать →</div>
-        </a>
-      </div>
-      <button class="btn-ghost aic-back" id="aic-back" type="button">Всё равно продолжить →</button>
-    </div>
+    <div class="step-reward" id="reward-2" hidden></div>
   </section>
 
   <!-- ── Step 3: Industry ── -->
@@ -248,222 +202,196 @@
     <div class="step-reward" id="reward-5" hidden></div>
   </section>
 
-  <!-- ── Step 65: AHA screen (v3 · чистый hero) ── -->
-  <section class="step step-aha" id="step-65">
-    <div class="aha-hero aha-hero-v3">
-      <div class="profile-icon profile-icon-lg" id="aha-profile-icon" aria-hidden="true"></div>
-      <div class="aha-eyebrow">Ваш профиль</div>
-      <h2 class="aha-profile-name" id="aha-profile-name">—</h2>
-      <p class="aha-lede" id="aha-role-frame">—</p>
-    </div>
+  <!-- ═══════════════════════════════════════════════════════
+       Step 65: Peak-value экран (v6)
+       Hero-профиль → плотная KPI-сетка → 3 утечки → Финтабло-мокап (центр) → форма
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step step-peak" id="step-65">
 
-    <!-- Цена бездействия + путь выхода (PLG-глубина) -->
-    <div class="profile-deep">
-      <div class="pd-card pd-inaction">
-        <div class="pd-card-label">
-          <svg class="pd-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3v8M10 14v1"/><circle cx="10" cy="10" r="8"/></svg>
-          Цена бездействия
+    <!-- ── 1. Hero-профиль: иконка + severity + название + 1 строка ── -->
+    <div class="peak-hero">
+      <div class="peak-hero-icon" id="aha-profile-icon" aria-hidden="true"></div>
+      <div class="peak-hero-body">
+        <div class="peak-hero-meta">
+          <span class="peak-severity" id="aha-severity-pill">—</span>
+          <span class="peak-hero-label">Ваш финансовый профиль</span>
         </div>
-        <div class="pd-price">
-          <span class="pd-price-val mono" id="aha-inaction-price">—</span>
-          <span class="pd-price-unit">в год</span>
-        </div>
-        <div class="pd-price-caption">Оценка по вашим ответам. Декомпозиция по трём источникам — в полном разборе.</div>
-        <div class="pd-card-title" id="aha-inaction-title">—</div>
-        <p class="pd-card-body" id="aha-inaction-body">—</p>
-      </div>
-      <div class="pd-card pd-path">
-        <div class="pd-card-label">
-          <svg class="pd-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10h12M11 6l4 4-4 4"/></svg>
-          Путь выхода
-        </div>
-        <div class="pd-card-title">Типовая последовательность: 30 / 60 / 90 дней</div>
-        <ol id="aha-path-out">
-          <li>—</li><li>—</li><li>—</li>
-        </ol>
+        <h2 class="peak-hero-name" id="aha-profile-name">—</h2>
+        <p class="peak-hero-desc" id="aha-profile-desc">—</p>
       </div>
     </div>
 
-    <div class="aha-mirror">
-      <div class="aha-mirror-title">Ответьте себе честно, за 30 секунд, без таблиц:</div>
-      <ol class="aha-questions" id="aha-questions">
-        <li>—</li>
-        <li>—</li>
-        <li>—</li>
+    <!-- ── 2. Узнавание — короткий AHA-блок ── -->
+    <div class="peak-insight">
+      <div class="peak-insight-eyebrow">По вашим ответам</div>
+      <p class="peak-insight-body" id="aha-insight-body">—</p>
+    </div>
+
+    <!-- ── 3. KPI: 3 равные карточки, главная — красная акцентная ── -->
+    <div class="peak-kpi-grid">
+      <div class="pkc pkc-main">
+        <div class="pkc-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4 2 7-6.5-4.5L5.5 20l2-7L2 9h7z"/></svg>
+        </div>
+        <div class="pkc-label">Упущенная прибыль из-за задержки решений</div>
+        <div class="pkc-value">
+          <span class="pkc-num mono" id="aha-main-price">—</span>
+          <span class="pkc-unit">₽/год</span>
+        </div>
+        <button class="pkc-expander" id="kpi-expand-btn" type="button" aria-expanded="false" aria-controls="kpi-breakdown">
+          откуда эта оценка
+          <svg class="pkc-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>
+        </button>
+      </div>
+
+      <div class="pkc">
+        <div class="pkc-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 010 18"/><path d="M12 8v4l3 2"/></svg>
+        </div>
+        <div class="pkc-label">Индекс прозрачности</div>
+        <div class="pkc-value">
+          <span class="pkc-num mono" id="aha-index">—</span>
+          <span class="pkc-unit">/ 100</span>
+        </div>
+        <div class="pkc-zone" id="aha-zone">—</div>
+      </div>
+
+      <div class="pkc">
+        <div class="pkc-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <div class="pkc-label">Время команды на&nbsp;сверку</div>
+        <div class="pkc-value">
+          <span class="pkc-num mono" id="aha-team-hours">—</span>
+          <span class="pkc-unit">ч/мес</span>
+        </div>
+        <div class="pkc-zone" id="aha-team-zone">—</div>
+      </div>
+    </div>
+
+    <!-- ── 3.5 KPI-breakdown — раскрывается из главной карточки ── -->
+    <div class="peak-kpi-breakdown" id="kpi-breakdown" hidden>
+      <div class="pkb-row"><span class="pkb-label">Время команды на сверку (<span id="pkb-hours">—</span>&nbsp;ч/мес × <span id="pkb-rate">—</span>)</span><span class="pkb-val mono" id="pkb-team">—</span></div>
+      <div class="pkb-row"><span class="pkb-label">Невидимые просадки маржи (3–5% годовой выручки)</span><span class="pkb-val mono" id="pkb-hidden">—</span></div>
+      <div class="pkb-row"><span class="pkb-label">Задержка управленческих решений (2–4% годовой выручки)</span><span class="pkb-val mono" id="pkb-delay">—</span></div>
+      <div class="pkb-foot">Оценка по нашим данным из аналитики клиентов Финтабло. Полная декомпозиция под вашу отрасль — в&nbsp;отчёте.</div>
+    </div>
+
+    <!-- ── 4. 3 утечки с замком — teaser того что в отчёте ── -->
+    <div class="peak-leaks">
+      <div class="peak-leaks-head">Три типовые зоны утечки в&nbsp;вашей отрасли</div>
+      <ol class="peak-leaks-list" id="aha-teaser-leaks">
+        <!-- rendered by quiz.js -->
       </ol>
-      <div class="aha-mirror-hint">Если хотя бы на один — «не знаю», это и есть слепая зона.</div>
+      <div class="peak-leaks-foot">В полном разборе — точные суммы по каждой зоне и план действий на&nbsp;ближайшие три&nbsp;месяца.</div>
     </div>
 
-    <aside class="aha-benchmark" aria-label="Контекст по вашей отрасли">
-      <div class="aha-benchmark-label">Контекст по вашей отрасли</div>
-      <p class="aha-benchmark-line" id="aha-benchmark-industry">—</p>
-      <p class="aha-benchmark-line aha-benchmark-line-sub" id="aha-benchmark-scale">—</p>
-    </aside>
-
-    <div class="step-actions-center">
-      <button class="btn-primary btn-lg" id="btn-aha-continue" type="button">
-        Увидеть ваш индекс и зоны потерь
-        <span class="btn-arrow">→</span>
-      </button>
-      <p class="aha-gate-hint">Дальше — ваш индекс прозрачности в сравнении с похожими компаниями, топ-2 зоны потерь и что можно попробовать уже на этой неделе.</p>
-    </div>
-  </section>
-
-  <!-- ── Step GATE: soft opt-in на разбор с экспертом, после peak-value AHA+микро-разбора ── -->
-  <section class="step step-gate" id="step-gate">
-    <div class="gate-header">
-      <div class="gate-eyebrow">Хотите больше — бесплатно</div>
-      <h2 class="gate-title">Разбор с экспертом Финтабло: 20 минут под вашу ситуацию</h2>
-      <p class="gate-sub">Менеджер пройдёт по вашему профилю, покажет, как закрываются зоны потерь, и ответит на вопросы. Без скриптов и навязывания.</p>
-    </div>
-
-    <ul class="gate-benefits" aria-label="Что даёт разбор">
-      <li><span class="gb-ico" aria-hidden="true">→</span> Пройдём по вашему отчёту: профиль, зоны потерь, 30 / 60 / 90</li>
-      <li><span class="gb-ico" aria-hidden="true">→</span> Покажем, как ваши контуры закрываются в Финтабло</li>
-      <li><span class="gb-ico" aria-hidden="true">→</span> Пришлём отчёт на почту + запись разговора, если попросите</li>
-    </ul>
-
-    <div class="gate-form" id="gate-form">
-      <div class="gate-field">
-        <label class="gate-label" for="gate-name">Ваше имя</label>
-        <input id="gate-name" class="gate-input" type="text" placeholder="Иван" autocomplete="given-name" inputmode="text">
+    <!-- ── 5. Финтабло-блок (visual-first): мокап = главный герой ── -->
+    <div class="peak-product">
+      <div class="peak-product-head">
+        <div class="peak-product-eyebrow">Финтабло для&nbsp;вашего профиля</div>
+        <h3 class="peak-product-title">Так ваши цифры выглядят в&nbsp;Финтабло</h3>
       </div>
-      <div class="gate-field">
-        <label class="gate-label" for="gate-phone">Телефон <span class="gl-hint">позвоним в рабочее время</span></label>
-        <input id="gate-phone" class="gate-input" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel">
-        <div class="gate-field-error" id="gate-phone-err" hidden></div>
-      </div>
-      <button class="btn-primary btn-lg gate-submit" id="btn-gate-submit" type="button">
-        Записаться на разбор
-        <span class="btn-arrow">→</span>
-      </button>
-      <div class="gate-trust">
-        <span>Без спама</span><span class="gt-sep">·</span>
-        <span>1 звонок в рабочее время</span><span class="gt-sep">·</span>
-        <span>Без навязывания</span>
-      </div>
-      <div class="gate-consent">
-        Нажимая кнопку, вы соглашаетесь с
-        <a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой конфиденциальности</a>
-      </div>
-    </div>
 
-    <div class="gate-skip">
-      <button class="gate-skip-btn" id="btn-gate-skip" type="button">
-        Перейти к отчёту без звонка →
-      </button>
-    </div>
-  </section>
-
-  <!-- ── Step 66: Micro-breakdown (pre-gate value reveal) ── -->
-  <section class="step step-micro" id="step-66">
-    <div class="mb-eyebrow">Предварительный разбор</div>
-    <h2 class="mb-title">Вот что уже видно по вашим ответам</h2>
-    <p class="mb-subtitle">Свободная часть диагностики. Декомпозиция слепой зоны в рублях и траектория роста — в полном разборе.</p>
-
-    <!-- Block 1: Где вы на шкале прозрачности -->
-    <div class="mb-card">
-      <div class="mb-card-head">
-        <div class="mb-card-label">Ваш индекс прозрачности</div>
-        <div class="mb-card-hint">Оценка системности управленческого учёта в сравнении с похожими компаниями вашего масштаба и системы учёта</div>
-      </div>
-      <div class="mb-index-row">
-        <div class="mb-index-val mono"><span id="mb-index">—</span><span class="mb-index-of"> / 100</span></div>
-        <div class="mb-zone" id="mb-zone">—</div>
-      </div>
-      <div class="bm-bar" id="mb-bm-bar">
-        <div class="bm-zones">
-          <div class="bm-zone bm-zone-red"></div>
-          <div class="bm-zone bm-zone-orange"></div>
-          <div class="bm-zone bm-zone-green"></div>
-          <div class="bm-zone bm-zone-blue"></div>
+      <!-- Mockup дашборда — продукт во всей красе, с данными пользователя -->
+      <div class="peak-mockup" aria-hidden="true">
+        <div class="pm-head">
+          <div class="pm-dots"><span></span><span></span><span></span></div>
+          <div class="pm-title">Финтабло · управленческий дашборд</div>
+          <div class="pm-period">текущий месяц</div>
         </div>
-        <div class="bm-scale"><span>0</span><span>30</span><span>60</span><span>80</span><span>100</span></div>
-        <div class="bm-marker bm-marker-you" id="mb-bm-you"><span>Вы</span></div>
-        <div class="bm-marker bm-marker-peer" id="mb-bm-peer"><span>Похожие</span></div>
-        <div class="bm-marker bm-marker-top" id="mb-bm-top"><span>Топ 25%</span></div>
+        <div class="pm-body">
+          <div class="pm-kpi-row">
+            <div class="pm-kpi">
+              <div class="pm-kpi-label">Выручка/мес</div>
+              <div class="pm-kpi-val mono" id="pm-revenue">—</div>
+              <div class="pm-kpi-delta pm-kpi-delta-up">план-факт +4%</div>
+            </div>
+            <div class="pm-kpi">
+              <div class="pm-kpi-label">Маржинальность</div>
+              <div class="pm-kpi-val mono" id="pm-margin">—</div>
+              <div class="pm-kpi-delta pm-kpi-delta-up">видна по&nbsp;линиям</div>
+            </div>
+            <div class="pm-kpi">
+              <div class="pm-kpi-label">Остаток на&nbsp;счетах</div>
+              <div class="pm-kpi-val mono" id="pm-cash">—</div>
+              <div class="pm-kpi-delta pm-kpi-delta-warn">прогноз 30&nbsp;дней</div>
+            </div>
+          </div>
+          <div class="pm-chart">
+            <div class="pm-chart-head">
+              <span class="pm-chart-title" id="pm-chart-title">ОПиУ по&nbsp;направлениям</span>
+              <span class="pm-chart-hint">в&nbsp;моменте</span>
+            </div>
+            <div class="pm-bars">
+              <div class="pm-bar"><span class="pm-bar-name" id="pm-bar-1">—</span><span class="pm-bar-track"><span class="pm-bar-fill" style="width:82%"></span></span><span class="pm-bar-val mono">+24%</span></div>
+              <div class="pm-bar"><span class="pm-bar-name" id="pm-bar-2">—</span><span class="pm-bar-track"><span class="pm-bar-fill" style="width:58%"></span></span><span class="pm-bar-val mono">+11%</span></div>
+              <div class="pm-bar pm-bar-neg"><span class="pm-bar-name" id="pm-bar-3">—</span><span class="pm-bar-track"><span class="pm-bar-fill" style="width:34%"></span></span><span class="pm-bar-val mono">−7%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="pm-foot">Цифры — пример подачи интерфейса на&nbsp;ваших данных. В Финтабло подставятся автоматически из&nbsp;1С и&nbsp;банков.</div>
       </div>
-      <p class="mb-cohort" id="mb-cohort">—</p>
-    </div>
 
-    <!-- Block 2: Топ-2 зоны потерь в отрасли -->
-    <div class="mb-card">
-      <div class="mb-card-head">
-        <div class="mb-card-label">Две главные зоны потерь в вашей отрасли</div>
-        <div class="mb-card-hint">Остальное — в полном разборе, с оценкой в рублях</div>
-      </div>
-      <div class="mb-leaks" id="mb-leaks">
+      <!-- 4 ключевые функции под профиль — текст-компактно, иконки — акцент -->
+      <div class="peak-product-features" id="peak-features">
         <!-- rendered by quiz.js -->
       </div>
-    </div>
 
-    <!-- Block 3: Actionable tip — что попробовать уже на этой неделе -->
-    <div class="mb-card mb-tip-card">
-      <div class="mb-card-head">
-        <div class="mb-card-label">Что попробовать уже на этой неделе</div>
-        <div class="mb-card-hint">Первый шаг — без сервисов. Второй и третий — в Финтабло за 30 минут настройки.</div>
-      </div>
-      <div class="mb-tip-title" id="mb-tip-title">—</div>
-      <p class="mb-tip-body" id="mb-tip-body">—</p>
-    </div>
-
-    <!-- Block 4: Превью Финтабло dashboard -->
-    <div class="mb-card mb-mock-card">
-      <div class="mb-card-head">
-        <div class="mb-card-label">Так выглядят цифры, когда они собраны системно</div>
-        <div class="mb-card-hint">Пример из Финтабло под вашу отрасль — не реальные ваши цифры, образец подачи</div>
-      </div>
-      <div class="mock-card mock-card-margin">
-        <div class="mc-head"><span class="mc-title">Прибыль по направлениям</span><span class="mc-period">Текущий месяц</span></div>
-        <div class="mc-bars">
-          <div class="mc-bar"><span class="mc-bar-name" id="mb-mc-m1">—</span><span class="mc-bar-track"><span class="mc-bar-fill" style="width:82%"></span></span><span class="mc-bar-val mono">+28%</span></div>
-          <div class="mc-bar"><span class="mc-bar-name" id="mb-mc-m2">—</span><span class="mc-bar-track"><span class="mc-bar-fill" style="width:54%"></span></span><span class="mc-bar-val mono">+14%</span></div>
-          <div class="mc-bar mc-bar-neg"><span class="mc-bar-name" id="mb-mc-m3">—</span><span class="mc-bar-track"><span class="mc-bar-fill" style="width:32%"></span></span><span class="mc-bar-val mono">−6%</span></div>
-        </div>
-        <div class="mc-foot">Один «минусовый» сегмент виден сразу, не после закрытия квартала.</div>
+      <!-- Проекция возврата — одна строка, без давящего обещания -->
+      <div class="peak-return">
+        <span class="peak-return-ico" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15l6-6 4 4 5-5"/><path d="M13 8h5v5"/></svg>
+        </span>
+        <span class="peak-return-text">
+          По нашим данным, за&nbsp;2–3&nbsp;месяца системной работы компании похожего профиля возвращают <b>40–60% этого разрыва</b> <span class="peak-return-range mono" id="peak-proj-range">—</span>
+        </span>
       </div>
     </div>
 
-    <!-- Block 5: Обещание гейта -->
-    <div class="mb-promise-v2">
-      <div class="mb-promise-head">
-        <div class="mb-promise-eyebrow">Далее в полном разборе</div>
-        <div class="mb-promise-title">Три блока, которые откроются на следующем шаге</div>
+    <!-- ── 6. Inline-форма — короткая, чёткая ── -->
+    <div class="peak-form-wrap">
+      <div class="peak-form-head">
+        <div class="peak-form-eyebrow">Разбор готов <span class="peak-form-eyebrow-name" id="peak-form-name"></span></div>
+        <h3 class="peak-form-title">Откройте отчёт и&nbsp;Финтабло под ваш профиль</h3>
+        <p class="peak-form-sub">В отчёте — суммы по трём зонам утечки, план на&nbsp;3&nbsp;месяца и&nbsp;Финтабло с&nbsp;готовыми шаблонами под&nbsp;вашу отрасль.</p>
       </div>
-      <div class="mb-promise-items">
-        <div class="mb-promise-item">
-          <div class="mb-promise-num">1</div>
-          <div class="mb-promise-body">
-            <div class="mb-promise-item-title">Размер слепой зоны в рублях</div>
-            <div class="mb-promise-item-desc">Декомпозиция по трём источникам с расшифровкой методики под ваши данные.</div>
+
+      <form class="peak-form" id="gate-form" autocomplete="on" onsubmit="return false;">
+        <div class="peak-form-row peak-form-row-compact">
+          <div class="gate-field">
+            <label class="gate-label" for="gate-name">Имя</label>
+            <input id="gate-name" class="gate-input" type="text" placeholder="Сергей" autocomplete="given-name" inputmode="text">
+          </div>
+          <div class="gate-field">
+            <label class="gate-label" for="gate-phone">Телефон</label>
+            <input id="gate-phone" class="gate-input" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel">
+            <div class="gate-field-error" id="gate-phone-err" hidden></div>
           </div>
         </div>
-        <div class="mb-promise-item">
-          <div class="mb-promise-num">2</div>
-          <div class="mb-promise-body">
-            <div class="mb-promise-item-title">Траектория роста индекса прозрачности</div>
-            <div class="mb-promise-item-desc">Куда, по нашим данным, приходят компании вашего профиля через 2–3 месяца системной работы.</div>
-          </div>
+        <div class="gate-field">
+          <label class="gate-label" for="gate-email">Email <span class="gl-hint">по&nbsp;желанию</span></label>
+          <input id="gate-email" class="gate-input" type="email" placeholder="name@company.ru" autocomplete="email" inputmode="email">
+          <div class="gate-field-error" id="gate-email-err" hidden></div>
         </div>
-        <div class="mb-promise-item">
-          <div class="mb-promise-num">3</div>
-          <div class="mb-promise-body">
-            <div class="mb-promise-item-title">Разбор с экспертом Финтабло</div>
-            <div class="mb-promise-item-desc">20 минут под вашу ситуацию, без навязывания. Менеджер свяжется в рабочее время.</div>
-          </div>
+        <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn-primary btn-lg peak-submit" id="btn-gate-submit" type="button">
+          Открыть полный разбор
+          <span class="btn-arrow">→</span>
+        </button>
+        <div class="peak-form-trust">
+          <span class="pft-item">Отчёт — сразу</span>
+          <span class="pft-sep">·</span>
+          <span class="pft-item">Связь в&nbsp;рабочее время</span>
+          <span class="pft-sep">·</span>
+          <span class="pft-item">Без спама</span>
         </div>
-      </div>
-    </div>
-
-    <div class="step-actions-center">
-      <button class="btn-primary btn-lg" id="btn-mb-continue" type="button">
-        Открыть полный разбор
-        <span class="btn-arrow">→</span>
-      </button>
+        <p class="peak-form-consent">
+          Нажимая кнопку, вы соглашаетесь с&nbsp;<a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой конфиденциальности</a>.
+        </p>
+      </form>
     </div>
   </section>
-
-  <!-- Лид-форма перенесена в report.html как soft opt-in модал (v3 · PLG без hard-gate) -->
 
 </main>
 

@@ -5,24 +5,23 @@
   const C = window.Calculator;
   const S = window.Storage;
 
-  // Порядок шагов (v3.4 · PLG с AHA-first + peak-engagement soft-gate)
-  // 0 welcome → 1..5 quiz → 65 AHA → 66 micro-breakdown → 'gate' (peak, soft) → report
-  // AHA делает откровение (бесплатно), микро-разбор даёт прикладной срез (бесплатно),
-  // только ПОСЛЕ этих двух pay-off моментов пользователь встречает мягкий gate
-  // с видимой кнопкой «Посмотреть без контакта» — читается как «получить полный разбор с менеджером»,
-  // не как стена. Дополнительный capture в report.html (inline-CTA + FAB + modal).
-  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 65, 66, 'gate'];
+  // Порядок шагов (v5 · PLG peak-экран с inline-формой)
+  // 0 welcome → 1..5 quiz → 65 peak (узнавание + Финтабло-preview + форма inline) → report
+  // Имя собирается в форме peak-экрана — чтобы не добавлять лишний шаг и не снижать
+  // completion rate. Все вопросы — без персонализации по имени (имя ещё неизвестно).
+  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 65];
   const TOTAL_QUESTIONS = 5;
 
   // ── State ────────────────────────────────────────────────
   const state = {
     cursor: 0,
     role: null,
-    revenueIdx: 3,          // слайдер 0..7
-    monthlyRevenue: 5_000_000,
+    monthlyRevenue: 5_000_000,  // дефолт — 60 млн ₽/год
+    annualRevenue: 60_000_000,
     industry: null,
     accountingSystem: null, // single choice
     primaryPain: null,
+    name: '',               // имя, введённое в форме peak (persist для resume)
     startedAt: Date.now(),
     leadSent: false,
     reachedAha: false
@@ -76,18 +75,17 @@
     2: 'Разгоняемся',
     3: 'Почти половина',
     4: 'Почти готово',
-    5: 'Последний штрих'
+    5: 'Последний вопрос'
   };
 
   function updateProgress() {
     const wrap = $('progress-wrapper');
     const stepId = currentStepId();
-    if (stepId === 0 || stepId === 65 || stepId === 66 || stepId === 'gate') {
+    if (stepId === 0 || stepId === 65) {
       wrap.hidden = true;
       return;
     }
     wrap.hidden = false;
-
     const stepIdx = [1, 2, 3, 4, 5].indexOf(stepId) + 1;
     const pct = Math.round((stepIdx / TOTAL_QUESTIONS) * 100);
     $('progress-fill').style.width = pct + '%';
@@ -111,17 +109,6 @@
       renderAha();
     }
 
-    if (id === 'gate') {
-      // Если контакт уже собран ранее (повторный проход) — пропускаем гейт
-      if (state.leadSent) { state.cursor++; return goCurrent(); }
-      ym('reachGoal', 'moneydiag_gate_view');
-    }
-
-    if (id === 66) {
-      ym('reachGoal', 'moneydiag_microbreakdown_view');
-      renderMicrobreakdown();
-    }
-
     goCurrent();
   }
 
@@ -142,12 +129,13 @@
 
   function showNav(stepId) {
     const nav = $('step-nav');
-    const hideNav = [0, 65, 66].indexOf(stepId) !== -1 || stepId === 'anti-icp' || stepId === 'gate';
+    const hideNav = [0, 65].indexOf(stepId) !== -1;
     nav.hidden = hideNav;
 
     const btnBack = $('btn-back');
     const btnNext = $('btn-next');
     btnBack.hidden = state.cursor <= 1;
+    btnNext.hidden = false;
     btnNext.disabled = !isStepValid(stepId);
   }
 
@@ -188,6 +176,12 @@
       financier: 'Финансистов чаще всего приводит запрос: почему экспертиза не слышна собственнику. Посмотрим.',
       other:     'Руководители направлений обычно видят срез своей зоны. Покажем всю картину бизнеса.'
     },
+    2: {
+      '12':  'На этом масштабе управленческие решения обычно держатся «в голове» — покажем, с какого рубежа это ломается.',
+      '50':  'Большинство компаний этого масштаба начинают ощущать разрыв между выручкой и реальной маржой — разберёмся, где.',
+      '250': 'На этом обороте, по нашим данным, 8–12% годовой рентабельности «живёт» вне управленческого учёта. Посмотрим у вас.',
+      '800': 'При такой выручке даже 2–3% непрозрачности — это десятки миллионов в год. Разбираемся точнее.'
+    },
     3: {
       construction: 'В строительстве частая зона потерь — субподряд без детализации по объектам. Учтём.',
       it:           'В IT критична связка кассовых разрывов и этапных оплат. Вопросы подобраны под это.',
@@ -198,7 +192,7 @@
     },
     4: {
       none:    'Учёт в голове работает до определённого масштаба. Узнаем, прошли ли вы порог.',
-      excel:   'Excel — самый распространённый стартовый инструмент. И самое частое узкое место при росте.',
+      excel:   'Excel — самый распространённый стартовый инструмент. И самое частое ограничение инструмента при росте.',
       '1c':    '1С закрывает налоговый контур. Вопрос в том, что показывает цифры для решений.',
       other:   'Самописная система часто компромисс. Проверим, где она перестаёт справляться.',
       service: 'Специализированный сервис — хороший знак. Посмотрим, все ли контуры закрыты.'
@@ -268,41 +262,20 @@
       };
     });
 
-    // Step 2 — Revenue slider + anti-ICP
-    const revSlider = $('f-revenue');
-    const revReadout = $('sr-revenue-value');
-    const revSub = $('sr-revenue-sub');
-    const revZoneLbl = $('sr-zone-label');
-
-    function formatMoneyMonth(m) {
-      if (m >= 1_000_000) return Math.round(m / 1_000_000) + ' млн ₽/мес';
-      return Math.round(m / 1000) + ' тыс ₽/мес';
-    }
-
-    function updateRevenue() {
-      state.revenueIdx = Number(revSlider.value);
-      state.monthlyRevenue = C.revenueFromSliderIndex(state.revenueIdx);
-      revReadout.textContent = C.revenueLabel(state.revenueIdx);
-      if (revSub) revSub.textContent = '~ ' + formatMoneyMonth(state.monthlyRevenue);
-      // Убраны «Подходящий/Пограничный масштаб» зоны — это внутренний ICP-фильтр,
-      // клиенту не важно. При обороте < 24 млн ₽/год срабатывает soft-reject экран.
-      if (revZoneLbl) revZoneLbl.hidden = true;
-      $('btn-next').disabled = false;
-    }
-    revSlider.addEventListener('input', updateRevenue);
-    revSlider.addEventListener('change', () => {
-      updateRevenue();
-      ym('reachGoal', 'moneydiag_revenue_selected');
-      // v3.3 · Anti-ICP тупиковый экран отключён — лиды меньше 24 млн ₽/год
-      // тоже идут дальше по воронке (трафик оплачен, не теряем).
-      // Секция #step-anti-icp оставлена в DOM + скрыта в CSS.
-    });
-    updateRevenue();
-
-    // Позиционирование тиков по data-pos (абсолютное выравнивание)
-    $$('.slider-ticks-v2 span').forEach(el => {
-      const pos = el.dataset.pos;
-      if (pos != null) el.style.left = pos + '%';
+    // Step 2 — Revenue: 4 диапазона как single-choice (как step-1/3/4/5).
+    // data-value — средняя точка диапазона в млн ₽/год (используется для расчётов).
+    // По гайду UX квизов: кнопки-диапазоны, auto-advance, один экран без перегрузки.
+    $$('#step-2 .option-card').forEach(btn => {
+      btn.onclick = () => {
+        $$('#step-2 .option-card').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        const annualMln = Number(btn.dataset.value);
+        state.annualRevenue = annualMln * 1_000_000;
+        state.monthlyRevenue = Math.round(state.annualRevenue / 12);
+        ym('reachGoal', 'moneydiag_revenue_selected');
+        showReward(2, String(annualMln));
+        setTimeout(goNext, 1400);
+      };
     });
 
     // Step 3 — Industry
@@ -341,11 +314,16 @@
       };
     });
 
-    // AHA continue
-    $('btn-aha-continue').onclick = () => goNext();
-    // Micro-breakdown continue
-    const btnMb = $('btn-mb-continue');
-    if (btnMb) btnMb.onclick = () => goNext();
+    // Peak-экран v5: KPI-breakdown раскрывается кликом «откуда эта оценка»
+    const kpiBtn = $('kpi-expand-btn');
+    const kpiBd = $('kpi-breakdown');
+    if (kpiBtn && kpiBd) {
+      kpiBtn.addEventListener('click', () => {
+        const open = !kpiBd.hasAttribute('hidden') ? false : true;
+        if (open) { kpiBd.hidden = false; kpiBtn.setAttribute('aria-expanded', 'true'); kpiBtn.classList.add('is-open'); ym('reachGoal', 'moneydiag_kpi_expand'); }
+        else      { kpiBd.hidden = true;  kpiBtn.setAttribute('aria-expanded', 'false'); kpiBtn.classList.remove('is-open'); }
+      });
+    }
 
     // ── GATE · soft lead capture между AHA и микро-разбором ─
     initGateForm();
@@ -391,13 +369,15 @@
   }
 
   function restoreInputs() {
-    if (state.revenueIdx != null) {
-      $('f-revenue').value = state.revenueIdx;
-      $('sr-revenue-value').textContent = C.revenueLabel(state.revenueIdx);
-    }
     if (state.role) {
       const b = document.querySelector('#step-1 .option-card[data-value="' + state.role + '"]');
       if (b) b.classList.add('selected');
+    }
+    if (state.annualRevenue) {
+      const annualMln = Math.round(state.annualRevenue / 1_000_000);
+      // Подсветить ближайшую кнопку-диапазон на step-2 по value
+      const b2 = document.querySelector('#step-2 .option-card[data-value="' + annualMln + '"]');
+      if (b2) b2.classList.add('selected');
     }
     if (state.industry) {
       const b = document.querySelector('#step-3 .option-card[data-value="' + state.industry + '"]');
@@ -411,23 +391,32 @@
       const b = document.querySelector('#step-5 .option-card[data-value="' + state.primaryPain + '"]');
       if (b) b.classList.add('selected');
     }
+    // Имя — для peak-формы, если resume посадил пользователя прямо на peak-экран
+    if (state.name) {
+      const nameIn = $('gate-name');
+      if (nameIn && !nameIn.value) nameIn.value = state.name;
+      const nameHook = $('peak-form-name');
+      if (nameHook && !nameHook.textContent && state.name.length >= 2) {
+        nameHook.textContent = 'для ' + state.name;
+      }
+    }
   }
 
   function persistState() {
     S.saveState({
       cursor: state.cursor,
       role: state.role,
-      revenueIdx: state.revenueIdx,
       monthlyRevenue: state.monthlyRevenue,
       industry: state.industry,
       accountingSystem: state.accountingSystem,
       primaryPain: state.primaryPain,
+      name: state.name,
       leadSent: state.leadSent,
       startedAt: state.startedAt
     });
   }
 
-  // ── AHA (step 65) — профиль + ролевой хук + цена + путь + зеркало ──
+  // ── Peak-экран (step 65) v6 — hero-профиль + плотная KPI-сетка + Финтабло visual-first ──
   function renderAha() {
     const full = C.computeAll({
       role: state.role,
@@ -436,58 +425,176 @@
       accountingSystem: state.accountingSystem,
       primaryPain: state.primaryPain
     });
+    state._aha = full;
 
-    // Иконка профиля (inline SVG)
+    // 1. Hero: иконка профиля + severity + название + короткое описание
     const iconEl = $('aha-profile-icon');
-    if (iconEl) iconEl.innerHTML = C.PROFILE_ICONS[full.profileCode] || '';
-
+    if (iconEl) iconEl.innerHTML = (C.PROFILE_ICONS && C.PROFILE_ICONS[full.profileCode]) || '';
+    const pill = $('aha-severity-pill');
+    if (pill && full.severity) {
+      pill.textContent = full.severity.label;
+      pill.className = 'peak-severity peak-severity-' + full.severity.code;
+    }
     setTyped($('aha-profile-name'), full.profileName);
-    const descEl = $('aha-profile-desc'); setTyped(descEl, full.profileDescription);
+    setTyped($('aha-profile-desc'), full.profileDescription || '');
 
-    // Ролевой хук
-    const frameEl = $('aha-role-frame');
-    if (frameEl) {
-      if (full.roleFrame) { setTyped(frameEl, full.roleFrame); frameEl.hidden = false; }
-      else frameEl.hidden = true;
+    // 2. Персональное узнавание — короткий AHA-блок
+    setTyped($('aha-insight-body'), full.ahaInsight || '');
+
+    // 3. KPI: 3 равные карточки
+    const priceEl = $('aha-main-price');
+    if (priceEl) priceEl.textContent = C.formatMoneyCompact(full.estimatedAnnualLoss).replace('\u00A0₽', '');
+
+    const idxEl = $('aha-index'); if (idxEl) idxEl.textContent = full.transparencyIndex;
+    const zoneEl = $('aha-zone');
+    if (zoneEl) {
+      zoneEl.textContent = full.zoneLabel || '';
+      zoneEl.className = 'pkc-zone peak-zone-' + (full.zoneCode || 'red');
+    }
+    const teamH = $('aha-team-hours');
+    if (teamH && full.lossBreakdown && full.lossBreakdown.teamTime) teamH.textContent = full.lossBreakdown.teamTime.hours;
+    const teamZone = $('aha-team-zone');
+    if (teamZone && full.lossBreakdown && full.lossBreakdown.teamTime) {
+      const hours = full.lossBreakdown.teamTime.hours;
+      teamZone.textContent = hours >= 35 ? 'Выше нормы' : hours >= 20 ? 'Средне' : 'Близко к цели';
+      teamZone.className = 'pkc-zone peak-zone-' + (hours >= 35 ? 'red' : hours >= 20 ? 'orange' : 'green');
     }
 
-    // Когортный инсайт (PLG-глубина)
-    const cohEl = $('aha-cohort-insight');
-    if (cohEl) {
-      if (full.cohortInsight) { setTyped(cohEl, full.cohortInsight); cohEl.hidden = false; }
-      else cohEl.hidden = true;
+    // KPI-раскрытие: что стоит за цифрой
+    const bd = full.lossBreakdown;
+    if (bd) {
+      const pkbHours = $('pkb-hours'); if (pkbHours) pkbHours.textContent = bd.teamTime.hours;
+      const pkbRate  = $('pkb-rate');  if (pkbRate)  pkbRate.textContent  = C.formatMoneyCompact(bd.teamTime.hourlyCost) + '/ч';
+      const pkbTeam  = $('pkb-team');  if (pkbTeam)  pkbTeam.textContent  = '~ ' + C.formatMoneyCompact(bd.teamTime.annual);
+      const pkbHid   = $('pkb-hidden');if (pkbHid)   pkbHid.textContent   = '~ ' + C.formatMoneyCompact(bd.hiddenDrops.annual);
+      const pkbDel   = $('pkb-delay'); if (pkbDel)   pkbDel.textContent   = '~ ' + C.formatMoneyCompact(bd.delay.annual);
     }
 
-    // Цена бездействия — финансовая оценка наверху карточки
-    const priceEl = $('aha-inaction-price');
-    if (priceEl) priceEl.textContent = C.formatMoneyCompact(full.estimatedAnnualLoss);
-
-    if (full.inaction) {
-      setTyped($('aha-inaction-title'), full.inaction.title);
-      setTyped($('aha-inaction-body'), full.inaction.body);
-    }
-
-    // Путь выхода (3 шага)
-    const pathEl = $('aha-path-out');
-    if (pathEl) {
-      pathEl.innerHTML = '';
-      (full.pathOut || []).forEach(s => {
+    // 4. 3 утечки с замком — teaser
+    const leaksEl = $('aha-teaser-leaks');
+    if (leaksEl) {
+      leaksEl.innerHTML = '';
+      (full.teaserLeaks || []).slice(0, 3).forEach((title, i) => {
         const li = document.createElement('li');
-        li.textContent = typograph(s);
-        pathEl.appendChild(li);
+        li.className = 'peak-leak';
+        li.innerHTML =
+          '<span class="peak-leak-lock" aria-hidden="true">' +
+            '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="12" height="9" rx="2"/><path d="M7 9V6a3 3 0 016 0v3"/></svg>' +
+          '</span>' +
+          '<span class="peak-leak-num">' + (i + 1) + '</span>' +
+          '<span class="peak-leak-title"></span>';
+        li.querySelector('.peak-leak-title').textContent = typograph(title);
+        leaksEl.appendChild(li);
       });
     }
 
-    const qList = $('aha-questions');
-    qList.innerHTML = '';
-    full.mirrorQuestions.forEach(q => {
-      const li = document.createElement('li');
-      li.textContent = typograph(q);
-      qList.appendChild(li);
+    // 5. Финтабло-блок: проекция возврата — тонкая строка с диапазоном ₽, без обещаний
+    const projRange = $('peak-proj-range');
+    if (projRange && full.fintabloProjection) {
+      projRange.textContent =
+        '(≈\u00A0' + C.formatMoneyCompact(full.fintabloProjection.low) + '\u00A0–\u00A0' +
+        C.formatMoneyCompact(full.fintabloProjection.high) + '/год)';
+    }
+
+    // 4 функции под профиль × боль — product-preview
+    const featsEl = $('peak-features');
+    if (featsEl) {
+      const feats = featuresForPeak(full.profileCode, full.primaryPain, full.industry);
+      featsEl.innerHTML = '';
+      feats.forEach(f => {
+        const card = document.createElement('div');
+        card.className = 'peak-feat';
+        card.innerHTML =
+          '<div class="peak-feat-ico" aria-hidden="true">' + f.ico + '</div>' +
+          '<div class="peak-feat-body">' +
+            '<div class="peak-feat-name"></div>' +
+            '<div class="peak-feat-desc"></div>' +
+          '</div>';
+        card.querySelector('.peak-feat-name').textContent = f.name;
+        card.querySelector('.peak-feat-desc').textContent = typograph(f.desc);
+        featsEl.appendChild(card);
+      });
+    }
+
+    // Мини-мокап дашборда Финтабло — визуальный прогрев с данными пользователя
+    const pmRev = $('pm-revenue');
+    if (pmRev) pmRev.textContent = C.formatMoneyCompact(full.monthlyRevenue);
+
+    // Ориентир маржи — по системе учёта (чем зрелее, тем выше типовая маржа)
+    const marginByProfile = {
+      blind:                  '12–18%',
+      early_stage:            '15–22%',
+      plateau:                '14–20%',
+      scale_without_control:  '10–16%',
+      accounting_illusion:    '11–17%',
+      almost_there:           '18–25%'
+    };
+    const pmMargin = $('pm-margin');
+    if (pmMargin) pmMargin.textContent = marginByProfile[full.profileCode] || '12–18%';
+
+    // Остаток на 30 дней — ~1/12 годовой выручки, округлённо
+    const cashOnHand = Math.round(full.annualRevenue / 12 * 0.8);
+    const pmCash = $('pm-cash');
+    if (pmCash) pmCash.textContent = C.formatMoneyCompact(cashOnHand);
+
+    // Название направлений в мокап-графике — под отрасль
+    // Короткие имена — помещаются на 375px без text-overflow
+    const MOCK_NAMES = {
+      construction: ['Жильё',          'Коммерция',   'Инфраструктура'],
+      it:           ['Продукт',        'Проекты',     'Интеграции'],
+      agency:       ['Ретейнеры',      'Проекты',     'Медиабай'],
+      production:   ['Основное',       'Спецзаказ',   'Сервис'],
+      services:     ['Направление A',  'Направление B', 'Направление C'],
+      other:        ['Сегмент A',      'Сегмент B',     'Сегмент C']
+    };
+    const names = MOCK_NAMES[full.industry] || MOCK_NAMES.other;
+    ['pm-bar-1', 'pm-bar-2', 'pm-bar-3'].forEach((id, i) => {
+      const el = $(id); if (el) el.textContent = names[i];
     });
 
-    setTyped($('aha-benchmark-industry'), full.industryBenchmark || '');
-    setTyped($('aha-benchmark-scale'), full.revenueModifier || '');
+    // Название графика — с учётом термина отрасли
+    const UNITS = (C.UNITS_BY_INDUSTRY && C.UNITS_BY_INDUSTRY[full.industry]) || (C.UNITS_BY_INDUSTRY && C.UNITS_BY_INDUSTRY.other);
+    const chartTitle = $('pm-chart-title');
+    if (chartTitle && UNITS) chartTitle.textContent = 'ОПиУ по ' + UNITS.many;
+  }
+
+  // Фичи Финтабло для peak-экрана — 4 карточки под профиль + боль + отрасль.
+  // Названия и описания подстраиваются под термины отрасли
+  // (объекты/проекты/клиенты/продукты/направления) — без жаргона
+  // и без сужения к одной отрасли, если не выбрана.
+  function featuresForPeak(profileCode, primaryPain, industry) {
+    const UNITS = (C.UNITS_BY_INDUSTRY && C.UNITS_BY_INDUSTRY[industry]) || (C.UNITS_BY_INDUSTRY && C.UNITS_BY_INDUSTRY.other) || { one: 'направление', many: 'направлениям', gen: 'направления' };
+
+    const ICOS = {
+      pnl:        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><rect x="5" y="10" width="3" height="8"/><rect x="10" y="6" width="3" height="12"/><rect x="15" y="13" width="3" height="5"/></svg>',
+      calendar:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>',
+      planfact:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>',
+      cashflow:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>',
+      receivables:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v10H4z"/><path d="M8 3v4M16 3v4M8 12h8M8 15h5"/></svg>',
+      dashboard:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg>'
+    };
+    const FEATS = {
+      pnl:          { name: 'ОПиУ по ' + UNITS.many,   desc: 'Маржинальность каждой линии видна в моменте, а не после закрытия периода.' },
+      calendar:     { name: 'Платёжный календарь',     desc: 'Кассовый разрыв виден за 3–5 недель, а не за 3–5 дней до события.' },
+      planfact:     { name: 'План-факт в моменте',     desc: 'Отклонения подсвечиваются сразу, без сборки в конце квартала.' },
+      cashflow:     { name: 'Прогноз ДДС',             desc: 'Единый горизонт денежного потока по всем счетам и ' + UNITS.many + '.' },
+      receivables:  { name: 'Контроль дебиторки',      desc: 'Реестр дебиторской задолженности с приоритетом по сумме и сроку.' },
+      dashboard:    { name: 'Управленческий дашборд',  desc: 'Ключевые показатели бизнеса — ДДС, ОПиУ, план-факт — в одной форме.' }
+    };
+    // По боли — основная фича первой
+    const byPain = {
+      margin_blind:    ['pnl',      'planfact', 'dashboard',    'receivables'],
+      late_loss:       ['pnl',      'planfact', 'cashflow',     'dashboard'],
+      cash_surprise:   ['calendar', 'cashflow', 'receivables',  'pnl'],
+      data_lag:        ['dashboard','cashflow', 'planfact',     'pnl'],
+      no_big_picture:  ['dashboard','pnl',      'cashflow',     'planfact']
+    };
+    const codes = byPain[primaryPain] || byPain.no_big_picture;
+    return codes.slice(0, 4).map(code => ({
+      name: FEATS[code].name,
+      desc: FEATS[code].desc,
+      ico:  ICOS[code]
+    }));
   }
 
   // ── Role-aware labels для step-5 (боли) ─────────────────
@@ -506,148 +613,68 @@
     });
   }
 
-  // Топ-2 зоны потерь по отрасли (используются на шаге 66).
-  // Дубль упрощённых карточек от report.js, чтобы квиз не зависел от report.js.
-  const MB_LEAKS = {
-    construction: [
-      { title: 'Субподряд без детализации по объектам',  body: 'Акт закрыт — факт по затратам на 15–20% выше плановых. Типовая ситуация в строительстве, которую видно постфактум.' },
-      { title: 'Кассовый разрыв на стыках этапов',        body: 'Обязательства по зарплате и материалам идут непрерывно, поступления — по актам. Разрыв проявляется без предупреждения.' }
-    ],
-    it: [
-      { title: 'Кассовый разрыв между этапами оплат',     body: 'Аванс израсходован, следующий платёж через 3–4 недели, команда работает непрерывно.' },
-      { title: 'Рентабельность проекта видна только в конце', body: 'Пока спринт в работе — рентабельность неизвестна. Отклонения от плана фиксируются постфактум.' }
-    ],
-    agency: [
-      { title: 'Рентабельность распределяется на накладные', body: 'Внешние услуги и субподряд не декомпозируются по клиентам. Суммарно прибыль положительная, при разбивке по клиентам встречаются убыточные.' },
-      { title: 'Дебиторка накапливается незаметно',          body: 'Без системного контроля оплат долги аккумулируются, и кассовый разрыв возникает там, где его не планировали.' }
-    ],
-    production: [
-      { title: 'ФОТ и материалы не по продуктам',            body: 'Без распределения затрат рентабельность видна суммарно, а не по продукту. Какой реально зарабатывает — неизвестно.' },
-      { title: 'Кассовый разрыв на закупках',                body: 'Сырьё оплачивается заранее, поступления от клиентов — позже. Без прогноза ДДС разрывы возникают регулярно.' }
-    ],
-    services: [
-      { title: 'Рентабельность по направлениям не разложена', body: 'Услуги суммарно прибыльные, но вклад каждого направления в прибыль не разложен по данным.' },
-      { title: 'ФОТ — основная статья, без аллокации',         body: '60–80% затрат — это люди. Без распределения времени по направлениям рентабельность считается усреднённо.' }
-    ],
-    other: [
-      { title: 'Рентабельность в моменте недоступна',         body: 'Пока направление активно, его рентабельность неизвестна. Управление идёт на основании опыта, а не данных.' },
-      { title: 'План-факт собирается вручную',                 body: 'Каждое сведение данных занимает часы. Анализ отклонений делается реже, чем того требует ситуация.' }
-    ]
-  };
-
-  // Имена для мок-карточки — отражают типовые сегменты отрасли
-  const MOCK_NAMES_BY_INDUSTRY = {
-    construction: ['Жилая застройка',         'Коммерческие объекты',  'Инфраструктурные'],
-    it:           ['Проект A',                'Проект B',              'Проект C'],
-    agency:       ['Ретейнеры',               'Проекты',               'Медиабай'],
-    production:   ['Основное производство',   'Спецзаказы',            'Ремонт и сервис'],
-    services:     ['Направление 1',           'Направление 2',         'Направление 3'],
-    other:        ['Сегмент A',               'Сегмент B',             'Сегмент C']
-  };
-
-  // ── Micro-breakdown (step 66) ───────────────────────────
-  function renderMicrobreakdown() {
-    const r = C.computeAll({
-      role: state.role,
-      industry: state.industry,
-      monthlyRevenue: state.monthlyRevenue,
-      accountingSystem: state.accountingSystem,
-      primaryPain: state.primaryPain
-    });
-
-    // Block 1: индекс + бенчмарк-бар
-    $('mb-index').textContent = r.transparencyIndex;
-    const z = $('mb-zone');
-    if (z) {
-      z.textContent = r.zoneLabel || '—';
-      z.className = 'mb-zone ric-zone-' + (r.zoneCode || 'red');
-    }
-    const you = $('mb-bm-you');   if (you)  you.style.left  = r.transparencyIndex + '%';
-    const peer = $('mb-bm-peer'); if (peer) peer.style.left = r.peerIndex + '%';
-    const top = $('mb-bm-top');   if (top)  top.style.left  = r.topIndex + '%';
-    const systemLabels = { none: 'без системного учёта', excel: 'с Excel', '1c': 'с 1С', other: 'с самописной системой', service: 'со специализированным сервисом' };
-    const sysLabel = systemLabels[r.accountingSystem] || 'с текущей системой';
-    $('mb-cohort').textContent = typograph(
-      'Типовой индекс для компаний вашего масштаба ' + sysLabel + ' — около ' + r.peerIndex + '. У 25% наиболее зрелых похожих компаний — от ' + r.topIndex + '. Разница с вашим ' + r.transparencyIndex + ' — это и есть разрыв, который закрывает система.'
-    );
-
-    // Block 2: топ-2 зоны потерь
-    const leaks = MB_LEAKS[state.industry] || MB_LEAKS.other;
-    const lEl = $('mb-leaks');
-    if (lEl) {
-      lEl.innerHTML = '';
-      leaks.slice(0, 2).forEach(l => {
-        const card = document.createElement('div');
-        card.className = 'mb-leak-card';
-        const t = document.createElement('div'); t.className = 'mbl-title'; t.textContent = typograph(l.title);
-        const b = document.createElement('div'); b.className = 'mbl-body'; b.textContent = typograph(l.body);
-        card.appendChild(t); card.appendChild(b);
-        lEl.appendChild(card);
-      });
-    }
-
-    // Block 3: actionable tip
-    if (r.actionableTip) {
-      setTyped($('mb-tip-title'), r.actionableTip.title);
-      setTyped($('mb-tip-body'), r.actionableTip.body);
-    }
-
-    // Block 4: мок-карточка с именами под отрасль
-    const names = MOCK_NAMES_BY_INDUSTRY[state.industry] || MOCK_NAMES_BY_INDUSTRY.other;
-    ['mb-mc-m1', 'mb-mc-m2', 'mb-mc-m3'].forEach((id, i) => {
-      const el = $(id); if (el) el.textContent = names[i];
-    });
-  }
-
-  // ── Contact gate (step 10) ──────────────────────────────
-  function renderContactGate() {
-    const r = C.computeAll({
-      role: state.role,
-      industry: state.industry,
-      monthlyRevenue: state.monthlyRevenue,
-      accountingSystem: state.accountingSystem,
-      primaryPain: state.primaryPain
-    });
-
-    $('contact-profile-name').textContent = r.profileName;
-    $('contact-loss').textContent = C.formatMoneyCompact(r.estimatedAnnualLoss) + '/год';
-    $('contact-index').textContent = r.transparencyIndex + ' / 100';
-  }
-
-  // ── GATE (soft lead capture между AHA и micro-breakdown) ──
+  // ── GATE (hard-gate: форма-стена между AHA и полным отчётом) ──
   function initGateForm() {
     const nameEl   = $('gate-name');
     const phoneEl  = $('gate-phone');
+    const emailEl  = $('gate-email');
     const submitEl = $('btn-gate-submit');
-    const skipEl   = $('btn-gate-skip');
     const phoneErr = $('gate-phone-err');
-    if (!nameEl || !phoneEl || !submitEl || !skipEl) return;
+    const emailErr = $('gate-email-err');
+    if (!nameEl || !phoneEl || !submitEl) return;
+    const gateForm = $('gate-form');
+    const hpEl = gateForm ? gateForm.querySelector('input[name="website"]') : null;
 
     const L = window.Lead;
 
-    // Маска телефона через Lead.maskPhone (уже валидированная и протестированная)
     phoneEl.addEventListener('input', (e) => {
       e.target.value = L ? L.maskPhone(e.target.value) : e.target.value;
       phoneEl.classList.remove('error');
       if (phoneErr) phoneErr.hidden = true;
     });
-    nameEl.addEventListener('input', () => nameEl.classList.remove('error'));
+    nameEl.addEventListener('input', () => {
+      nameEl.classList.remove('error');
+      // Live-персонализация eyebrow: «Разбор готов · для Иван»
+      const nameHook = $('peak-form-name');
+      if (nameHook) {
+        const v = nameEl.value.trim();
+        nameHook.textContent = (v.length >= 2 && !/\d/.test(v)) ? ('для ' + v) : '';
+      }
+    });
+    if (emailEl) {
+      emailEl.addEventListener('input', () => {
+        emailEl.classList.remove('error');
+        if (emailErr) emailErr.hidden = true;
+      });
+    }
 
     function validate() {
       let ok = true;
       const nameR  = L ? L.validateName(nameEl.value)   : { ok: nameEl.value.trim().length >= 2 };
       const phoneR = L ? L.validatePhone(phoneEl.value) : { ok: phoneEl.value.replace(/\D/g, '').length === 11 };
+      // Email — опциональный. Валидируется только если пользователь начал вводить.
+      const emailVal = emailEl ? emailEl.value.trim() : '';
+      const emailR = (emailEl && emailVal)
+        ? (L ? L.validateEmail(emailEl.value) : { ok: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailVal) })
+        : { ok: true };
       if (!nameR.ok)  { nameEl.classList.add('error');  ok = false; }
       if (!phoneR.ok) {
         phoneEl.classList.add('error');
         if (phoneErr && phoneR.msg) { phoneErr.textContent = phoneR.msg; phoneErr.hidden = false; }
         ok = false;
       }
+      if (!emailR.ok && emailEl) {
+        emailEl.classList.add('error');
+        if (emailErr && emailR.msg) { emailErr.textContent = emailR.msg; emailErr.hidden = false; }
+        ok = false;
+      }
       return ok;
     }
 
-    function submitGate(isSkip) {
-      if (!isSkip && !validate()) return;
+    function submitGate() {
+      if (!validate()) return;
+      // Honeypot — бот заполнил скрытое поле: молча имитируем успех, не шлём
+      const isBot = !!(hpEl && hpEl.value);
 
       const computed = C.computeAll({
         role: state.role,
@@ -658,11 +685,11 @@
       });
       const utm = S.getUTM ? (S.getUTM() || {}) : {};
 
-      if (!isSkip) {
+      if (!isBot) {
         const payload = {
           name: nameEl.value.trim(),
           phone: phoneEl.value,
-          email: '',
+          email: emailEl ? emailEl.value.trim() : '',
           service: 'money-diagnosis',
           source: 'gate',
           answers: {
@@ -682,26 +709,24 @@
         state.leadSent = true;
         ym('reachGoal', 'moneydiag_gate_submit');
         ym('reachGoal', 'moneydiag_pixel_hot');
-      } else {
-        ym('reachGoal', 'moneydiag_gate_skip');
       }
 
-      // Кладём данные отчёта в storage — report.html их прочитает
+      // Сохраняем имя в state (для resume) и в отчёт (для report.html)
+      state.name = nameEl.value.trim();
       S.saveReportData(Object.assign({}, computed, {
-        name: isSkip ? '' : nameEl.value.trim(),
-        leadSent: !isSkip
+        name: state.name,
+        leadSent: true
       }));
 
       persistState();
-      // submit-btn защита от повторных кликов
       submitEl.disabled = true;
-      submitEl.textContent = isSkip ? 'Открываем…' : 'Отправляем…';
+      submitEl.textContent = 'Открываем разбор…';
 
-      goNext();
+      // Hard-gate: сразу в отчёт (минуя промежуточные шаги)
+      finishQuiz();
     }
 
-    submitEl.addEventListener('click', () => submitGate(false));
-    skipEl.addEventListener('click',   () => submitGate(true));
+    submitEl.addEventListener('click', submitGate);
   }
 
   // ── UTM → Dynamic H1 (message match для сегментированного Директа) ──
@@ -713,11 +738,11 @@
     const campaign = (params.get('utm_campaign') || '').toLowerCase();
 
     const variants = {
-      stroy:      { h1: 'Сколько строительный бизнес теряет из-за учёта — <span class="accent">цифра за 2 минуты</span>',        sub: 'Профиль, цена бездействия и индекс прозрачности — под обороты вашего проекта.' },
-      it:         { h1: 'Сколько IT-компания теряет на размытой аналитике — <span class="accent">цифра за 2 минуты</span>',      sub: 'Ответите на 5 вопросов — узнаете, где прячется прибыль по проектам и клиентам.' },
-      agency:     { h1: 'Сколько агентство теряет из-за учёта по ощущениям — <span class="accent">цифра за 2 минуты</span>',     sub: 'Профиль, цена бездействия и индекс прозрачности — за 2 минуты, без таблиц.' },
-      production: { h1: 'Сколько производство теряет из-за слепых зон в учёте — <span class="accent">цифра за 2 минуты</span>', sub: 'Ответите на 5 вопросов — получите оценку потерь и индекс прозрачности.' },
-      fin_dir:    { h1: 'Диагностика системности управленческого учёта — <span class="accent">индекс за 2 минуты</span>',         sub: 'Сравните свою систему с похожими компаниями. Профиль и зоны роста — сразу.' }
+      stroy:      { h1: 'Упущенная прибыль в стройке — <span class="accent">оценка за 2 минуты</span>',            sub: 'Декомпозиция потерь по объектам, индекс прозрачности и ориентир возврата с Финтабло.' },
+      it:         { h1: 'Упущенная прибыль в IT-проектах — <span class="accent">оценка за 2 минуты</span>',        sub: 'Где прячется маржинальность по проектам и клиентам — и как её вернуть с Финтабло.' },
+      agency:     { h1: 'Упущенная прибыль агентства из-за учёта по ощущениям — <span class="accent">оценка за 2 минуты</span>', sub: 'Индекс прозрачности на фоне похожих агентств и ориентир возврата с Финтабло.' },
+      production: { h1: 'Упущенная прибыль в производстве — <span class="accent">оценка за 2 минуты</span>',       sub: 'Декомпозиция потерь по продуктам, индекс прозрачности и ориентир возврата с Финтабло.' },
+      fin_dir:    { h1: 'Индекс системности управленческого учёта — <span class="accent">оценка за 2 минуты</span>', sub: 'Сравнение с похожими компаниями и типовая траектория перехода в «системную прозрачность».' }
     };
 
     const keys = Object.keys(variants);

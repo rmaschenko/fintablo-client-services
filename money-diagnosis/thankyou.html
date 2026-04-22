@@ -28,8 +28,7 @@
 <header>
   <div class="header-inner">
     <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
-      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
-      <span class="logo-fallback" style="display:none">Финтабло</span>
+      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.onerror=null;this.src='img/logo.svg';">
     </a>
     <div class="header-meta">Заявка получена</div>
   </div>
@@ -46,10 +45,12 @@
   <section class="ty-manager">
     <div class="manager-info">
       <div class="manager-avatar" aria-hidden="true">
-        <img src="https://ui-avatars.com/api/?name=Финтабло&background=1A1F36&color=fff&size=128" alt="Менеджер Финтабло" width="64" height="64">
+        <!-- TODO: заменить img/manager.svg на реальную фотографию менеджера -->
+        <img src="img/manager.svg" alt="Дмитрий Свиридов, эксперт Финтабло" width="72" height="72">
       </div>
       <div class="manager-text">
-        <div class="manager-name">Менеджер по сопровождению диагностики</div>
+        <!-- TODO: подставить реальные ФИО и должность менеджера -->
+        <div class="manager-name">Дмитрий Свиридов <span class="manager-role">· эксперт по внедрению управленческого учёта</span></div>
         <div class="manager-hint">Изучит ваш профиль и зоны потерь до звонка. Разговор — около 20 минут, покажем, как Финтабло закрывает именно вашу ситуацию.</div>
       </div>
     </div>
@@ -62,7 +63,7 @@
         <div class="ty-step-num">1</div>
         <div class="ty-step-body">
           <div class="ty-step-title">Мы свяжемся с вами</div>
-          <div class="ty-step-desc">Менеджер позвонит в рабочее время. Если не дозвонимся — напишем в мессенджер и на email.</div>
+          <div class="ty-step-desc">Менеджер позвонит в рабочее время. Если не дозвонимся — напишем в мессенджер по номеру из формы.</div>
         </div>
       </li>
       <li class="ty-step">
@@ -95,12 +96,12 @@
   <section class="ty-cases">
     <h2 class="ty-section-title">Пока ждёте — глубже разобраться</h2>
     <div class="ty-case-links">
-      <a class="ty-case" href="https://fintablo.ru/case" target="_blank" rel="noopener">
+      <a class="ty-case" href="https://fintablo.ru/case?utm_source=money-diagnosis&amp;utm_medium=plg&amp;utm_campaign=thankyou&amp;utm_content=case" target="_blank" rel="noopener">
         <div class="ty-case-title">Кейсы клиентов Финтабло</div>
         <div class="ty-case-desc">Реальные истории компаний: до → после внедрения</div>
         <div class="ty-case-cta">Читать кейсы →</div>
       </a>
-      <a class="ty-case" href="https://fintablo.ru/registration" target="_blank" rel="noopener">
+      <a class="ty-case" id="ty-trial-link" href="https://fintablo.ru/registration?utm_source=money-diagnosis&amp;utm_medium=plg&amp;utm_campaign=thankyou&amp;utm_content=registration" target="_blank" rel="noopener">
         <div class="ty-case-title">Посмотреть Финтабло без заявки</div>
         <div class="ty-case-desc">Бесплатная регистрация — чтобы оценить интерфейс и функции до звонка</div>
         <div class="ty-case-cta">Перейти →</div>
@@ -144,6 +145,16 @@
     document.getElementById('ty-loss').textContent = '~ ' +
       window.Calculator.formatMoneyCompact(data.estimatedAnnualLoss) + '/год';
     document.getElementById('ty-pain').textContent = data.painLabel || '—';
+  }
+
+  // Персональный deep-link для кнопки «Посмотреть Финтабло без заявки»
+  var tyTrial = document.getElementById('ty-trial-link');
+  if (tyTrial && window.Calculator.buildFintabloDeepLink) {
+    tyTrial.setAttribute('href',
+      window.Calculator.buildFintabloDeepLink(data, 'https://fintablo.ru/registration'));
+    tyTrial.addEventListener('click', function(){
+      if (typeof ym === 'function') ym(61131877, 'reachGoal', 'moneydiag_thankyou_trial_click');
+    });
   }
 
   window.Storage.clearState();

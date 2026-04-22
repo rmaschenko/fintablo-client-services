@@ -27,8 +27,7 @@
 <header>
   <div class="header-inner">
     <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
-      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
-      <span class="logo-fallback" style="display:none">Финтабло</span>
+      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.onerror=null;this.src='img/logo.svg';">
     </a>
     <div class="header-meta">Персональный отчёт</div>
   </div>
@@ -56,17 +55,19 @@
     </div>
   </section>
 
-  <!-- ── Inline CTA #1 · сразу после TL;DR (hi-intent user ловит здесь) ── -->
-  <aside class="inline-cta inline-cta-top" aria-label="Записаться на разбор">
-    <div class="inline-cta-body">
-      <div class="inline-cta-eyebrow">Разбор с экспертом Финтабло</div>
-      <div class="inline-cta-title">Пройдём по вашему отчёту за 20 минут — бесплатно</div>
-      <div class="inline-cta-sub">Менеджер разберёт ваш профиль и покажет, как закрыть зоны потерь. Отчёт ниже, если хотите прочитать сами.</div>
+  <!-- ── Welcome-плашка отчёта: подтверждение что форма принята + что открыть в Финтабло ── -->
+  <aside class="report-welcome">
+    <div class="rw-check" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-12"/></svg>
     </div>
-    <button class="btn-primary inline-cta-btn" data-open-lead-modal type="button">
-      Записаться на разбор
+    <div class="rw-body">
+      <div class="rw-title" id="rw-title">Разбор готов</div>
+      <div class="rw-sub">Ниже — точные суммы по трём зонам утечки, план действий на&nbsp;три&nbsp;месяца и&nbsp;Финтабло с&nbsp;готовыми шаблонами под вашу отрасль.</div>
+    </div>
+    <a class="btn-primary rw-cta" id="cta-trial-top" href="https://fintablo.ru/registration" target="_blank" rel="noopener">
+      Открыть Финтабло
       <span class="btn-arrow">→</span>
-    </button>
+    </a>
   </aside>
 
   <!-- ── Section 1: Профиль + карточки индекса/зоны ── -->
@@ -101,8 +102,8 @@
         </div>
         <div class="bm-scale"><span>0</span><span>30</span><span>60</span><span>80</span><span>100</span></div>
         <div class="bm-marker bm-marker-you" id="rs1-bm-you" title="Вы"><span>Вы</span></div>
-        <div class="bm-marker bm-marker-peer" id="rs1-bm-peer" title="Похожие компании"><span>Похожие</span></div>
-        <div class="bm-marker bm-marker-top" id="rs1-bm-top" title="Топ 25%"><span>Топ 25%</span></div>
+        <div class="bm-marker bm-marker-peer" id="rs1-bm-peer" title="Компании вашего масштаба с тем же типом учёта"><span>Конкуренты</span></div>
+        <div class="bm-marker bm-marker-top" id="rs1-bm-top" title="25% компаний-лидеров с системным финансовым учётом"><span>Лидеры</span></div>
       </div>
       <p class="ric-zone-hint" id="rs1-zone-hint">—</p>
       <p class="ric-cohort-hint" id="rs1-cohort-hint">—</p>
@@ -155,28 +156,25 @@
     <p class="pd-cohort" id="rsi-cohort" style="max-width:none;text-align:left;font-style:normal">—</p>
   </section>
 
-  <!-- ── План выхода 30/60/90 ── -->
+  <!-- ── План действий на первые три месяца (по этапам) ── -->
   <section class="report-section">
-    <div class="rs-eyebrow">Секция · План выхода</div>
-    <h2 class="rs-title">30 / 60 / 90 дней — типовая последовательность для вашего профиля</h2>
-    <p class="rs-sub">Базовая траектория. В полной версии Финтабло эти шаги закрываются инструментом автоматически, но последовательность работает и без него.</p>
+    <div class="rs-eyebrow">Секция · План действий</div>
+    <h2 class="rs-title">Первые три месяца — по&nbsp;этапам: до&nbsp;месяца, до&nbsp;двух, до&nbsp;трёх</h2>
+    <p class="rs-sub">Базовая последовательность для вашего профиля. В Финтабло эти шаги закрываются инструментом автоматически, но порядок работает и без него.</p>
     <div class="rs-plan" id="rs-plan">
       <!-- rendered by report.js -->
     </div>
   </section>
 
-  <!-- ── Inline CTA #2 · mid-funnel, ловит тех кто увидел план и хочет помощь ── -->
-  <aside class="inline-cta inline-cta-mid" aria-label="Разбор плана с экспертом">
-    <div class="inline-cta-body">
-      <div class="inline-cta-eyebrow">Разбор плана под вашу компанию</div>
-      <div class="inline-cta-title">Хотите пройти этот план с экспертом Финтабло?</div>
-      <div class="inline-cta-sub">20 минут, бесплатно. Покажем, какие из шагов закрываются в Финтабло в первую очередь и сколько это займёт у вас.</div>
+  <!-- ── Раскрытие замка: суммы по трём зонам утечки ── -->
+  <section class="report-section rs-leak-decomposition">
+    <div class="rs-eyebrow">Секция · Три зоны утечки с&nbsp;суммами</div>
+    <h2 class="rs-title">Откуда складывается ~<span id="rld-total-loss">—</span> в год</h2>
+    <p class="rs-sub">Раскрываем три типовые зоны из первого экрана. Суммы — по данным вашей отрасли и масштаба, округлённо.</p>
+    <div class="rld-grid" id="rld-grid">
+      <!-- rendered by report.js -->
     </div>
-    <button class="btn-primary inline-cta-btn" data-open-lead-modal type="button">
-      Записаться
-      <span class="btn-arrow">→</span>
-    </button>
-  </aside>
+  </section>
 
   <!-- ── Self-check ── -->
   <section class="report-section">
@@ -194,9 +192,9 @@
 
   <!-- ── Похожий профиль — анонимный кейс ── -->
   <section class="report-section">
-    <div class="rs-eyebrow">Секция · Похожий путь</div>
-    <h2 class="rs-title">Как обычно меняется ситуация у компаний вашего профиля</h2>
-    <p class="rs-sub">Анонимный кейс из наших наблюдений. Цифры — типовые для профиля, не прогноз.</p>
+    <div class="rs-eyebrow">Секция · Путь к зоне лидеров</div>
+    <h2 class="rs-title">Как компании вашего профиля выходят в зону предсказуемого роста</h2>
+    <p class="rs-sub">Анонимный кейс компании с похожим стартом. Цифры — типовые для профиля, не гарантия. Смысл не в «успехе», а в том, что системный учёт — повторяемая инфраструктура, а не талант.</p>
     <div class="rs-anon-case" id="rs-anon-case">
       <div class="rac-head">
         <span class="rac-badge">Похожий профиль</span>
@@ -215,53 +213,26 @@
     </div>
   </section>
 
-  <!-- ── Section 4: Сценарии ── -->
-  <section class="report-section report-s4">
-    <div class="rs-eyebrow">Секция · Варианты решения</div>
-    <h2 class="rs-title">Варианты решения — от простого к системному</h2>
-    <div class="rs-scenarios">
-      <div class="rs-sc">
-        <div class="rs-sc-head">
-          <span class="rs-sc-letter">А</span>
-          <span class="rs-sc-name">Улучшить текущую систему</span>
-        </div>
-        <div class="rs-sc-body">
-          <div class="rs-sc-row"><span>Что даёт</span><b>Частично закроет пробелы на 3–6 месяцев</b></div>
-          <div class="rs-sc-row"><span>Сложность</span><b>Низкая, быстро</b></div>
-          <div class="rs-sc-row"><span>Ограничение</span><b>С ростом снова упрётся в потолок</b></div>
-        </div>
+  <!-- ── Короткий контекст альтернатив (свёрнуто, не отвлекает от главного CTA) ── -->
+  <section class="report-section rs-alts">
+    <div class="rs-eyebrow">Контекст · Почему Финтабло</div>
+    <h2 class="rs-title">Где находится Финтабло среди вариантов</h2>
+    <div class="rs-alts-row">
+      <div class="rs-alts-item rs-alts-item-dim">
+        <div class="rs-alts-label">Улучшить Excel / 1С</div>
+        <div class="rs-alts-hint">Закроет 3–6 месяцев, упрётся в потолок роста.</div>
       </div>
-      <div class="rs-sc rs-sc-recommended">
-        <div class="rs-sc-head">
-          <span class="rs-sc-letter">Б</span>
-          <span class="rs-sc-name">Финтабло</span>
-          <span class="rs-sc-badge">Рекомендовано</span>
-        </div>
-        <div class="rs-sc-body">
-          <div class="rs-sc-row"><span>Что даёт</span><b>ОПиУ, ДДС, план-факт по каждому направлению</b></div>
-          <div class="rs-sc-row"><span>Сложность</span><b>Низкая, с поддержкой внедрения</b></div>
-          <div class="rs-sc-row"><span>Внедрение</span><b>От 2 недель, с экспертом</b></div>
-        </div>
+      <div class="rs-alts-item rs-alts-item-dim">
+        <div class="rs-alts-label">1С УПП / ERP</div>
+        <div class="rs-alts-hint">Мощно, но внедрение 6–12 мес и бюджет от 2 млн ₽.</div>
       </div>
-      <div class="rs-sc">
-        <div class="rs-sc-head">
-          <span class="rs-sc-letter">В</span>
-          <span class="rs-sc-name">1С УПП / ERP</span>
-        </div>
-        <div class="rs-sc-body">
-          <div class="rs-sc-row"><span>Что даёт</span><b>Мощно, гибко, но долго и дорого</b></div>
-          <div class="rs-sc-row"><span>Сложность</span><b>Высокая, 6–12 месяцев</b></div>
-        </div>
+      <div class="rs-alts-item rs-alts-item-primary">
+        <div class="rs-alts-label">Финтабло</div>
+        <div class="rs-alts-hint">Управленческий учёт под ваш профиль. Внедрение от 2 недель, работает поверх 1С и банков.</div>
       </div>
-      <div class="rs-sc">
-        <div class="rs-sc-head">
-          <span class="rs-sc-letter">Г</span>
-          <span class="rs-sc-name">Нанять финансового директора</span>
-        </div>
-        <div class="rs-sc-body">
-          <div class="rs-sc-row"><span>Что даёт</span><b>Человек без инструмента — не решение</b></div>
-          <div class="rs-sc-row"><span>Сложность</span><b>Средняя, но дорого в штате</b></div>
-        </div>
+      <div class="rs-alts-item rs-alts-item-dim">
+        <div class="rs-alts-label">Финансовый директор в штат</div>
+        <div class="rs-alts-hint">Человек без инструмента — не закрывает контуры.</div>
       </div>
     </div>
   </section>
@@ -270,7 +241,7 @@
   <section class="report-section report-s5">
     <div class="rs-eyebrow">Секция · Как это закрывается</div>
     <h2 class="rs-title">Финтабло для вашего профиля</h2>
-    <p class="rs-sub" id="rs5-sub">Функции, закрывающие характерные для вашей ситуации зоны риска</p>
+    <p class="rs-sub" id="rs5-sub">Контуры управленческого учёта, которые в вашей ситуации закрываются в первую очередь.</p>
 
     <!-- Траектория роста индекса — нативная демонстрация эффекта -->
     <div class="rs-trajectory">
@@ -296,9 +267,9 @@
       </div>
     </div>
 
-    <!-- Ваши данные в визуализации — реальные цифры из ваших ответов -->
+    <!-- Ваши цифры в Финтабло — реальные значения из ваших ответов -->
     <div class="rs-mock">
-      <div class="rs-mock-head">Ваши данные в визуализации</div>
+      <div class="rs-mock-head">Как ваши цифры выглядят в Финтабло</div>
       <div class="rs-mock-grid">
         <!-- Card 1 · Структура слепой зоны (3 компонента, реальные ₽) -->
         <div class="mock-card mock-card-breakdown">
@@ -311,7 +282,7 @@
 
         <!-- Card 2 · Сравнение: вы, похожие, топ-25% (реальные индексы) -->
         <div class="mock-card mock-card-cohort">
-          <div class="mc-head"><span class="mc-title">Индекс прозрачности</span><span class="mc-period">на фоне похожих</span></div>
+          <div class="mc-head"><span class="mc-title">Индекс прозрачности</span><span class="mc-period">вы · конкуренты · лидеры рынка</span></div>
           <div class="mc-bars" id="mc-cohort-bars">
             <!-- rendered by report.js -->
           </div>
@@ -337,48 +308,49 @@
 
     <div class="rs-cta-dual">
       <div class="cta-card cta-card-primary">
-        <div class="cta-card-badge">Рекомендуем</div>
-        <div class="cta-card-eyebrow">Разбор с экспертом Финтабло</div>
-        <div class="cta-card-title">20 минут · бесплатно · под вашу ситуацию</div>
+        <div class="cta-card-badge">Главный путь</div>
+        <div class="cta-card-eyebrow">Финтабло · 14 дней бесплатно</div>
+        <div class="cta-card-title">Откройте свой управленческий учёт под профиль диагностики</div>
         <ul class="cta-card-list">
-          <li>Пройдём по вашему отчёту — профиль, зоны потерь, 30 / 60 / 90</li>
-          <li>Покажем, как именно закрываются ваши контуры в Финтабло</li>
-          <li>Без навязывания — только если совпадём по задачам</li>
+          <li>Шаблон под вашу отрасль и систему — уже готов</li>
+          <li>Импорт из 1С и банков — данные собираются, а не вводятся вручную</li>
+          <li>ОПиУ, ДДС, план-факт по каждому направлению — в единой форме без ручной сборки</li>
+          <li>Поддержка в чате и видеоразборы в базе знаний</li>
         </ul>
-        <button class="btn-primary btn-lg cta-card-btn" id="rs5-cta" type="button">
-          Записаться на разбор
-          <span class="btn-arrow">→</span>
-        </button>
-        <div class="cta-card-meta">Менеджер позвонит в рабочее время</div>
-      </div>
-
-      <div class="cta-card cta-card-secondary">
-        <div class="cta-card-eyebrow cta-card-eyebrow-alt">Или посмотрите продукт сами</div>
-        <div class="cta-card-title">Без звонка · пробный период</div>
-        <ul class="cta-card-list">
-          <li>Зарегистрируйтесь — закроете те же контуры, что в вашем отчёте</li>
-          <li>Шаблоны под вашу отрасль, импорт из 1С и банков</li>
-          <li>Поддержка в чате и база знаний</li>
-        </ul>
-        <a class="btn-ghost cta-card-btn" href="https://fintablo.ru/registration" target="_blank" rel="noopener">
+        <a class="btn-primary btn-lg cta-card-btn" id="cta-trial-bottom" href="https://fintablo.ru/registration" target="_blank" rel="noopener">
           Открыть Финтабло
           <span class="btn-arrow">→</span>
         </a>
-        <div class="cta-card-meta">fintablo.ru/registration</div>
+        <div class="cta-card-meta">Без карты, отмена в 1 клик</div>
+      </div>
+
+      <div class="cta-card cta-card-secondary">
+        <div class="cta-card-eyebrow cta-card-eyebrow-alt">Или с экспертом — если хотите разбор</div>
+        <div class="cta-card-title">Разговор 20 минут · под вашу ситуацию</div>
+        <ul class="cta-card-list">
+          <li>Эксперт пройдёт по отчёту: профиль, зоны утечки, план действий на три месяца</li>
+          <li>Подскажет, какие контуры учёта в Финтабло закрыть в первую очередь</li>
+          <li>Без навязывания — только если задачи совпадают</li>
+        </ul>
+        <button class="btn-ghost cta-card-btn" id="rs5-cta" type="button">
+          Записаться на разбор
+          <span class="btn-arrow">→</span>
+        </button>
+        <div class="cta-card-meta">Связь в рабочее время</div>
       </div>
     </div>
   </section>
 
 </main>
 
-<!-- ═════ STICKY FAB · на мобильных, после TL;DR ═════ -->
+<!-- ═════ STICKY FAB · на мобильных, после TL;DR — главный CTA = Финтабло ═════ -->
 <div class="rs-fab" id="rs-fab" hidden aria-hidden="true">
-  <button class="rs-fab-btn" data-open-lead-modal type="button">
+  <a class="rs-fab-btn" id="cta-trial-fab" href="https://fintablo.ru/registration" target="_blank" rel="noopener">
     <span class="rs-fab-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V21a1 1 0 01-1.08 1 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 013.22 4.18 1 1 0 014.2 3h4.09a1 1 0 011 .75l1.5 5a1 1 0 01-.29 1L9 11.09a16 16 0 006 6l1.34-1.5a1 1 0 011-.29l5 1.5a1 1 0 01.66.97z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
     </span>
-    <span class="rs-fab-text">Записаться на разбор</span>
-  </button>
+    <span class="rs-fab-text">Открыть Финтабло</span>
+  </a>
 </div>
 
 <!-- ═════ LEAD MODAL · soft opt-in на разбор с экспертом ═════ -->
@@ -402,7 +374,7 @@
           <input id="f-contact-name" class="input" type="text" required autocomplete="given-name" placeholder="Как обращаться">
         </div>
         <div class="field">
-          <label class="label" for="f-email"><span class="label-main">Email</span><span class="label-hint">отчёт на почту</span></label>
+          <label class="label" for="f-email"><span class="label-main">Email</span><span class="label-hint">для связи при необходимости</span></label>
           <input id="f-email" class="input" type="email" placeholder="name@company.ru" required autocomplete="email">
         </div>
       </div>

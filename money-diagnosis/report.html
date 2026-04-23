@@ -289,49 +289,10 @@
       </div>
     </div>
 
-    <!-- ── Как это выглядит в Финтабло · slot'ы под реальные скрины интерфейса ── -->
-    <!-- Скрины кладутся в img/fintablo-screen-*.png; при отсутствии показан placeholder -->
+    <!-- ── Как это выглядит в Финтабло · видео реального интерфейса ── -->
     <div class="rs-screens">
       <div class="rs-screens-head">Как это выглядит в&nbsp;Финтабло</div>
-      <p class="rs-screens-sub">Три экрана, которые закрывают ключевые вопросы вашего профиля. Данные подтягиваются из&nbsp;1С и&nbsp;банков автоматически — никакого ручного ввода.</p>
-
-      <figure class="rs-screen-frame">
-        <div class="rs-screen-chrome">
-          <div class="rs-screen-dots"><span></span><span></span><span></span></div>
-          <div class="rs-screen-url">fintablo.ru/app/pnl</div>
-        </div>
-        <div class="rs-screen-slot">
-          <img class="rs-screen-img" alt="ОПиУ по направлениям — Финтабло" src="img/fintablo-screen-pnl.png"
-               onerror="this.style.display='none';this.parentElement.classList.add('rs-screen-empty');">
-          <div class="rs-screen-ph" aria-hidden="true">
-            <div class="rs-screen-ph-label">Скрин · ОПиУ по направлениям</div>
-            <div class="rs-screen-ph-hint">img/fintablo-screen-pnl.png · 1600×1000</div>
-          </div>
-        </div>
-        <figcaption class="rs-screen-caption">
-          <b>ОПиУ по направлениям.</b> Видите маржу каждой линии в&nbsp;моменте — не&nbsp;после закрытия периода.
-          Под каждое направление — план-факт и&nbsp;контроль отклонений автоматически.
-        </figcaption>
-      </figure>
-
-      <figure class="rs-screen-frame">
-        <div class="rs-screen-chrome">
-          <div class="rs-screen-dots"><span></span><span></span><span></span></div>
-          <div class="rs-screen-url">fintablo.ru/app/cashflow</div>
-        </div>
-        <div class="rs-screen-slot">
-          <img class="rs-screen-img" alt="Платёжный календарь — Финтабло" src="img/fintablo-screen-calendar.png"
-               onerror="this.style.display='none';this.parentElement.classList.add('rs-screen-empty');">
-          <div class="rs-screen-ph" aria-hidden="true">
-            <div class="rs-screen-ph-label">Скрин · Платёжный календарь</div>
-            <div class="rs-screen-ph-hint">img/fintablo-screen-calendar.png · 1600×1000</div>
-          </div>
-        </div>
-        <figcaption class="rs-screen-caption">
-          <b>Платёжный календарь.</b> Кассовый разрыв виден за&nbsp;3–5&nbsp;недель — не&nbsp;за&nbsp;3–5&nbsp;дней.
-          Обязательства и&nbsp;ожидаемые поступления по&nbsp;каждому дню.
-        </figcaption>
-      </figure>
+      <p class="rs-screens-sub">Управленческий дашборд в&nbsp;моменте: ключевые показатели бизнеса, ДДС, ОПиУ, план-факт — в&nbsp;одной форме. Данные подтягиваются из&nbsp;1С и&nbsp;банков автоматически.</p>
 
       <figure class="rs-screen-frame">
         <div class="rs-screen-chrome">
@@ -339,16 +300,15 @@
           <div class="rs-screen-url">fintablo.ru/app/dashboard</div>
         </div>
         <div class="rs-screen-slot">
-          <img class="rs-screen-img" alt="Управленческий дашборд — Финтабло" src="img/fintablo-screen-dashboard.png"
-               onerror="this.style.display='none';this.parentElement.classList.add('rs-screen-empty');">
-          <div class="rs-screen-ph" aria-hidden="true">
-            <div class="rs-screen-ph-label">Скрин · Управленческий дашборд</div>
-            <div class="rs-screen-ph-hint">img/fintablo-screen-dashboard.png · 1600×1000</div>
-          </div>
+          <video class="rs-screen-img"
+                 autoplay muted loop playsinline preload="metadata"
+                 aria-label="Управленческий дашборд Финтабло">
+            <source src="img/fintablo-screen-dashboard.mp4" type="video/mp4">
+          </video>
         </div>
         <figcaption class="rs-screen-caption">
-          <b>Управленческий дашборд.</b> Ключевые показатели бизнеса&nbsp;— ДДС, ОПиУ, план-факт&nbsp;— в&nbsp;одной форме.
-          Закрытие месяца&nbsp;— 1&nbsp;час вместо 2–3&nbsp;дней ручной сборки.
+          <b>Управленческий дашборд.</b> Закрытие месяца&nbsp;— 1&nbsp;час вместо 2–3&nbsp;дней ручной сборки.
+          ОПиУ по&nbsp;направлениям, платёжный календарь, план-факт — всё&nbsp;в&nbsp;одной форме без&nbsp;ручного сбора.
         </figcaption>
       </figure>
     </div>

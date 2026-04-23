@@ -4469,9 +4469,12 @@ body.report-page main{scroll-behavior:smooth}
   background:linear-gradient(180deg,#F8FAFC 0%,#F1F5F9 100%);
   overflow:hidden;display:flex;align-items:center;justify-content:center;
 }
-.peak-mockup .pm-screen-img{
+.peak-mockup .pm-screen-img,
+.peak-mockup video.pm-screen-img{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:top center;display:block;
+  background:#000;
+  z-index:1;
 }
 .peak-mockup .pm-screen-ph{
   /* Placeholder всегда виден. <img> (position:absolute) перекрывает при успешной загрузке */
@@ -4558,9 +4561,12 @@ body.report-page .rs-screen-slot{
   background:linear-gradient(180deg,#F8FAFC 0%,#F1F5F9 100%);
   overflow:hidden;display:flex;align-items:center;justify-content:center;
 }
-body.report-page .rs-screen-img{
+body.report-page .rs-screen-img,
+body.report-page video.rs-screen-img{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:top center;display:block;
+  background:#000;
+  z-index:1;
 }
 body.report-page .rs-screen-ph{
   /* Placeholder всегда виден. <img> (position:absolute) перекрывает при успешной загрузке */

@@ -211,7 +211,6 @@
       margin_blind:   'По нашим данным, 67% собственников не могут в моменте назвать самое прибыльное направление.',
       late_loss:      'Убытки задним числом — одна из частых причин обращения к управленческому учёту.',
       cash_surprise:  'Кассовые разрывы без предупреждения — по нашим данным, типично для 73% компаний до системы.',
-      data_lag:       'Задержка данных в 2–3 недели — стандартная ситуация без автоматизированного сбора.',
       no_big_picture: 'Отсутствие единой картины — самая частая причина запроса системы управленческого учёта.'
     },
     6: {
@@ -539,6 +538,10 @@
     const bTop  = $('aha-bench-top');  if (bTop)  bTop.style.left  = pctN(full.topIndex)           + '%';
     const bScale = $('aha-bench-scale');
     if (bScale) bScale.style.width = pctN(full.topIndex) + '%';
+    // Легенда под bench-bar: цифры «Вы · Когорта · Лидеры»
+    const vYou  = $('aha-bench-val-you');  if (vYou)  vYou.textContent  = full.transparencyIndex;
+    const vPeer = $('aha-bench-val-peer'); if (vPeer) vPeer.textContent = full.peerIndex;
+    const vTop  = $('aha-bench-val-top');  if (vTop)  vTop.textContent  = full.topIndex;
 
     // 3.3 Часы команды + zone-pill + progress-bar (норма ~10 ч/мес, шкала 0–50ч)
     const teamH = $('aha-team-hours');
@@ -659,7 +662,6 @@
       margin_blind:    ['pnl',      'planfact', 'dashboard',    'receivables'],
       late_loss:       ['pnl',      'planfact', 'cashflow',     'dashboard'],
       cash_surprise:   ['calendar', 'cashflow', 'receivables',  'pnl'],
-      data_lag:        ['dashboard','cashflow', 'planfact',     'pnl'],
       no_big_picture:  ['dashboard','pnl',      'cashflow',     'planfact']
     };
     const codes = byPain[primaryPain] || byPain.no_big_picture;

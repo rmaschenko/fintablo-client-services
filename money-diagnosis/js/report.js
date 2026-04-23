@@ -66,7 +66,6 @@
       margin_blind: 'pnl',
       late_loss: 'pnl',
       cash_surprise: 'calendar',
-      data_lag: 'dashboard',
       no_big_picture: 'dashboard'
     };
 

@@ -3305,24 +3305,25 @@ button,[role="button"],input[type="submit"]{
   box-shadow:0 0 0 1px rgba(15,23,42,.15);
   z-index:2;transition:left .6s ease;
 }
-.pkc-bench-marker span{
-  position:absolute;left:50%;top:calc(100% + 4px);
-  transform:translateX(-50%);
-  font-size:9px;font-weight:600;letter-spacing:.04em;
-  white-space:nowrap;color:var(--text-muted);
-  text-transform:uppercase;
-}
-.pkc-bench-you{background:var(--brand-blue,#1A56DB);width:12px;height:12px;z-index:4}
-.pkc-bench-you span{color:var(--brand-blue,#1A56DB)}
+.pkc-bench-you{background:var(--brand-blue,#1A56DB);width:14px;height:14px;z-index:4}
 .pkc-bench-peer{background:#94A3B8;z-index:3}
 .pkc-bench-top{background:#10B981;z-index:3}
-.pkc-bench-top span{color:#047857}
-.pkc-bench-scale{
-  display:flex;justify-content:space-between;
-  font-size:9px;font-weight:600;color:#CBD5E1;
-  font-family:var(--font-mono,ui-monospace,monospace);
-  letter-spacing:.05em;margin-top:14px;
+/* Легенда под bench-bar: компактная строка «Вы 25 · Когорта 35 · Лидеры 75» */
+.pkc-bench-legend{
+  display:flex;flex-wrap:wrap;gap:10px 14px;
+  font-size:11px;color:var(--text-muted);
+  align-items:center;margin-top:2px;
 }
+.pkc-legend-item{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.pkc-legend-item b{color:var(--text-primary);font-size:12px;font-weight:700}
+.pkc-legend-dot{
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  flex-shrink:0;
+}
+.pkc-legend-you{background:var(--brand-blue,#1A56DB)}
+.pkc-legend-peer{background:#94A3B8}
+.pkc-legend-top{background:#10B981}
+.pkc-legend-norm{background:#0F172A}
 
 /* 3.3 · Hours-bar (ваш × норма) */
 .pkc-hours-bar{margin-top:12px;display:flex;flex-direction:column;gap:6px}
@@ -3347,13 +3348,12 @@ button,[role="button"],input[type="submit"]{
   width:8px;height:8px;border-radius:50%;
   background:#0F172A;
 }
-.pkc-hours-scale{
-  display:flex;justify-content:space-between;
-  font-size:9px;font-weight:600;color:#94A3B8;
-  font-family:var(--font-mono,ui-monospace,monospace);
-  letter-spacing:.04em;
+.pkc-hours-legend{
+  display:flex;align-items:center;gap:6px;
+  font-size:11px;color:var(--text-muted);
+  margin-top:2px;
 }
-.pkc-hours-scale-norm{color:#0F172A}
+.pkc-hours-legend b{color:var(--text-primary);font-weight:700;font-size:12px}
 
 /* Главная карточка — более весомая */
 .pkc-main{min-height:220px}
@@ -4626,17 +4626,10 @@ body.report-page main{scroll-behavior:smooth}
   font-family:var(--font-mono,ui-monospace,monospace);
   background:#E2E8F0;padding:1px 6px;border-radius:4px;color:#334155;
 }
-.peak-mockup .pm-caption{
-  padding:14px 18px;
-  font-size:13px;line-height:1.55;color:#475569;
-  background:#F8FAFC;border-top:1px solid #E2E8F0;
-  margin:0;
-}
 @media (max-width:480px){
   .peak-mockup .pm-chrome{padding:8px 10px;gap:8px}
   .peak-mockup .pm-url{font-size:10px;padding:4px 10px}
   .peak-mockup .pm-chrome-spacer{display:none}
-  .peak-mockup .pm-caption{font-size:12px;padding:12px 14px}
 }
 
 /* ── Report (report.html) — 3 скрин-рамки в секции .rs-screens ── */

@@ -5,12 +5,12 @@
   const C = window.Calculator;
   const S = window.Storage;
 
-  // Порядок шагов (v5 · PLG peak-экран с inline-формой)
-  // 0 welcome → 1..5 quiz → 65 peak (узнавание + Финтабло-preview + форма inline) → report
-  // Имя собирается в форме peak-экрана — чтобы не добавлять лишний шаг и не снижать
-  // completion rate. Все вопросы — без персонализации по имени (имя ещё неизвестно).
-  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 65];
-  const TOTAL_QUESTIONS = 5;
+  // Порядок шагов (v6 · +2 SPIN-вопроса перед AHA)
+  // 0 welcome → 1..5 quiz → 6 team-hours (факт) → 7 readiness → 65 peak → report
+  // Шаг 6 даёт фактические часы команды для формулы слепой зоны (вместо допущения).
+  // Шаг 7 квалифицирует лид на readiness и даёт карточку «Ваш первый шаг» на AHA.
+  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 6, 7, 65];
+  const TOTAL_QUESTIONS = 7;
 
   // ── State ────────────────────────────────────────────────
   const state = {
@@ -21,6 +21,8 @@
     industry: null,
     accountingSystem: null, // single choice
     primaryPain: null,
+    teamHours: null,        // 'low' | 'mid' | 'high' | 'huge' — фактические часы команды
+    readiness: null,        // 'cut' | 'plan' | 'never' — что сделает первым
     name: '',               // имя, введённое в форме peak (persist для resume)
     startedAt: Date.now(),
     leadSent: false,
@@ -65,17 +67,21 @@
     if (state.industry) n++;
     if (state.accountingSystem) n++;
     if (state.primaryPain) n++;
+    if (state.teamHours) n++;
+    if (state.readiness) n++;
     return n;
   }
 
-  // Состояния прогресса — мотивационные подписи вместо «N из 5»
+  // Состояния прогресса — мотивационные подписи вместо «N из 7»
   // (по гайду quiz UX: знаменатель пугает, состояние вдохновляет).
   const PROGRESS_LABELS = {
     1: 'Хорошее начало',
     2: 'Разгоняемся',
-    3: 'Почти половина',
-    4: 'Почти готово',
-    5: 'Последний вопрос'
+    3: 'Треть пути',
+    4: 'Почти половина',
+    5: 'Собираем картину',
+    6: 'Почти готово',
+    7: 'Последний вопрос'
   };
 
   function updateProgress() {
@@ -86,7 +92,7 @@
       return;
     }
     wrap.hidden = false;
-    const stepIdx = [1, 2, 3, 4, 5].indexOf(stepId) + 1;
+    const stepIdx = [1, 2, 3, 4, 5, 6, 7].indexOf(stepId) + 1;
     const pct = Math.round((stepIdx / TOTAL_QUESTIONS) * 100);
     $('progress-fill').style.width = pct + '%';
     $('progress-label').textContent = PROGRESS_LABELS[stepIdx] || 'Шаг ' + stepIdx;
@@ -146,6 +152,8 @@
       case 3: return !!state.industry;
       case 4: return !!state.accountingSystem;
       case 5: return !!state.primaryPain;
+      case 6: return !!state.teamHours;
+      case 7: return !!state.readiness;
       default: return true;
     }
   }
@@ -156,7 +164,9 @@
       industry: state.industry,
       monthlyRevenue: state.monthlyRevenue,
       accountingSystem: state.accountingSystem,
-      primaryPain: state.primaryPain
+      primaryPain: state.primaryPain,
+      teamHours: state.teamHours,
+      readiness: state.readiness
     });
     const reportData = Object.assign({}, computed, {
       sessionDuration: Math.round((Date.now() - state.startedAt) / 1000)
@@ -203,6 +213,17 @@
       cash_surprise:  'Кассовые разрывы без предупреждения — по нашим данным, типично для 73% компаний до системы.',
       data_lag:       'Задержка данных в 2–3 недели — стандартная ситуация без автоматизированного сбора.',
       no_big_picture: 'Отсутствие единой картины — самая частая причина запроса системы управленческого учёта.'
+    },
+    6: {
+      low:  'Редкий уровень автоматизации — так работает меньше 12% компаний вашего масштаба.',
+      mid:  'Типовой режим без сквозной автоматизации. Это 10–20 ч аналитика, которых нет на выводы.',
+      high: 'Несколько дней в месяц уходит на сверку — по нашим данным, каждая вторая компания на Excel.',
+      huge: 'Больше 40 ч/мес на сверку — это почти ставка финансиста, уходящая в рутину, а не в анализ.'
+    },
+    7: {
+      cut:   'Частый ответ у тех, кто давно подозревает, но боится ошибиться в суждении без цифр.',
+      plan:  'Типовой запрос на горизонт: от «вчера» к «на 2–3 месяца вперёд» — это ключевой сдвиг.',
+      never: 'Честный ответ. План «30/60/90» в отчёте покажет первый шаг, который реально доступен.'
     }
   };
 
@@ -314,6 +335,30 @@
       };
     });
 
+    // Step 6 — Фактические часы команды на сверку (кормит формулу слепой зоны)
+    $$('#step-6 .option-card').forEach(btn => {
+      btn.onclick = () => {
+        $$('#step-6 .option-card').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.teamHours = btn.dataset.value;
+        ym('reachGoal', 'moneydiag_teamhours_selected');
+        showReward(6, state.teamHours);
+        setTimeout(goNext, 1400);
+      };
+    });
+
+    // Step 7 — Readiness (квалификация + карточка «Ваш первый шаг» на AHA)
+    $$('#step-7 .option-card').forEach(btn => {
+      btn.onclick = () => {
+        $$('#step-7 .option-card').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.readiness = btn.dataset.value;
+        ym('reachGoal', 'moneydiag_readiness_selected');
+        showReward(7, state.readiness);
+        setTimeout(goNext, 1400);
+      };
+    });
+
     // Peak-экран v5: KPI-breakdown раскрывается кликом «откуда эта оценка»
     const kpiBtn = $('kpi-expand-btn');
     const kpiBd = $('kpi-breakdown');
@@ -391,6 +436,14 @@
       const b = document.querySelector('#step-5 .option-card[data-value="' + state.primaryPain + '"]');
       if (b) b.classList.add('selected');
     }
+    if (state.teamHours) {
+      const b = document.querySelector('#step-6 .option-card[data-value="' + state.teamHours + '"]');
+      if (b) b.classList.add('selected');
+    }
+    if (state.readiness) {
+      const b = document.querySelector('#step-7 .option-card[data-value="' + state.readiness + '"]');
+      if (b) b.classList.add('selected');
+    }
     // Имя — для peak-формы, если resume посадил пользователя прямо на peak-экран
     if (state.name) {
       const nameIn = $('gate-name');
@@ -410,6 +463,8 @@
       industry: state.industry,
       accountingSystem: state.accountingSystem,
       primaryPain: state.primaryPain,
+      teamHours: state.teamHours,
+      readiness: state.readiness,
       name: state.name,
       leadSent: state.leadSent,
       startedAt: state.startedAt
@@ -423,7 +478,9 @@
       monthlyRevenue: state.monthlyRevenue,
       industry: state.industry,
       accountingSystem: state.accountingSystem,
-      primaryPain: state.primaryPain
+      primaryPain: state.primaryPain,
+      teamHours: state.teamHours,
+      readiness: state.readiness
     });
     state._aha = full;
 
@@ -468,6 +525,19 @@
       const pkbTeam  = $('pkb-team');  if (pkbTeam)  pkbTeam.textContent  = '~ ' + C.formatMoneyCompact(bd.teamTime.annual);
       const pkbHid   = $('pkb-hidden');if (pkbHid)   pkbHid.textContent   = '~ ' + C.formatMoneyCompact(bd.hiddenDrops.annual);
       const pkbDel   = $('pkb-delay'); if (pkbDel)   pkbDel.textContent   = '~ ' + C.formatMoneyCompact(bd.delay.annual);
+    }
+
+    // 4.5 Ваш первый шаг — на основе readiness-ответа (step 7)
+    const fsWrap = $('aha-firststep');
+    if (fsWrap) {
+      if (full.readinessInsight) {
+        fsWrap.hidden = false;
+        const fsEye = $('aha-firststep-eyebrow'); if (fsEye) fsEye.textContent = full.readinessInsight.eyebrow;
+        setTyped($('aha-firststep-title'), full.readinessInsight.title);
+        setTyped($('aha-firststep-desc'),  full.readinessInsight.body);
+      } else {
+        fsWrap.hidden = true;
+      }
     }
 
     // 4. 3 утечки с замком — teaser
@@ -516,46 +586,9 @@
       });
     }
 
-    // Мини-мокап дашборда Финтабло — визуальный прогрев с данными пользователя
-    const pmRev = $('pm-revenue');
-    if (pmRev) pmRev.textContent = C.formatMoneyCompact(full.monthlyRevenue);
-
-    // Ориентир маржи — по системе учёта (чем зрелее, тем выше типовая маржа)
-    const marginByProfile = {
-      blind:                  '12–18%',
-      early_stage:            '15–22%',
-      plateau:                '14–20%',
-      scale_without_control:  '10–16%',
-      accounting_illusion:    '11–17%',
-      almost_there:           '18–25%'
-    };
-    const pmMargin = $('pm-margin');
-    if (pmMargin) pmMargin.textContent = marginByProfile[full.profileCode] || '12–18%';
-
-    // Остаток на 30 дней — ~1/12 годовой выручки, округлённо
-    const cashOnHand = Math.round(full.annualRevenue / 12 * 0.8);
-    const pmCash = $('pm-cash');
-    if (pmCash) pmCash.textContent = C.formatMoneyCompact(cashOnHand);
-
-    // Название направлений в мокап-графике — под отрасль
-    // Короткие имена — помещаются на 375px без text-overflow
-    const MOCK_NAMES = {
-      construction: ['Жильё',          'Коммерция',   'Инфраструктура'],
-      it:           ['Продукт',        'Проекты',     'Интеграции'],
-      agency:       ['Ретейнеры',      'Проекты',     'Медиабай'],
-      production:   ['Основное',       'Спецзаказ',   'Сервис'],
-      services:     ['Направление A',  'Направление B', 'Направление C'],
-      other:        ['Сегмент A',      'Сегмент B',     'Сегмент C']
-    };
-    const names = MOCK_NAMES[full.industry] || MOCK_NAMES.other;
-    ['pm-bar-1', 'pm-bar-2', 'pm-bar-3'].forEach((id, i) => {
-      const el = $(id); if (el) el.textContent = names[i];
-    });
-
-    // Название графика — с учётом термина отрасли
-    const UNITS = (C.UNITS_BY_INDUSTRY && C.UNITS_BY_INDUSTRY[full.industry]) || (C.UNITS_BY_INDUSTRY && C.UNITS_BY_INDUSTRY.other);
-    const chartTitle = $('pm-chart-title');
-    if (chartTitle && UNITS) chartTitle.textContent = 'ОПиУ по ' + UNITS.many;
+    // Peak-mockup v7: self-рендер KPI/bars убран, блок теперь — рамка-дэшборд
+    // со слотом <img> под реальный скрин интерфейса Финтабло.
+    // См. peak-mockup в index.html + .pm-screen стили в style.css.
   }
 
   // Фичи Финтабло для peak-экрана — 4 карточки под профиль + боль + отрасль.
@@ -681,7 +714,9 @@
         industry: state.industry,
         monthlyRevenue: state.monthlyRevenue,
         accountingSystem: state.accountingSystem,
-        primaryPain: state.primaryPain
+        primaryPain: state.primaryPain,
+        teamHours: state.teamHours,
+        readiness: state.readiness
       });
       const utm = S.getUTM ? (S.getUTM() || {}) : {};
 
@@ -697,7 +732,9 @@
             industry: state.industry,
             monthlyRevenue: state.monthlyRevenue,
             accountingSystem: state.accountingSystem,
-            primaryPain: state.primaryPain
+            primaryPain: state.primaryPain,
+            teamHours: state.teamHours,
+            readiness: state.readiness
           },
           metrics: computed,
           utm,

@@ -76,7 +76,7 @@
 
     <h1 class="hero-h1" id="hero-h1">Упущенная прибыль из-за задержки решений — <span class="accent">оценка за 2 минуты</span></h1>
     <p class="hero-sub">
-      5 вопросов → персональный разбор: декомпозиция потерь в рублях, индекс прозрачности на фоне похожих компаний и проекция возврата в Финтабло.
+      7 вопросов → персональный разбор: декомпозиция потерь в рублях, индекс прозрачности на фоне похожих компаний и проекция возврата в Финтабло.
     </p>
 
     <div class="hero-preview">
@@ -202,6 +202,31 @@
     <div class="step-reward" id="reward-5" hidden></div>
   </section>
 
+  <!-- ── Step 6: Team hours on reconciliation (фактические часы команды) ── -->
+  <section class="step" id="step-6">
+    <h2 class="step-q">Сколько часов в&nbsp;месяц команда тратит на&nbsp;сборку и&nbsp;сверку финансовых цифр?</h2>
+    <p class="step-sub">Суммарно: финансист, помощники, руководитель. Достаточно порядка.</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="low"><span class="oc-title">Меньше 5&nbsp;ч/мес</span><span class="oc-sub">Данные собираются почти автоматически</span></button>
+      <button class="option-card" type="button" data-value="mid"><span class="oc-title">10&nbsp;— 20&nbsp;ч/мес</span><span class="oc-sub">Сбор раз в&nbsp;месяц, но&nbsp;вручную</span></button>
+      <button class="option-card" type="button" data-value="high"><span class="oc-title">20&nbsp;— 40&nbsp;ч/мес</span><span class="oc-sub">Закрытие периода занимает несколько дней</span></button>
+      <button class="option-card" type="button" data-value="huge"><span class="oc-title">Больше 40&nbsp;ч/мес</span><span class="oc-sub">Фактически&nbsp;— непрерывная работа</span></button>
+    </div>
+    <div class="step-reward" id="reward-6" hidden></div>
+  </section>
+
+  <!-- ── Step 7: Readiness — что сделает первым (квалификация лида + карточка «первый шаг») ── -->
+  <section class="step" id="step-7">
+    <h2 class="step-q">Что сделаете первым, если бы завтра на&nbsp;экране появились прибыль по&nbsp;направлениям и&nbsp;прогноз кассы?</h2>
+    <p class="step-sub">Выберите ближайший сценарий&nbsp;— разбор настроится под&nbsp;него</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="cut"><span class="oc-title">Отрезал бы убыточные направления</span><span class="oc-sub">Уже есть подозрения&nbsp;— нужно подтверждение в&nbsp;цифрах</span></button>
+      <button class="option-card" type="button" data-value="plan"><span class="oc-title">Перестал бы угадывать&nbsp;— начал планировать</span><span class="oc-sub">Хочу видеть план-факт и&nbsp;прогноз кассы на&nbsp;2–3&nbsp;месяца</span></button>
+      <button class="option-card" type="button" data-value="never"><span class="oc-title">Не&nbsp;знаю&nbsp;— никогда так не&nbsp;смотрел</span><span class="oc-sub">Понимаю что&nbsp;нужно, но&nbsp;с&nbsp;чего начать&nbsp;— неочевидно</span></button>
+    </div>
+    <div class="step-reward" id="reward-7" hidden></div>
+  </section>
+
   <!-- ═══════════════════════════════════════════════════════
        Step 65: Peak-value экран (v6)
        Hero-профиль → плотная KPI-сетка → 3 утечки → Финтабло-мокап (центр) → форма
@@ -286,6 +311,18 @@
       <div class="peak-leaks-foot">В полном разборе — точные суммы по каждой зоне и план действий на&nbsp;ближайшие три&nbsp;месяца.</div>
     </div>
 
+    <!-- ── 4.5 Ваш первый шаг — на основе readiness-ответа (step 7) ── -->
+    <div class="peak-firststep" id="aha-firststep" hidden>
+      <div class="pfs-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+      </div>
+      <div class="pfs-body">
+        <div class="pfs-eyebrow" id="aha-firststep-eyebrow">Ваш первый шаг</div>
+        <h3 class="pfs-title" id="aha-firststep-title">—</h3>
+        <p class="pfs-desc" id="aha-firststep-desc">—</p>
+      </div>
+    </div>
+
     <!-- ── 5. Финтабло-блок (visual-first): мокап = главный герой ── -->
     <div class="peak-product">
       <div class="peak-product-head">
@@ -293,45 +330,40 @@
         <h3 class="peak-product-title">Так ваши цифры выглядят в&nbsp;Финтабло</h3>
       </div>
 
-      <!-- Mockup дашборда — продукт во всей красе, с данными пользователя -->
-      <div class="peak-mockup" aria-hidden="true">
-        <div class="pm-head">
+      <!-- Рамка-дэшборд · slot для скрина реального Финтабло -->
+      <!-- Скрин кладётся в img/fintablo-screen-dashboard.png; при отсутствии — placeholder -->
+      <figure class="peak-mockup" aria-label="Скрин дашборда Финтабло">
+        <div class="pm-chrome">
           <div class="pm-dots"><span></span><span></span><span></span></div>
-          <div class="pm-title">Финтабло · управленческий дашборд</div>
-          <div class="pm-period">текущий месяц</div>
+          <div class="pm-url"><span class="pm-url-lock" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5 7V5a3 3 0 016 0v2"/></svg>
+          </span>fintablo.ru/app/dashboard</div>
+          <div class="pm-chrome-spacer"></div>
         </div>
-        <div class="pm-body">
-          <div class="pm-kpi-row">
-            <div class="pm-kpi">
-              <div class="pm-kpi-label">Выручка/мес</div>
-              <div class="pm-kpi-val mono" id="pm-revenue">—</div>
-              <div class="pm-kpi-delta pm-kpi-delta-up">план-факт +4%</div>
+        <div class="pm-screen" id="pm-screen-dashboard">
+          <img class="pm-screen-img" id="pm-screen-img-dashboard" alt="Дашборд Финтабло" src="img/fintablo-screen-dashboard.png"
+               onerror="this.style.display='none';this.parentElement.classList.add('pm-screen-empty');">
+          <div class="pm-screen-ph" aria-hidden="true">
+            <div class="pm-screen-ph-frame">
+              <svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="58" height="34" rx="2"/>
+                <path d="M3 12h58"/>
+                <rect x="8" y="18" width="14" height="4" rx="1"/>
+                <rect x="8" y="25" width="22" height="3" rx="1"/>
+                <rect x="8" y="30" width="18" height="3" rx="1"/>
+                <rect x="35" y="18" width="22" height="14" rx="1.5"/>
+                <path d="M37 28l4-4 3 3 5-7 4 5"/>
+              </svg>
             </div>
-            <div class="pm-kpi">
-              <div class="pm-kpi-label">Маржинальность</div>
-              <div class="pm-kpi-val mono" id="pm-margin">—</div>
-              <div class="pm-kpi-delta pm-kpi-delta-up">видна по&nbsp;линиям</div>
-            </div>
-            <div class="pm-kpi">
-              <div class="pm-kpi-label">Остаток на&nbsp;счетах</div>
-              <div class="pm-kpi-val mono" id="pm-cash">—</div>
-              <div class="pm-kpi-delta pm-kpi-delta-warn">прогноз 30&nbsp;дней</div>
-            </div>
-          </div>
-          <div class="pm-chart">
-            <div class="pm-chart-head">
-              <span class="pm-chart-title" id="pm-chart-title">ОПиУ по&nbsp;направлениям</span>
-              <span class="pm-chart-hint">в&nbsp;моменте</span>
-            </div>
-            <div class="pm-bars">
-              <div class="pm-bar"><span class="pm-bar-name" id="pm-bar-1">—</span><span class="pm-bar-track"><span class="pm-bar-fill" style="width:82%"></span></span><span class="pm-bar-val mono">+24%</span></div>
-              <div class="pm-bar"><span class="pm-bar-name" id="pm-bar-2">—</span><span class="pm-bar-track"><span class="pm-bar-fill" style="width:58%"></span></span><span class="pm-bar-val mono">+11%</span></div>
-              <div class="pm-bar pm-bar-neg"><span class="pm-bar-name" id="pm-bar-3">—</span><span class="pm-bar-track"><span class="pm-bar-fill" style="width:34%"></span></span><span class="pm-bar-val mono">−7%</span></div>
-            </div>
+            <div class="pm-screen-ph-label">Скрин интерфейса Финтабло</div>
+            <div class="pm-screen-ph-hint">Положите изображение в <code>img/fintablo-screen-dashboard.png</code> · рекомендуем 1600×1000</div>
           </div>
         </div>
-        <div class="pm-foot">Цифры — пример подачи интерфейса на&nbsp;ваших данных. В Финтабло подставятся автоматически из&nbsp;1С и&nbsp;банков.</div>
-      </div>
+        <figcaption class="pm-caption" id="pm-caption-dashboard">
+          Главный экран · ОПиУ по&nbsp;направлениям, платёжный календарь и&nbsp;план-факт в&nbsp;одной форме.
+          Данные подтягиваются из&nbsp;1С и&nbsp;банков автоматически.
+        </figcaption>
+      </figure>
 
       <!-- 4 ключевые функции под профиль — текст-компактно, иконки — акцент -->
       <div class="peak-product-features" id="peak-features">

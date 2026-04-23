@@ -162,6 +162,13 @@
     </div>
   </section>
 
+  <!-- ── Ваш первый шаг — по readiness-ответу (step 7) ── -->
+  <section class="report-section" id="rs-firststep-section" hidden>
+    <div class="rs-eyebrow">Секция · С чего начать</div>
+    <h2 class="rs-title" id="rs-firststep-title">—</h2>
+    <p class="rs-sub" id="rs-firststep-desc">—</p>
+  </section>
+
   <!-- ── Self-check ── -->
   <section class="report-section">
     <div class="rs-eyebrow">Секция · Проверка готовности</div>
@@ -258,9 +265,9 @@
       </div>
     </div>
 
-    <!-- Ваши цифры в Финтабло — реальные значения из ваших ответов -->
+    <!-- Что показала диагностика — аналитика по ответам пользователя (не UI Финтабло) -->
     <div class="rs-mock">
-      <div class="rs-mock-head">Как ваши цифры выглядят в Финтабло</div>
+      <div class="rs-mock-head">Что показала диагностика</div>
       <div class="rs-mock-grid">
         <!-- Card 1 · Структура слепой зоны (3 компонента, реальные ₽) -->
         <div class="mock-card mock-card-breakdown">
@@ -279,18 +286,71 @@
           </div>
           <div class="mc-foot" id="mc-cohort-foot">—</div>
         </div>
-
-        <!-- Card 3 · ОПиУ за период — оборот и чистая прибыль масштабируются под ответы -->
-        <div class="mock-card mock-card-pl">
-          <div class="mc-head"><span class="mc-title">ОПиУ за период</span><span class="mc-period">оценка по вашим данным</span></div>
-          <div class="mc-kpi">
-            <div class="mc-kpi-row"><span>Выручка / мес</span><b class="mono" id="mc-pl-rev">—</b></div>
-            <div class="mc-kpi-row"><span>Потери / год</span><b class="mono" id="mc-pl-loss">—</b></div>
-            <div class="mc-kpi-row"><span>Индекс</span><b class="mono" id="mc-pl-idx">—</b></div>
-          </div>
-          <div class="mc-foot">Это цифры, выведенные из ваших ответов. Закрытие месяца в Финтабло — 1 час, без ручного сбора.</div>
-        </div>
       </div>
+    </div>
+
+    <!-- ── Как это выглядит в Финтабло · slot'ы под реальные скрины интерфейса ── -->
+    <!-- Скрины кладутся в img/fintablo-screen-*.png; при отсутствии показан placeholder -->
+    <div class="rs-screens">
+      <div class="rs-screens-head">Как это выглядит в&nbsp;Финтабло</div>
+      <p class="rs-screens-sub">Три экрана, которые закрывают ключевые вопросы вашего профиля. Данные подтягиваются из&nbsp;1С и&nbsp;банков автоматически — никакого ручного ввода.</p>
+
+      <figure class="rs-screen-frame">
+        <div class="rs-screen-chrome">
+          <div class="rs-screen-dots"><span></span><span></span><span></span></div>
+          <div class="rs-screen-url">fintablo.ru/app/pnl</div>
+        </div>
+        <div class="rs-screen-slot">
+          <img class="rs-screen-img" alt="ОПиУ по направлениям — Финтабло" src="img/fintablo-screen-pnl.png"
+               onerror="this.style.display='none';this.parentElement.classList.add('rs-screen-empty');">
+          <div class="rs-screen-ph" aria-hidden="true">
+            <div class="rs-screen-ph-label">Скрин · ОПиУ по направлениям</div>
+            <div class="rs-screen-ph-hint">img/fintablo-screen-pnl.png · 1600×1000</div>
+          </div>
+        </div>
+        <figcaption class="rs-screen-caption">
+          <b>ОПиУ по направлениям.</b> Видите маржу каждой линии в&nbsp;моменте — не&nbsp;после закрытия периода.
+          Под каждое направление — план-факт и&nbsp;контроль отклонений автоматически.
+        </figcaption>
+      </figure>
+
+      <figure class="rs-screen-frame">
+        <div class="rs-screen-chrome">
+          <div class="rs-screen-dots"><span></span><span></span><span></span></div>
+          <div class="rs-screen-url">fintablo.ru/app/cashflow</div>
+        </div>
+        <div class="rs-screen-slot">
+          <img class="rs-screen-img" alt="Платёжный календарь — Финтабло" src="img/fintablo-screen-calendar.png"
+               onerror="this.style.display='none';this.parentElement.classList.add('rs-screen-empty');">
+          <div class="rs-screen-ph" aria-hidden="true">
+            <div class="rs-screen-ph-label">Скрин · Платёжный календарь</div>
+            <div class="rs-screen-ph-hint">img/fintablo-screen-calendar.png · 1600×1000</div>
+          </div>
+        </div>
+        <figcaption class="rs-screen-caption">
+          <b>Платёжный календарь.</b> Кассовый разрыв виден за&nbsp;3–5&nbsp;недель — не&nbsp;за&nbsp;3–5&nbsp;дней.
+          Обязательства и&nbsp;ожидаемые поступления по&nbsp;каждому дню.
+        </figcaption>
+      </figure>
+
+      <figure class="rs-screen-frame">
+        <div class="rs-screen-chrome">
+          <div class="rs-screen-dots"><span></span><span></span><span></span></div>
+          <div class="rs-screen-url">fintablo.ru/app/dashboard</div>
+        </div>
+        <div class="rs-screen-slot">
+          <img class="rs-screen-img" alt="Управленческий дашборд — Финтабло" src="img/fintablo-screen-dashboard.png"
+               onerror="this.style.display='none';this.parentElement.classList.add('rs-screen-empty');">
+          <div class="rs-screen-ph" aria-hidden="true">
+            <div class="rs-screen-ph-label">Скрин · Управленческий дашборд</div>
+            <div class="rs-screen-ph-hint">img/fintablo-screen-dashboard.png · 1600×1000</div>
+          </div>
+        </div>
+        <figcaption class="rs-screen-caption">
+          <b>Управленческий дашборд.</b> Ключевые показатели бизнеса&nbsp;— ДДС, ОПиУ, план-факт&nbsp;— в&nbsp;одной форме.
+          Закрытие месяца&nbsp;— 1&nbsp;час вместо 2–3&nbsp;дней ручной сборки.
+        </figcaption>
+      </figure>
     </div>
 
     <div class="rs-features" id="rs5-features">

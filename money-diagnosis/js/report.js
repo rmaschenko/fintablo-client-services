@@ -314,6 +314,18 @@
       });
     }
 
+    // Секция · Ваш первый шаг (по readiness-ответу из шага 7)
+    const fsSection = $('rs-firststep-section');
+    if (fsSection) {
+      if (data.readinessInsight) {
+        fsSection.hidden = false;
+        const fsT = $('rs-firststep-title'); if (fsT) fsT.textContent = data.readinessInsight.title;
+        const fsD = $('rs-firststep-desc');  if (fsD) fsD.textContent = data.readinessInsight.body;
+      } else {
+        fsSection.hidden = true;
+      }
+    }
+
     // Секция · Self-check
     const checkList = $('rs-checklist-list');
     if (checkList) {
@@ -405,9 +417,8 @@
     }
 
     // Card 3 · ОПиУ — реальный оборот, реальные потери, реальный индекс
-    const plRev = $('mc-pl-rev'); if (plRev) plRev.textContent = C.formatMoneyCompact(data.monthlyRevenue);
-    const plLoss = $('mc-pl-loss'); if (plLoss) plLoss.textContent = '~ ' + C.formatMoneyCompact(data.estimatedAnnualLoss);
-    const plIdx = $('mc-pl-idx'); if (plIdx) plIdx.textContent = data.transparencyIndex + ' / 100';
+    // Card 3 (ОПиУ ОПиУ за период) удалена — заменена на секцию .rs-screens
+    // со скрин-рамками реального интерфейса Финтабло (figure/img slots).
 
     // Section 5 · Функции + CTA
     const feats = featuresByProfile(data.profileCode, data.primaryPain);

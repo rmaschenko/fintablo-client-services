@@ -336,15 +336,23 @@
     return 'На этом масштабе ещё возможно держать картину «в голове» — но, как правило, не больше 6–12 месяцев роста. Дальше — системная зона.';
   }
 
+  // Маппинг кода ответа шага 6 → часы/мес (середина диапазона)
+  const TEAM_HOURS_MAP = { low: 3, mid: 15, high: 30, huge: 50 };
+
   // ── Декомпозиция «размера слепой зоны» — 3 компонента ───
   // Каждый компонент — в ₽/год с диапазоном и обоснованием.
-  function computeLossBreakdown(monthlyRevenue, accountingSystem, industry) {
+  // teamHoursCode — 'low' | 'mid' | 'high' | 'huge' (фактический ответ из шага 6).
+  // Если не задан — fallback на допущение по системе учёта.
+  function computeLossBreakdown(monthlyRevenue, accountingSystem, industry, teamHoursCode) {
     const unit = UNITS_BY_INDUSTRY[industry] || UNITS_BY_INDUSTRY.other;
     const annual = monthlyRevenue * 12;
 
     // 1) Время команды на сбор и сверку (часы × стоимость)
+    // Приоритет: фактический ответ пользователя → допущение по системе
+    const actualHours = teamHoursCode && TEAM_HOURS_MAP[teamHoursCode];
     const hoursBySystem = { none: 45, excel: 35, '1c': 30, other: 25, service: 12 };
-    const hours = hoursBySystem[accountingSystem] || 30;
+    const hours = actualHours || hoursBySystem[accountingSystem] || 30;
+    const isActual = !!actualHours;
     const hourlyCost = monthlyRevenue >= 20_000_000 ? 2500 : monthlyRevenue >= 5_000_000 ? 2000 : 1500;
     const teamTimeAnnual = hours * hourlyCost * 12;
 
@@ -360,9 +368,12 @@
         hours: hours,
         hourlyCost: hourlyCost,
         annual: teamTimeAnnual,
-        hint: 'При ' + (accountingSystem === 'none' ? 'ручном учёте' : (accountingSystem === 'excel' ? 'учёте в Excel' : 'текущей системе')) +
-              ', по нашим данным, команда тратит около ' + hours + ' ч/мес на сбор и сверку данных — при стоимости ' +
-              formatMoneyCompact(hourlyCost) + '/час это около ' + formatMoneyCompact(teamTimeAnnual) + '/год.'
+        isActual: isActual,
+        hint: (isActual
+          ? 'По вашему ответу, команда тратит около ' + hours + ' ч/мес на сбор и сверку. При стоимости '
+          : 'При ' + (accountingSystem === 'none' ? 'ручном учёте' : (accountingSystem === 'excel' ? 'учёте в Excel' : 'текущей системе')) +
+            ', по нашим данным, команда тратит около ' + hours + ' ч/мес на сбор и сверку данных — при стоимости ') +
+          formatMoneyCompact(hourlyCost) + '/час это около ' + formatMoneyCompact(teamTimeAnnual) + '/год.'
       },
       hiddenDrops: {
         label: 'Просадки, которые не видно в моменте',
@@ -378,6 +389,30 @@
       },
       totalAnnual: teamTimeAnnual + hiddenDropsAnnual + delayAnnual
     };
+  }
+
+  // ── Readiness → карточка «Ваш первый шаг» ───────────────
+  // Ролевая копирайтинг-матрица, выбирается по ответу шага 7.
+  const READINESS_INSIGHTS = {
+    cut: {
+      eyebrow: 'Ваш первый шаг',
+      title:   'Собрать рентабельность по направлениям за 2 недели',
+      body:    'Вы уже подозреваете, где минус — нужна цифра для решения. В плане «30/60/90» это шаг №1: сбор ОПиУ по направлениям на текущих данных, без переделки учёта. Результат — подтверждение или опровержение в ₽ по каждой линии.'
+    },
+    plan: {
+      eyebrow: 'Ваш первый шаг',
+      title:   'Поставить платёжный календарь на горизонт 60 дней',
+      body:    'Вы хотите перестать работать «вслепую» — нужен прогноз, а не факт. В плане «30/60/90» это шаг №1: автоматизация платёжного календаря и разметка план-факта по ключевым статьям. Горизонт видимости увеличивается с 3–5 дней до 6–8 недель.'
+    },
+    never: {
+      eyebrow: 'Ваш первый шаг',
+      title:   'Зафиксировать 5 цифр за последний месяц',
+      body:    'Без первого системного шага «понимаю что нужно» остаётся намерением. В плане «30/60/90» шаг №1 — базовый ОПиУ на одну таблицу: выручка, расходы, остаток, дебиторка, обязательства на 30 дней. За неделю работы увидите, где именно не хватает данных.'
+    }
+  };
+
+  function readinessInsightFor(readiness) {
+    return READINESS_INSIGHTS[readiness] || null;
   }
 
   // ── Утилиты ──────────────────────────────────────────────
@@ -651,6 +686,8 @@
     const annualRevenue = monthlyRevenue * 12;
     const accountingSystem = inputs.accountingSystem || 'none';
     const primaryPain = inputs.primaryPain || 'no_big_picture';
+    const teamHours = inputs.teamHours || null;   // 'low'|'mid'|'high'|'huge'
+    const readiness = inputs.readiness || null;   // 'cut'|'plan'|'never'
 
     const riskCoeff = RISK_COEFF[accountingSystem] || 0.15;
 
@@ -665,7 +702,8 @@
     const icpTag = icpScore >= 61 ? 'lead_A' : icpScore >= 31 ? 'lead_B' : 'lead_C';
 
     const aha = composeAha({ role, monthlyRevenue, industry, accountingSystem, primaryPain });
-    const loss = computeLossBreakdown(monthlyRevenue, accountingSystem, industry);
+    const loss = computeLossBreakdown(monthlyRevenue, accountingSystem, industry, teamHours);
+    const readinessInsight = readinessInsightFor(readiness);
 
     // Итоговая оценка слепой зоны — сумма 3-х компонентов (прозрачная, обоснованная)
     const estimatedAnnualLoss = loss.totalAnnual;
@@ -697,6 +735,7 @@
     return {
       role, industry, monthlyRevenue, annualRevenue,
       accountingSystem, primaryPain,
+      teamHours, readiness, readinessInsight,
       riskCoeff, estimatedAnnualLoss, estimatedMonthlyLoss,
       lossBreakdown: loss,
       transparencyIndex, profileCode,
@@ -756,12 +795,14 @@
   }
 
   global.Calculator = {
-    REVENUE_ZONES, RISK_COEFF, SYSTEM_SCORE, INDEX_ZONES,
+    REVENUE_ZONES, RISK_COEFF, SYSTEM_SCORE, INDEX_ZONES, TEAM_HOURS_MAP,
     PROFILES, PROFILE_ICONS, ROLE_FRAMES, PROFILE_DEEP, UNITS_BY_INDUSTRY,
     PAIN_QUESTIONS, PAIN_LABELS, PAIN_LABELS_BY_ROLE, ACTIONABLE_TIPS, INDUSTRY_BENCHMARK,
+    READINESS_INSIGHTS,
     revenueFromSliderIndex, revenueLabel, annualRevenueLabelShort,
     classifyProfile, calculateICPScore, calculateTransparencyIndex,
     zoneForIndex, peerIndexFor, topPercentileFor, computeLossBreakdown,
+    readinessInsightFor,
     composeAha, computeAll,
     teaserLeaksForAha, severityForAha, ahaHeadlineCopy,
     ahaInsightFor, ahaRescueFrame,

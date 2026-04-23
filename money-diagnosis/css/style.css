@@ -3303,6 +3303,44 @@ button,[role="button"],input[type="submit"]{
   font-size:12px;color:var(--text-muted);line-height:1.5;
 }
 
+/* ── 4.5 Ваш первый шаг: карточка на основе readiness-ответа ── */
+.peak-firststep{
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--brand-blue-light,#E8F0FE);
+  border:1px solid rgba(26,86,219,.18);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:20px;
+}
+.peak-firststep .pfs-icon{
+  flex-shrink:0;width:40px;height:40px;border-radius:10px;
+  background:var(--brand-blue,#1A56DB);color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.peak-firststep .pfs-icon svg{width:20px;height:20px}
+.peak-firststep .pfs-body{flex:1;min-width:0}
+.peak-firststep .pfs-eyebrow{
+  font-size:11px;font-weight:600;
+  color:var(--brand-blue,#1A56DB);
+  text-transform:uppercase;letter-spacing:.08em;
+  margin-bottom:4px;
+}
+.peak-firststep .pfs-title{
+  font-size:16px;font-weight:700;line-height:1.35;
+  color:var(--text,#0F172A);
+  margin:0 0 6px;
+}
+.peak-firststep .pfs-desc{
+  font-size:14px;line-height:1.55;color:var(--text-muted,#475569);
+  margin:0;
+}
+@media (max-width:480px){
+  .peak-firststep{padding:14px 16px;gap:12px}
+  .peak-firststep .pfs-icon{width:36px;height:36px}
+  .peak-firststep .pfs-title{font-size:15px}
+  .peak-firststep .pfs-desc{font-size:13px}
+}
+
 /* ── 5. Финтабло-продукт-блок: visual-first (mockup = главный герой) ── */
 .peak-product{
   background:linear-gradient(160deg, var(--brand-navy) 0%, #1A2344 100%);
@@ -4384,3 +4422,169 @@ body.report-page h2,
 body.report-page h3{text-wrap:balance}
 body.report-page main{scroll-behavior:smooth}
 
+
+/* ═══════════════════════════════════════════════════════════════════
+   v7 · SCREEN SLOTS — дизайн-каркас под реальные скрины интерфейса Финтабло
+   Заменяет самописные KPI-карты и бар-чарты на рамку браузера
+   с <img> slot'ом. При отсутствии файла скрина — placeholder.
+   Используется в index.html (.peak-mockup) и report.html (.rs-screens).
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── AHA (index.html) — одиночная рамка-дэшборд в peak-product ── */
+.peak-mockup{
+  background:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 10px 34px rgba(8,13,28,.25);
+  margin:18px 0 14px;
+}
+.peak-mockup .pm-chrome{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;
+  background:#F1F5F9;border-bottom:1px solid #E2E8F0;
+}
+.peak-mockup .pm-dots{display:inline-flex;gap:6px;flex-shrink:0}
+.peak-mockup .pm-dots span{
+  width:10px;height:10px;border-radius:50%;
+  background:#CBD5E1;display:inline-block;
+}
+.peak-mockup .pm-dots span:nth-child(1){background:#F87171}
+.peak-mockup .pm-dots span:nth-child(2){background:#FBBF24}
+.peak-mockup .pm-dots span:nth-child(3){background:#34D399}
+.peak-mockup .pm-url{
+  flex:1;display:inline-flex;align-items:center;gap:8px;
+  background:#fff;border:1px solid #E2E8F0;border-radius:7px;
+  padding:5px 12px;
+  font-family:var(--font-mono,ui-monospace,monospace);
+  font-size:11px;color:#475569;letter-spacing:.01em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.peak-mockup .pm-url-lock{display:inline-flex;flex-shrink:0;color:#94A3B8}
+.peak-mockup .pm-url-lock svg{width:12px;height:12px}
+.peak-mockup .pm-chrome-spacer{width:28px;flex-shrink:0}
+.peak-mockup .pm-screen{
+  position:relative;width:100%;
+  aspect-ratio:16/10;
+  background:linear-gradient(180deg,#F8FAFC 0%,#F1F5F9 100%);
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+}
+.peak-mockup .pm-screen-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:top center;display:block;
+}
+.peak-mockup .pm-screen-ph{
+  /* Placeholder всегда виден. <img> (position:absolute) перекрывает при успешной загрузке */
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  color:#94A3B8;text-align:center;padding:24px;
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,#F8FAFC,#F8FAFC 12px,#F1F5F9 12px,#F1F5F9 24px);
+}
+.peak-mockup .pm-screen-empty{background:repeating-linear-gradient(45deg,#F8FAFC,#F8FAFC 12px,#F1F5F9 12px,#F1F5F9 24px)}
+.peak-mockup .pm-screen-ph-frame{
+  width:96px;height:60px;border-radius:6px;
+  background:#fff;border:1.5px dashed #CBD5E1;
+  display:flex;align-items:center;justify-content:center;color:#CBD5E1;
+}
+.peak-mockup .pm-screen-ph-frame svg{width:64px;height:40px}
+.peak-mockup .pm-screen-ph-label{
+  font-size:13px;font-weight:600;color:#475569;
+}
+.peak-mockup .pm-screen-ph-hint{
+  font-size:11px;color:#94A3B8;line-height:1.5;
+}
+.peak-mockup .pm-screen-ph-hint code{
+  font-family:var(--font-mono,ui-monospace,monospace);
+  background:#E2E8F0;padding:1px 6px;border-radius:4px;color:#334155;
+}
+.peak-mockup .pm-caption{
+  padding:14px 18px;
+  font-size:13px;line-height:1.55;color:#475569;
+  background:#F8FAFC;border-top:1px solid #E2E8F0;
+  margin:0;
+}
+@media (max-width:480px){
+  .peak-mockup .pm-chrome{padding:8px 10px;gap:8px}
+  .peak-mockup .pm-url{font-size:10px;padding:4px 10px}
+  .peak-mockup .pm-chrome-spacer{display:none}
+  .peak-mockup .pm-caption{font-size:12px;padding:12px 14px}
+}
+
+/* ── Report (report.html) — 3 скрин-рамки в секции .rs-screens ── */
+body.report-page .rs-screens{
+  margin-top:22px;
+}
+body.report-page .rs-screens-head{
+  font-size:18px;font-weight:700;
+  color:var(--text,#0F172A);
+  margin-bottom:6px;
+  letter-spacing:-.005em;
+}
+body.report-page .rs-screens-sub{
+  font-size:14px;line-height:1.55;
+  color:var(--text-muted,#475569);
+  margin:0 0 18px;
+}
+body.report-page .rs-screen-frame{
+  background:#fff;
+  border:1px solid var(--border,#E2E8F0);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(15,23,42,.05);
+  margin:0 0 16px;
+}
+body.report-page .rs-screen-chrome{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;
+  background:#F8FAFC;border-bottom:1px solid #E2E8F0;
+}
+body.report-page .rs-screen-dots{display:inline-flex;gap:6px;flex-shrink:0}
+body.report-page .rs-screen-dots span{
+  width:10px;height:10px;border-radius:50%;display:inline-block;
+}
+body.report-page .rs-screen-dots span:nth-child(1){background:#F87171}
+body.report-page .rs-screen-dots span:nth-child(2){background:#FBBF24}
+body.report-page .rs-screen-dots span:nth-child(3){background:#34D399}
+body.report-page .rs-screen-url{
+  flex:1;background:#fff;border:1px solid #E2E8F0;border-radius:7px;
+  padding:5px 12px;
+  font-family:var(--font-mono,ui-monospace,monospace);
+  font-size:11px;color:#475569;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+body.report-page .rs-screen-slot{
+  position:relative;width:100%;
+  aspect-ratio:16/10;
+  background:linear-gradient(180deg,#F8FAFC 0%,#F1F5F9 100%);
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+}
+body.report-page .rs-screen-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:top center;display:block;
+}
+body.report-page .rs-screen-ph{
+  /* Placeholder всегда виден. <img> (position:absolute) перекрывает при успешной загрузке */
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  color:#94A3B8;text-align:center;padding:18px;
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,#F8FAFC,#F8FAFC 12px,#F1F5F9 12px,#F1F5F9 24px);
+}
+body.report-page .rs-screen-empty{background:repeating-linear-gradient(45deg,#F8FAFC,#F8FAFC 12px,#F1F5F9 12px,#F1F5F9 24px)}
+body.report-page .rs-screen-ph-label{
+  font-size:13px;font-weight:600;color:#475569;
+}
+body.report-page .rs-screen-ph-hint{
+  font-family:var(--font-mono,ui-monospace,monospace);
+  font-size:11px;color:#94A3B8;
+}
+body.report-page .rs-screen-caption{
+  padding:14px 18px 16px;
+  font-size:13px;line-height:1.6;color:#475569;
+  background:#fff;
+}
+body.report-page .rs-screen-caption b{color:var(--text,#0F172A);font-weight:600}
+@media (max-width:480px){
+  body.report-page .rs-screen-chrome{padding:8px 10px;gap:8px}
+  body.report-page .rs-screen-url{font-size:10px;padding:4px 10px}
+  body.report-page .rs-screen-caption{font-size:12px;padding:12px 14px}
+}

@@ -70,6 +70,20 @@ $revenue  = (int)($answers['monthlyRevenue'] ?? 0);
 $profile  = (string)($metrics['profileCode'] ?? '');
 $pain     = (string)($answers['primaryPain'] ?? '');
 $system   = (string)($answers['accountingSystem'] ?? '');
+$teamH    = (string)($answers['teamHours'] ?? '');
+$ready    = (string)($answers['readiness'] ?? '');
+
+$teamHoursLabels = [
+  'low'  => 'Меньше 5 ч/мес',
+  'mid'  => '10–20 ч/мес',
+  'high' => '20–40 ч/мес',
+  'huge' => 'Больше 40 ч/мес'
+];
+$readinessLabels = [
+  'cut'   => 'Отрезал бы убыточные направления',
+  'plan'  => 'Начал бы планировать',
+  'never' => 'Не знаю — никогда так не смотрел'
+];
 
 $lead = [
   'timestamp'          => date('c'),
@@ -85,6 +99,10 @@ $lead = [
   'accountingLabel'    => $systemLabels[$system] ?? $system,
   'primaryPain'        => $pain,
   'primaryPainLabel'   => $painLabels[$pain] ?? $pain,
+  'teamHours'          => $teamH,
+  'teamHoursLabel'     => $teamHoursLabels[$teamH] ?? $teamH,
+  'readiness'          => $ready,
+  'readinessLabel'     => $readinessLabels[$ready] ?? $ready,
   'profileCode'        => $profile,
   'profileLabel'       => $profileLabels[$profile] ?? $profile,
   'transparencyIndex'  => (int)($metrics['transparencyIndex'] ?? 0),
@@ -144,6 +162,10 @@ if ($amoDomain && $amoToken && $amoPipelineId && $amoStatusId && function_exists
     ['name' => 'direct_client'],
     ['name' => $lead['icpTag'] ?: 'lead_C'],
   ];
+  // Readiness-тег — hot/warm/cold под поведенческий сигнал
+  if ($ready === 'cut')        { $tags[] = ['name' => 'ready_hot']; }
+  elseif ($ready === 'plan')   { $tags[] = ['name' => 'ready_warm']; }
+  elseif ($ready === 'never')  { $tags[] = ['name' => 'ready_cold']; }
 
   // ICP оценивается по годовому обороту → sales видит именно его
   $annual = $revenue * 12;
@@ -192,7 +214,9 @@ if ($amoDomain && $amoToken && $amoPipelineId && $amoStatusId && function_exists
       "Отрасль: {$lead['industryLabel']}\n" .
       "Оборот: {$revLabel}\n" .
       "Система учёта: {$lead['accountingLabel']}\n" .
-      "Главная боль: {$lead['primaryPainLabel']}\n\n" .
+      "Главная боль: {$lead['primaryPainLabel']}\n" .
+      "Часы команды на сверку: {$lead['teamHoursLabel']}\n" .
+      "Первый шаг (readiness): {$lead['readinessLabel']}\n\n" .
       "=== РЕЗУЛЬТАТ РАСЧЁТА ===\n" .
       "Профиль: {$lead['profileLabel']}\n" .
       "Индекс прозрачности: {$lead['transparencyIndex']}/100\n" .

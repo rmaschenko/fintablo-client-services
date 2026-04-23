@@ -249,7 +249,17 @@
 
     // Resume banner
     const saved = S.loadState();
-    if (saved && saved.data && saved.data.cursor > 0) {
+    // Dev-флаг ?autoresume=1 — автоматически продолжить с сохранённого шага (для headless-скринов)
+    if (saved && saved.data && new URLSearchParams(location.search).get('autoresume') === '1') {
+      Object.assign(state, saved.data);
+      restoreInputs();
+      if (currentStepId() === 65) {
+        state.reachedAha = true;
+        applyRoleAwarePainLabels();
+        renderAha();
+      }
+      goCurrent();
+    } else if (saved && saved.data && saved.data.cursor > 0) {
       $('rb-ago').textContent = S.agoText(saved.ts);
       $('resume-banner').hidden = false;
       $('rb-resume').onclick = () => {
@@ -498,23 +508,53 @@
     // 2. Персональное узнавание — короткий AHA-блок
     setTyped($('aha-insight-body'), full.ahaInsight || '');
 
-    // 3. KPI: 3 равные карточки
+    // 3. KPI: 3 карточки с мини-визуализациями в фирстиле Финтабло
+    // 3.1 Главная — упущенная прибыль + severity-pill + share-bar (% от выручки)
     const priceEl = $('aha-main-price');
     if (priceEl) priceEl.textContent = C.formatMoneyCompact(full.estimatedAnnualLoss).replace('\u00A0₽', '');
+    const sevPill = $('aha-main-sev-pill');
+    if (sevPill && full.severity) {
+      sevPill.textContent = full.severity.label;
+      sevPill.className = 'pkc-sev-pill peak-sev-' + full.severity.code;
+    }
+    const shareFill = $('aha-main-share-fill');
+    const sharePct  = $('aha-main-share-pct');
+    if (full.annualRevenue > 0) {
+      const pctNum = full.estimatedAnnualLoss / full.annualRevenue * 100;
+      const pctCap = Math.max(3, Math.min(40, pctNum));
+      if (shareFill) shareFill.style.width = (pctCap / 40 * 100) + '%';
+      if (sharePct)  sharePct.textContent  = pctNum.toFixed(1).replace('.', ',') + '%';
+    }
 
+    // 3.2 Индекс прозрачности + zone-pill + bench-bar (вы / когорта / лидеры)
     const idxEl = $('aha-index'); if (idxEl) idxEl.textContent = full.transparencyIndex;
     const zoneEl = $('aha-zone');
     if (zoneEl) {
       zoneEl.textContent = full.zoneLabel || '';
-      zoneEl.className = 'pkc-zone peak-zone-' + (full.zoneCode || 'red');
+      zoneEl.className = 'pkc-zone-pill peak-zone-' + (full.zoneCode || 'red');
     }
+    const pctN = (n) => Math.max(0, Math.min(100, Number(n) || 0));
+    const bYou  = $('aha-bench-you');  if (bYou)  bYou.style.left  = pctN(full.transparencyIndex) + '%';
+    const bPeer = $('aha-bench-peer'); if (bPeer) bPeer.style.left = pctN(full.peerIndex)          + '%';
+    const bTop  = $('aha-bench-top');  if (bTop)  bTop.style.left  = pctN(full.topIndex)           + '%';
+    const bScale = $('aha-bench-scale');
+    if (bScale) bScale.style.width = pctN(full.topIndex) + '%';
+
+    // 3.3 Часы команды + zone-pill + progress-bar (норма ~10 ч/мес, шкала 0–50ч)
     const teamH = $('aha-team-hours');
     if (teamH && full.lossBreakdown && full.lossBreakdown.teamTime) teamH.textContent = full.lossBreakdown.teamTime.hours;
     const teamZone = $('aha-team-zone');
     if (teamZone && full.lossBreakdown && full.lossBreakdown.teamTime) {
       const hours = full.lossBreakdown.teamTime.hours;
       teamZone.textContent = hours >= 35 ? 'Выше нормы' : hours >= 20 ? 'Средне' : 'Близко к цели';
-      teamZone.className = 'pkc-zone peak-zone-' + (hours >= 35 ? 'red' : hours >= 20 ? 'orange' : 'green');
+      teamZone.className = 'pkc-zone-pill peak-zone-' + (hours >= 35 ? 'red' : hours >= 20 ? 'orange' : 'green');
+    }
+    const hFill = $('aha-hours-fill');
+    if (hFill && full.lossBreakdown && full.lossBreakdown.teamTime) {
+      const hours = full.lossBreakdown.teamTime.hours;
+      const pctBar = Math.max(5, Math.min(100, hours / 50 * 100));
+      hFill.style.width = pctBar + '%';
+      hFill.className = 'pkc-hours-fill peak-zone-' + (hours >= 35 ? 'red' : hours >= 20 ? 'orange' : 'green');
     }
 
     // KPI-раскрытие: что стоит за цифрой

@@ -217,12 +217,12 @@
 
   <!-- ── Step 7: Readiness — что сделает первым (квалификация лида + карточка «первый шаг») ── -->
   <section class="step" id="step-7">
-    <h2 class="step-q">Что сделаете первым, если бы завтра на&nbsp;экране появились прибыль по&nbsp;направлениям и&nbsp;прогноз кассы?</h2>
-    <p class="step-sub">Выберите ближайший сценарий&nbsp;— разбор настроится под&nbsp;него</p>
+    <h2 class="step-q">Что сделаете первым, когда увидите маржу по&nbsp;направлениям и&nbsp;прогноз кассы?</h2>
+    <p class="step-sub">Под ваш сценарий разбор настроит конкретный первый шаг</p>
     <div class="options-group">
-      <button class="option-card" type="button" data-value="cut"><span class="oc-title">Отрезал бы убыточные направления</span><span class="oc-sub">Уже есть подозрения&nbsp;— нужно подтверждение в&nbsp;цифрах</span></button>
-      <button class="option-card" type="button" data-value="plan"><span class="oc-title">Перестал бы угадывать&nbsp;— начал планировать</span><span class="oc-sub">Хочу видеть план-факт и&nbsp;прогноз кассы на&nbsp;2–3&nbsp;месяца</span></button>
-      <button class="option-card" type="button" data-value="never"><span class="oc-title">Не&nbsp;знаю&nbsp;— никогда так не&nbsp;смотрел</span><span class="oc-sub">Понимаю что&nbsp;нужно, но&nbsp;с&nbsp;чего начать&nbsp;— неочевидно</span></button>
+      <button class="option-card" type="button" data-value="cut"><span class="oc-title">Отрежу убыточные направления</span><span class="oc-sub">Подозрения есть&nbsp;— нужна цифра для&nbsp;решения</span></button>
+      <button class="option-card" type="button" data-value="plan"><span class="oc-title">Начну планировать вместо реагирования</span><span class="oc-sub">План-факт и&nbsp;прогноз кассы на&nbsp;2–3&nbsp;месяца вперёд</span></button>
+      <button class="option-card" type="button" data-value="never"><span class="oc-title">Не&nbsp;знаю&nbsp;— никогда так не&nbsp;смотрел</span><span class="oc-sub">Понимаю, что&nbsp;нужно&nbsp;— непонятно, с&nbsp;чего начать</span></button>
     </div>
     <div class="step-reward" id="reward-7" hidden></div>
   </section>
@@ -252,16 +252,26 @@
       <p class="peak-insight-body" id="aha-insight-body">—</p>
     </div>
 
-    <!-- ── 3. KPI: 3 равные карточки, главная — красная акцентная ── -->
+    <!-- ── 3. KPI: 3 карточки с мини-визуализациями в фирстиле Финтабло ── -->
     <div class="peak-kpi-grid">
       <div class="pkc pkc-main">
-        <div class="pkc-ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4 2 7-6.5-4.5L5.5 20l2-7L2 9h7z"/></svg>
+        <div class="pkc-head">
+          <div class="pkc-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><rect x="5" y="13" width="3" height="5"/><rect x="10" y="9" width="3" height="9"/><rect x="15" y="4" width="3" height="14"/><path d="M3 4l6 6"/></svg>
+          </div>
+          <span class="pkc-sev-pill" id="aha-main-sev-pill">—</span>
         </div>
         <div class="pkc-label">Упущенная прибыль из-за задержки решений</div>
         <div class="pkc-value">
           <span class="pkc-num mono" id="aha-main-price">—</span>
           <span class="pkc-unit">₽/год</span>
+        </div>
+        <div class="pkc-share">
+          <div class="pkc-share-track"><div class="pkc-share-fill" id="aha-main-share-fill"></div></div>
+          <div class="pkc-share-hint">
+            <span class="pkc-share-pct mono" id="aha-main-share-pct">—</span>
+            <span class="pkc-share-of">от&nbsp;годовой выручки</span>
+          </div>
         </div>
         <button class="pkc-expander" id="kpi-expand-btn" type="button" aria-expanded="false" aria-controls="kpi-breakdown">
           откуда эта оценка
@@ -269,28 +279,52 @@
         </button>
       </div>
 
-      <div class="pkc">
-        <div class="pkc-ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 010 18"/><path d="M12 8v4l3 2"/></svg>
+      <div class="pkc pkc-index">
+        <div class="pkc-head">
+          <div class="pkc-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 010 18"/><path d="M12 8v4l3 2"/></svg>
+          </div>
+          <span class="pkc-zone-pill" id="aha-zone">—</span>
         </div>
         <div class="pkc-label">Индекс прозрачности</div>
         <div class="pkc-value">
           <span class="pkc-num mono" id="aha-index">—</span>
           <span class="pkc-unit">/ 100</span>
         </div>
-        <div class="pkc-zone" id="aha-zone">—</div>
+        <div class="pkc-bench">
+          <div class="pkc-bench-track">
+            <div class="pkc-bench-scale-fill" id="aha-bench-scale"></div>
+            <div class="pkc-bench-marker pkc-bench-you" id="aha-bench-you" title="Вы"><span>Вы</span></div>
+            <div class="pkc-bench-marker pkc-bench-peer" id="aha-bench-peer" title="Компании вашего масштаба"><span>Когорта</span></div>
+            <div class="pkc-bench-marker pkc-bench-top" id="aha-bench-top" title="Топ-25% лидеров"><span>Лидеры</span></div>
+          </div>
+          <div class="pkc-bench-scale">
+            <span>0</span><span>50</span><span>100</span>
+          </div>
+        </div>
       </div>
 
-      <div class="pkc">
-        <div class="pkc-ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <div class="pkc pkc-hours">
+        <div class="pkc-head">
+          <div class="pkc-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <span class="pkc-zone-pill" id="aha-team-zone">—</span>
         </div>
         <div class="pkc-label">Время команды на&nbsp;сверку</div>
         <div class="pkc-value">
           <span class="pkc-num mono" id="aha-team-hours">—</span>
           <span class="pkc-unit">ч/мес</span>
         </div>
-        <div class="pkc-zone" id="aha-team-zone">—</div>
+        <div class="pkc-hours-bar">
+          <div class="pkc-hours-track">
+            <div class="pkc-hours-fill" id="aha-hours-fill"></div>
+            <div class="pkc-hours-norm" id="aha-hours-norm" title="Норма ~10 ч/мес"></div>
+          </div>
+          <div class="pkc-hours-scale">
+            <span>0</span><span class="pkc-hours-scale-norm">10&nbsp;ч · норма</span><span>40&nbsp;ч+</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -337,7 +371,7 @@
           <div class="pm-dots"><span></span><span></span><span></span></div>
           <div class="pm-url"><span class="pm-url-lock" aria-hidden="true">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5 7V5a3 3 0 016 0v2"/></svg>
-          </span>fintablo.ru/app/dashboard</div>
+          </span>my.fintablo.ru</div>
           <div class="pm-chrome-spacer"></div>
         </div>
         <div class="pm-screen" id="pm-screen-dashboard">

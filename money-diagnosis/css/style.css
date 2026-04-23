@@ -219,8 +219,10 @@ header{
   line-height:1.2;letter-spacing:-.01em;
   color:var(--text-primary);margin-bottom:12px;max-width:640px;
   text-wrap:balance;
+  overflow-wrap:break-word;word-wrap:break-word;hyphens:auto;
 }
-@media(max-width:480px){.hero-h1{font-size:24px;line-height:1.25}}
+@media(max-width:480px){.hero-h1{font-size:22px;line-height:1.25}}
+@media(max-width:390px){.hero-h1{font-size:21px}}
 .hero-sub{
   font-size:16px;color:var(--text-secondary);
   line-height:1.55;margin-bottom:22px;max-width:620px;
@@ -3242,6 +3244,128 @@ button,[role="button"],input[type="submit"]{
 .peak-zone-green{color:#065F46}
 .peak-zone-blue{color:#1E40AF}
 
+/* ── v9: KPI richer visualizations — head-row, pills, bench/share/hours bars ── */
+.pkc{min-height:204px}
+.pkc-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-bottom:2px;
+}
+.pkc-sev-pill,
+.pkc-zone-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-weight:600;letter-spacing:.05em;
+  padding:3px 9px;border-radius:999px;
+  background:#F1F5F9;color:#475569;
+  text-transform:uppercase;white-space:nowrap;
+}
+.peak-sev-red,    .pkc-zone-pill.peak-zone-red{   background:#FEE2E2;color:#B91C1C}
+.peak-sev-amber,  .pkc-zone-pill.peak-zone-orange{background:#FEF3C7;color:#92400E}
+.peak-sev-green,  .pkc-zone-pill.peak-zone-green{ background:#D1FAE5;color:#065F46}
+.pkc-zone-pill.peak-zone-blue{background:#DBEAFE;color:#1E40AF}
+
+/* 3.1 · Share-bar (% от годовой выручки) */
+.pkc-share{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.pkc-share-track{
+  position:relative;width:100%;height:6px;border-radius:999px;
+  background:#FEE2E2;overflow:hidden;
+}
+.pkc-share-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#EF4444 0%,#DC2626 100%);
+  border-radius:999px;transition:width .6s ease;
+}
+.pkc-share-hint{
+  display:flex;align-items:baseline;gap:6px;
+  font-size:11px;color:var(--text-muted);
+}
+.pkc-share-pct{
+  font-size:13px;font-weight:700;color:#B91C1C;
+  font-family:var(--font-mono,ui-monospace,monospace);
+  font-variant-numeric:tabular-nums lining-nums;
+}
+.pkc-share-of{color:var(--text-muted)}
+
+/* 3.2 · Bench-bar (вы / когорта / лидеры) */
+.pkc-bench{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.pkc-bench-track{
+  position:relative;width:100%;height:28px;
+  background:#F1F5F9;border-radius:8px;
+  overflow:visible;
+}
+.pkc-bench-scale-fill{
+  position:absolute;left:0;top:0;bottom:0;
+  background:linear-gradient(90deg,#FECACA 0%,#FED7AA 35%,#BBF7D0 65%,#BFDBFE 100%);
+  border-radius:8px;opacity:.55;
+  transition:width .6s ease;
+}
+.pkc-bench-marker{
+  position:absolute;top:50%;transform:translate(-50%,-50%);
+  width:10px;height:10px;border-radius:50%;
+  border:2px solid #fff;
+  box-shadow:0 0 0 1px rgba(15,23,42,.15);
+  z-index:2;transition:left .6s ease;
+}
+.pkc-bench-marker span{
+  position:absolute;left:50%;top:calc(100% + 4px);
+  transform:translateX(-50%);
+  font-size:9px;font-weight:600;letter-spacing:.04em;
+  white-space:nowrap;color:var(--text-muted);
+  text-transform:uppercase;
+}
+.pkc-bench-you{background:var(--brand-blue,#1A56DB);width:12px;height:12px;z-index:4}
+.pkc-bench-you span{color:var(--brand-blue,#1A56DB)}
+.pkc-bench-peer{background:#94A3B8;z-index:3}
+.pkc-bench-top{background:#10B981;z-index:3}
+.pkc-bench-top span{color:#047857}
+.pkc-bench-scale{
+  display:flex;justify-content:space-between;
+  font-size:9px;font-weight:600;color:#CBD5E1;
+  font-family:var(--font-mono,ui-monospace,monospace);
+  letter-spacing:.05em;margin-top:14px;
+}
+
+/* 3.3 · Hours-bar (ваш × норма) */
+.pkc-hours-bar{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.pkc-hours-track{
+  position:relative;width:100%;height:8px;
+  background:#F1F5F9;border-radius:999px;overflow:hidden;
+}
+.pkc-hours-fill{
+  position:absolute;left:0;top:0;bottom:0;width:0%;
+  background:linear-gradient(90deg,#22C55E 0%,#10B981 100%);
+  border-radius:999px;transition:width .6s ease;
+}
+.pkc-hours-fill.peak-zone-orange{background:linear-gradient(90deg,#F59E0B 0%,#D97706 100%)}
+.pkc-hours-fill.peak-zone-red   {background:linear-gradient(90deg,#EF4444 0%,#B91C1C 100%)}
+.pkc-hours-norm{
+  position:absolute;top:-4px;bottom:-4px;left:20%;
+  width:2px;background:#0F172A;border-radius:1px;
+  z-index:2;
+}
+.pkc-hours-norm::after{
+  content:"";position:absolute;top:-3px;left:-3px;
+  width:8px;height:8px;border-radius:50%;
+  background:#0F172A;
+}
+.pkc-hours-scale{
+  display:flex;justify-content:space-between;
+  font-size:9px;font-weight:600;color:#94A3B8;
+  font-family:var(--font-mono,ui-monospace,monospace);
+  letter-spacing:.04em;
+}
+.pkc-hours-scale-norm{color:#0F172A}
+
+/* Главная карточка — более весомая */
+.pkc-main{min-height:220px}
+.pkc-main .pkc-num{font-size:clamp(26px,4vw,34px)}
+
+@media (max-width:680px){
+  .pkc{min-height:auto}
+  .pkc-bench-track{height:24px}
+  .pkc-bench-marker{width:8px;height:8px}
+  .pkc-bench-you{width:10px;height:10px}
+}
+
 .peak-kpi-breakdown{
   background:var(--surface);
   border:1px solid var(--border);
@@ -4463,24 +4587,26 @@ body.report-page main{scroll-behavior:smooth}
 .peak-mockup .pm-url-lock{display:inline-flex;flex-shrink:0;color:#94A3B8}
 .peak-mockup .pm-url-lock svg{width:12px;height:12px}
 .peak-mockup .pm-chrome-spacer{width:28px;flex-shrink:0}
+/* Рамка без фиксированного aspect-ratio. Когда есть <video>/<img> —
+   они задают натив-высоту (без обрезки). Placeholder (если медиа нет) имеет
+   свой aspect-ratio 16:10 через .pm-screen-ph. */
 .peak-mockup .pm-screen{
   position:relative;width:100%;
-  aspect-ratio:16/10;
   background:linear-gradient(180deg,#F8FAFC 0%,#F1F5F9 100%);
-  overflow:hidden;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
 }
 .peak-mockup .pm-screen-img,
 .peak-mockup video.pm-screen-img{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:top center;display:block;
+  display:block;width:100%;height:auto;
   background:#000;
-  z-index:1;
 }
+.peak-mockup .pm-screen:has(.pm-screen-img) .pm-screen-ph,
+.peak-mockup .pm-screen:has(video.pm-screen-img) .pm-screen-ph{display:none}
 .peak-mockup .pm-screen-ph{
-  /* Placeholder всегда виден. <img> (position:absolute) перекрывает при успешной загрузке */
+  /* Fallback когда видео/img отсутствуют. Свой aspect-ratio 16:10 держит рамку */
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
   color:#94A3B8;text-align:center;padding:24px;
-  position:absolute;inset:0;
+  width:100%;aspect-ratio:16/10;
   background:repeating-linear-gradient(45deg,#F8FAFC,#F8FAFC 12px,#F1F5F9 12px,#F1F5F9 24px);
 }
 .peak-mockup .pm-screen-empty{background:repeating-linear-gradient(45deg,#F8FAFC,#F8FAFC 12px,#F1F5F9 12px,#F1F5F9 24px)}
@@ -4555,24 +4681,24 @@ body.report-page .rs-screen-url{
   font-size:11px;color:#475569;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
+/* Рамка подстраивается под натив-размер видео/картинки — без обрезки */
 body.report-page .rs-screen-slot{
   position:relative;width:100%;
-  aspect-ratio:16/10;
   background:linear-gradient(180deg,#F8FAFC 0%,#F1F5F9 100%);
-  overflow:hidden;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
 }
 body.report-page .rs-screen-img,
 body.report-page video.rs-screen-img{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:top center;display:block;
+  display:block;width:100%;height:auto;
   background:#000;
-  z-index:1;
 }
+body.report-page .rs-screen-slot:has(.rs-screen-img) .rs-screen-ph,
+body.report-page .rs-screen-slot:has(video.rs-screen-img) .rs-screen-ph{display:none}
 body.report-page .rs-screen-ph{
-  /* Placeholder всегда виден. <img> (position:absolute) перекрывает при успешной загрузке */
+  /* Fallback когда видео/img отсутствуют. Свой aspect-ratio 16:10 держит рамку */
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
   color:#94A3B8;text-align:center;padding:18px;
-  position:absolute;inset:0;
+  width:100%;aspect-ratio:16/10;
   background:repeating-linear-gradient(45deg,#F8FAFC,#F8FAFC 12px,#F1F5F9 12px,#F1F5F9 24px);
 }
 body.report-page .rs-screen-empty{background:repeating-linear-gradient(45deg,#F8FAFC,#F8FAFC 12px,#F1F5F9 12px,#F1F5F9 24px)}

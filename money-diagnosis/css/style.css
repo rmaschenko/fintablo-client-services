@@ -4713,3 +4713,17 @@ body.report-page .rs-screen-caption b{color:var(--text,#0F172A);font-weight:600}
   body.report-page .rs-screen-url{font-size:10px;padding:4px 10px}
   body.report-page .rs-screen-caption{font-size:12px;padding:12px 14px}
 }
+
+/* ── 28. Mobile overflow-guard ──
+   body flex-column (line 2733) + main.container{flex:1 0 auto} на ≤680px:
+   align-items:stretch + intrinsic min-content детей (bm-bar absolute labels,
+   rs-tldr с 449px scrollWidth под overflow:hidden) растягивали main до 411px
+   при viewport 390px. Результат: заголовки TL;DR клипались на iPhone SE.
+   Фикс: max-width:100% с повышенной специфичностью перебивает max-width:760px
+   из body.report-page .container, min-width:0 отключает flex-item auto-minimum,
+   overflow-x:clip на html гасит residual sub-pixel rounding. */
+@media (max-width:680px){
+  html{overflow-x:clip}
+  body main.container,
+  body.report-page main.container{min-width:0;max-width:100%;box-sizing:border-box}
+}

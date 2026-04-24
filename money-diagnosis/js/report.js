@@ -225,9 +225,21 @@
     const you = $('rs1-bm-you');
     const peer = $('rs1-bm-peer');
     const top = $('rs1-bm-top');
-    if (you) you.style.left = data.transparencyIndex + '%';
-    if (peer) peer.style.left = data.peerIndex + '%';
-    if (top) top.style.left = data.topIndex + '%';
+    if (you) {
+      you.style.left = data.transparencyIndex + '%';
+      const ys = you.querySelector('span');
+      if (ys) ys.textContent = 'Вы · ' + data.transparencyIndex;
+    }
+    if (peer) {
+      peer.style.left = data.peerIndex + '%';
+      const ps = peer.querySelector('span');
+      if (ps) ps.textContent = 'Когорта · ' + data.peerIndex;
+    }
+    if (top) {
+      top.style.left = data.topIndex + '%';
+      const ts = top.querySelector('span');
+      if (ts) ts.textContent = 'Лидеры · ' + data.topIndex;
+    }
 
     const systemLabels = { none: 'без системного учёта', excel: 'на Excel', '1c': 'на 1С', other: 'на самописной системе', service: 'на специализированном сервисе' };
     const sysLabel = systemLabels[data.accountingSystem] || 'на текущей системе';

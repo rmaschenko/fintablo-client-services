@@ -565,9 +565,9 @@
     if (bd) {
       const pkbHours = $('pkb-hours'); if (pkbHours) pkbHours.textContent = bd.teamTime.hours;
       const pkbRate  = $('pkb-rate');  if (pkbRate)  pkbRate.textContent  = C.formatMoneyCompact(bd.teamTime.hourlyCost) + '/ч';
-      const pkbTeam  = $('pkb-team');  if (pkbTeam)  pkbTeam.textContent  = '~ ' + C.formatMoneyCompact(bd.teamTime.annual);
-      const pkbHid   = $('pkb-hidden');if (pkbHid)   pkbHid.textContent   = '~ ' + C.formatMoneyCompact(bd.hiddenDrops.annual);
-      const pkbDel   = $('pkb-delay'); if (pkbDel)   pkbDel.textContent   = '~ ' + C.formatMoneyCompact(bd.delay.annual);
+      const pkbTeam  = $('pkb-team');  if (pkbTeam)  pkbTeam.textContent  = C.formatMoneyCompact(bd.teamTime.annual);
+      const pkbHid   = $('pkb-hidden');if (pkbHid)   pkbHid.textContent   = C.formatMoneyCompact(bd.hiddenDrops.annual);
+      const pkbDel   = $('pkb-delay'); if (pkbDel)   pkbDel.textContent   = C.formatMoneyCompact(bd.delay.annual);
     }
 
     // 4.5 Ваш первый шаг — на основе readiness-ответа (step 7)

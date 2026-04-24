@@ -5234,3 +5234,230 @@ body.report-page .rs-tldr-grid + .rs-tldr-proj{
 }
 body.report-page .rs-tldr-proj b{color:var(--v5-ink-0);font-weight:600}
 
+/* ═══════════════════════════════════════════════════════════
+   v6.1 · Section 1 bm-bar → 4-зонный graph money-profit style
+   Было: размытый gradient + 3 разных маркера в разных Y-уровнях.
+   Стало: 4 flat-зоны (реактивное/осколочное/системное/передовое),
+   «Вы» — чёрный arrow+pill над баром, Когорта+Лидеры — вертикальные
+   засечки в bar с подписями mono под ним. Zone-pill в том же
+   семантическом цвете что и зона (red→danger-light, orange→warning-light
+   и т.д.), не coral-карнавал.
+   ═══════════════════════════════════════════════════════════ */
+body.report-page .rs-index-card{
+  background:var(--v5-card-bg);
+  border:1px solid var(--v5-border);
+  border-radius:var(--v5-radius);
+  padding:22px 24px;
+  margin:0 0 14px;
+  box-shadow:none;
+}
+body.report-page .rs-index-card .ric-head{
+  display:flex;align-items:center;justify-content:flex-start;gap:16px;
+  flex-wrap:wrap;margin-bottom:8px;
+}
+body.report-page .rs-index-card .ric-label{
+  font-family:var(--font-mono);font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;
+  color:var(--v5-ink-2);margin:0;
+}
+body.report-page .rs-index-card .ric-value{
+  font-family:var(--font-mono);font-size:28px;font-weight:700;
+  color:var(--v5-ink-0);line-height:1;font-variant-numeric:tabular-nums lining-nums;
+  letter-spacing:-.01em;margin:0;
+}
+body.report-page .rs-index-card .ric-value .ric-of{
+  font-size:14px;color:var(--v5-ink-3);font-weight:500;margin-left:2px;
+}
+body.report-page .rs-index-card .ric-zone{
+  font-family:var(--font-mono);font-size:10px;font-weight:700;
+  padding:4px 10px;border-radius:999px;
+  text-transform:uppercase;letter-spacing:.08em;
+  margin-left:auto;
+}
+body.report-page .rs-index-card .ric-zone-red    { background:var(--danger-light);color:#991b1b; }
+body.report-page .rs-index-card .ric-zone-orange { background:var(--warning-light);color:#92400e; }
+body.report-page .rs-index-card .ric-zone-green  { background:var(--accent-green-light);color:#065f46; }
+body.report-page .rs-index-card .ric-zone-blue   { background:var(--brand-blue-light);color:var(--v5-brand); }
+
+/* bm-bar wrapper — room for Вы-label above, Когорта/Лидеры-labels below */
+body.report-page .rs-index-card .bm-bar{
+  position:relative;padding:44px 0 38px;margin:10px 0 14px;
+}
+/* 4-зонная flat-полоса */
+body.report-page .rs-index-card .bm-zones{
+  display:flex;height:32px;border-radius:8px;overflow:hidden;
+  box-shadow:inset 0 0 0 1px var(--v5-border);
+  position:relative;
+}
+body.report-page .rs-index-card .bm-zone{
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:9px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;
+  white-space:nowrap;padding:0 6px;overflow:hidden;
+}
+body.report-page .rs-index-card .bm-zone-red    { flex:0 0 30%;background:#FEE2E2;color:#991b1b; }
+body.report-page .rs-index-card .bm-zone-orange { flex:0 0 30%;background:#FEF3C7;color:#92400e; }
+body.report-page .rs-index-card .bm-zone-green  { flex:0 0 20%;background:#D1FAE5;color:#065f46; }
+body.report-page .rs-index-card .bm-zone-blue   { flex:0 0 20%;background:#DBEAFE;color:#1E40AF; }
+body.report-page .rs-index-card .bm-zone-red::before    { content:'реактивное'; }
+body.report-page .rs-index-card .bm-zone-orange::before { content:'осколочное'; }
+body.report-page .rs-index-card .bm-zone-green::before  { content:'системное'; }
+body.report-page .rs-index-card .bm-zone-blue::before   { content:'передовое'; }
+@media (max-width:480px){
+  body.report-page .rs-index-card .bm-zone{font-size:8px}
+  body.report-page .rs-index-card .bm-zone-red::before    { content:'реакт.'; }
+  body.report-page .rs-index-card .bm-zone-orange::before { content:'осколочн.'; }
+  body.report-page .rs-index-card .bm-zone-green::before  { content:'системн.'; }
+  body.report-page .rs-index-card .bm-zone-blue::before   { content:'передов.'; }
+}
+
+/* шкала 0 · 30 · 60 · 80 · 100 скрыта — границы зон и их цвета
+   самодостаточно показывают диапазон; шкала конфликтовала с
+   подписями маркеров «Когорта · 35» / «Лидеры · 75» */
+body.report-page .rs-index-card .bm-scale{display:none}
+
+/* Маркер «Вы» — arrow + чёрный pill НАД баром */
+body.report-page .rs-index-card .bm-marker-you{
+  position:absolute;top:0;left:0;
+  width:auto;height:38px;background:transparent;
+  border:none;border-radius:0;box-shadow:none;transform:translateX(-50%);
+  z-index:5;display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+body.report-page .rs-index-card .bm-marker-you span{
+  display:inline-block;position:static;transform:none;
+  background:var(--v5-ink-0);color:#fff;
+  font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0;
+  padding:3px 9px;border-radius:4px;border:none;
+  white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+body.report-page .rs-index-card .bm-marker-you::after{
+  content:'';width:0;height:0;
+  border-left:6px solid transparent;border-right:6px solid transparent;
+  border-top:7px solid var(--v5-ink-0);
+}
+
+/* Маркеры «Когорта» и «Лидеры» — вертикальные засечки внутри бара + подпись mono ниже */
+body.report-page .rs-index-card .bm-marker-peer,
+body.report-page .rs-index-card .bm-marker-top{
+  position:absolute;top:44px;  /* внутри bm-zones (bar высота 32, top 44 = 12px в баре) */
+  width:2px;height:32px;
+  border-radius:0;background:transparent;box-shadow:none;opacity:1;
+  transform:translateX(-50%);z-index:3;
+}
+body.report-page .rs-index-card .bm-marker-peer{
+  background:var(--v5-ink-0);
+}
+body.report-page .rs-index-card .bm-marker-top{
+  background:#065f46;
+}
+body.report-page .rs-index-card .bm-marker-peer span,
+body.report-page .rs-index-card .bm-marker-top span{
+  position:absolute;top:36px;left:50%;transform:translateX(-50%);
+  background:transparent!important;
+  color:var(--v5-ink-2)!important;border:none!important;
+  font-family:var(--font-mono);font-size:10px;font-weight:600;
+  padding:0;white-space:nowrap;font-variant-numeric:tabular-nums;
+  letter-spacing:0;
+}
+body.report-page .rs-index-card .bm-marker-top span{color:#065f46!important}
+
+/* zone-hint + cohort-hint — разделены тонкой линией */
+body.report-page .rs-index-card .ric-zone-hint{
+  font-size:14px;line-height:1.55;color:var(--v5-ink-0);
+  padding-top:12px;border-top:1px solid var(--v5-border-soft);
+  margin:0 0 6px!important;
+}
+body.report-page .rs-index-card .ric-cohort-hint{
+  font-size:13px;line-height:1.55;color:var(--v5-ink-2);margin:0!important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   v6.1 · AHA мелочи: единый eyebrow в hero, числа без лишних
+   пробелов, dead-SVG иконки скрыты, peak-return typography,
+   peak-product bg-ritm.
+   ═══════════════════════════════════════════════════════════ */
+
+/* peak-hero — один eyebrow (pill severity) вместо pill+label */
+.step-peak .peak-hero-label{display:none}
+/* severity-pill оставляем — он несёт value-driven статус */
+
+/* KPI — вернуть status-pill вверху карточки (перенос из hero) */
+.step-peak .pkc .pkc-head{
+  display:flex!important;justify-content:flex-end;align-items:center;
+  margin:0 0 10px!important;padding:0;min-height:22px;
+}
+.step-peak .pkc .pkc-ico{display:none}  /* декоративные иконки — убрать */
+.step-peak .pkc .pkc-sev-pill,
+.step-peak .pkc .pkc-zone-pill{
+  display:inline-block!important;
+  font-family:var(--font-mono);font-size:10px;font-weight:700;
+  padding:3px 8px;border-radius:999px;
+  text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;
+  border:none;
+}
+.step-peak .pkc .pkc-sev-pill.peak-sev-red,
+.step-peak .pkc .pkc-zone-pill.peak-zone-red    { background:var(--danger-light);color:#991b1b!important; }
+.step-peak .pkc .pkc-sev-pill.peak-sev-amber,
+.step-peak .pkc .pkc-zone-pill.peak-zone-orange { background:var(--warning-light);color:#92400e!important; }
+.step-peak .pkc .pkc-sev-pill.peak-sev-green,
+.step-peak .pkc .pkc-zone-pill.peak-zone-green  { background:var(--accent-green-light);color:#065f46!important; }
+.step-peak .pkc .pkc-zone-pill.peak-zone-blue   { background:var(--brand-blue-light);color:var(--v5-brand)!important; }
+
+/* pkc-value spacing — число и unit одним ритмом */
+.step-peak .pkc .pkc-value{gap:4px!important}
+.step-peak .pkc .pkc-unit{font-size:13px;color:var(--v5-ink-2);font-weight:500;margin-left:0}
+
+/* peak-return — улучшить typography */
+.step-peak .peak-return{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:14px 16px;margin-top:14px;
+  background:rgba(255,255,255,.08);
+  border-radius:10px;
+  font-size:13px;line-height:1.55;color:#cbd5e1;
+}
+.step-peak .peak-return-ico{
+  flex-shrink:0;color:#93BBFD;margin-top:1px;
+}
+.step-peak .peak-return-ico svg{width:18px;height:18px}
+.step-peak .peak-return-text b{color:#fff;font-weight:600}
+.step-peak .peak-return-range{color:#93BBFD;font-weight:600}
+
+/* peak-product navy hero — чуть меньше dark-overload: фичи светлее */
+.step-peak .peak-product-features{gap:10px}
+.step-peak .peak-product .pft-item{gap:4px}
+.step-peak .peak-product .pft-sep{color:rgba(255,255,255,.25)}
+
+/* ═══════════════════════════════════════════════════════════
+   v6.1 · Адаптив — 4 точечные правки
+   ═══════════════════════════════════════════════════════════ */
+
+/* pkc-hours legend wrap — при узком KPI на 1024-1100 легенда
+   переносилась на 2 строки из-за nbsp. Делаем flex-wrap плавным. */
+.step-peak .pkc-hours-legend,
+.step-peak .pkc-bench-legend,
+.step-peak .pkc-share-hint{
+  row-gap:2px;line-height:1.35;
+}
+
+/* rs-trajectory на mobile — 3 блока в столбик, стрелка rotate(90) */
+@media (max-width:640px){
+  body.report-page .rs-trajectory .rt-bar{
+    grid-template-columns:1fr!important;gap:6px!important;
+  }
+  body.report-page .rs-trajectory .rt-arrow{
+    transform:rotate(90deg);margin:2px auto;
+  }
+  body.report-page .rs-trajectory .rt-arrow-label{
+    transform:rotate(-90deg);display:inline-block;margin-top:0;
+  }
+}
+
+/* thankyou step — gap между num-circle и body */
+body.thankyou-page .ty-step{gap:12px;align-items:flex-start}
+body.thankyou-page .ty-step-num{flex-shrink:0}
+body.thankyou-page .ty-step-body{flex:1;min-width:0}
+@media (max-width:480px){
+  body.thankyou-page .ty-step{gap:10px}
+  body.thankyou-page .ty-step-desc{line-height:1.5}
+}
+

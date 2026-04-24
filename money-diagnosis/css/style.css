@@ -5237,7 +5237,7 @@ body.report-page .rs-tldr-proj b{color:var(--v5-ink-0);font-weight:600}
 /* ═══════════════════════════════════════════════════════════
    v6.1 · Section 1 bm-bar → 4-зонный graph money-profit style
    Было: размытый gradient + 3 разных маркера в разных Y-уровнях.
-   Стало: 4 flat-зоны (реактивное/осколочное/системное/передовое),
+   Стало: 4 flat-зоны (реактивное/фрагментарное/системное/передовое),
    «Вы» — чёрный arrow+pill над баром, Когорта+Лидеры — вертикальные
    засечки в bar с подписями mono под ним. Zone-pill в том же
    семантическом цвете что и зона (red→danger-light, orange→warning-light
@@ -5300,13 +5300,13 @@ body.report-page .rs-index-card .bm-zone-orange { flex:0 0 30%;background:#FEF3C
 body.report-page .rs-index-card .bm-zone-green  { flex:0 0 20%;background:#D1FAE5;color:#065f46; }
 body.report-page .rs-index-card .bm-zone-blue   { flex:0 0 20%;background:#DBEAFE;color:#1E40AF; }
 body.report-page .rs-index-card .bm-zone-red::before    { content:'реактивное'; }
-body.report-page .rs-index-card .bm-zone-orange::before { content:'осколочное'; }
+body.report-page .rs-index-card .bm-zone-orange::before { content:'фрагментарное'; }
 body.report-page .rs-index-card .bm-zone-green::before  { content:'системное'; }
 body.report-page .rs-index-card .bm-zone-blue::before   { content:'передовое'; }
 @media (max-width:480px){
   body.report-page .rs-index-card .bm-zone{font-size:8px}
   body.report-page .rs-index-card .bm-zone-red::before    { content:'реакт.'; }
-  body.report-page .rs-index-card .bm-zone-orange::before { content:'осколочн.'; }
+  body.report-page .rs-index-card .bm-zone-orange::before { content:'фрагмент.'; }
   body.report-page .rs-index-card .bm-zone-green::before  { content:'системн.'; }
   body.report-page .rs-index-card .bm-zone-blue::before   { content:'передов.'; }
 }
@@ -5460,4 +5460,230 @@ body.thankyou-page .ty-step-body{flex:1;min-width:0}
   body.thankyou-page .ty-step{gap:10px}
   body.thankyou-page .ty-step-desc{line-height:1.5}
 }
+
+/* ═══════════════════════════════════════════════════════════
+   v6.2 · KPI на AHA — peak-kpi-v2: hero-цифра + 2 secondary
+   Замена «3 равных KPI» на иерархию «главное + контекст».
+   Старые .peak-kpi-grid / .pkc / .peak-kpi-breakdown скрыты,
+   разметка использует .pkv-*.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Спрятать legacy-разметку (если где-то осталась) */
+.step-peak .peak-kpi-grid,
+.step-peak > .peak-kpi-breakdown:not([id="kpi-breakdown"]){display:none}
+
+/* Корневой блок */
+.step-peak .peak-kpi-v2{
+  display:flex;flex-direction:column;gap:10px;
+  margin:0 0 14px;
+}
+
+/* HERO — главная цифра */
+.step-peak .pkv-hero{
+  background:#fff;
+  border:1px solid var(--v5-border);
+  border-radius:var(--v5-radius);
+  padding:24px 28px 22px;
+  box-shadow:0 1px 3px rgba(15,23,42,.06);
+  position:relative;
+}
+.step-peak .pkv-hero-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin:0 0 14px;flex-wrap:wrap;
+}
+.step-peak .pkv-hero-eyebrow{
+  font-family:var(--font-mono);
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--v5-ink-2);
+}
+.step-peak .pkv-hero .pkc-sev-pill{
+  display:inline-block;
+  font-family:var(--font-mono);font-size:10px;font-weight:700;
+  padding:4px 10px;border-radius:999px;
+  text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;
+}
+.step-peak .pkv-hero .pkc-sev-pill.peak-sev-red    { background:var(--danger-light);color:#991b1b; }
+.step-peak .pkv-hero .pkc-sev-pill.peak-sev-amber  { background:var(--warning-light);color:#92400e; }
+.step-peak .pkv-hero .pkc-sev-pill.peak-sev-green  { background:var(--accent-green-light);color:#065f46; }
+.step-peak .pkv-hero-value{
+  display:flex;align-items:baseline;gap:8px;
+  font-family:var(--font-mono);font-variant-numeric:tabular-nums lining-nums;
+  margin:0 0 16px;line-height:1;
+}
+.step-peak .pkv-hero-num{
+  font-size:44px;font-weight:700;color:var(--v5-ink-0);letter-spacing:-.02em;
+}
+@media (max-width:680px){.step-peak .pkv-hero-num{font-size:36px}}
+@media (max-width:380px){.step-peak .pkv-hero-num{font-size:32px}}
+.step-peak .pkv-hero-unit{
+  font-family:var(--font-mono);font-size:18px;font-weight:500;color:var(--v5-ink-2);
+}
+.step-peak .pkv-hero-share{display:flex;flex-direction:column;gap:8px}
+.step-peak .pkv-share-track{
+  height:6px;background:var(--v5-border-soft);border-radius:6px;overflow:hidden;
+  position:relative;
+}
+.step-peak .pkv-share-fill{
+  height:100%;background:#DC2626;border-radius:6px;
+  position:absolute;top:0;left:0;
+}
+.step-peak .pkv-share-hint{
+  font-size:13px;color:var(--v5-ink-1);line-height:1.5;
+}
+.step-peak .pkv-share-hint .mono{
+  font-family:var(--font-mono);font-weight:700;color:#991b1b;
+}
+.step-peak .pkv-share-of{color:var(--v5-ink-1)}
+
+/* MINI ROW — 2 secondary KPI */
+.step-peak .pkv-mini-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+@media (max-width:560px){.step-peak .pkv-mini-row{grid-template-columns:1fr}}
+.step-peak .pkv-mini{
+  background:#fff;
+  border:1px solid var(--v5-border);
+  border-radius:12px;
+  padding:16px 18px;
+  box-shadow:0 1px 3px rgba(15,23,42,.05);
+  display:flex;flex-direction:column;gap:10px;min-width:0;
+}
+.step-peak .pkv-mini-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  flex-wrap:wrap;
+}
+.step-peak .pkv-mini-eyebrow{
+  font-family:var(--font-mono);
+  font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--v5-ink-2);
+}
+.step-peak .pkv-mini .pkc-zone-pill{
+  display:inline-block;
+  font-family:var(--font-mono);font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:999px;
+  text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;
+}
+.step-peak .pkv-mini .pkc-zone-pill.peak-zone-red    { background:var(--danger-light);color:#991b1b; }
+.step-peak .pkv-mini .pkc-zone-pill.peak-zone-orange { background:var(--warning-light);color:#92400e; }
+.step-peak .pkv-mini .pkc-zone-pill.peak-zone-green  { background:var(--accent-green-light);color:#065f46; }
+.step-peak .pkv-mini .pkc-zone-pill.peak-zone-blue   { background:var(--brand-blue-light);color:var(--v5-brand); }
+.step-peak .pkv-mini-value{
+  font-family:var(--font-mono);font-variant-numeric:tabular-nums lining-nums;
+  font-size:24px;font-weight:700;color:var(--v5-ink-0);
+  letter-spacing:-.01em;line-height:1;
+  display:flex;align-items:baseline;
+}
+.step-peak .pkv-mini-unit{
+  font-size:13px;font-weight:500;color:var(--v5-ink-2);margin-left:2px;
+}
+
+/* mini-bench — компактная шкала с 3 маркерами */
+.step-peak .pkv-mini-bench,
+.step-peak .pkv-mini-hours{display:flex;flex-direction:column;gap:6px;margin-top:auto}
+.step-peak .pkv-bench-track{
+  height:4px;background:var(--v5-border-soft);border-radius:4px;
+  position:relative;
+}
+.step-peak .pkv-bench-scale-fill{display:none}
+.step-peak .pkv-bench-marker{
+  position:absolute;top:-2px;width:2px;height:8px;border-radius:1px;
+  transform:translateX(-50%);
+}
+.step-peak .pkv-bench-peer{background:var(--v5-ink-2)}
+.step-peak .pkv-bench-top{background:var(--accent-green)}
+.step-peak .pkv-bench-you{
+  background:var(--v5-brand);width:3px;height:10px;top:-3px;
+  box-shadow:0 0 0 2px rgba(26,86,219,.18);
+}
+.step-peak .pkv-hours-track{
+  height:4px;background:var(--v5-border-soft);border-radius:4px;
+  position:relative;
+}
+.step-peak .pkv-hours-fill{
+  height:100%;background:var(--v5-brand);border-radius:4px;
+  position:absolute;top:0;left:0;
+}
+.step-peak .pkv-hours-norm{
+  position:absolute;top:-3px;height:10px;width:2px;
+  background:var(--v5-ink-1);border-radius:2px;
+}
+.step-peak .pkv-mini-legend{
+  font-family:var(--font-mono);
+  font-size:11px;color:var(--v5-ink-2);
+  display:flex;gap:6px;align-items:center;flex-wrap:wrap;
+  font-variant-numeric:tabular-nums;
+}
+.step-peak .pkv-mini-legend b{color:var(--v5-ink-0);font-weight:700}
+.step-peak .pkv-mini-legend .pkv-sep{color:var(--v5-ink-3)}
+
+/* BREAKDOWN — всегда раскрыт, как продолжение hero */
+.step-peak .pkv-breakdown{
+  background:#F8FAFF;
+  border:1px solid var(--v5-border);
+  border-radius:12px;
+  padding:14px 18px 12px;
+  display:flex;flex-direction:column;gap:0;
+}
+.step-peak .pkv-bd-eyebrow{
+  font-family:var(--font-mono);
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--v5-ink-3);margin:0 0 8px;
+}
+.step-peak .pkv-bd-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:8px 0;border-bottom:1px dashed var(--v5-border);
+  gap:14px;
+}
+.step-peak .pkv-bd-row:last-of-type{border-bottom:none}
+.step-peak .pkv-bd-label{
+  flex:1;min-width:0;
+  font-size:13px;line-height:1.5;color:var(--v5-ink-1);
+}
+.step-peak .pkv-bd-val{
+  font-family:var(--font-mono);font-weight:700;color:var(--v5-ink-0);
+  font-variant-numeric:tabular-nums;flex-shrink:0;
+}
+.step-peak .pkv-bd-foot{
+  margin-top:8px;font-size:12px;color:var(--v5-ink-2);line-height:1.55;
+}
+@media (max-width:480px){
+  .step-peak .pkv-bd-row{flex-wrap:wrap;gap:2px;padding:6px 0}
+  .step-peak .pkv-bd-val{font-size:14px}
+  .step-peak .pkv-hero{padding:20px 20px 18px}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   v6.2 · rs-leaks-stack — Section 3 в 1 колонку на десктопе
+   3 колонки 250px каждая — текст рвётся, читать невозможно.
+   1 колонка с горизонтальным rs-leak-card (icon-num слева,
+   body справа) — спокойнее, конверсии безопаснее.
+   ═══════════════════════════════════════════════════════════ */
+body.report-page .rs-leaks-stack{
+  display:flex!important;flex-direction:column;gap:10px!important;
+  grid-template-columns:none!important;
+}
+body.report-page .rs-leaks-stack .rs-leak-card{
+  display:flex;flex-direction:row;gap:14px;align-items:flex-start;
+  background:var(--v5-bg)!important;
+  border:1px solid var(--v5-border)!important;
+  border-top:1px solid var(--v5-border)!important;
+  border-radius:12px!important;
+  padding:14px 18px!important;
+  box-shadow:none!important;
+}
+body.report-page .rs-leaks-stack .rs-leak-card::before{display:none}
+body.report-page .rs-leaks-stack .rs-leak-card > *{margin:0}
+body.report-page .rs-leaks-stack .rs-leak-card h3,
+body.report-page .rs-leaks-stack .rs-leak-card .rs-leak-title{
+  font-size:15px!important;font-weight:600!important;color:var(--v5-ink-0)!important;
+  margin:0 0 4px!important;line-height:1.35;
+}
+body.report-page .rs-leaks-stack .rs-leak-card p,
+body.report-page .rs-leaks-stack .rs-leak-card .rs-leak-body{
+  font-size:13px!important;line-height:1.55!important;color:var(--v5-ink-1)!important;
+}
+@media (max-width:480px){
+  body.report-page .rs-leaks-stack .rs-leak-card{padding:12px 14px!important;gap:10px}
+}
+
 

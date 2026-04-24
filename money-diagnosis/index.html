@@ -251,91 +251,88 @@
       <p class="peak-insight-body" id="aha-insight-body">—</p>
     </div>
 
-    <!-- ── 3. KPI: 3 карточки с мини-визуализациями в фирстиле Финтабло ── -->
-    <div class="peak-kpi-grid">
-      <div class="pkc pkc-main">
-        <div class="pkc-head">
-          <div class="pkc-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><rect x="5" y="13" width="3" height="5"/><rect x="10" y="9" width="3" height="9"/><rect x="15" y="4" width="3" height="14"/><path d="M3 4l6 6"/></svg>
-          </div>
+    <!-- ── 3. KPI v6.2: hero-цифра + 2 secondary + breakdown в одном блоке ──
+         Принцип: одна главная цифра задаёт фокус (размер слепой зоны),
+         две вспомогательные метрики дают контекст. Не «3 равных KPI»,
+         а ритм primary + secondary как в money-profit hero. ID для JS
+         сохранены 1-в-1 — calculator/quiz.js работают без правок. -->
+    <div class="peak-kpi-v2">
+
+      <!-- HERO: главная цифра -->
+      <div class="pkv-hero">
+        <div class="pkv-hero-head">
+          <div class="pkv-hero-eyebrow">Размер слепой зоны</div>
           <span class="pkc-sev-pill" id="aha-main-sev-pill">—</span>
         </div>
-        <div class="pkc-label">Упущенная прибыль из-за задержки решений</div>
-        <div class="pkc-value">
-          <span class="pkc-num mono" id="aha-main-price">—</span>
-          <span class="pkc-unit">₽/год</span>
+        <div class="pkv-hero-value">
+          <span class="pkv-hero-num mono" id="aha-main-price">—</span>
+          <span class="pkv-hero-unit">₽/год</span>
         </div>
-        <div class="pkc-share">
-          <div class="pkc-share-track"><div class="pkc-share-fill" id="aha-main-share-fill"></div></div>
-          <div class="pkc-share-hint">
-            <span class="pkc-share-pct mono" id="aha-main-share-pct">—</span>
-            <span class="pkc-share-of">от&nbsp;годовой выручки</span>
-          </div>
-        </div>
-        <button class="pkc-expander" id="kpi-expand-btn" type="button" aria-expanded="false" aria-controls="kpi-breakdown">
-          Откуда эта оценка
-          <svg class="pkc-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>
-        </button>
-      </div>
-
-      <div class="pkc pkc-index">
-        <div class="pkc-head">
-          <div class="pkc-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 010 18"/><path d="M12 8v4l3 2"/></svg>
-          </div>
-          <span class="pkc-zone-pill" id="aha-zone">—</span>
-        </div>
-        <div class="pkc-label">Индекс прозрачности</div>
-        <div class="pkc-value">
-          <span class="pkc-num mono" id="aha-index">—</span>
-          <span class="pkc-unit">/ 100</span>
-        </div>
-        <div class="pkc-bench">
-          <div class="pkc-bench-track">
-            <div class="pkc-bench-scale-fill" id="aha-bench-scale"></div>
-            <div class="pkc-bench-marker pkc-bench-peer" id="aha-bench-peer" title="Компании вашего масштаба с той же системой учёта"></div>
-            <div class="pkc-bench-marker pkc-bench-top" id="aha-bench-top" title="Топ-25% лидеров отрасли"></div>
-            <div class="pkc-bench-marker pkc-bench-you" id="aha-bench-you" title="Ваш индекс"></div>
-          </div>
-          <div class="pkc-bench-legend">
-            <span class="pkc-legend-item"><i class="pkc-legend-dot pkc-legend-you"></i>Вы&nbsp;<b class="mono" id="aha-bench-val-you">—</b></span>
-            <span class="pkc-legend-item"><i class="pkc-legend-dot pkc-legend-peer"></i>Когорта&nbsp;<b class="mono" id="aha-bench-val-peer">—</b></span>
-            <span class="pkc-legend-item"><i class="pkc-legend-dot pkc-legend-top"></i>Лидеры&nbsp;<b class="mono" id="aha-bench-val-top">—</b></span>
+        <div class="pkv-hero-share">
+          <div class="pkv-share-track"><div class="pkv-share-fill" id="aha-main-share-fill"></div></div>
+          <div class="pkv-share-hint">
+            <span class="mono" id="aha-main-share-pct">—</span>
+            <span class="pkv-share-of"> годовой выручки уходит из-за задержки решений</span>
           </div>
         </div>
       </div>
 
-      <div class="pkc pkc-hours">
-        <div class="pkc-head">
-          <div class="pkc-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <!-- SECONDARY: 2 mini KPI в одной строке -->
+      <div class="pkv-mini-row">
+        <div class="pkv-mini">
+          <div class="pkv-mini-head">
+            <div class="pkv-mini-eyebrow">Прозрачность учёта</div>
+            <span class="pkc-zone-pill" id="aha-zone">—</span>
           </div>
-          <span class="pkc-zone-pill" id="aha-team-zone">—</span>
-        </div>
-        <div class="pkc-label">Время команды на&nbsp;сверку</div>
-        <div class="pkc-value">
-          <span class="pkc-num mono" id="aha-team-hours">—</span>
-          <span class="pkc-unit">ч/мес</span>
-        </div>
-        <div class="pkc-hours-bar">
-          <div class="pkc-hours-track">
-            <div class="pkc-hours-fill" id="aha-hours-fill"></div>
-            <div class="pkc-hours-norm" title="Норма ~10 ч/мес при автоматизации"></div>
+          <div class="pkv-mini-value">
+            <span class="mono" id="aha-index">—</span><span class="pkv-mini-unit">/100</span>
           </div>
-          <div class="pkc-hours-legend">
-            <i class="pkc-legend-dot pkc-legend-norm"></i>
-            Норма автоматизации&nbsp;<b class="mono">10&nbsp;ч/мес</b>
+          <div class="pkv-mini-bench">
+            <div class="pkv-bench-track">
+              <div class="pkv-bench-scale-fill" id="aha-bench-scale"></div>
+              <div class="pkv-bench-marker pkv-bench-peer" id="aha-bench-peer" title="Компании вашего масштаба"></div>
+              <div class="pkv-bench-marker pkv-bench-top" id="aha-bench-top" title="Топ-25% лидеров"></div>
+              <div class="pkv-bench-marker pkv-bench-you" id="aha-bench-you" title="Ваш индекс"></div>
+            </div>
+            <div class="pkv-mini-legend">
+              <span>Вы&nbsp;<b class="mono" id="aha-bench-val-you">—</b></span>
+              <span class="pkv-sep">·</span>
+              <span>Когорта&nbsp;<b class="mono" id="aha-bench-val-peer">—</b></span>
+              <span class="pkv-sep">·</span>
+              <span>Лидеры&nbsp;<b class="mono" id="aha-bench-val-top">—</b></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pkv-mini">
+          <div class="pkv-mini-head">
+            <div class="pkv-mini-eyebrow">Время команды на&nbsp;сверку</div>
+            <span class="pkc-zone-pill" id="aha-team-zone">—</span>
+          </div>
+          <div class="pkv-mini-value">
+            <span class="mono" id="aha-team-hours">—</span><span class="pkv-mini-unit">&nbsp;ч/мес</span>
+          </div>
+          <div class="pkv-mini-hours">
+            <div class="pkv-hours-track">
+              <div class="pkv-hours-fill" id="aha-hours-fill"></div>
+              <div class="pkv-hours-norm" title="Норма ~10 ч/мес при автоматизации в Финтабло"></div>
+            </div>
+            <div class="pkv-mini-legend">
+              <span>Норма с&nbsp;Финтабло&nbsp;<b class="mono">10&nbsp;ч/мес</b></span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ── 3.5 KPI-breakdown — раскрывается из главной карточки ── -->
-    <div class="peak-kpi-breakdown" id="kpi-breakdown" hidden>
-      <div class="pkb-row"><span class="pkb-label">Время команды на сверку (<span id="pkb-hours">—</span>&nbsp;ч/мес × <span id="pkb-rate">—</span>)</span><span class="pkb-val mono" id="pkb-team">—</span></div>
-      <div class="pkb-row"><span class="pkb-label">Невидимые просадки маржи (3–5% годовой выручки)</span><span class="pkb-val mono" id="pkb-hidden">—</span></div>
-      <div class="pkb-row"><span class="pkb-label">Задержка управленческих решений (2–4% годовой выручки)</span><span class="pkb-val mono" id="pkb-delay">—</span></div>
-      <div class="pkb-foot">Оценка по нашим данным из аналитики клиентов Финтабло. Полная декомпозиция под вашу отрасль — в&nbsp;отчёте.</div>
+      <!-- BREAKDOWN: всегда раскрыт, как продолжение hero -->
+      <div class="pkv-breakdown" id="kpi-breakdown">
+        <div class="pkv-bd-eyebrow">Из чего складывается</div>
+        <div class="pkv-bd-row"><span class="pkv-bd-label">Время команды на сверку (<span id="pkb-hours">—</span>&nbsp;ч/мес × <span id="pkb-rate">—</span>)</span><span class="pkv-bd-val mono" id="pkb-team">—</span></div>
+        <div class="pkv-bd-row"><span class="pkv-bd-label">Невидимые просадки маржи (3–5% годовой выручки)</span><span class="pkv-bd-val mono" id="pkb-hidden">—</span></div>
+        <div class="pkv-bd-row"><span class="pkv-bd-label">Задержка управленческих решений (2–4% годовой выручки)</span><span class="pkv-bd-val mono" id="pkb-delay">—</span></div>
+        <div class="pkv-bd-foot">Оценка по аналитике клиентов Финтабло. Полная декомпозиция под вашу отрасль — в&nbsp;отчёте.</div>
+      </div>
+
     </div>
 
     <!-- ── 4. 3 утечки с замком — teaser того что в отчёте ── -->

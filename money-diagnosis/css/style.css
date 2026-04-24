@@ -4727,3 +4727,337 @@ body.report-page .rs-screen-caption b{color:var(--text,#0F172A);font-weight:600}
   body main.container,
   body.report-page main.container{min-width:0;max-width:100%;box-sizing:border-box}
 }
+
+/* ═══════════════════════════════════════════════════════════
+   v5.0 · RESTRICT — единый DS по эталону money-profit
+   Принцип: один accent (#1A56DB), один mono для чисел,
+   белые карточки (bg #fff · border #E5E7EB · radius 16 · pad 24
+   · shadow 0 1px 3px .04), одна type-scale без дробных
+   (11/12/13/14/15/17/19/22/28), никаких разноцветных
+   border-left/top и multi-color pill. Применяется к AHA-шагу
+   и TL;DR/hero отчёта — самое заметное пользователю.
+   ═══════════════════════════════════════════════════════════ */
+
+:root{
+  --v5-card-bg:#fff;
+  --v5-border:#E5E7EB;
+  --v5-border-soft:#F1F5F9;
+  --v5-bg:#F8FAFF;
+  --v5-ink-0:#0F172A;
+  --v5-ink-1:#334155;
+  --v5-ink-2:#64748B;
+  --v5-ink-3:#94A3B8;
+  --v5-brand:#1A56DB;
+  --v5-brand-soft:#EFF4FE;
+  --v5-brand-border:rgba(26,86,219,.18);
+  --v5-green:#059669;
+  --v5-green-soft:#ECFDF5;
+  --v5-red:#DC2626;
+  --v5-red-soft:#FEF2F2;
+  --v5-radius:16px;
+  --v5-radius-sm:10px;
+  --v5-pad:24px;
+  --v5-shadow:0 1px 3px rgba(15,23,42,.05);
+}
+
+/* ── 1. Peak Hero — clean: без круглой иконки и цветного pill ── */
+.step-peak .peak-hero{
+  background:var(--v5-card-bg);
+  border:1px solid var(--v5-border);
+  border-radius:var(--v5-radius);
+  padding:var(--v5-pad);
+  margin:0 0 14px;
+  box-shadow:var(--v5-shadow);
+  display:block;
+  background-image:none;
+}
+.step-peak .peak-hero-icon{display:none}
+.step-peak .peak-hero-body{display:block;flex:unset}
+.step-peak .peak-hero-meta{
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  margin:0 0 12px;
+}
+.step-peak .peak-severity{
+  font-family:var(--font-mono);
+  font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  font-weight:600;padding:3px 8px;border-radius:4px;
+  background:var(--v5-brand-soft);color:var(--v5-brand);
+  border:1px solid var(--v5-brand-border);
+}
+/* severity с red/amber/green кодами — один mono-style с единой палитрой */
+.step-peak .peak-severity.peak-sev-red,
+.step-peak .peak-severity.peak-sev-amber,
+.step-peak .peak-severity.peak-sev-green{
+  background:var(--v5-brand-soft);color:var(--v5-brand);
+  border-color:var(--v5-brand-border);
+}
+.step-peak .peak-hero-label{
+  font-family:var(--font-mono);
+  font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--v5-ink-3);font-weight:600;
+}
+.step-peak .peak-hero-name{
+  font-size:28px;font-weight:700;color:var(--v5-ink-0);
+  line-height:1.2;letter-spacing:-.01em;margin:0 0 10px;
+}
+.step-peak .peak-hero-desc{
+  font-size:15px;line-height:1.6;color:var(--v5-ink-1);margin:0;
+  max-width:62ch;
+}
+
+/* ── 2. Peak Insight — белая карточка без вертикального strip ── */
+.step-peak .peak-insight{
+  background:var(--v5-card-bg);
+  border:1px solid var(--v5-border);
+  border-radius:var(--v5-radius);
+  padding:20px var(--v5-pad);
+  margin:0 0 14px;
+  box-shadow:var(--v5-shadow);
+  background-image:none;
+}
+.step-peak .peak-insight::before,
+.step-peak .peak-insight::after{display:none;content:none}
+.step-peak .peak-insight-eyebrow{
+  font-family:var(--font-mono);
+  font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--v5-brand);font-weight:600;margin:0 0 8px;
+  display:inline-block;background:none;padding:0;border:none;
+}
+.step-peak .peak-insight-body{
+  font-size:15px;line-height:1.55;color:var(--v5-ink-0);margin:0;
+}
+
+/* ── 3. KPI Grid · 3 одинаковые белые карточки ── */
+.step-peak .peak-kpi-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:12px;margin:0 0 14px;
+}
+.step-peak .peak-kpi-grid > .pkc,
+.step-peak .pkc.pkc-main,
+.step-peak .pkc.pkc-index,
+.step-peak .pkc.pkc-hours{
+  background:var(--v5-card-bg)!important;
+  border:1px solid var(--v5-border)!important;
+  border-radius:var(--v5-radius)!important;
+  padding:18px 18px!important;
+  box-shadow:var(--v5-shadow);
+  display:flex;flex-direction:column;min-width:0;
+  min-height:auto;
+  background-image:none!important;
+}
+.step-peak .pkc .pkc-head{display:none}
+.step-peak .pkc .pkc-label{
+  font-family:var(--font-mono);
+  font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--v5-ink-2);font-weight:600;
+  margin:0 0 12px;line-height:1.3;min-height:28px;
+}
+.step-peak .pkc .pkc-value{
+  display:flex;align-items:baseline;gap:6px;
+  font-family:var(--font-mono);font-variant-numeric:tabular-nums;
+  margin:0 0 auto;
+}
+.step-peak .pkc .pkc-num,
+.step-peak .pkc-main .pkc-num,
+.step-peak .pkc-index .pkc-num,
+.step-peak .pkc-hours .pkc-num{
+  font-size:26px;font-weight:700;color:var(--v5-ink-0)!important;
+  line-height:1.05;letter-spacing:-.01em;
+}
+.step-peak .pkc .pkc-unit{
+  font-size:13px;color:var(--v5-ink-2);font-weight:500;
+}
+/* Индикаторы — единый стиль: один аккуратный бар 4px, маркеры тонкие */
+.step-peak .pkc .pkc-share,
+.step-peak .pkc .pkc-bench,
+.step-peak .pkc .pkc-hours-bar{
+  margin:12px 0 0;padding:0;
+}
+.step-peak .pkc .pkc-share-track,
+.step-peak .pkc .pkc-bench-track,
+.step-peak .pkc .pkc-hours-track{
+  height:4px;background:var(--v5-border-soft);border-radius:4px;
+  position:relative;overflow:visible;margin:0 0 8px;
+}
+.step-peak .pkc .pkc-share-fill{
+  height:100%;background:var(--v5-brand);border-radius:4px;
+  position:absolute;top:0;left:0;
+}
+.step-peak .pkc .pkc-bench-scale-fill{display:none}
+.step-peak .pkc .pkc-bench-marker{
+  position:absolute;top:-2px;width:2px;height:8px;border-radius:1px;
+  transform:translateX(-50%);
+}
+.step-peak .pkc .pkc-bench-peer{background:var(--v5-ink-3)}
+.step-peak .pkc .pkc-bench-top{background:var(--v5-green)}
+.step-peak .pkc .pkc-bench-you{
+  background:var(--v5-brand);width:3px;height:10px;top:-3px;
+  box-shadow:0 0 0 2px rgba(26,86,219,.15);
+}
+.step-peak .pkc .pkc-hours-fill{
+  height:100%;background:var(--v5-brand);border-radius:4px;
+  position:absolute;top:0;left:0;
+}
+.step-peak .pkc .pkc-hours-norm{
+  position:absolute;top:-3px;height:10px;width:2px;
+  background:var(--v5-ink-1);border-radius:2px;
+}
+/* Легенды — компактные, один шрифт, без жирных чисел */
+.step-peak .pkc .pkc-share-hint,
+.step-peak .pkc .pkc-bench-legend,
+.step-peak .pkc .pkc-hours-legend{
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  font-size:11px;color:var(--v5-ink-2);line-height:1.4;
+  font-family:var(--font-mono);letter-spacing:0;
+}
+.step-peak .pkc .pkc-share-pct{color:var(--v5-ink-0);font-weight:600}
+.step-peak .pkc .pkc-share-of{color:var(--v5-ink-2);font-weight:400;text-transform:none}
+.step-peak .pkc .pkc-legend-item{display:inline-flex;align-items:center;gap:4px}
+.step-peak .pkc .pkc-legend-item b{color:var(--v5-ink-0);font-weight:600}
+.step-peak .pkc .pkc-legend-dot{display:inline-block;width:6px;height:6px;border-radius:50%}
+.step-peak .pkc .pkc-legend-you{background:var(--v5-brand)}
+.step-peak .pkc .pkc-legend-peer{background:var(--v5-ink-3)}
+.step-peak .pkc .pkc-legend-top{background:var(--v5-green)}
+.step-peak .pkc .pkc-legend-norm{background:var(--v5-ink-1)}
+/* severity/zone pill на карточке — приглушён до mono-style neutral */
+.step-peak .pkc .pkc-sev-pill,
+.step-peak .pkc .pkc-zone-pill{
+  display:none!important;
+}
+
+/* Expander "Откуда эта оценка" — убран, breakdown раскрыт всегда */
+.step-peak .pkc-expander{display:none}
+.step-peak .peak-kpi-breakdown{display:block!important;margin:0 0 14px}
+.step-peak .peak-kpi-breakdown[hidden]{display:block!important}
+.step-peak .peak-kpi-breakdown{
+  background:var(--v5-bg);
+  border:1px solid var(--v5-border);
+  border-radius:var(--v5-radius);
+  padding:16px 20px;
+}
+.step-peak .peak-kpi-breakdown .pkb-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:8px 0;border-bottom:1px dashed var(--v5-border);
+  font-size:13px;color:var(--v5-ink-1);gap:12px;line-height:1.5;
+}
+.step-peak .peak-kpi-breakdown .pkb-row:last-of-type{border-bottom:none}
+.step-peak .peak-kpi-breakdown .pkb-label{flex:1;min-width:0}
+.step-peak .peak-kpi-breakdown .pkb-val{
+  font-family:var(--font-mono);font-weight:700;color:var(--v5-ink-0);
+  font-variant-numeric:tabular-nums;flex-shrink:0;
+}
+.step-peak .peak-kpi-breakdown .pkb-foot{
+  margin-top:8px;font-size:12px;color:var(--v5-ink-2);line-height:1.55;
+}
+
+/* ── Mobile ── */
+@media (max-width:680px){
+  .step-peak .peak-kpi-grid{grid-template-columns:1fr;gap:12px}
+  .step-peak .pkc .pkc-label{min-height:auto}
+  .step-peak .peak-hero-name{font-size:24px}
+  .step-peak .peak-kpi-breakdown .pkb-row{flex-wrap:wrap;gap:4px}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   v5.0 · REPORT TL;DR — белый hero вместо navy-gradient
+   Причина: navy-gradient + radial glow был единственным
+   «hero-акцентом», но дальше все секции белые — навязчивый
+   тональный разрыв. У money-profit hero тоже navy, но у него
+   это ТЁМНАЯ точка единственная и короткая. В money-diagnosis
+   отчёт длинный, navy-hero во первой карточке создаёт ощущение
+   «первая страница — продающая, остальное — скучное».
+   Решение: оставить один общий светлый tone, acc через eyebrow.
+   ═══════════════════════════════════════════════════════════ */
+body.report-page .rs-tldr{
+  background:var(--v5-card-bg)!important;
+  color:var(--v5-ink-0)!important;
+  border:1px solid var(--v5-border)!important;
+  border-radius:var(--v5-radius)!important;
+  padding:28px 28px!important;
+  margin-bottom:16px!important;
+  box-shadow:var(--v5-shadow)!important;
+  overflow:hidden;
+}
+body.report-page .rs-tldr::before{display:none!important;content:none!important}
+body.report-page .rs-tldr-eyebrow{
+  background:var(--v5-brand-soft)!important;
+  color:var(--v5-brand)!important;
+  border:1px solid var(--v5-brand-border)!important;
+  font-family:var(--font-mono);font-weight:600;
+}
+body.report-page .rs-tldr-eyebrow::before{background:var(--v5-brand)!important}
+body.report-page .rs-tldr-title{color:var(--v5-ink-0)!important;font-size:28px!important;margin-bottom:12px!important}
+@media (max-width:640px){body.report-page .rs-tldr-title{font-size:22px!important}}
+body.report-page .rs-tldr-body{color:var(--v5-ink-1)!important;font-size:15px!important;line-height:1.6!important}
+body.report-page .rs-tldr-body b{color:var(--v5-ink-0)!important;font-weight:600!important}
+body.report-page .rs-tldr-grid{
+  border-top:1px solid var(--v5-border)!important;
+  gap:0!important;padding-top:18px!important;
+}
+body.report-page .rs-tldr-grid > div{
+  padding:0 20px!important;
+  border-left:1px solid var(--v5-border)!important;
+}
+body.report-page .rs-tldr-grid > div:first-child{padding-left:0!important;border-left:none!important}
+body.report-page .tldr-stat-label{color:var(--v5-ink-3)!important;font-family:var(--font-mono);font-size:10px!important;letter-spacing:.08em}
+body.report-page .tldr-stat-val{color:var(--v5-ink-0)!important;font-family:var(--font-mono);font-size:18px!important;font-weight:700}
+
+/* ═══════════════════════════════════════════════════════════
+   v5.0 · REPORT sections — выровнять ритм: border +
+   shadow-sm + padding 28 + radius 16 + margin-bottom 16.
+   Убрать коричневые/цветные border-left-3px у блоков
+   rs-blindzone / rs-mid-cta / rs-trajectory где они дублируют
+   semantic смысл заголовка. Один visual-rhythm.
+   ═══════════════════════════════════════════════════════════ */
+body.report-page .report-section{
+  background:var(--v5-card-bg);
+  border:1px solid var(--v5-border);
+  border-radius:var(--v5-radius);
+  padding:28px 28px!important;
+  margin-bottom:16px!important;
+  box-shadow:var(--v5-shadow);
+}
+@media (max-width:680px){
+  body.report-page .report-section{padding:22px 20px!important;margin-bottom:14px!important}
+}
+/* Убрать цветные border-left:3px у внутренних карточек в секциях */
+body.report-page .rs-blindzone,
+body.report-page .rs-metric,
+body.report-page .rs-index-card,
+body.report-page .rsp-role-frame{
+  border-left:none!important;
+  background:var(--v5-bg)!important;
+  border:1px solid var(--v5-border)!important;
+  border-radius:var(--v5-radius-sm)!important;
+}
+/* mid-CTA — убрать navy hero-дубль, мягкая brand-soft карточка */
+body.report-page .rs-mid-cta{
+  background:var(--v5-brand-soft)!important;
+  color:var(--v5-ink-0)!important;
+  border:1px solid var(--v5-brand-border)!important;
+  border-radius:var(--v5-radius)!important;
+  padding:20px 24px!important;
+  box-shadow:none!important;
+}
+body.report-page .rs-mid-cta::before,
+body.report-page .rs-mid-cta::after{display:none!important;content:none!important}
+body.report-page .rs-mid-cta-title{color:var(--v5-ink-0)!important;font-size:17px!important}
+body.report-page .rs-mid-cta-sub{color:var(--v5-ink-1)!important;font-size:13px!important}
+body.report-page .rs-mid-cta .btn-primary{
+  background:var(--v5-brand)!important;color:#fff!important;border:none!important;
+  box-shadow:0 2px 6px rgba(26,86,219,.25)!important;
+}
+/* eyebrow унификация секций */
+body.report-page .rs-eyebrow{
+  color:var(--v5-brand)!important;
+  font-family:var(--font-mono);font-size:11px!important;letter-spacing:.08em!important;
+  font-weight:600!important;text-transform:uppercase!important;
+  background:none!important;padding:0!important;border:none!important;
+  display:inline-block;margin-bottom:10px!important;
+}
+body.report-page .rs-title{
+  color:var(--v5-ink-0)!important;font-size:22px!important;font-weight:700!important;
+  line-height:1.25!important;letter-spacing:-.01em!important;margin:0 0 14px!important;
+}
+body.report-page .rs-sub{color:var(--v5-ink-1)!important}
+

@@ -322,7 +322,9 @@
 
         const ul = document.createElement('ul'); ul.className = 'plan-list';
 
-        // В Месяце 1 — первый специальный пункт «Неделя 1» из readinessInsight
+        // В Месяце 1 — первый специальный пункт «Неделя 1» из readinessInsight.
+        // Только tag + title (без body) — иначе блок визуально доминирует
+        // над Месяцами 2/3, создавая 3-4× асимметрию высот карточек.
         if (i === 0 && data.readinessInsight) {
           const liW1 = document.createElement('li');
           liW1.className = 'plan-list-item plan-list-item-week1';
@@ -332,12 +334,8 @@
           const t = document.createElement('span');
           t.className = 'plan-li-title';
           t.textContent = data.readinessInsight.title;
-          const note = document.createElement('div');
-          note.className = 'plan-li-note';
-          note.textContent = data.readinessInsight.body;
           liW1.appendChild(tag);
           liW1.appendChild(t);
-          liW1.appendChild(note);
           ul.appendChild(liW1);
         }
 

@@ -304,7 +304,8 @@
     if (rsiCoh) rsiCoh.textContent = data.cohortInsight || '';
 
     // Секция · План действий на 3 месяца (roadmap с нумерацией и connecting line)
-    // Внутри 1-го месяца — блок «Неделя 1» с readinessInsight (раньше был отдельной секцией rs-firststep)
+    // В Месяце 1, если есть readinessInsight — первый пункт списка с тэгом «Неделя 1»
+    // и dim-подписью (раньше был отдельный callout, но он визуально доминировал над Месяцами 2/3)
     const planGrid = $('rs-plan');
     if (planGrid && data.pathOut) {
       const titles = ['Базовая гигиена', 'Систематизация', 'Полная картина'];
@@ -319,31 +320,33 @@
             '<div class="plan-title">' + titles[i] + '</div></div>' +
           '</div>';
 
-        // Внутри Месяца 1 — «Неделя 1» из readinessInsight
+        const ul = document.createElement('ul'); ul.className = 'plan-list';
+
+        // В Месяце 1 — первый специальный пункт «Неделя 1» из readinessInsight
         if (i === 0 && data.readinessInsight) {
-          const w1 = document.createElement('div');
-          w1.className = 'plan-week1';
-          const eb = document.createElement('div');
-          eb.className = 'plan-week1-eyebrow';
-          eb.textContent = 'Неделя 1 — с чего начать';
-          const ti = document.createElement('div');
-          ti.className = 'plan-week1-title';
-          ti.textContent = data.readinessInsight.title;
-          const bo = document.createElement('p');
-          bo.className = 'plan-week1-body';
-          bo.textContent = data.readinessInsight.body;
-          w1.appendChild(eb); w1.appendChild(ti); w1.appendChild(bo);
-          card.appendChild(w1);
+          const liW1 = document.createElement('li');
+          liW1.className = 'plan-list-item plan-list-item-week1';
+          const tag = document.createElement('span');
+          tag.className = 'plan-li-tag';
+          tag.textContent = 'Неделя 1';
+          const t = document.createElement('span');
+          t.className = 'plan-li-title';
+          t.textContent = data.readinessInsight.title;
+          const note = document.createElement('div');
+          note.className = 'plan-li-note';
+          note.textContent = data.readinessInsight.body;
+          liW1.appendChild(tag);
+          liW1.appendChild(t);
+          liW1.appendChild(note);
+          ul.appendChild(liW1);
         }
 
-        const ul = document.createElement('ul'); ul.className = 'plan-list';
-        if (i === 0 && data.readinessInsight) {
-          const restLabel = document.createElement('div');
-          restLabel.className = 'plan-list-rest-label';
-          restLabel.textContent = 'Далее в месяце';
-          card.appendChild(restLabel);
-        }
-        const li = document.createElement('li'); li.textContent = step;
+        const li = document.createElement('li');
+        li.className = 'plan-list-item';
+        const t = document.createElement('span');
+        t.className = 'plan-li-title';
+        t.textContent = step;
+        li.appendChild(t);
         ul.appendChild(li);
         card.appendChild(ul);
         planGrid.appendChild(card);

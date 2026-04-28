@@ -1193,12 +1193,37 @@ body:has(.cookie-banner.visible) .rs-fab{bottom:92px}
 .rs-cta-block{text-align:center;padding:20px 0 4px}
 .rs-cta-text{font-size:14px;color:var(--text-secondary);margin-bottom:16px;line-height:1.55;max-width:540px;margin-left:auto;margin-right:auto}
 
-/* ═════ v3 · Dual-CTA — primary (разбор) + secondary (регистрация) ═════ */
+/* ═════ v6.4 · CTA-блок — primary card + тонкая вторичная строка ═════
+   Раньше было 2 равных cta-card (primary + secondary с button-ghost),
+   что воспринималось как «слишком много кнопок». Теперь secondary —
+   inline-row с текстом+линком, без card-веса. */
 .rs-cta-dual{
-  display:grid;grid-template-columns:1.15fr 1fr;gap:18px;
+  display:flex;flex-direction:column;gap:14px;
   margin:28px 0 12px;
 }
-@media (max-width:720px){.rs-cta-dual{grid-template-columns:1fr;gap:14px}}
+
+.rs-cta-secondary{
+  display:flex;align-items:center;gap:14px;justify-content:space-between;
+  padding:14px 22px;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--radius);
+}
+.rs-cta-secondary-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rs-cta-secondary-q{font-size:14px;font-weight:600;color:var(--text-primary)}
+.rs-cta-secondary-meta{font-size:12px;color:var(--text-muted)}
+.rs-cta-secondary-btn{
+  flex:0 0 auto;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+  background:transparent;border:none;padding:8px 4px;
+  font-family:var(--font);font-size:14px;font-weight:600;color:var(--brand-blue);
+  text-decoration:none;
+}
+.rs-cta-secondary-btn:hover{color:var(--brand-blue-hover);text-decoration:underline}
+.rs-cta-secondary-btn .btn-arrow{font-weight:400}
+@media (max-width:560px){
+  .rs-cta-secondary{flex-direction:column;align-items:flex-start;gap:8px;padding:12px 16px}
+  .rs-cta-secondary-btn{align-self:flex-end}
+}
 
 .cta-card{
   position:relative;
@@ -1660,22 +1685,35 @@ body:has(.cookie-banner.visible) .rs-fab{bottom:92px}
 
 /* Trajectory · проекция возврата в ₽ (под стрелкой) */
 .rt-proj{
-  margin-top:18px;padding:14px 16px;
-  background:rgba(16,185,129,.06);
+  margin-top:18px;padding:18px 22px;
+  background:linear-gradient(135deg, rgba(16,185,129,.07) 0%, rgba(16,185,129,.02) 100%);
   border:1px solid rgba(16,185,129,.22);
   border-radius:var(--radius);
+  display:grid;grid-template-columns:auto 1fr;column-gap:22px;row-gap:6px;
+  align-items:start;
 }
 .rt-proj-label{
-  font-size:11px;text-transform:uppercase;letter-spacing:.08em;
-  color:var(--accent-green);font-weight:700;margin-bottom:4px;
+  grid-column:1;grid-row:1;
+  font-size:11px;text-transform:uppercase;letter-spacing:.10em;
+  color:var(--text-muted);font-weight:700;
+  align-self:center;white-space:nowrap;
+  padding-right:18px;border-right:1px solid rgba(16,185,129,.22);
 }
 .rt-proj-val{
-  font-family:var(--font-mono);font-size:22px;font-weight:700;
-  color:#047857;letter-spacing:-.01em;line-height:1.15;margin-bottom:6px;
+  grid-column:2;grid-row:1;
+  font-family:var(--font-mono);font-size:clamp(22px,3vw,28px);font-weight:700;
+  color:#047857;letter-spacing:-.01em;line-height:1.15;
   font-variant-numeric:tabular-nums lining-nums;
 }
 .rt-proj-hint{
+  grid-column:1 / -1;grid-row:2;
   font-size:12.5px;color:var(--text-secondary);line-height:1.5;margin:0;
+  padding-top:6px;border-top:1px dashed rgba(16,185,129,.22);
+}
+@media (max-width:560px){
+  .rt-proj{grid-template-columns:1fr;row-gap:8px;padding:14px 16px}
+  .rt-proj-label{grid-column:1;border-right:none;padding-right:0}
+  .rt-proj-val{grid-column:1}
 }
 
 /* ═════ Mid-report CTA · dominant-treatment на эмоциональном пике ═════
@@ -2239,37 +2277,40 @@ body:has(.cookie-banner.visible) .rs-fab{bottom:92px}
 .plan-card:nth-child(2) .plan-badge{background:var(--blue-500)}
 .plan-card:nth-child(1) .plan-badge{background:var(--blue-400)}
 .plan-title{font-size:15px;font-weight:700;color:var(--slate-900);line-height:1.3}
-.plan-list{list-style:none;padding:0;margin:0}
-.plan-list li{
-  padding:var(--sp-1) 0 var(--sp-1) var(--sp-4);position:relative;
-  font-size:13px;line-height:1.55;color:var(--slate-600);
+.plan-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.plan-list-item{
+  padding:0 0 0 18px;position:relative;
+  font-size:13px;line-height:1.55;color:var(--slate-700);
 }
-.plan-list li::before{
-  content:'';position:absolute;left:0;top:10px;
+.plan-list-item::before{
+  content:'';position:absolute;left:0;top:7px;
   width:6px;height:6px;border-radius:50%;background:var(--blue-500);
 }
-/* «Неделя 1» — внутри карточки 1-го месяца, заменила отдельную секцию rs-firststep */
-.plan-week1{
-  background:linear-gradient(135deg, rgba(26,86,219,.05), rgba(26,86,219,.10));
-  border:1px solid rgba(26,86,219,.18);
+.plan-li-title{display:block;color:var(--slate-700);font-size:13px;line-height:1.5}
+/* «Неделя 1» — первый специальный пункт списка в Месяце 1.
+   Раньше был отдельный card-в-card callout, но он визуально перевешивал Месяцы 2/3. */
+.plan-list-item-week1{
+  background:linear-gradient(135deg, rgba(26,86,219,.04), rgba(26,86,219,.08));
+  border:1px solid rgba(26,86,219,.14);
   border-radius:var(--radius);
-  padding:var(--sp-3) var(--sp-4);
-  display:flex;flex-direction:column;gap:6px;
-  margin-top:var(--sp-1);
+  padding:8px 10px 8px 12px;
+  margin-left:-2px;
 }
-.plan-week1-eyebrow{
-  font-size:10px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;
+.plan-list-item-week1::before{display:none}
+.plan-list-item-week1 .plan-li-tag{
+  display:inline-block;
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   color:var(--blue-700,#1e40af);
+  background:rgba(26,86,219,.10);
+  padding:2px 7px;border-radius:6px;
+  margin-bottom:4px;
 }
-.plan-week1-title{
-  font-size:14px;font-weight:700;color:var(--slate-900);line-height:1.35;
+.plan-list-item-week1 .plan-li-title{
+  display:block;font-size:13px;font-weight:700;color:var(--slate-900);line-height:1.35;
+  margin-bottom:3px;
 }
-.plan-week1-body{
-  font-size:12px;line-height:1.55;color:var(--slate-700);margin:0;
-}
-.plan-list-rest-label{
-  font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--text-muted);margin-top:var(--sp-2);
+.plan-list-item-week1 .plan-li-note{
+  font-size:11.5px;line-height:1.45;color:var(--slate-600);
 }
 
 .rs-checklist{
@@ -2310,19 +2351,58 @@ body:has(.cookie-banner.visible) .rs-fab{bottom:92px}
   letter-spacing:.02em;text-transform:uppercase;
 }
 .rac-title{font-size:14px;font-weight:600;color:var(--text-primary)}
-.rac-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rac-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:640px){.rac-cols{grid-template-columns:1fr}}
-.rac-col h4{
-  font-size:12px;text-transform:uppercase;letter-spacing:.08em;
-  color:var(--text-muted);font-weight:600;margin:0 0 10px;
+.rac-col{
+  border-radius:var(--radius);padding:14px 16px;
+  border:1px solid transparent;
 }
-.rac-col ul{list-style:none;padding:0;margin:0}
+.rac-col.rac-before{
+  background:linear-gradient(180deg, rgba(239,68,68,.05) 0%, rgba(239,68,68,.02) 100%);
+  border-color:rgba(239,68,68,.14);
+}
+.rac-col.rac-after{
+  background:linear-gradient(180deg, rgba(16,185,129,.06) 0%, rgba(16,185,129,.02) 100%);
+  border-color:rgba(16,185,129,.18);
+}
+.rac-col h4{
+  font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+  font-weight:700;margin:0 0 10px;display:flex;align-items:center;gap:6px;
+}
+.rac-col.rac-before h4{color:#b91c1c}
+.rac-col.rac-after h4{color:#047857}
+.rac-col.rac-before h4::before,
+.rac-col.rac-after h4::before{
+  content:'';width:14px;height:14px;border-radius:50%;flex:0 0 14px;
+  background-position:center;background-repeat:no-repeat;
+}
+.rac-col.rac-before h4::before{
+  background-color:rgba(239,68,68,.16);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23b91c1c' stroke-width='2.2' stroke-linecap='round'><path d='M3 6h6'/></svg>");
+}
+.rac-col.rac-after h4::before{
+  background-color:rgba(16,185,129,.18);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23047857' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><polyline points='2.5 6 5 8.5 9.5 3.5'/></svg>");
+}
+.rac-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
 .rac-col li{
-  padding:6px 0 6px 18px;position:relative;font-size:13px;line-height:1.5;
+  padding:4px 0 4px 22px;position:relative;font-size:13px;line-height:1.5;
   color:var(--text-primary);
 }
-.rac-col.rac-before li::before{content:'−';position:absolute;left:0;top:6px;color:#b91c1c;font-weight:700}
-.rac-col.rac-after li::before{content:'+';position:absolute;left:0;top:6px;color:#166534;font-weight:700}
+.rac-col.rac-before li::before,
+.rac-col.rac-after li::before{
+  content:'';position:absolute;left:0;top:7px;
+  width:14px;height:14px;border-radius:50%;
+  background-position:center;background-repeat:no-repeat;
+}
+.rac-col.rac-before li::before{
+  background-color:rgba(239,68,68,.12);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23b91c1c' stroke-width='2' stroke-linecap='round'><path d='M3.5 3.5l5 5M8.5 3.5l-5 5'/></svg>");
+}
+.rac-col.rac-after li::before{
+  background-color:rgba(16,185,129,.14);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23047857' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='3 6 5.2 8.2 9 4'/></svg>");
+}
 
 /* ═════ v2.3 · AHA hero v3 — чистая вертикаль ═════ */
 .aha-hero-v3{
@@ -4038,23 +4118,29 @@ body.report-page .rs-mid-cta{
 }
 body.report-page .rs-mid-cta::before{display:none}
 body.report-page .rs-mid-cta-eyebrow{
-  background:var(--surface);
+  background:transparent;
   color:var(--brand-blue);
-  border:1px solid rgba(26,86,219,.2);
+  border:none;
   font-family:var(--font-mono);
-  font-size:11px;padding:4px 10px;
+  font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;
+  padding:0;
   margin-bottom:10px;
 }
 body.report-page .rs-mid-cta-title{
   color:var(--text-primary);
-  font-size:17px;font-weight:700;
-  line-height:1.35;margin-bottom:12px;
+  font-size:18px;font-weight:700;
+  line-height:1.35;margin-bottom:4px;
+}
+body.report-page .rs-mid-cta-loss-line{
+  color:var(--text-secondary);
+  font-size:14px;line-height:1.45;
+  margin-bottom:14px;
 }
 body.report-page .rs-mid-cta-loss{
   color:var(--danger);
-  background:var(--danger-light);
+  background:transparent;
   font-family:var(--font-mono);font-weight:700;
-  padding:0 6px;border-radius:4px;
+  padding:0;border-radius:0;
 }
 body.report-page .rs-mid-cta-list li{
   font-size:13px;color:var(--text-secondary);

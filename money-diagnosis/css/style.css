@@ -4936,12 +4936,13 @@ body.report-page .rs-tldr{
 }
 body.report-page .rs-tldr::before{display:none!important;content:none!important}
 body.report-page .rs-tldr-eyebrow{
-  background:var(--v5-brand-soft)!important;
+  background:transparent!important;
   color:var(--v5-brand)!important;
-  border:1px solid var(--v5-brand-border)!important;
-  font-family:var(--font-mono);font-weight:600;
+  border:none!important;
+  padding:0!important;
+  font-family:var(--font-mono);font-weight:700;letter-spacing:.10em;
 }
-body.report-page .rs-tldr-eyebrow::before{background:var(--v5-brand)!important}
+body.report-page .rs-tldr-eyebrow::before{display:none!important;content:none!important}
 body.report-page .rs-tldr-title{color:var(--v5-ink-0)!important;font-size:28px!important;margin-bottom:12px!important}
 @media (max-width:640px){body.report-page .rs-tldr-title{font-size:22px!important}}
 body.report-page .rs-tldr-body{color:var(--v5-ink-1)!important;font-size:15px!important;line-height:1.6!important}
@@ -4955,8 +4956,9 @@ body.report-page .rs-tldr-grid > div{
   border-left:1px solid var(--v5-border)!important;
 }
 body.report-page .rs-tldr-grid > div:first-child{padding-left:0!important;border-left:none!important}
-body.report-page .tldr-stat-label{color:var(--v5-ink-3)!important;font-family:var(--font-mono);font-size:10px!important;letter-spacing:.08em}
-body.report-page .tldr-stat-val{color:var(--v5-ink-0)!important;font-family:var(--font-mono);font-size:18px!important;font-weight:700}
+body.report-page .tldr-stat-label{color:var(--v5-ink-3)!important;font-family:var(--font-mono);font-size:10px!important;letter-spacing:.08em;font-weight:700;text-transform:uppercase}
+body.report-page .tldr-stat-val{color:var(--v5-ink-0)!important;font-family:var(--font-mono);font-size:18px!important;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums lining-nums}
+body.report-page .tldr-stat-sub{color:var(--v5-ink-1)!important;font-size:13px!important;line-height:1.35;margin-top:4px;font-weight:500}
 
 /* ═══════════════════════════════════════════════════════════
    v5.0 · REPORT sections — выровнять ритм: border +
@@ -5629,4 +5631,39 @@ body.report-page .rs-leaks-stack .rs-leak-card .rs-leak-body{
   body.report-page .rs-leaks-stack .rs-leak-card{padding:12px 14px!important;gap:10px}
 }
 
+.rs-checklist-hint-inline{
+  font-weight:500;color:var(--text-muted);text-transform:none;letter-spacing:normal;
+  font-size:0.95em;font-style:italic;
+}
+
+/* ═════ a11y · :focus-visible — единая обводка для клавиатурной навигации ═════
+   Отдельно от :focus, чтобы мышь/тач не показывали обводку, а Tab — показывал. */
+:where(a, button, [role="button"], input:not([type="checkbox"]):not([type="radio"]), select, textarea, [tabindex]):focus-visible{
+  outline:2px solid var(--brand-blue,#1A56DB);
+  outline-offset:2px;
+  border-radius:6px;
+}
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible{
+  outline:2px solid var(--brand-blue,#1A56DB);
+  outline-offset:2px;
+}
+.rs-cta-secondary-btn:focus-visible{
+  outline:2px solid var(--brand-blue,#1A56DB);
+  outline-offset:3px;
+  border-radius:4px;
+}
+.rs-fab-btn:focus-visible{
+  outline:2px solid #fff;
+  outline-offset:3px;
+  box-shadow:0 0 0 5px rgba(26,86,219,.4);
+}
+@media (prefers-reduced-motion:reduce){
+  *, *::before, *::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
 

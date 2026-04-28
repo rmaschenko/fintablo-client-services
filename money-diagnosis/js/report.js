@@ -73,9 +73,9 @@
     let codes = base.slice();
     if (priority && codes.indexOf(priority) === -1) {
       codes.unshift(priority);
-      codes = codes.slice(0, 5);
+      codes = codes.slice(0, 4);
     } else if (priority) {
-      codes = [priority].concat(codes.filter(c => c !== priority)).slice(0, 5);
+      codes = [priority].concat(codes.filter(c => c !== priority)).slice(0, 4);
     }
 
     return codes.map(c => all[c]);
@@ -203,7 +203,8 @@
       tldrBody.textContent = data.cohortInsight || data.profileDescription || '';
     }
     const tldrP = $('tldr-profile'); if (tldrP) tldrP.textContent = data.profileName || '—';
-    const tldrI = $('tldr-index');   if (tldrI) tldrI.textContent = data.transparencyIndex + ' / 100 · ' + (data.zoneLabel || '');
+    const tldrI = $('tldr-index');   if (tldrI) tldrI.textContent = data.transparencyIndex + ' / 100';
+    const tldrIZ = $('tldr-index-zone'); if (tldrIZ) tldrIZ.textContent = data.zoneLabel || '';
     const tldrL = $('tldr-loss');    if (tldrL) tldrL.textContent = '~ ' + C.formatMoneyCompact(data.estimatedAnnualLoss) + '/год';
 
     // Section 1 · Ролевой хук (профиль/описание уже в TL;DR, не дублируем)

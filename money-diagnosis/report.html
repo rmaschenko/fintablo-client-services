@@ -50,8 +50,12 @@
     <p class="rs-tldr-body" id="tldr-body">—</p>
     <div class="rs-tldr-grid">
       <div><div class="tldr-stat-label">Профиль</div><div class="tldr-stat-val" id="tldr-profile">—</div></div>
-      <div><div class="tldr-stat-label">Индекс прозрачности</div><div class="tldr-stat-val" id="tldr-index">—</div></div>
-      <div><div class="tldr-stat-label">Размер слепой зоны</div><div class="tldr-stat-val" id="tldr-loss">—</div></div>
+      <div>
+        <div class="tldr-stat-label">Индекс прозрачности</div>
+        <div class="tldr-stat-val mono" id="tldr-index">—</div>
+        <div class="tldr-stat-sub" id="tldr-index-zone">—</div>
+      </div>
+      <div><div class="tldr-stat-label">Размер слепой зоны</div><div class="tldr-stat-val mono" id="tldr-loss">—</div></div>
     </div>
   </section>
 
@@ -168,8 +172,8 @@
     <div class="rs-eyebrow">Секция · Проверка готовности</div>
     <h2 class="rs-title">Короткий чек-лист: где вы сейчас</h2>
     <p class="rs-sub">Отметьте мысленно — сколько пунктов вы можете ответить «да, это у нас есть и работает».</p>
-    <div class="rs-checklist">
-      <div class="rs-checklist-label">Управленческая зрелость · 7 признаков</div>
+    <div class="rs-checklist" aria-label="Чек-лист управленческой зрелости — оценочный, не интерактивный">
+      <div class="rs-checklist-label">Управленческая зрелость · 7&nbsp;признаков &nbsp;·&nbsp; <span class="rs-checklist-hint-inline">отметьте мысленно</span></div>
       <ul id="rs-checklist-list">
         <!-- rendered by report.js -->
       </ul>
@@ -215,7 +219,11 @@
       </div>
       <div class="rs-alts-item rs-alts-item-primary">
         <div class="rs-alts-label">Путь через Финтабло</div>
-        <div class="rs-alts-hint">Управленческий учёт под ваш профиль. Внедрение от 2&nbsp;недель, работает поверх 1С и&nbsp;банков. Закрытие месяца за&nbsp;1&nbsp;час вместо 2–3&nbsp;дней.</div>
+        <ul class="rs-alts-list">
+          <li><b>Под ваш профиль —</b> старт от 2&nbsp;недель, не&nbsp;6–12&nbsp;месяцев.</li>
+          <li><b>Поверх 1С и&nbsp;банков —</b> работает с&nbsp;вашими данными, без&nbsp;миграции.</li>
+          <li><b>Закрытие месяца —</b> 1&nbsp;час вместо 2–3&nbsp;дней.</li>
+        </ul>
       </div>
     </div>
   </section>

@@ -2199,6 +2199,7 @@ body:has(.cookie-banner.visible) .rs-fab{bottom:92px}
 .rs-plan{
   position:relative;
   display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  align-items:start; /* месяц 1 содержит блок «Неделя 1» — карточки 2/3 не должны растягиваться по его высоте */
   margin:20px 0;
 }
 .rs-plan::before{
@@ -2246,6 +2247,29 @@ body:has(.cookie-banner.visible) .rs-fab{bottom:92px}
 .plan-list li::before{
   content:'';position:absolute;left:0;top:10px;
   width:6px;height:6px;border-radius:50%;background:var(--blue-500);
+}
+/* «Неделя 1» — внутри карточки 1-го месяца, заменила отдельную секцию rs-firststep */
+.plan-week1{
+  background:linear-gradient(135deg, rgba(26,86,219,.05), rgba(26,86,219,.10));
+  border:1px solid rgba(26,86,219,.18);
+  border-radius:var(--radius);
+  padding:var(--sp-3) var(--sp-4);
+  display:flex;flex-direction:column;gap:6px;
+  margin-top:var(--sp-1);
+}
+.plan-week1-eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;
+  color:var(--blue-700,#1e40af);
+}
+.plan-week1-title{
+  font-size:14px;font-weight:700;color:var(--slate-900);line-height:1.35;
+}
+.plan-week1-body{
+  font-size:12px;line-height:1.55;color:var(--slate-700);margin:0;
+}
+.plan-list-rest-label{
+  font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-muted);margin-top:var(--sp-2);
 }
 
 .rs-checklist{
@@ -5211,19 +5235,7 @@ body.report-page .rs-screen-caption{
   color:var(--v5-ink-1)!important;line-height:1.5!important;
 }
 
-/* rs-firststep — если показан, стилизован как единая blue-soft плашка */
-body.report-page #rs-firststep-section{
-  background:var(--v5-brand-soft)!important;
-  border:1px solid var(--v5-brand-border)!important;
-  border-radius:var(--v5-radius)!important;
-  padding:18px 22px!important;margin:0 0 14px!important;
-  box-shadow:none!important;
-}
-body.report-page #rs-firststep-section .rs-eyebrow{margin-bottom:6px!important}
-body.report-page #rs-firststep-section .rs-title{
-  font-size:17px!important;margin:0 0 6px!important;
-}
-body.report-page #rs-firststep-section .rs-sub{font-size:13px!important;margin:0!important}
+/* (rs-firststep удалён в v6.3 — теперь блок «Неделя 1» внутри карточки 1-го месяца, см. .plan-week1) */
 
 /* inset tldr-stats — добавим мини-строку «Типовая цель через 2–3 мес» (через JS в report.js, но CSS-caption ниже) */
 body.report-page .rs-tldr-grid + .rs-tldr-proj{

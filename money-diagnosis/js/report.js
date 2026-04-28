@@ -304,6 +304,7 @@
     if (rsiCoh) rsiCoh.textContent = data.cohortInsight || '';
 
     // Секция · План действий на 3 месяца (roadmap с нумерацией и connecting line)
+    // Внутри 1-го месяца — блок «Неделя 1» с readinessInsight (раньше был отдельной секцией rs-firststep)
     const planGrid = $('rs-plan');
     if (planGrid && data.pathOut) {
       const titles = ['Базовая гигиена', 'Систематизация', 'Полная картина'];
@@ -317,24 +318,36 @@
             '<div><div class="plan-period mono">' + periods[i] + '</div>' +
             '<div class="plan-title">' + titles[i] + '</div></div>' +
           '</div>';
+
+        // Внутри Месяца 1 — «Неделя 1» из readinessInsight
+        if (i === 0 && data.readinessInsight) {
+          const w1 = document.createElement('div');
+          w1.className = 'plan-week1';
+          const eb = document.createElement('div');
+          eb.className = 'plan-week1-eyebrow';
+          eb.textContent = 'Неделя 1 — с чего начать';
+          const ti = document.createElement('div');
+          ti.className = 'plan-week1-title';
+          ti.textContent = data.readinessInsight.title;
+          const bo = document.createElement('p');
+          bo.className = 'plan-week1-body';
+          bo.textContent = data.readinessInsight.body;
+          w1.appendChild(eb); w1.appendChild(ti); w1.appendChild(bo);
+          card.appendChild(w1);
+        }
+
         const ul = document.createElement('ul'); ul.className = 'plan-list';
+        if (i === 0 && data.readinessInsight) {
+          const restLabel = document.createElement('div');
+          restLabel.className = 'plan-list-rest-label';
+          restLabel.textContent = 'Далее в месяце';
+          card.appendChild(restLabel);
+        }
         const li = document.createElement('li'); li.textContent = step;
         ul.appendChild(li);
         card.appendChild(ul);
         planGrid.appendChild(card);
       });
-    }
-
-    // Секция · Ваш первый шаг (по readiness-ответу из шага 7)
-    const fsSection = $('rs-firststep-section');
-    if (fsSection) {
-      if (data.readinessInsight) {
-        fsSection.hidden = false;
-        const fsT = $('rs-firststep-title'); if (fsT) fsT.textContent = data.readinessInsight.title;
-        const fsD = $('rs-firststep-desc');  if (fsD) fsD.textContent = data.readinessInsight.body;
-      } else {
-        fsSection.hidden = true;
-      }
     }
 
     // Секция · Self-check

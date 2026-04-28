@@ -3213,68 +3213,11 @@ button,[role="button"],input[type="submit"]{
   margin:0;font-weight:500;
 }
 
-/* ── 3. KPI: 3 равные плотные карточки, главная красная ── */
-.peak-kpi-grid{
-  display:grid;grid-template-columns:repeat(3, 1fr);gap:12px;margin-bottom:14px;
-}
-.pkc{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:16px 18px;
-  display:flex;flex-direction:column;gap:6px;
-  min-height:148px;
-  transition:border-color .2s, box-shadow .2s;
-}
-.pkc-main{
-  background:linear-gradient(135deg, #FFF5F5 0%, #FFFFFF 100%);
-  border-color:rgba(239,68,68,.25);
-  box-shadow:0 4px 16px rgba(239,68,68,.08);
-}
-.pkc-ico{
-  width:32px;height:32px;border-radius:9px;
-  display:inline-flex;align-items:center;justify-content:center;
-  background:var(--brand-blue-light);color:var(--brand-blue);
-  margin-bottom:2px;
-}
-.pkc-main .pkc-ico{background:#FEE2E2;color:#B91C1C}
-.pkc-ico svg{width:18px;height:18px}
-.pkc-label{
-  font-size:12px;color:var(--text-secondary);line-height:1.4;
-  letter-spacing:.01em;
-}
-.pkc-value{display:flex;align-items:baseline;gap:5px;margin-top:auto}
-.pkc-num{
-  font-size:clamp(24px,3.6vw,30px);font-weight:700;color:var(--text-primary);
-  line-height:1;letter-spacing:-.02em;
-}
-.pkc-main .pkc-num{color:#B91C1C}
-.pkc-unit{font-size:12px;color:var(--text-muted);font-weight:500}
-.pkc-zone{
-  font-size:11px;font-weight:600;letter-spacing:.01em;
-  padding-top:4px;
-}
-.pkc-expander{
-  display:inline-flex;align-items:center;gap:5px;
-  background:none;border:none;padding:6px 0 0;cursor:pointer;
-  color:var(--brand-blue);font-size:11.5px;font-weight:600;font-family:inherit;
-  align-self:flex-start;
-  transition:color .15s;
-}
-.pkc-expander:hover{color:var(--brand-blue-hover)}
-.pkc-chevron{width:11px;height:11px;transition:transform .2s}
-.pkc-expander.is-open .pkc-chevron{transform:rotate(180deg)}
-.peak-zone-red{color:#B91C1C}
-.peak-zone-orange{color:#B45309}
-.peak-zone-green{color:#065F46}
-.peak-zone-blue{color:#1E40AF}
-
-/* ── v9: KPI richer visualizations — head-row, pills, bench/share/hours bars ── */
-.pkc{min-height:204px}
-.pkc-head{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  margin-bottom:2px;
-}
+/* ── KPI atomic-утилиты — pills и hours-fill, ещё используются на новой peak-kpi-v2 разметке (см. .pkv-* ниже) ──
+ * Структурный legacy KPI-grid (.peak-kpi-grid, .pkc{}, .pkc-main, .pkc-ico, .pkc-label/.pkc-value/.pkc-num/.pkc-unit,
+ * .pkc-zone, .pkc-expander/.pkc-chevron, .pkc-share*, .pkc-bench*/.pkc-legend-*, .pkc-hours-bar/.pkc-hours-track/.pkc-hours-norm/.pkc-hours-legend)
+ * удалён в рамках чистки v6.3 — заменён на peak-kpi-v2 (.pkv-*).
+ */
 .pkc-sev-pill,
 .pkc-zone-pill{
   display:inline-flex;align-items:center;gap:4px;
@@ -3288,74 +3231,6 @@ button,[role="button"],input[type="submit"]{
 .peak-sev-green,  .pkc-zone-pill.peak-zone-green{ background:#D1FAE5;color:#065F46}
 .pkc-zone-pill.peak-zone-blue{background:#DBEAFE;color:#1E40AF}
 
-/* 3.1 · Share-bar (% от годовой выручки) */
-.pkc-share{margin-top:10px;display:flex;flex-direction:column;gap:6px}
-.pkc-share-track{
-  position:relative;width:100%;height:6px;border-radius:999px;
-  background:#FEE2E2;overflow:hidden;
-}
-.pkc-share-fill{
-  height:100%;width:0%;
-  background:linear-gradient(90deg,#EF4444 0%,#DC2626 100%);
-  border-radius:999px;transition:width .6s ease;
-}
-.pkc-share-hint{
-  display:flex;align-items:baseline;gap:6px;
-  font-size:11px;color:var(--text-muted);
-}
-.pkc-share-pct{
-  font-size:13px;font-weight:700;color:#B91C1C;
-  font-family:var(--font-mono,ui-monospace,monospace);
-  font-variant-numeric:tabular-nums lining-nums;
-}
-.pkc-share-of{color:var(--text-muted)}
-
-/* 3.2 · Bench-bar (вы / когорта / лидеры) */
-.pkc-bench{margin-top:12px;display:flex;flex-direction:column;gap:8px}
-.pkc-bench-track{
-  position:relative;width:100%;height:28px;
-  background:#F1F5F9;border-radius:8px;
-  overflow:visible;
-}
-.pkc-bench-scale-fill{
-  position:absolute;left:0;top:0;bottom:0;
-  background:linear-gradient(90deg,#FECACA 0%,#FED7AA 35%,#BBF7D0 65%,#BFDBFE 100%);
-  border-radius:8px;opacity:.55;
-  transition:width .6s ease;
-}
-.pkc-bench-marker{
-  position:absolute;top:50%;transform:translate(-50%,-50%);
-  width:10px;height:10px;border-radius:50%;
-  border:2px solid #fff;
-  box-shadow:0 0 0 1px rgba(15,23,42,.15);
-  z-index:2;transition:left .6s ease;
-}
-.pkc-bench-you{background:var(--brand-blue,#1A56DB);width:14px;height:14px;z-index:4}
-.pkc-bench-peer{background:#94A3B8;z-index:3}
-.pkc-bench-top{background:#10B981;z-index:3}
-/* Легенда под bench-bar: компактная строка «Вы 25 · Когорта 35 · Лидеры 75» */
-.pkc-bench-legend{
-  display:flex;flex-wrap:wrap;gap:10px 14px;
-  font-size:11px;color:var(--text-muted);
-  align-items:center;margin-top:2px;
-}
-.pkc-legend-item{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
-.pkc-legend-item b{color:var(--text-primary);font-size:12px;font-weight:700}
-.pkc-legend-dot{
-  display:inline-block;width:7px;height:7px;border-radius:50%;
-  flex-shrink:0;
-}
-.pkc-legend-you{background:var(--brand-blue,#1A56DB)}
-.pkc-legend-peer{background:#94A3B8}
-.pkc-legend-top{background:#10B981}
-.pkc-legend-norm{background:#0F172A}
-
-/* 3.3 · Hours-bar (ваш × норма) */
-.pkc-hours-bar{margin-top:12px;display:flex;flex-direction:column;gap:6px}
-.pkc-hours-track{
-  position:relative;width:100%;height:8px;
-  background:#F1F5F9;border-radius:999px;overflow:hidden;
-}
 .pkc-hours-fill{
   position:absolute;left:0;top:0;bottom:0;width:0%;
   background:linear-gradient(90deg,#22C55E 0%,#10B981 100%);
@@ -3363,33 +3238,6 @@ button,[role="button"],input[type="submit"]{
 }
 .pkc-hours-fill.peak-zone-orange{background:linear-gradient(90deg,#F59E0B 0%,#D97706 100%)}
 .pkc-hours-fill.peak-zone-red   {background:linear-gradient(90deg,#EF4444 0%,#B91C1C 100%)}
-.pkc-hours-norm{
-  position:absolute;top:-4px;bottom:-4px;left:20%;
-  width:2px;background:#0F172A;border-radius:1px;
-  z-index:2;
-}
-.pkc-hours-norm::after{
-  content:"";position:absolute;top:-3px;left:-3px;
-  width:8px;height:8px;border-radius:50%;
-  background:#0F172A;
-}
-.pkc-hours-legend{
-  display:flex;align-items:center;gap:6px;
-  font-size:11px;color:var(--text-muted);
-  margin-top:2px;
-}
-.pkc-hours-legend b{color:var(--text-primary);font-weight:700;font-size:12px}
-
-/* Главная карточка — более весомая */
-.pkc-main{min-height:220px}
-.pkc-main .pkc-num{font-size:clamp(26px,4vw,34px)}
-
-@media (max-width:680px){
-  .pkc{min-height:auto}
-  .pkc-bench-track{height:24px}
-  .pkc-bench-marker{width:8px;height:8px}
-  .pkc-bench-you{width:10px;height:10px}
-}
 
 .peak-kpi-breakdown{
   background:var(--surface);

@@ -609,7 +609,7 @@
         C.formatMoneyCompact(full.fintabloProjection.high) + '/год)';
     }
 
-    // 4 функции под профиль × боль — product-preview
+    // 2 функции под профиль × боль — product-preview
     const featsEl = $('peak-features');
     if (featsEl) {
       const feats = featuresForPeak(full.profileCode, full.primaryPain, full.industry);
@@ -634,7 +634,7 @@
     // См. peak-mockup в index.html + .pm-screen стили в style.css.
   }
 
-  // Фичи Финтабло для peak-экрана — 4 карточки под профиль + боль + отрасль.
+  // Фичи Финтабло для peak-экрана — 2 карточки под профиль + боль + отрасль.
   // Названия и описания подстраиваются под термины отрасли
   // (объекты/проекты/клиенты/продукты/направления) — без жаргона
   // и без сужения к одной отрасли, если не выбрана.
@@ -665,7 +665,7 @@
       no_big_picture:  ['dashboard','pnl',      'cashflow',     'planfact']
     };
     const codes = byPain[primaryPain] || byPain.no_big_picture;
-    return codes.slice(0, 4).map(code => ({
+    return codes.slice(0, 2).map(code => ({
       name: FEATS[code].name,
       desc: FEATS[code].desc,
       ico:  ICOS[code]

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0F1D2F">
+
+  <!-- §11.1 -->
+  <title>Финансовая диагностика бизнеса за 2 минуты — Финтабло</title>
+
+  <!-- §11.2 -->
+  <meta name="description" content="6 вопросов о финансах вашей компании — персональный разбор: упущенная прибыль за год в рублях, индекс прозрачности учёта, что исправить в первую очередь. Бесплатно, без звонков.">
+
+  <!-- §11.4 -->
+  <link rel="canonical" href="https://diagnostika.fintablo.ru/">
+
+  <!-- §11.3 OG/Twitter -->
+  <meta property="og:title" content="Финансовая диагностика бизнеса за 2 минуты">
+  <meta property="og:description" content="Узнаете, где ваш бизнес теряет прибыль. 6 вопросов, персональный разбор сразу на экране.">
+  <meta property="og:image" content="/assets/og-image.jpg">
+  <meta property="og:url" content="https://diagnostika.fintablo.ru/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/assets/favicon.ico">
+
+  <!-- §10.1 Яндекс.Метрика 61131877 -->
+  <script>
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(61131877,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/61131877" style="position:absolute;left:-9999px" alt=""></div></noscript>
+
+  <!-- §10.3 UTM-захват в localStorage -->
+  <script>
+    (function(){
+      try{
+        var p=new URLSearchParams(window.location.search);
+        var keys=['utm_source','utm_medium','utm_campaign','utm_term','utm_content','yclid'];
+        var captured={};
+        keys.forEach(function(k){var v=p.get(k);if(v)captured[k]=v;});
+        if(Object.keys(captured).length){
+          captured._captured_at=Date.now();
+          localStorage.setItem('ft_utm',JSON.stringify(captured));
+        }
+      }catch(e){}
+    })();
+  </script>
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       Fintablo DS Kit v1.0 — переменные (наследовано от money-diagnosis)
+       §9.2 SPEC: те же CSS-переменные, что в микросервисе
+       ═══════════════════════════════════════════════════════════ */
+    :root{
+      /* Primary — blue/navy */
+      --navy-900:#0F1D2F; --navy-800:#1A2E47; --navy-700:#1E3A5F; --navy-600:#254D7A;
+      --blue-700:#1D4ED8; --blue-600:#2563EB; --blue-500:#3B82F6; --blue-400:#60A5FA;
+      --blue-300:#93BBFD; --blue-200:#BFDBFE; --blue-100:#DBEAFE; --blue-50:#EFF6FF;
+
+      /* Neutrals — Slate */
+      --slate-900:#0F172A; --slate-800:#1E293B; --slate-700:#334155; --slate-600:#475569;
+      --slate-500:#64748B; --slate-400:#94A3B8; --slate-300:#CBD5E1; --slate-200:#E2E8F0;
+      --slate-100:#F1F5F9; --slate-50:#F8FAFC; --white:#FFFFFF;
+
+      /* Semantic — financial */
+      --profit:#16A34A; --profit-bg:#F0FDF4; --profit-border:#BBF7D0;
+      --loss:#DC2626;   --loss-bg:#FEF2F2;   --loss-border:#FECACA;
+      --caution:#D97706;--caution-bg:#FFFBEB;--caution-border:#FDE68A;
+      --info:#2563EB;   --info-bg:#EFF6FF;   --info-border:#BFDBFE;
+
+      /* Typography — §9.1 системные стеки, без подгрузки веб-шрифтов */
+      --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+      --font-mono:ui-monospace,SFMono-Regular,'SF Mono','JetBrains Mono','Roboto Mono',Menlo,Monaco,Consolas,monospace;
+
+      /* Spacing (4px base) */
+      --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px;
+      --sp-8:32px; --sp-10:40px; --sp-12:48px; --sp-16:64px; --sp-20:80px;
+
+      /* Radii */
+      --radius-sm:4px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px;
+
+      /* Shadows */
+      --shadow-sm:0 1px 2px rgba(15,23,42,.05);
+      --shadow-md:0 2px 8px rgba(15,23,42,.08);
+      --shadow-lg:0 4px 16px rgba(15,23,42,.1);
+      --shadow-focus:0 0 0 3px rgba(37,99,235,.2);
+
+      /* Semantic aliases */
+      --bg:var(--slate-50);
+      --surface:var(--white);
+      --text-primary:var(--slate-900);
+      --text-secondary:var(--slate-600);
+      --text-muted:var(--slate-500);
+      --border:var(--slate-200);
+      --brand:var(--blue-600);
+      --brand-hover:var(--navy-700);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       Reset + базовая типографика
+       ═══════════════════════════════════════════════════════════ */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+    body{
+      font-family:var(--font-sans);
+      font-size:18px; line-height:1.55;
+      color:var(--text-primary);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    @media (max-width:560px){ body{font-size:16px} }
+
+    img,svg{display:block;max-width:100%}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{color:var(--brand-hover)}
+    button{font:inherit;cursor:pointer;border:0;background:none}
+
+    /* §9.4 Контейнер: max-width 1200, padding 24/16 */
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 24px;
+    }
+    @media (max-width:560px){ .container{padding:0 16px} }
+
+    /* §9.3 Типографика */
+    h1{font-size:clamp(32px,4.5vw,56px);line-height:1.1;font-weight:700;letter-spacing:-.02em}
+    h2{font-size:clamp(24px,3vw,36px);line-height:1.2;font-weight:700;letter-spacing:-.015em}
+    h3{font-size:clamp(20px,2.2vw,28px);line-height:1.25;font-weight:700}
+    h4{font-size:18px;font-weight:600;line-height:1.3}
+
+    /* Утилиты: моноцифры в hero-карточке */
+    .mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+
+    /* CTA — базовая кнопка */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:14px 28px;border-radius:var(--radius-md);
+      font-weight:600;font-size:17px;line-height:1.2;
+      transition:transform .15s,box-shadow .15s,background .15s;
+    }
+    .btn:hover{transform:translateY(-2px)} /* §9.5 micro-elevation */
+    .btn-primary{background:var(--brand);color:var(--white);box-shadow:var(--shadow-md)}
+    .btn-primary:hover{background:var(--brand-hover);color:var(--white);box-shadow:var(--shadow-lg)}
+    .btn-text{color:var(--brand);font-weight:600}
+    .btn-text:hover{color:var(--brand-hover);text-decoration:underline}
+
+    /* Секции: вертикальный ритм */
+    section{padding:var(--sp-20) 0}
+    @media (max-width:720px){ section{padding:var(--sp-12) 0} }
+
+    /* Header */
+    .site-header{padding:var(--sp-5) 0;background:var(--white);border-bottom:1px solid var(--border)}
+    .site-header .container{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-weight:700;font-size:20px;color:var(--navy-900);letter-spacing:-.01em}
+
+    /* §9.6 Mobile warning banner — display:block только на mobile */
+    .mobile-warning{display:none}
+    @media (max-width:720px){
+      .mobile-warning{
+        display:block;
+        background:var(--info-bg);
+        border-bottom:1px solid var(--info-border);
+        padding:var(--sp-4);
+        font-size:14px;
+        color:var(--slate-800);
+      }
+    }
+
+    /* Footer */
+    .site-footer{
+      padding:var(--sp-12) 0 var(--sp-8);
+      background:var(--navy-900);color:var(--slate-300);
+      font-size:14px;line-height:1.6;
+    }
+    .site-footer a{color:var(--slate-300)}
+    .site-footer a:hover{color:var(--white)}
+  </style>
+</head>
+<body>
+
+<!-- §9.6 Мобильный warning-баннер — показывается только на mobile breakpoint -->
+<div class="mobile-warning" id="mobile-warning" hidden>
+  <!-- TODO §9.6: «Этот разбор удобнее проходить с компьютера. Прислать ссылку?»
+       + поле email + кнопки «Прислать на email» / «Продолжить» -->
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">Финтабло</a>
+    <!-- TODO: nav если потребуется (на лендинге обычно не нужен) -->
+  </div>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       §2 HERO
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <!-- TODO §2.1: H1 «Где ваш бизнес теряет прибыль — узнаете за 2 минуты» -->
+      <!-- TODO §2.2: подзаголовок «6 вопросов о финансах вашей компании — персональный разбор: упущенная прибыль за год в рублях, индекс прозрачности учёта, что исправить в первую очередь.» -->
+      <!-- TODO §2.3: trust-bar «2 300+ компаний · Бизнес от 60 млн ₽ годовой выручки · Бесплатно, без звонков» -->
+      <!-- TODO §2.4: CTA-кнопки + микротекст под ними («6 вопросов · 2 минуты · персональный разбор сразу на экране») -->
+      <!-- TODO §2.5: hero-карусель из 3 кейсов (Производство / Строительство / IT-разработка), auto-rotate 6s, точки навигации, pause on hover, display:none на mobile -->
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       §3 PAIN-блок — что происходит в финансах российского МСБ в 2026
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="pain" id="pain">
+    <div class="container">
+      <!-- TODO §3.1: H2 «Что происходит в финансах российского МСБ в 2026 году» -->
+      <!-- TODO §3.2: 3 факта-карточки с источниками
+           1) 39% компаний РСПП — неплатежи (источник: РСПП, опрос членов, осень 2025)
+           2) 8,2 трлн ₽ просроченной дебиторки — 3,8% ВВП (источник: ФНС через «Ведомости», апрель 2026)
+           3) −10% средняя прибыль МСБ при росте выручки на 26% (источник: Adesk, 3000+ компаний, январь 2026) -->
+      <!-- TODO §3.3: связующий текст под карточками -->
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       §4 СИМПТОМЫ — чек-лист
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="symptoms" id="symptoms">
+    <div class="container">
+      <!-- TODO §4.1: H2 «Узнаёте? Хотя бы 2 пункта — повод пройти диагностику» -->
+      <!-- TODO §4.2: 6 утверждений-симптомов (короткие, без эмодзи, маркер •) -->
+      <!-- TODO §4.3: CTA «Пройти диагностику →» + микротекст -->
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       §5 BENEFITS — «Что вы получите» (якорь под hero secondary CTA)
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="benefits" id="benefits">
+    <div class="container">
+      <!-- TODO §5.1: H2 «Что будет в вашем разборе» -->
+      <!-- TODO §5.2: 3 блока в гриде:
+           1) Упущенная прибыль за год — в рублях
+           2) Индекс прозрачности учёта — 0 до 100
+           3) Что исправить в первую очередь -->
+      <!-- TODO §5.3: подпись под блоками «Разбор появляется на экране сразу после квиза. PDF не присылаем — всё видно прямо здесь.» -->
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       §6 ФИНАЛЬНЫЙ CTA-блок (перед footer)
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="final-cta" id="final-cta">
+    <div class="container">
+      <!-- TODO §6.1: H2 «2 минуты — и вы увидите свою финансовую картину» -->
+      <!-- TODO §6.2: подзаголовок «Без регистрации, без оплаты, без звонков от менеджеров. Контакт нужен только чтобы прислать вам сохранённую версию разбора — если захотите вернуться к ней позже.» -->
+      <!-- TODO §6.3: CTA «Начать диагностику →» -->
+      <!-- TODO §6.4: микро-доказательство «1 438 собственников уже прошли · средний индекс прозрачности — 47/100» -->
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════
+     §7 FOOTER
+     ═══════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <!-- TODO §7:
+         - логотип + копирайт
+         - ИНН 2311303019, ООО «Дерзкий финансовый рост»
+         - ссылки: О компании / Тарифы / Блог / Кейсы / Политика обработки ПДн / Согласие на обработку ПДн / Договор-оферта
+         - контакты: телефон поддержки, email
+         - соцсети: VK, MAX, Telegram (только иконки контента, без CTA)
+         НЕ выносить как «преимущества»: реестр российского ПО, 152-ФЗ -->
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JS — карусель, скролл-цели, mailto-fallback, переход в квиз с UTM
+     §10.2: цели Метрики на CTA. Будет реализовано на шагах 3-6.
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+  // TODO §2.5: карусель кейсов (auto-rotate 6s, точки навигации, pause on hover)
+  // TODO §10.2: ym(61131877,'reachGoal','landing_loaded') на DOMContentLoaded
+  // TODO §10.2: ym цели на каждый CTA (hero_cta_click, secondary_cta_click, symptoms_cta_click, final_cta_click, go_to_quiz)
+  // TODO §10.2: scroll-цели (50% страницы → scroll_pain_block, по позиции — scroll_symptoms, scroll_final_cta) через IntersectionObserver
+  // TODO §8: переход в квиз с UTM из localStorage (ft_utm) — приклеиваем к querystring на go_to_quiz
+  // TODO §9.6: mobile warning — IntersectionObserver на breakpoint, кнопка «Прислать на email» (mailto fallback)
+</script>
+
+</body>
+</html>

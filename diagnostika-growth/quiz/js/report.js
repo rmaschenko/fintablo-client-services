@@ -76,38 +76,45 @@
     const r = data.recommendation;
     const fixCard = document.querySelector('.dg-fix-card');
     if (!fixCard) return;
+
+    // Narrative-flow без коробок: рассказ → переход к Финтабло → действие
     fixCard.innerHTML =
-      '<div class="dg-fix-title"></div>' +
-      '<div class="dg-fix-body"></div>' +
-      '<div class="dg-fix-mechanic">' +
-        '<div class="dg-fix-mechanic-block dg-fix-why">' +
-          '<div class="dg-fix-mechanic-label">Почему трудно сделать самому</div>' +
-          '<div class="dg-fix-mechanic-text"></div>' +
+      '<h3 class="dg-fix-action"></h3>' +
+      '<p class="dg-fix-lead"></p>' +
+      '<div class="dg-fix-compare">' +
+        '<div class="dg-fix-line dg-fix-line-manual">' +
+          '<span class="dg-fix-line-label">В&nbsp;Excel и&nbsp;таблицах</span>' +
+          '<span class="dg-fix-line-text"></span>' +
         '</div>' +
-        '<div class="dg-fix-mechanic-block dg-fix-how">' +
-          '<div class="dg-fix-mechanic-label">Как это в&nbsp;Финтабло</div>' +
-          '<div class="dg-fix-mechanic-text"></div>' +
+        '<div class="dg-fix-line dg-fix-line-fintablo">' +
+          '<span class="dg-fix-line-label">В&nbsp;Финтабло</span>' +
+          '<span class="dg-fix-line-text"></span>' +
         '</div>' +
       '</div>' +
-      '<div class="dg-fix-proof">' +
-        '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>' +
-        '<span class="dg-fix-proof-text"></span>' +
+      '<div class="dg-fix-summary">' +
+        '<span class="dg-fix-summary-icon">' +
+          '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l4-4 4 4 6-6"/><path d="M11 6h6v6"/></svg>' +
+        '</span>' +
+        '<span class="dg-fix-summary-text"></span>' +
       '</div>' +
-      '<div class="dg-fix-tags"></div>';
+      '<a class="dg-fix-bridge" href="#section-final">' +
+        '<span class="dg-fix-bridge-text"></span>' +
+        '<span class="dg-fix-bridge-arrow">→</span>' +
+      '</a>';
 
-    fixCard.querySelector('.dg-fix-title').textContent = r.title;
-    fixCard.querySelector('.dg-fix-body').textContent = r.body;
-    if (r.whyHard) fixCard.querySelector('.dg-fix-why .dg-fix-mechanic-text').textContent = r.whyHard;
-    if (r.howFintablo) fixCard.querySelector('.dg-fix-how .dg-fix-mechanic-text').textContent = r.howFintablo;
-    if (r.proofPoint) fixCard.querySelector('.dg-fix-proof-text').textContent = r.proofPoint;
+    fixCard.querySelector('.dg-fix-action').textContent = r.title;
+    fixCard.querySelector('.dg-fix-lead').textContent = r.body;
+    if (r.whyHard) fixCard.querySelector('.dg-fix-line-manual .dg-fix-line-text').textContent = r.whyHard;
+    if (r.howFintablo) fixCard.querySelector('.dg-fix-line-fintablo .dg-fix-line-text').textContent = r.howFintablo;
+    if (r.proofPoint) fixCard.querySelector('.dg-fix-summary-text').textContent = r.proofPoint;
 
-    const tagsEl = fixCard.querySelector('.dg-fix-tags');
-    (r.tags || []).forEach(tag => {
-      const t = document.createElement('span');
-      t.className = 'dg-fix-tag';
-      t.textContent = tag;
-      tagsEl.appendChild(t);
-    });
+    // Bridge — прямая связка с финалом по маршруту
+    const bridgeText = (
+      data.route === 'icp_cfo'    ? 'Покажем как настроить это под ваш бизнес на встрече' :
+      data.route === 'icp_no_cfo' ? 'Подберём партнёра-финансиста — настроит и поведёт учёт' :
+                                    'Попробуйте Финтабло сами — 7 дней доступа в подарок'
+    );
+    fixCard.querySelector('.dg-fix-bridge-text').textContent = bridgeText;
   }
 
   function renderFinal() {

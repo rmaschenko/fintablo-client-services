@@ -270,53 +270,114 @@
   border-radius: 999px;
 }
 
-/* Механика «почему трудно самому» / «как в Финтабло» */
-.dg-fix-mechanic {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin: 22px 0 18px;
-}
-@media (max-width: 720px) { .dg-fix-mechanic { grid-template-columns: 1fr; gap: 14px; } }
-.dg-fix-mechanic-block {
-  padding: 16px 18px;
-  border-radius: 12px;
-  border: 1px solid var(--slate-200, #E2E8F0);
+/* Section 3 narrative — без коробок-в-коробках, плоский ритм */
+.dg-fix-card {
+  /* Переопределяет старую gradient-карту: спокойный белый фон, ровный текст */
   background: #fff;
+  border: 1px solid var(--slate-200, #E2E8F0);
+  padding: 28px 32px;
 }
-.dg-fix-mechanic-block.dg-fix-how {
-  background: linear-gradient(135deg, var(--blue-50, #EFF6FF) 0%, #fff 70%);
-  border-color: var(--blue-200, #BFDBFE);
+@media (max-width: 720px) { .dg-fix-card { padding: 22px 20px; } }
+
+.dg-fix-action {
+  font-size: clamp(22px, 2.6vw, 28px);
+  font-weight: 700;
+  color: var(--navy-900, #0F1D2F);
+  letter-spacing: -.018em;
+  line-height: 1.25;
+  margin-bottom: 14px;
 }
-.dg-fix-mechanic-label {
-  font-size: 11px;
+.dg-fix-lead {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--slate-700, #334155);
+  margin-bottom: 24px;
+}
+
+.dg-fix-compare {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 24px;
+  border-top: 1px solid var(--slate-200, #E2E8F0);
+}
+.dg-fix-line {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--slate-100, #F1F5F9);
+}
+.dg-fix-line:last-child { border-bottom: none; }
+.dg-fix-line-label {
+  flex-shrink: 0;
+  width: 130px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--slate-500, #64748B);
-  margin-bottom: 8px;
+  padding-top: 4px;
 }
-.dg-fix-how .dg-fix-mechanic-label { color: var(--blue-700, #1D4ED8); }
-.dg-fix-mechanic-text {
-  font-size: 14px;
+.dg-fix-line-fintablo .dg-fix-line-label { color: var(--blue-700, #1D4ED8); }
+.dg-fix-line-text {
+  flex: 1;
+  font-size: 15px;
   line-height: 1.6;
   color: var(--slate-700, #334155);
 }
+.dg-fix-line-fintablo .dg-fix-line-text { color: var(--slate-800, #1E293B); }
+@media (max-width: 560px) {
+  .dg-fix-line { flex-direction: column; gap: 6px; }
+  .dg-fix-line-label { width: auto; padding-top: 0; }
+}
 
-.dg-fix-proof {
+.dg-fix-summary {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  margin-bottom: 14px;
-  padding: 9px 14px;
-  background: var(--profit-bg, #F0FDF4);
-  border: 1px solid var(--profit-border, #BBF7D0);
-  border-radius: 999px;
-  font-size: 13px;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--blue-50, #EFF6FF);
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--profit, #16A34A);
+  color: var(--blue-700, #1D4ED8);
 }
-.dg-fix-proof svg { width: 14px; height: 14px; }
+.dg-fix-summary-icon { display: inline-flex; }
+.dg-fix-summary-icon svg { width: 16px; height: 16px; }
+
+/* Bridge — связка с финалом, главная конверсионная точка отчёта */
+.dg-fix-bridge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  background: var(--navy-900, #0F1D2F);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background .15s, transform .15s;
+}
+.dg-fix-bridge:hover {
+  background: var(--navy-700, #1E3A5F);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+.dg-fix-bridge-text {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.4;
+}
+.dg-fix-bridge-arrow {
+  flex-shrink: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--blue-300, #93BBFD);
+  transition: transform .2s;
+}
+.dg-fix-bridge:hover .dg-fix-bridge-arrow { transform: translateX(4px); color: #fff; }
 
 /* Чек-лист в финальном блоке */
 .dg-final-checklist {

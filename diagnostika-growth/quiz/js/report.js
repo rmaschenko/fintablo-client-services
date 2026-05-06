@@ -20,13 +20,8 @@
   function renderHero() {
     const route = data.route;
     let title, sub;
-    if (route === 'icp') {
-      title = 'Разбор готов&nbsp;— что получилось по&nbsp;вашим ответам';
-      sub = 'Три цифры о&nbsp;финансах вашего бизнеса: потенциал возврата прибыли, индекс прозрачности учёта и&nbsp;один конкретный следующий шаг. Внизу&nbsp;— как разобрать это детально с&nbsp;финансовым экспертом.';
-    } else {
-      title = 'Разбор готов&nbsp;— что получилось по&nbsp;вашим ответам';
-      sub = 'Три цифры о&nbsp;финансах вашего бизнеса: потенциал возврата прибыли, индекс прозрачности учёта и&nbsp;один конкретный следующий шаг. Внизу&nbsp;— как попробовать Финтабло, чтобы увидеть всё это в&nbsp;своём учёте.';
-    }
+    title = 'Разбор готов&nbsp;— что получилось по&nbsp;вашим ответам';
+    sub = 'Три цифры о&nbsp;финансах вашего бизнеса: потенциал возврата прибыли, индекс прозрачности учёта и&nbsp;один конкретный следующий шаг.';
     $('hero-title').innerHTML = title;
     $('hero-sub').innerHTML = sub;
   }
@@ -190,7 +185,13 @@
         '<label class="dg-form-consent">' +
           '<input type="checkbox" id="lead-consent" class="dg-form-checkbox" required>' +
           '<span class="dg-form-consent-text">' +
-            'Даю согласие ООО&nbsp;«Нескучный финансовый софт» (ИНН&nbsp;2311303019) на&nbsp;обработку персональных данных в&nbsp;целях обратной связи в&nbsp;соответствии с&nbsp;<a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой обработки персональных данных</a> и&nbsp;<a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">Офертой</a>.' +
+            'Даю согласие ООО&nbsp;«Нескучный финансовый софт» (ИНН&nbsp;2311303019) на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой обработки персональных данных</a> и&nbsp;<a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">Офертой</a>.' +
+          '</span>' +
+        '</label>' +
+        '<label class="dg-form-consent dg-form-consent-marketing">' +
+          '<input type="checkbox" id="lead-marketing" class="dg-form-checkbox">' +
+          '<span class="dg-form-consent-text">' +
+            'Согласен на&nbsp;получение информационных и&nbsp;рекламных материалов от&nbsp;Финтабло.' +
           '</span>' +
         '</label>' +
         '<button type="submit" class="dg-form-submit" id="lead-submit" data-goal="' + opts.ymGoal + '" disabled>' + opts.submitText + '</button>' +
@@ -260,7 +261,8 @@
           policyUrl: 'https://fintablo.ru/position',
           offerUrl: 'https://fintablo.ru/oferta',
           operator: 'ООО «Нескучный финансовый софт», ИНН 2311303019'
-        }
+        },
+        marketingConsent: !!($('lead-marketing') && $('lead-marketing').checked)
       };
 
       const goal = submitBtn.getAttribute('data-goal');

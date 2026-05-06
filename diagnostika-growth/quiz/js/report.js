@@ -74,10 +74,34 @@
 
   function renderFix() {
     const r = data.recommendation;
-    $('fix-title').textContent = r.title;
-    $('fix-body').textContent = r.body;
-    const tagsEl = $('fix-tags');
-    tagsEl.innerHTML = '';
+    const fixCard = document.querySelector('.dg-fix-card');
+    if (!fixCard) return;
+    fixCard.innerHTML =
+      '<div class="dg-fix-title"></div>' +
+      '<div class="dg-fix-body"></div>' +
+      '<div class="dg-fix-mechanic">' +
+        '<div class="dg-fix-mechanic-block dg-fix-why">' +
+          '<div class="dg-fix-mechanic-label">Почему трудно сделать самому</div>' +
+          '<div class="dg-fix-mechanic-text"></div>' +
+        '</div>' +
+        '<div class="dg-fix-mechanic-block dg-fix-how">' +
+          '<div class="dg-fix-mechanic-label">Как это в&nbsp;Финтабло</div>' +
+          '<div class="dg-fix-mechanic-text"></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="dg-fix-proof">' +
+        '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>' +
+        '<span class="dg-fix-proof-text"></span>' +
+      '</div>' +
+      '<div class="dg-fix-tags"></div>';
+
+    fixCard.querySelector('.dg-fix-title').textContent = r.title;
+    fixCard.querySelector('.dg-fix-body').textContent = r.body;
+    if (r.whyHard) fixCard.querySelector('.dg-fix-why .dg-fix-mechanic-text').textContent = r.whyHard;
+    if (r.howFintablo) fixCard.querySelector('.dg-fix-how .dg-fix-mechanic-text').textContent = r.howFintablo;
+    if (r.proofPoint) fixCard.querySelector('.dg-fix-proof-text').textContent = r.proofPoint;
+
+    const tagsEl = fixCard.querySelector('.dg-fix-tags');
     (r.tags || []).forEach(tag => {
       const t = document.createElement('span');
       t.className = 'dg-fix-tag';
@@ -103,11 +127,16 @@
 
   function renderIcpCfoBlock() {
     return (
-      '<div class="dg-final-eyebrow">Следующий шаг для ICP-сегмента</div>' +
-      '<h2>Запишитесь на эксперт-разбор с менеджером Финтабло</h2>' +
-      '<p>За 30 минут разберём ваши цифры детально, покажем как Финтабло закрывает 3 источника потерь из вашего разбора, и&nbsp;посчитаем экономику внедрения под ваш масштаб.</p>' +
+      '<div class="dg-final-eyebrow">30 минут с финансовым экспертом — бесплатно</div>' +
+      '<h2>Покажем как закрыть 3 источника потерь из&nbsp;вашего разбора</h2>' +
+      '<p>На&nbsp;встрече финансовый эксперт Финтабло разберёт ваши цифры детально, покажет настройку контуров и&nbsp;отчётов под&nbsp;вашу отрасль, посчитает экономику внедрения под&nbsp;ваш масштаб. Без&nbsp;презентаций&nbsp;— сразу к&nbsp;делу.</p>' +
+      '<div class="dg-final-checklist">' +
+        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Разбор вашей оценки потерь&nbsp;— подтвердим или скорректируем</span></div>' +
+        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Демо настройки ОПиУ и&nbsp;ДДС на&nbsp;близком к&nbsp;вам кейсе</span></div>' +
+        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Расчёт сроков и&nbsp;бюджета внедрения под&nbsp;ваш масштаб</span></div>' +
+      '</div>' +
       buildLeadForm({
-        title: 'Контакты для записи на разбор',
+        title: 'Оставьте контакты&nbsp;— эксперт свяжется в&nbsp;течение рабочего дня',
         cityField: false,
         submitText: 'Записаться на разбор',
         ymGoal: 'dg_lead_cfo'
@@ -117,11 +146,16 @@
 
   function renderIcpNoCfoBlock() {
     return (
-      '<div class="dg-final-eyebrow">Следующий шаг — финансист</div>' +
-      '<h2>Подберём партнёра-финансиста под ваш бизнес</h2>' +
-      '<p>Партнёр настроит Финтабло, поведёт управленческий учёт первые 2-3&nbsp;месяца и&nbsp;передаст процессы вашей команде. Сеть&nbsp;— 500+ финансистов, можем подобрать по&nbsp;отрасли и&nbsp;городу.</p>' +
+      '<div class="dg-final-eyebrow">Партнёрская сеть — 500+ финансистов</div>' +
+      '<h2>Партнёр-финансист настроит Финтабло и&nbsp;поведёт учёт</h2>' +
+      '<p>Подберём 2-3 финансистов из&nbsp;нашей сети, которые работают с&nbsp;проектным бизнесом вашего масштаба и&nbsp;отрасли. Внедрят Финтабло за&nbsp;2-3&nbsp;недели, поведут управленческий учёт первые 2-3&nbsp;месяца и&nbsp;передадут процессы вашей команде.</p>' +
+      '<div class="dg-final-checklist">' +
+        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Внедрение Финтабло под&nbsp;ваш профиль за&nbsp;2-3&nbsp;недели</span></div>' +
+        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Ведение управленческого учёта первые 2-3&nbsp;месяца</span></div>' +
+        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Передача процессов вашей команде с&nbsp;документацией</span></div>' +
+      '</div>' +
       buildLeadForm({
-        title: 'Контакты и город — пришлём 2-3 варианта партнёров',
+        title: 'Оставьте контакты и&nbsp;город&nbsp;— пришлём 2-3 варианта партнёров',
         cityField: true,
         submitText: 'Подобрать партнёра',
         ymGoal: 'dg_lead_partner'
@@ -131,11 +165,25 @@
 
   function renderSelfServeBlock() {
     return (
-      '<div class="dg-final-eyebrow">Сейчас попробуйте Финтабло</div>' +
-      '<h2>7&nbsp;дней триала&nbsp;— без обязательств, без передачи данных</h2>' +
-      '<p>Финтабло в&nbsp;полную силу работает у&nbsp;проектного бизнеса от&nbsp;60&nbsp;млн&nbsp;₽ годовой выручки с&nbsp;выделенным финансистом. Сейчас попробуйте триал&nbsp;— посмотрите как устроен сервис изнутри. Когда дорастёте — будете готовы внедрять.</p>' +
-      '<button type="button" class="dg-final-cta" id="btn-self-serve">Открыть Финтабло на 7&nbsp;дней →</button>' +
-      '<div class="dg-final-meta">Регистрация по&nbsp;email · 7&nbsp;дней полного доступа</div>'
+      '<div class="dg-final-eyebrow">Полный доступ — 7 дней в подарок</div>' +
+      '<h2>Попробуйте Финтабло сами&nbsp;— без оплаты и&nbsp;обязательств</h2>' +
+      '<p>Финтабло раскрывается в&nbsp;полную силу у&nbsp;проектного бизнеса от&nbsp;60&nbsp;млн&nbsp;₽ годовой выручки с&nbsp;выделенным финансистом. Когда дорастёте&nbsp;— уже будете знать сервис изнутри.</p>' +
+      '<div class="dg-final-checklist">' +
+        '<div class="dg-final-check-item">' +
+          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>' +
+          '<span>Загрузите выписку из&nbsp;банка&nbsp;— увидите ДДС за&nbsp;5&nbsp;минут</span>' +
+        '</div>' +
+        '<div class="dg-final-check-item">' +
+          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>' +
+          '<span>Откройте готовый шаблон ОПиУ под вашу отрасль</span>' +
+        '</div>' +
+        '<div class="dg-final-check-item">' +
+          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>' +
+          '<span>Настройте контуры под направления и&nbsp;проекты</span>' +
+        '</div>' +
+      '</div>' +
+      '<button type="button" class="dg-final-cta" id="btn-self-serve">Открыть Финтабло →</button>' +
+      '<div class="dg-final-meta">Регистрация по&nbsp;email · 7&nbsp;дней полного доступа · Без передачи данных</div>'
     );
   }
 

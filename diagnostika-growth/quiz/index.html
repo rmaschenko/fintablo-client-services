@@ -15,6 +15,7 @@
 <link rel="preload" href="fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/quiz-dg.css">
 
 <!-- Yandex.Metrika 61131877 -->
 <script>
@@ -92,65 +93,14 @@
 <main class="container" id="main">
 
   <!-- ── Step 0: Welcome ── -->
-  <section class="step step-welcome active" id="step-0">
-    <div class="social-proof">
-      <span class="dot-green" aria-hidden="true"></span>
-      <span><b>2&nbsp;300+ компаний</b> работают в&nbsp;Финтабло&nbsp;· разбор появляется на&nbsp;экране сразу после квиза</span>
-    </div>
+  <!-- Микро-контекст вместо welcome — без дубля лендинга -->
+  <div class="quiz-intro">
+    <div class="quiz-intro-eyebrow">Финансовая диагностика&nbsp;· 6&nbsp;вопросов</div>
+    <p class="quiz-intro-text">Отвечаете на&nbsp;вопросы&nbsp;— разбор открывается сразу после последнего. Без регистрации, данные хранятся в&nbsp;браузере.</p>
+  </div>
 
-    <h1 class="hero-h1" id="hero-h1">Где ваш бизнес теряет&nbsp;прибыль&nbsp;— <span class="accent">узнаете за&nbsp;2&nbsp;минуты</span></h1>
-    <p class="hero-sub">
-      6&nbsp;вопросов о&nbsp;финансах вашей компании&nbsp;— персональный разбор: упущенная прибыль за&nbsp;год в&nbsp;рублях, индекс прозрачности учёта, что исправить в&nbsp;первую очередь.
-    </p>
-
-    <div class="hero-preview">
-      <div class="hp-label">Что будет в&nbsp;разборе</div>
-      <div class="hp-grid">
-        <div class="hp-stat hp-stat-danger">
-          <div class="hp-stat-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><text x="12" y="16.5" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="currentColor" stroke="none" text-anchor="middle">₽</text></svg>
-          </div>
-          <div class="hp-stat-label">Упущенная прибыль</div>
-          <div class="hp-stat-val">в&nbsp;рублях за&nbsp;год</div>
-          <div class="hp-stat-hint">3&nbsp;источника с&nbsp;обоснованием</div>
-        </div>
-        <div class="hp-stat hp-stat-accent">
-          <div class="hp-stat-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-          </div>
-          <div class="hp-stat-label">Индекс прозрачности учёта</div>
-          <div class="hp-stat-val">0&nbsp;— 100</div>
-          <div class="hp-stat-hint">сравнение с&nbsp;похожими</div>
-        </div>
-        <div class="hp-stat hp-stat-success">
-          <div class="hp-stat-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          </div>
-          <div class="hp-stat-label">Что исправить</div>
-          <div class="hp-stat-val">в&nbsp;первую очередь</div>
-          <div class="hp-stat-hint">конкретный шаг на&nbsp;2&nbsp;недели</div>
-        </div>
-      </div>
-      <div class="hp-note">Цифры расчитываются по&nbsp;вашим ответам&nbsp;— под ваш масштаб, отрасль и&nbsp;текущий уровень учёта. Под каждой цифрой&nbsp;— источник.</div>
-    </div>
-
-    <div class="hero-cta-row">
-      <button class="btn-primary btn-lg" id="btn-start" type="button">
-        Пройти диагностику
-        <span class="btn-arrow">→</span>
-      </button>
-      <div class="trust-row">
-        <span class="trust-item">2&nbsp;минуты</span>
-        <span class="trust-sep">·</span>
-        <span class="trust-item">Без регистрации</span>
-        <span class="trust-sep">·</span>
-        <span class="trust-item">Данные в&nbsp;браузере</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Step 1: Роль ── -->
-  <section class="step" id="step-1">
+  <!-- ── Step 1: Роль (показывается сразу при входе) ── -->
+  <section class="step active" id="step-1">
     <h2 class="step-q">Кто вы в&nbsp;компании?</h2>
     <p class="step-sub">Подбираем разбор под вашу роль и&nbsp;задачи</p>
     <div class="options-group">

@@ -9,7 +9,8 @@
   const $ = (id) => document.getElementById(id);
   const $$ = (sel, root) => (root || document).querySelectorAll(sel);
 
-  const STEP_ORDER = [0, 1, 2, 3, 4, 5, 6];
+  // Welcome убран — сразу первый вопрос (без дубля лендинга)
+  const STEP_ORDER = [1, 2, 3, 4, 5, 6];
   const TOTAL_QUESTIONS = 6;
 
   const PROGRESS_LABELS = {
@@ -146,11 +147,8 @@
       });
     }
 
-    // Welcome → start
-    $('btn-start').addEventListener('click', () => {
-      if (window.ym) ym(61131877, 'reachGoal', 'dg_quiz_start');
-      goNext();
-    });
+    // Welcome убран — квиз стартует с шага 1 сразу
+    if (window.ym) ym(61131877, 'reachGoal', 'dg_quiz_start');
 
     // Option cards (auto-advance after click)
     $$('.option-card').forEach(card => {
@@ -203,6 +201,9 @@
       if (e.key === 'ArrowLeft' && state.cursor > 0) goBack();
       if (e.key === 'ArrowRight' && isStepValid(currentStepId())) goNext();
     });
+
+    // Показать первый шаг (прогресс + nav)
+    goCurrent();
   }
 
   function persistState() {

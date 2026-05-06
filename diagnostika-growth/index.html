@@ -290,7 +290,54 @@
     }
     .hero-micro svg{width:14px;height:14px;color:var(--slate-400)}
 
-    /* ─── Hero карусель ─── */
+    /* ─── Hero compact (CRO-оптимизированный) ─── */
+    .hero-grid-compact{
+      display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+      gap:var(--sp-10);align-items:center;
+    }
+    @media (max-width:880px){ .hero-grid-compact{grid-template-columns:1fr;gap:var(--sp-8)} }
+    .hero-product{
+      position:relative;background:var(--white);
+      border:1px solid var(--border);border-radius:var(--radius-xl);
+      box-shadow:var(--shadow-glow);overflow:hidden;
+    }
+    .hero-product-chrome{
+      display:flex;align-items:center;gap:6px;
+      padding:10px 14px;background:var(--slate-100);
+      border-bottom:1px solid var(--border);
+    }
+    .hero-product-chrome span{width:9px;height:9px;border-radius:50%;background:var(--slate-300);display:inline-block}
+    .hero-product-chrome span:nth-child(1){background:#FF5F57}
+    .hero-product-chrome span:nth-child(2){background:#FEBC2E}
+    .hero-product-chrome span:nth-child(3){background:#28C840}
+    .hero-product-url{
+      flex:1;text-align:center;font-family:var(--font-mono);font-size:12px;
+      color:var(--text-muted);background:var(--white);padding:4px 10px;
+      border-radius:6px;margin-left:8px;
+    }
+    .hero-product-video{display:block;width:100%;height:auto}
+
+    /* ─── Trust strip — узкая полоса под hero ─── */
+    .trust-strip{
+      background:var(--slate-50);
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+      padding:var(--sp-3) 0;
+      margin-top:var(--sp-12);
+    }
+    .trust-strip-row{
+      display:flex;align-items:center;justify-content:center;gap:var(--sp-4);
+      flex-wrap:wrap;font-size:14px;color:var(--text-secondary);
+    }
+    .trust-strip-item{font-weight:500;color:var(--slate-700)}
+    .trust-strip-item .mono{color:var(--navy-900);font-weight:700}
+    .trust-strip-sep{color:var(--slate-400)}
+    @media (max-width:560px){
+      .trust-strip-sep{display:none}
+      .trust-strip-row{flex-direction:column;gap:var(--sp-2);font-size:13px}
+    }
+
+    /* ─── Hero карусель (legacy, оставлено на случай fallback) ─── */
     .hero-carousel-wrap{position:relative}
     @media (max-width:880px){ .hero-carousel-wrap{display:none} }
 
@@ -719,126 +766,44 @@
   <!-- ═════════════ §2 HERO ═════════════ -->
   <section class="hero" id="hero" aria-labelledby="hero-h1">
     <div class="container">
-      <div class="hero-grid">
+      <div class="hero-grid hero-grid-compact">
         <div class="hero-text">
-          <span class="hero-eyebrow">
-            <span class="pulse"></span>
-            Бесплатная диагностика для&nbsp;собственника
-          </span>
-
           <h1 class="hero-h1" id="hero-h1">Где ваш бизнес теряет&nbsp;прибыль — <span class="accent">узнаете за&nbsp;2&nbsp;минуты</span></h1>
-
-          <p class="hero-sub">6&nbsp;вопросов о&nbsp;финансах вашей компании — персональный разбор: упущенная прибыль за&nbsp;год в&nbsp;рублях, индекс прозрачности учёта, что исправить в&nbsp;первую очередь.</p>
-
-          <div class="trust-bar">
-            <span class="trust-bar-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>
-              <span class="mono">2&nbsp;300+</span>&nbsp;компаний в&nbsp;Финтабло
-            </span>
-            <span class="trust-bar-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>
-              Проектный и&nbsp;производственный бизнес
-            </span>
-            <span class="trust-bar-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>
-              Бесплатно, без&nbsp;звонков
-            </span>
-          </div>
-
+          <p class="hero-sub">6&nbsp;вопросов&nbsp;— персональный разбор сразу на&nbsp;экране. Без регистрации, без звонков.</p>
           <div class="hero-cta-row">
-            <a href="quiz/" class="btn btn-primary" data-cta="hero_cta_click">
+            <a href="quiz/" class="btn btn-primary btn-lg" data-cta="hero_cta_click">
               Пройти диагностику
               <span class="btn-arrow"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
             </a>
-            <a href="#benefits" class="btn-text" data-cta="secondary_cta_click">
-              А&nbsp;что я&nbsp;узнаю?
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><path d="M3 6l5 5 5-5"/></svg>
-            </a>
           </div>
-          <div class="hero-micro">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 4v4l3 2"/></svg>
-            6&nbsp;вопросов · 2&nbsp;минуты · персональный разбор сразу на&nbsp;экране
-          </div>
+          <div class="hero-micro">6&nbsp;вопросов · 2&nbsp;минуты · разбор появится на&nbsp;экране</div>
         </div>
 
-        <div class="hero-carousel-wrap">
-          <div class="carousel-card" id="carousel">
-
-            <!-- Слайд 1: Производство -->
-            <div class="carousel-slide is-active" data-slide="0">
-              <div class="cc-eyebrow"><span class="dot"></span>Производство</div>
-              <div class="cc-meta">~180&nbsp;млн&nbsp;₽/год · 6&nbsp;направлений выпуска</div>
-              <ul class="cc-rows">
-                <li class="cc-row"><span class="cc-row-label">Маржа по&nbsp;направлениям</span><span class="cc-row-val is-caution">от&nbsp;−6%&nbsp;до&nbsp;+18%</span></li>
-                <li class="cc-row"><span class="cc-row-label">Замороженный кэш в&nbsp;НЗП</span><span class="cc-row-val is-loss">6,5&nbsp;млн&nbsp;₽</span></li>
-                <li class="cc-row"><span class="cc-row-label">Сборка отчёта вручную</span><span class="cc-row-val">18&nbsp;ч/мес</span></li>
-              </ul>
-              <div class="cc-index">
-                <div class="cc-index-head">
-                  <span class="cc-index-label">Индекс прозрачности учёта</span>
-                  <span class="cc-index-val">42<span class="total">&nbsp;/&nbsp;100</span></span>
-                </div>
-                <div class="cc-index-bar"><div class="cc-index-fill" style="width:42%"></div></div>
-              </div>
-              <div class="cc-insight">Прибыльные направления тащат убыточные. На&nbsp;годовом итоге выйдет общий&nbsp;+, вернуть нельзя.</div>
-            </div>
-
-            <!-- Слайд 2: Строительство -->
-            <div class="carousel-slide" data-slide="1">
-              <div class="cc-eyebrow"><span class="dot"></span>Строительство</div>
-              <div class="cc-meta">~240&nbsp;млн&nbsp;₽/год · 8&nbsp;объектов в&nbsp;работе</div>
-              <ul class="cc-rows">
-                <li class="cc-row"><span class="cc-row-label">Маржа по&nbsp;объектам</span><span class="cc-row-val is-caution">от&nbsp;−8%&nbsp;до&nbsp;+12%</span></li>
-                <li class="cc-row"><span class="cc-row-label">Просрочка дебиторки</span><span class="cc-row-val is-loss">14% от&nbsp;выручки</span></li>
-                <li class="cc-row"><span class="cc-row-label">Ближайший разрыв кассы</span><span class="cc-row-val is-loss">через 22&nbsp;дня</span></li>
-              </ul>
-              <div class="cc-index">
-                <div class="cc-index-head">
-                  <span class="cc-index-label">Индекс прозрачности учёта</span>
-                  <span class="cc-index-val">38<span class="total">&nbsp;/&nbsp;100</span></span>
-                </div>
-                <div class="cc-index-bar"><div class="cc-index-fill" style="width:38%"></div></div>
-              </div>
-              <div class="cc-insight">На&nbsp;объектах в&nbsp;плюсе — зарабатываете. На&nbsp;минусовых — теряете прибыль с&nbsp;других. Какие — не&nbsp;видно без разбивки.</div>
-            </div>
-
-            <!-- Слайд 3: IT-разработка -->
-            <div class="carousel-slide" data-slide="2">
-              <div class="cc-eyebrow"><span class="dot"></span>IT-разработка</div>
-              <div class="cc-meta">~120&nbsp;млн&nbsp;₽/год · 5&nbsp;проектов · 12&nbsp;человек</div>
-              <ul class="cc-rows">
-                <li class="cc-row"><span class="cc-row-label">Маржа по&nbsp;проектам</span><span class="cc-row-val">от&nbsp;+2%&nbsp;до&nbsp;+28%</span></li>
-                <li class="cc-row"><span class="cc-row-label">Просрочка от&nbsp;заказчиков</span><span class="cc-row-val is-caution">8% от&nbsp;выручки</span></li>
-                <li class="cc-row"><span class="cc-row-label">Закрытие месяца</span><span class="cc-row-val">5&nbsp;рабочих дней</span></li>
-              </ul>
-              <div class="cc-index">
-                <div class="cc-index-head">
-                  <span class="cc-index-label">Индекс прозрачности учёта</span>
-                  <span class="cc-index-val">45<span class="total">&nbsp;/&nbsp;100</span></span>
-                </div>
-                <div class="cc-index-bar"><div class="cc-index-fill is-warn" style="width:45%"></div></div>
-              </div>
-              <div class="cc-insight">Один тяжёлый проект забирает команду на&nbsp;3&nbsp;месяца. Маржа падает — узнаёте об&nbsp;этом в&nbsp;декабре.</div>
-            </div>
-
-            <div class="cc-dots" role="tablist" aria-label="Переключение примеров">
-              <button class="cc-dot is-active" data-target="0" aria-label="Пример 1: Производство" aria-current="true"></button>
-              <button class="cc-dot" data-target="1" aria-label="Пример 2: Строительство"></button>
-              <button class="cc-dot" data-target="2" aria-label="Пример 3: IT-разработка"></button>
-            </div>
+        <figure class="hero-product" aria-label="Финтабло — управленческий учёт">
+          <div class="hero-product-chrome">
+            <span></span><span></span><span></span>
+            <div class="hero-product-url">my.fintablo.ru</div>
           </div>
-        </div>
-
+          <video class="hero-product-video"
+                 autoplay muted loop playsinline preload="metadata"
+                 aria-label="Дашборд Финтабло">
+            <source src="assets/fintablo-dashboard.mp4" type="video/mp4">
+          </video>
+        </figure>
       </div>
-    </div>
-  </section>
 
-  <!-- ═════════════ ИНТЕГРАЦИИ — текстовая полоса под hero ═════════════ -->
-  <section class="integrations" aria-label="Интеграции Финтабло">
-    <div class="container">
-      <div class="integrations-bar">
-        <span class="integrations-label">Подтягивает операции из&nbsp;банков и&nbsp;1С — без&nbsp;ручного свода</span>
-        <span class="integrations-list">1С&nbsp;· Тинькофф&nbsp;· Сбер&nbsp;· Альфа-Банк&nbsp;· МойСклад&nbsp;· Контур&nbsp;· Точка&nbsp;· Райффайзен</span>
+    </div>
+
+    <!-- Узкая trust-полоса под hero -->
+    <div class="trust-strip">
+      <div class="container">
+        <div class="trust-strip-row">
+          <span class="trust-strip-item"><span class="mono">2 300+</span>&nbsp;компаний в&nbsp;Финтабло</span>
+          <span class="trust-strip-sep">·</span>
+          <span class="trust-strip-item">Интеграция с&nbsp;банками и&nbsp;системами учёта</span>
+          <span class="trust-strip-sep">·</span>
+          <span class="trust-strip-item">В&nbsp;реестре российского ПО</span>
+        </div>
       </div>
     </div>
   </section>
@@ -912,15 +877,7 @@
         </div>
         <div class="symptom-item">
           <span class="symptom-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg></span>
-          <span>Просрочка от&nbsp;заказчиков растёт, но&nbsp;точно не&nbsp;считаете её&nbsp;влияние на&nbsp;прибыль</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg></span>
           <span>Кассовые разрывы появляются «внезапно», без&nbsp;заблаговременного сигнала</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg></span>
-          <span>Финансист собирает отчёт по&nbsp;компании дольше двух дней</span>
         </div>
         <div class="symptom-item">
           <span class="symptom-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg></span>
@@ -984,44 +941,6 @@
       <div class="benefits-note">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
         <span>Разбор появляется на&nbsp;экране сразу после квиза. PDF не&nbsp;присылаем — всё показано прямо здесь.</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═════════════ РЕАЛЬНЫЙ ПРОДУКТ ═════════════ -->
-  <section class="product" id="product" aria-labelledby="product-h2">
-    <div class="container">
-      <div class="product-grid">
-        <div class="product-text">
-          <span class="eyebrow">Финтабло — реальный продукт</span>
-          <h2 id="product-h2">Так выглядит управленческий учёт изнутри</h2>
-          <p>Финтабло подтягивает операции из&nbsp;банков и&nbsp;1С, считает прибыль по&nbsp;каждому направлению, показывает приближение кассового разрыва за&nbsp;недели вперёд. Без&nbsp;ручного свода в&nbsp;таблицах.</p>
-          <div class="product-stats">
-            <div class="product-stat">
-              <span class="product-stat-val">2&nbsp;300+</span>
-              <span class="product-stat-label">компаний работают в&nbsp;Финтабло</span>
-            </div>
-            <div class="product-stat">
-              <span class="product-stat-val">5&nbsp;минут</span>
-              <span class="product-stat-label">в&nbsp;день — собственнику знать прибыль бизнеса</span>
-            </div>
-            <div class="product-stat">
-              <span class="product-stat-val">7&nbsp;дней</span>
-              <span class="product-stat-label">демо-доступа после&nbsp;диагностики</span>
-            </div>
-          </div>
-        </div>
-        <figure class="product-mock" aria-label="Скриншот дашборда Финтабло">
-          <div class="product-mock-chrome">
-            <div class="product-mock-dots"><span></span><span></span><span></span></div>
-            <div class="product-mock-url">my.fintablo.ru</div>
-          </div>
-          <video class="product-mock-video"
-                 autoplay muted loop playsinline preload="metadata"
-                 aria-label="Дашборд Финтабло">
-            <source src="assets/fintablo-dashboard.mp4" type="video/mp4">
-          </video>
-        </figure>
       </div>
     </div>
   </section>

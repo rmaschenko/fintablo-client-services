@@ -20,12 +20,9 @@
   function renderHero() {
     const route = data.route;
     let title, sub;
-    if (route === 'icp_cfo') {
-      title = 'Ваш профиль готов к&nbsp;управленческому учёту в&nbsp;Финтабло';
-      sub = 'Проектный или производственный бизнес от&nbsp;60&nbsp;млн&nbsp;₽ годовой выручки с&nbsp;выделенным финансистом — это наш сильный профиль. Внизу — конкретные цифры и&nbsp;следующий шаг.';
-    } else if (route === 'icp_no_cfo') {
-      title = 'Ваш профиль подходит&nbsp;— нужен финансист';
-      sub = 'Проектный бизнес от&nbsp;60&nbsp;млн&nbsp;₽ — Финтабло раскрывается под рукой выделенного финансиста. Если своего пока нет, наши партнёры-финансисты внедрят и&nbsp;поведут учёт.';
+    if (route === 'icp') {
+      title = 'Ваш разбор готов&nbsp;— и&nbsp;это ваш профиль для Финтабло';
+      sub = 'Проектный или производственный бизнес от&nbsp;60&nbsp;млн&nbsp;₽ годовой выручки&nbsp;— профиль, под который Финтабло настроен. Внизу&nbsp;— конкретные цифры и&nbsp;возможность встретиться с&nbsp;финансовым экспертом.';
     } else {
       title = 'Разбор готов&nbsp;— и&nbsp;вот ваш следующий шаг';
       sub = 'Финтабло в&nbsp;полную силу работает у&nbsp;проектного бизнеса от&nbsp;60&nbsp;млн&nbsp;₽ годовой выручки с&nbsp;выделенным финансистом. Сейчас попробуйте 7&nbsp;дней триала&nbsp;— без обязательств.';
@@ -109,52 +106,34 @@
   function renderFinal() {
     const route = data.route;
     const final = $('section-final');
-    if (route === 'icp_cfo') {
-      final.innerHTML = renderIcpCfoBlock();
-      bindLeadForm('cfo');
-    } else if (route === 'icp_no_cfo') {
-      final.innerHTML = renderIcpNoCfoBlock();
-      bindLeadForm('no_cfo');
+    if (route === 'icp') {
+      final.innerHTML = renderIcpBlock();
+      bindLeadForm('icp');
     } else {
       final.innerHTML = renderSelfServeBlock();
       bindSelfServe();
     }
   }
 
-  function renderIcpCfoBlock() {
+  // Единый блок для ICP-сегмента — копи проверенной акции Финтабло
+  // (бесплатная встреча с финансовым экспертом, 500+ бизнесов опыта).
+  // cfoStatus передаётся в amoCRM payload, чтобы менеджер видел контекст
+  // (компания с финдиром или без).
+  function renderIcpBlock() {
     return (
-      '<div class="dg-final-eyebrow">30 минут с финансовым экспертом — бесплатно</div>' +
-      '<h2>Покажем как закрыть 3 источника потерь из&nbsp;вашего разбора</h2>' +
-      '<p>На&nbsp;встрече финансовый эксперт Финтабло разберёт ваши цифры детально, покажет настройку контуров и&nbsp;отчётов под&nbsp;вашу отрасль, посчитает экономику внедрения под&nbsp;ваш масштаб. Без&nbsp;презентаций&nbsp;— сразу к&nbsp;делу.</p>' +
+      '<div class="dg-final-eyebrow">Бесплатно · насмотренность 500+ бизнесов</div>' +
+      '<h2>Прозрачная картина в&nbsp;финансах бизнеса&nbsp;— уже сегодня</h2>' +
+      '<p>Бесплатная встреча с&nbsp;финансовым экспертом Финтабло. Без презентаций и&nbsp;общих фраз&nbsp;— сразу к&nbsp;вашим цифрам и&nbsp;тому, что с&nbsp;ними делать.</p>' +
       '<div class="dg-final-checklist">' +
-        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Разбор вашей оценки потерь&nbsp;— подтвердим или скорректируем</span></div>' +
-        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Демо настройки ОПиУ и&nbsp;ДДС на&nbsp;близком к&nbsp;вам кейсе</span></div>' +
-        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Расчёт сроков и&nbsp;бюджета внедрения под&nbsp;ваш масштаб</span></div>' +
+        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Проведём экспертный аудит ваших финансовых показателей</span></div>' +
+        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Настроим отчёты, которые закроют 80% вопросов</span></div>' +
+        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Научим оценивать состояние бизнеса за&nbsp;5&nbsp;минут</span></div>' +
       '</div>' +
       buildLeadForm({
         title: 'Оставьте контакты&nbsp;— эксперт свяжется в&nbsp;течение рабочего дня',
         cityField: false,
-        submitText: 'Записаться на разбор',
-        ymGoal: 'dg_lead_cfo'
-      })
-    );
-  }
-
-  function renderIcpNoCfoBlock() {
-    return (
-      '<div class="dg-final-eyebrow">Партнёрская сеть — 500+ финансистов</div>' +
-      '<h2>Партнёр-финансист настроит Финтабло и&nbsp;поведёт учёт</h2>' +
-      '<p>Подберём 2-3 финансистов из&nbsp;нашей сети, которые работают с&nbsp;проектным бизнесом вашего масштаба и&nbsp;отрасли. Внедрят Финтабло за&nbsp;2-3&nbsp;недели, поведут управленческий учёт первые 2-3&nbsp;месяца и&nbsp;передадут процессы вашей команде.</p>' +
-      '<div class="dg-final-checklist">' +
-        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Внедрение Финтабло под&nbsp;ваш профиль за&nbsp;2-3&nbsp;недели</span></div>' +
-        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Ведение управленческого учёта первые 2-3&nbsp;месяца</span></div>' +
-        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Передача процессов вашей команде с&nbsp;документацией</span></div>' +
-      '</div>' +
-      buildLeadForm({
-        title: 'Оставьте контакты и&nbsp;город&nbsp;— пришлём 2-3 варианта партнёров',
-        cityField: true,
-        submitText: 'Подобрать партнёра',
-        ymGoal: 'dg_lead_partner'
+        submitText: 'Записаться на встречу',
+        ymGoal: 'dg_lead_icp'
       })
     );
   }

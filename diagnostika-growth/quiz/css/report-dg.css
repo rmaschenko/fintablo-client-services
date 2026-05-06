@@ -91,22 +91,30 @@
 }
 .dg-section-note b { color: var(--slate-700, #334155); font-weight: 600; }
 
-/* Section 1: Loss */
+/* Section 1: Loss → "потенциал возврата" (нейтральный navy, не отпугивающий красный) */
 .dg-loss-hero {
-  text-align: center;
-  padding: 28px 16px;
-  background: linear-gradient(180deg, var(--loss-bg, #FEF2F2) 0%, #fff 100%);
+  padding: 28px 32px;
+  background: linear-gradient(135deg, var(--blue-50, #EFF6FF) 0%, #fff 100%);
   border-radius: 14px;
-  margin-bottom: 24px;
-  border: 1px solid var(--loss-border, #FECACA);
+  margin-bottom: 28px;
+  border: 1px solid var(--blue-100, #DBEAFE);
+}
+@media (max-width: 720px) { .dg-loss-hero { padding: 22px 18px; } }
+.dg-loss-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue-700, #1D4ED8);
+  margin-bottom: 12px;
 }
 .dg-loss-range {
-  font-size: clamp(28px, 4.4vw, 44px);
-  font-weight: 700;
-  color: var(--loss, #DC2626);
-  letter-spacing: -.02em;
-  line-height: 1.1;
-  margin-bottom: 10px;
+  font-size: clamp(30px, 4.6vw, 48px);
+  font-weight: 800;
+  color: var(--navy-900, #0F1D2F);
+  letter-spacing: -.025em;
+  line-height: 1.05;
+  margin-bottom: 8px;
   font-variant-numeric: tabular-nums;
 }
 .dg-loss-pct {
@@ -115,42 +123,68 @@
   font-weight: 500;
 }
 
+.dg-loss-sources-head {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--slate-500, #64748B);
+  margin-bottom: 16px;
+  padding-top: 4px;
+}
+
+/* Источники потерь — плоские строки, не коробки */
 .dg-loss-sources {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 20px;
+  border-top: 1px solid var(--slate-200, #E2E8F0);
 }
 .dg-loss-src {
-  border: 1px solid var(--slate-200, #E2E8F0);
-  border-radius: 10px;
-  padding: 16px 18px;
-  background: #fff;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 4px 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--slate-100, #F1F5F9);
+  border-radius: 0;
+  background: transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
 }
+.dg-loss-src:last-child { border-bottom: none; }
 .dg-loss-src-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  display: contents;
+  margin: 0;
 }
 .dg-loss-src-name {
+  grid-row: 1;
+  grid-column: 1;
   font-size: 15px;
   font-weight: 600;
   color: var(--navy-900, #0F1D2F);
+  align-self: baseline;
 }
 .dg-loss-src-range {
+  grid-row: 1;
+  grid-column: 2;
   font-size: 16px;
   font-weight: 700;
-  color: var(--loss, #DC2626);
+  color: var(--blue-700, #1D4ED8);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  align-self: baseline;
 }
 .dg-loss-src-source {
+  grid-row: 2;
+  grid-column: 1 / -1;
   font-size: 12px;
   color: var(--slate-500, #64748B);
-  line-height: 1.45;
-  font-style: italic;
+  line-height: 1.5;
+  font-style: normal;
 }
 
 /* Section 2: Index */
@@ -534,10 +568,42 @@
 }
 .dg-form-submit:hover { background: var(--blue-400, #60A5FA); }
 .dg-form-submit:disabled { background: var(--slate-600, #475569); cursor: not-allowed; }
-.dg-form-consent {
+/* Поля с label-ами над инпутами (профессионально, лучше для CR) */
+.dg-form-field { display: flex; flex-direction: column; gap: 6px; }
+.dg-form-label {
   font-size: 12px;
-  color: var(--slate-400, #94A3B8);
-  margin-top: 10px;
-  line-height: 1.5;
+  font-weight: 600;
+  color: var(--slate-300, #CBD5E1);
+  letter-spacing: 0.02em;
 }
-.dg-form-consent a { color: var(--blue-300, #93BBFD); text-decoration: underline; }
+
+/* 152-ФЗ согласие — явный чекбокс */
+.dg-form-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 18px 0 14px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.dg-form-checkbox {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 1px 0 0;
+  accent-color: var(--blue-500, #3B82F6);
+  cursor: pointer;
+}
+.dg-form-consent-text {
+  font-size: 12px;
+  color: var(--slate-300, #CBD5E1);
+  line-height: 1.55;
+}
+.dg-form-consent-text a {
+  color: var(--blue-300, #93BBFD);
+  text-decoration: underline;
+}
+.dg-form-consent-text a:hover { color: #fff; }

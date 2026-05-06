@@ -188,19 +188,33 @@
       ? '<div class="dg-form-row" style="grid-template-columns:1fr"><input class="dg-form-input" id="lead-city" type="text" placeholder="Город" autocomplete="address-level2"></div>'
       : '';
     return (
-      '<form class="dg-form" id="lead-form">' +
+      '<form class="dg-form" id="lead-form" novalidate>' +
         '<div class="dg-form-title">' + opts.title + '</div>' +
         '<div class="dg-form-row">' +
-          '<input class="dg-form-input" id="lead-name" type="text" placeholder="Имя" autocomplete="given-name" required>' +
-          '<input class="dg-form-input" id="lead-phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel" required>' +
+          '<label class="dg-form-field">' +
+            '<span class="dg-form-label">Имя</span>' +
+            '<input class="dg-form-input" id="lead-name" type="text" placeholder="Сергей" autocomplete="given-name" required>' +
+          '</label>' +
+          '<label class="dg-form-field">' +
+            '<span class="dg-form-label">Телефон</span>' +
+            '<input class="dg-form-input" id="lead-phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel" required>' +
+          '</label>' +
         '</div>' +
         '<div class="dg-form-row" style="grid-template-columns:1fr">' +
-          '<input class="dg-form-input" id="lead-email" type="email" placeholder="email@company.ru" autocomplete="email" required>' +
+          '<label class="dg-form-field">' +
+            '<span class="dg-form-label">Email</span>' +
+            '<input class="dg-form-input" id="lead-email" type="email" placeholder="ivanov@company.ru" autocomplete="email" required>' +
+          '</label>' +
         '</div>' +
         cityRow +
         '<div class="dg-form-error-text" id="lead-error"></div>' +
-        '<button type="submit" class="dg-form-submit" id="lead-submit" data-goal="' + opts.ymGoal + '">' + opts.submitText + '</button>' +
-        '<div class="dg-form-consent">Нажимая кнопку, соглашаюсь с&nbsp;<a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой обработки персональных данных</a>.</div>' +
+        '<label class="dg-form-consent">' +
+          '<input type="checkbox" id="lead-consent" class="dg-form-checkbox" required>' +
+          '<span class="dg-form-consent-text">' +
+            'Даю согласие ООО&nbsp;«Нескучный финансовый софт» (ИНН&nbsp;2311303019) на&nbsp;обработку персональных данных в&nbsp;целях обратной связи в&nbsp;соответствии с&nbsp;<a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой обработки персональных данных</a> и&nbsp;<a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">Офертой</a>.' +
+          '</span>' +
+        '</label>' +
+        '<button type="submit" class="dg-form-submit" id="lead-submit" data-goal="' + opts.ymGoal + '" disabled>' + opts.submitText + '</button>' +
       '</form>'
     );
   }
@@ -208,12 +222,31 @@
   function bindLeadForm(routeTag) {
     const form = $('lead-form');
     if (!form) return;
+
+    // Submit разблокируется только при отмеченном чекбоксе согласия (152-ФЗ)
+    const consentEl = $('lead-consent');
+    const submitEl = $('lead-submit');
+    if (consentEl && submitEl) {
+      consentEl.addEventListener('change', () => {
+        submitEl.disabled = !consentEl.checked;
+      });
+    }
+
+    // Маска телефона при вводе
+    const phoneEl = $('lead-phone');
+    if (phoneEl && window.Lead && window.Lead.maskPhone) {
+      phoneEl.addEventListener('input', (e) => {
+        e.target.value = window.Lead.maskPhone(e.target.value);
+      });
+    }
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = $('lead-name').value.trim();
       const phone = $('lead-phone').value.trim();
       const email = $('lead-email').value.trim();
       const city = $('lead-city') ? $('lead-city').value.trim() : '';
+      const consent = consentEl && consentEl.checked;
       const errEl = $('lead-error');
 
       function showError(msg) {
@@ -224,6 +257,7 @@
       if (!name || name.length < 2) return showError('Укажите имя');
       if (!phone || phone.replace(/\D/g, '').length < 10) return showError('Укажите корректный телефон');
       if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return showError('Укажите корректный email');
+      if (!consent) return showError('Поставьте отметку о согласии на обработку персональных данных');
       errEl.classList.remove('is-visible');
 
       const submitBtn = $('lead-submit');
@@ -239,7 +273,15 @@
         transparencyScore: data.transparency.score,
         lossRange: { min: data.lossRange.min, max: data.lossRange.max },
         recommendation: data.recommendation.title,
-        utm: S.getUTM ? S.getUTM() : null
+        utm: S.getUTM ? S.getUTM() : null,
+        // 152-ФЗ — фиксируем явное согласие с timestamp для аудита
+        consent: {
+          given: true,
+          timestamp: new Date().toISOString(),
+          policyUrl: 'https://fintablo.ru/position',
+          offerUrl: 'https://fintablo.ru/oferta',
+          operator: 'ООО «Нескучный финансовый софт», ИНН 2311303019'
+        }
       };
 
       const goal = submitBtn.getAttribute('data-goal');

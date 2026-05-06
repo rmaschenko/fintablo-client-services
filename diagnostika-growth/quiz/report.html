@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0F1D2F">
+<title>Ваш разбор финансов — Финтабло</title>
+<meta name="description" content="Персональный разбор финансов вашей компании: упущенная прибыль, индекс прозрачности учёта, что исправить в первую очередь.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="https://fintablo.ru/favicon.ico">
+<link rel="preload" href="fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/report-dg.css">
+
+<script>
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();
+  for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+  k=e.createElement(t);a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a)})
+  (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+  ym(61131877,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true,params:{service:"diagnostika-growth"}});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/61131877" style="position:absolute;left:-9999px" alt=""></div></noscript>
+
+<!-- counter -->
+<script>
+    !function() {function t(t, e){return function(){window.analystasync.push([t, arguments])}}
+        if (typeof analyst == "undefined") {var e = document.createElement("script");e.type = "text/javascript", e.async = !0, e.src = "//analyst.fintablo.ru/jsapi/api.min.js", document.getElementsByTagName("head")[0].appendChild(e), window.analyst = {}, window.analystasync = [];for (var n = ["init", "track", "props", "ident"], a = 0; a < n.length; a++) analyst[n[a]] = t(n[a])}}(), analyst.init("apiKey-PeblK5cQmecxkFlCLYC4KrNneo0BiluLLd7lx3lie6bQABFw", {'sessionEvent': false, 'visitEvent': false, 'session': false});
+</script>
+<!-- counter -->
+</head>
+<body class="report-page">
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
+      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.onerror=null;this.src='img/logo.svg';">
+    </a>
+    <div class="header-meta">Ваш разбор</div>
+  </div>
+</header>
+
+<main class="container report-container" id="report-main">
+
+  <!-- ── Hero / резюме ── -->
+  <section class="dg-hero">
+    <div class="dg-eyebrow">Персональный разбор · по&nbsp;вашим ответам</div>
+    <h1 class="dg-h1" id="hero-title">—</h1>
+    <p class="dg-sub" id="hero-sub">—</p>
+  </section>
+
+  <!-- ── Секция 1: Упущенная прибыль ── -->
+  <section class="dg-section dg-loss" id="section-loss">
+    <div class="dg-section-head">
+      <div class="dg-section-num">01</div>
+      <h2 class="dg-section-title">Упущенная прибыль за&nbsp;год</h2>
+      <p class="dg-section-sub">Диапазон оценки на&nbsp;основе вашей выручки, типа бизнеса и&nbsp;главной боли. Декомпозиция на&nbsp;три источника ниже.</p>
+    </div>
+
+    <div class="dg-loss-hero">
+      <div class="dg-loss-range mono" id="loss-range">— — —</div>
+      <div class="dg-loss-pct" id="loss-pct">— % годовой выручки</div>
+    </div>
+
+    <div class="dg-loss-sources" id="loss-sources">
+      <!-- 3 карточки рендерятся в report.js -->
+    </div>
+
+    <div class="dg-section-note">
+      Это <b>оценка-вилка</b>, не&nbsp;точная цифра. Разброс зависит от&nbsp;того, насколько острая боль и&nbsp;на&nbsp;каком уровне сейчас учёт. Под каждой строкой&nbsp;— источник или метод расчёта.
+    </div>
+  </section>
+
+  <!-- ── Секция 2: Индекс прозрачности ── -->
+  <section class="dg-section dg-index" id="section-index">
+    <div class="dg-section-head">
+      <div class="dg-section-num">02</div>
+      <h2 class="dg-section-title">Индекс прозрачности учёта</h2>
+      <p class="dg-section-sub">Насколько прозрачны для&nbsp;вас финансы бизнеса в&nbsp;моменте. Шкала 0–100 на&nbsp;основе вашего профиля.</p>
+    </div>
+
+    <div class="dg-index-hero">
+      <div class="dg-index-score">
+        <span class="mono" id="index-score">—</span>
+        <span class="dg-index-total">/100</span>
+      </div>
+      <div class="dg-index-zone" id="index-zone">—</div>
+    </div>
+
+    <div class="dg-bench">
+      <div class="dg-bench-track">
+        <div class="dg-bench-fill" id="bench-fill"></div>
+        <div class="dg-bench-marker dg-bench-you" id="bench-you" title="Вы"></div>
+        <div class="dg-bench-marker dg-bench-peer" id="bench-peer" title="Когорта"></div>
+        <div class="dg-bench-marker dg-bench-top" id="bench-top" title="Лидеры"></div>
+      </div>
+      <div class="dg-bench-legend">
+        <span><span class="dg-dot dg-dot-you"></span>Вы&nbsp;— <b class="mono" id="bench-you-val">—</b></span>
+        <span><span class="dg-dot dg-dot-peer"></span>Когорта&nbsp;— <b class="mono" id="bench-peer-val">—</b></span>
+        <span><span class="dg-dot dg-dot-top"></span>Лидеры&nbsp;— <b class="mono" id="bench-top-val">—</b></span>
+      </div>
+    </div>
+
+    <div class="dg-section-note">
+      Когорта&nbsp;— компании с&nbsp;похожим типом бизнеса и&nbsp;выручкой. Лидеры&nbsp;— топ-25% по&nbsp;уровню учёта в&nbsp;нашей методике.
+    </div>
+  </section>
+
+  <!-- ── Секция 3: Что исправить ── -->
+  <section class="dg-section dg-fix" id="section-fix">
+    <div class="dg-section-head">
+      <div class="dg-section-num">03</div>
+      <h2 class="dg-section-title">Что исправить в&nbsp;первую очередь</h2>
+      <p class="dg-section-sub">Один конкретный шаг под вашу главную боль. Не&nbsp;«настройте управленческий учёт»&nbsp;— конкретное действие.</p>
+    </div>
+
+    <div class="dg-fix-card">
+      <div class="dg-fix-title" id="fix-title">—</div>
+      <div class="dg-fix-body" id="fix-body">—</div>
+      <div class="dg-fix-tags" id="fix-tags"></div>
+    </div>
+  </section>
+
+  <!-- ── Секция 4: Финал — 3-маршрутная развилка ── -->
+  <section class="dg-section dg-final" id="section-final">
+    <!-- Содержимое рендерится в report.js по результату route -->
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-company">
+      <div class="footer-brand">© 2026, «Финтабло»</div>
+      <div class="footer-legal">
+        ООО&nbsp;«Нескучный финансовый софт»<br>
+        ИНН&nbsp;2311303019&nbsp;· ОГРН&nbsp;1202300015103
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+      <a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">Оферта</a>
+      <a href="mailto:support@help.fintablo.ru">support@help.fintablo.ru</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/lead.js"></script>
+<script src="js/report.js"></script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0F1D2F">
+<meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+<title>Финансовая диагностика — Финтабло</title>
+<meta name="description" content="6 вопросов о финансах вашей компании — персональный разбор: упущенная прибыль за год в рублях, индекс прозрачности учёта, что исправить в первую очередь.">
+<meta property="og:title" content="Финансовая диагностика бизнеса за 2 минуты">
+<meta property="og:description" content="6 вопросов — персональный разбор сразу на экране.">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="https://fintablo.ru/favicon.ico">
+<link rel="preload" href="fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Yandex.Metrika 61131877 -->
+<script>
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();
+  for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+  k=e.createElement(t);a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a)})
+  (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+  ym(61131877,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true,params:{service:"diagnostika-growth"}});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/61131877" style="position:absolute;left:-9999px" alt=""></div></noscript>
+
+<!-- counter -->
+<script>
+    !function() {function t(t, e){return function(){window.analystasync.push([t, arguments])}}
+        if (typeof analyst == "undefined") {var e = document.createElement("script");e.type = "text/javascript", e.async = !0, e.src = "//analyst.fintablo.ru/jsapi/api.min.js", document.getElementsByTagName("head")[0].appendChild(e), window.analyst = {}, window.analystasync = [];for (var n = ["init", "track", "props", "ident"], a = 0; a < n.length; a++) analyst[n[a]] = t(n[a])}}(), analyst.init("apiKey-PeblK5cQmecxkFlCLYC4KrNneo0BiluLLd7lx3lie6bQABFw", {'sessionEvent': false, 'visitEvent': false, 'session': false});
+</script>
+<!-- counter -->
+
+<!-- UTM-захват -->
+<script>
+  (function(){
+    try{
+      var p=new URLSearchParams(window.location.search);
+      var keys=['utm_source','utm_medium','utm_campaign','utm_term','utm_content','yclid'];
+      var captured={};
+      keys.forEach(function(k){var v=p.get(k);if(v)captured[k]=v;});
+      if(Object.keys(captured).length){
+        captured._captured_at=Date.now();
+        localStorage.setItem('ft_utm',JSON.stringify(captured));
+      }
+    }catch(e){}
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<!-- ═════ HEADER ═════ -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
+      <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.onerror=null;this.src='img/logo.svg';">
+    </a>
+    <div class="header-meta">Диагностика&nbsp;· 2&nbsp;минуты</div>
+  </div>
+</header>
+
+<!-- ═════ PROGRESS ═════ -->
+<div class="progress-wrapper" id="progress-wrapper" hidden>
+  <div class="progress-steps">
+    <span class="ps-label" id="progress-label">Начало</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<!-- ═════ RESUME BANNER ═════ -->
+<div class="resume-banner" id="resume-banner" hidden>
+  <div class="container">
+    <div class="rb-inner">
+      <div class="rb-text">
+        <b>У&nbsp;вас есть незавершённая диагностика</b>
+        <span>Сохранена <span id="rb-ago">недавно</span>&nbsp;· можно продолжить с&nbsp;места остановки</span>
+      </div>
+      <div class="rb-actions">
+        <button class="btn-secondary btn-sm" id="rb-reset" type="button">Начать заново</button>
+        <button class="btn-primary btn-sm" id="rb-resume" type="button">Продолжить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════ STEPS ═════ -->
+<main class="container" id="main">
+
+  <!-- ── Step 0: Welcome ── -->
+  <section class="step step-welcome active" id="step-0">
+    <div class="social-proof">
+      <span class="dot-green" aria-hidden="true"></span>
+      <span><b>2&nbsp;300+ компаний</b> работают в&nbsp;Финтабло&nbsp;· разбор появляется на&nbsp;экране сразу после квиза</span>
+    </div>
+
+    <h1 class="hero-h1" id="hero-h1">Где ваш бизнес теряет&nbsp;прибыль&nbsp;— <span class="accent">узнаете за&nbsp;2&nbsp;минуты</span></h1>
+    <p class="hero-sub">
+      6&nbsp;вопросов о&nbsp;финансах вашей компании&nbsp;— персональный разбор: упущенная прибыль за&nbsp;год в&nbsp;рублях, индекс прозрачности учёта, что исправить в&nbsp;первую очередь.
+    </p>
+
+    <div class="hero-preview">
+      <div class="hp-label">Что будет в&nbsp;разборе</div>
+      <div class="hp-grid">
+        <div class="hp-stat hp-stat-danger">
+          <div class="hp-stat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><text x="12" y="16.5" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="currentColor" stroke="none" text-anchor="middle">₽</text></svg>
+          </div>
+          <div class="hp-stat-label">Упущенная прибыль</div>
+          <div class="hp-stat-val">в&nbsp;рублях за&nbsp;год</div>
+          <div class="hp-stat-hint">3&nbsp;источника с&nbsp;обоснованием</div>
+        </div>
+        <div class="hp-stat hp-stat-accent">
+          <div class="hp-stat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <div class="hp-stat-label">Индекс прозрачности учёта</div>
+          <div class="hp-stat-val">0&nbsp;— 100</div>
+          <div class="hp-stat-hint">сравнение с&nbsp;похожими</div>
+        </div>
+        <div class="hp-stat hp-stat-success">
+          <div class="hp-stat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div class="hp-stat-label">Что исправить</div>
+          <div class="hp-stat-val">в&nbsp;первую очередь</div>
+          <div class="hp-stat-hint">конкретный шаг на&nbsp;2&nbsp;недели</div>
+        </div>
+      </div>
+      <div class="hp-note">Цифры расчитываются по&nbsp;вашим ответам&nbsp;— под ваш масштаб, отрасль и&nbsp;текущий уровень учёта. Под каждой цифрой&nbsp;— источник.</div>
+    </div>
+
+    <div class="hero-cta-row">
+      <button class="btn-primary btn-lg" id="btn-start" type="button">
+        Пройти диагностику
+        <span class="btn-arrow">→</span>
+      </button>
+      <div class="trust-row">
+        <span class="trust-item">2&nbsp;минуты</span>
+        <span class="trust-sep">·</span>
+        <span class="trust-item">Без регистрации</span>
+        <span class="trust-sep">·</span>
+        <span class="trust-item">Данные в&nbsp;браузере</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Step 1: Роль ── -->
+  <section class="step" id="step-1">
+    <h2 class="step-q">Кто вы в&nbsp;компании?</h2>
+    <p class="step-sub">Подбираем разбор под вашу роль и&nbsp;задачи</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="owner">
+        <span class="oc-title">Собственник или генеральный директор</span>
+        <span class="oc-sub">Хочу понять, что&nbsp;происходит с&nbsp;деньгами в&nbsp;моём бизнесе</span>
+      </button>
+      <button class="option-card" type="button" data-value="financier">
+        <span class="oc-title">Финансовый директор или финансист</span>
+        <span class="oc-sub">Проверяю, каких контуров учёта не&nbsp;хватает</span>
+      </button>
+      <button class="option-card" type="button" data-value="accountant">
+        <span class="oc-title">Главный бухгалтер</span>
+        <span class="oc-sub">Изучаю инструмент по&nbsp;поручению</span>
+      </button>
+      <button class="option-card" type="button" data-value="other">
+        <span class="oc-title">Другая роль</span>
+        <span class="oc-sub">Руководитель направления, управляющий, партнёр</span>
+      </button>
+    </div>
+    <div class="step-reward" id="reward-1" hidden></div>
+  </section>
+
+  <!-- ── Step 2: Тип бизнеса ── -->
+  <section class="step" id="step-2">
+    <h2 class="step-q">Какой у&nbsp;вас бизнес?</h2>
+    <p class="step-sub">Под модель бизнеса настроим формулы расчёта</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="project">
+        <span class="oc-title">Проектный</span>
+        <span class="oc-sub">Стройка, ремонт, IT-разработка, агентство, консалтинг</span>
+      </button>
+      <button class="option-card" type="button" data-value="production">
+        <span class="oc-title">Производство или монтаж</span>
+        <span class="oc-sub">Серийный или штучный выпуск продукции, оборудование</span>
+      </button>
+      <button class="option-card" type="button" data-value="services">
+        <span class="oc-title">Услуги без проектной модели</span>
+        <span class="oc-sub">Сервис по&nbsp;подписке, B2C-услуги, поддержка</span>
+      </button>
+      <button class="option-card" type="button" data-value="trade">
+        <span class="oc-title">Торговля со&nbsp;складом</span>
+        <span class="oc-sub">Опт, розница, дистрибуция</span>
+      </button>
+    </div>
+    <div class="step-reward" id="reward-2" hidden></div>
+  </section>
+
+  <!-- ── Step 3: Годовая выручка ── -->
+  <section class="step" id="step-3">
+    <h2 class="step-q">Какая годовая выручка компании?</h2>
+    <p class="step-sub">Ближайший диапазон&nbsp;— точность не&nbsp;требуется</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="20"><span class="oc-title">До&nbsp;30&nbsp;млн&nbsp;₽</span></button>
+      <button class="option-card" type="button" data-value="45"><span class="oc-title">30&nbsp;— 60&nbsp;млн&nbsp;₽</span></button>
+      <button class="option-card" type="button" data-value="120"><span class="oc-title">60&nbsp;— 200&nbsp;млн&nbsp;₽</span></button>
+      <button class="option-card" type="button" data-value="350"><span class="oc-title">200&nbsp;— 500&nbsp;млн&nbsp;₽</span></button>
+      <button class="option-card" type="button" data-value="800"><span class="oc-title">500&nbsp;млн&nbsp;₽ и&nbsp;выше</span></button>
+    </div>
+    <div class="step-reward" id="reward-3" hidden></div>
+  </section>
+
+  <!-- ── Step 4: Возраст бизнеса ── -->
+  <section class="step" id="step-4">
+    <h2 class="step-q">Сколько лет вашему бизнесу?</h2>
+    <p class="step-sub">Длительность работы влияет на&nbsp;применимость рекомендаций</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="young"><span class="oc-title">До&nbsp;3&nbsp;лет</span><span class="oc-sub">Новый бизнес, ещё формируется</span></button>
+      <button class="option-card" type="button" data-value="mid"><span class="oc-title">3&nbsp;— 5&nbsp;лет</span><span class="oc-sub">Прошли период становления</span></button>
+      <button class="option-card" type="button" data-value="mature"><span class="oc-title">5&nbsp;— 10&nbsp;лет</span><span class="oc-sub">Устоявшаяся структура и&nbsp;процессы</span></button>
+      <button class="option-card" type="button" data-value="veteran"><span class="oc-title">Больше 10&nbsp;лет</span><span class="oc-sub">Зрелая компания с&nbsp;историей</span></button>
+    </div>
+    <div class="step-reward" id="reward-4" hidden></div>
+  </section>
+
+  <!-- ── Step 5: Главная боль ── -->
+  <section class="step" id="step-5">
+    <h2 class="step-q">Что мешает больше всего?</h2>
+    <p class="step-sub">Выберите самое сильное&nbsp;— под него настроим разбор</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="margin_blind">
+        <span class="oc-title">Не&nbsp;знаю прибыль по&nbsp;направлениям</span>
+        <span class="oc-sub">Непонятно, какое направление кормит, а&nbsp;какое съедает</span>
+      </button>
+      <button class="option-card" type="button" data-value="cash_surprise">
+        <span class="oc-title">Кассовые разрывы появляются внезапно</span>
+        <span class="oc-sub">О&nbsp;нехватке денег узнаю в&nbsp;последний момент</span>
+      </button>
+      <button class="option-card" type="button" data-value="manual_close">
+        <span class="oc-title">Ручной свод занимает дни</span>
+        <span class="oc-sub">Финансист собирает отчёт по&nbsp;компании дольше двух дней</span>
+      </button>
+      <button class="option-card" type="button" data-value="blind_decisions">
+        <span class="oc-title">Решения принимаю наугад</span>
+        <span class="oc-sub">Брать&nbsp;ли проект, нанимать&nbsp;ли человека&nbsp;— непонятно</span>
+      </button>
+    </div>
+    <div class="step-reward" id="reward-5" hidden></div>
+  </section>
+
+  <!-- ── Step 6: Финдир есть? ── -->
+  <section class="step" id="step-6">
+    <h2 class="step-q">Есть&nbsp;ли в&nbsp;команде выделенный финансист?</h2>
+    <p class="step-sub">Отдельный человек, который ведёт управленческий учёт</p>
+    <div class="options-group">
+      <button class="option-card" type="button" data-value="yes_cfo">
+        <span class="oc-title">Да, финансовый директор</span>
+        <span class="oc-sub">Полноценная позиция в&nbsp;штате</span>
+      </button>
+      <button class="option-card" type="button" data-value="yes_specialist">
+        <span class="oc-title">Да, финансист или экономист</span>
+        <span class="oc-sub">Ведёт управленческий учёт, но&nbsp;не&nbsp;CFO</span>
+      </button>
+      <button class="option-card" type="button" data-value="part_time">
+        <span class="oc-title">На&nbsp;аутсорсе или частично</span>
+        <span class="oc-sub">Подрядчик или совмещает с&nbsp;другой ролью</span>
+      </button>
+      <button class="option-card" type="button" data-value="no">
+        <span class="oc-title">Нет, веду учёт сам или с&nbsp;бухгалтером</span>
+        <span class="oc-sub">Выделенного финансиста в&nbsp;штате пока нет</span>
+      </button>
+    </div>
+    <div class="step-reward" id="reward-6" hidden></div>
+  </section>
+
+</main>
+
+<!-- ═════ NAV ═════ -->
+<div class="quiz-nav" id="quiz-nav" hidden>
+  <div class="container">
+    <button class="btn-back" id="btn-back" type="button">← Назад</button>
+    <button class="btn-primary" id="btn-next" type="button" disabled>Далее&nbsp;→</button>
+  </div>
+</div>
+
+<!-- ═════ FOOTER ═════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-company">
+      <div class="footer-brand">© 2026, «Финтабло»</div>
+      <div class="footer-legal">
+        ООО&nbsp;«Нескучный финансовый софт»<br>
+        ИНН&nbsp;2311303019&nbsp;· ОГРН&nbsp;1202300015103
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+      <a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">Оферта</a>
+      <a href="mailto:support@help.fintablo.ru">support@help.fintablo.ru</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═════ COOKIE BANNER ═════ -->
+<div class="cookie-banner" id="cookie-banner">
+  <div class="cb-inner">
+    <div class="cb-text">
+      Мы используем файлы cookie для улучшения работы сервиса. Продолжая использовать сайт, вы соглашаетесь с
+      <a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой обработки персональных данных</a>.
+    </div>
+    <button class="cb-btn" type="button" id="cb-accept">Принять</button>
+  </div>
+</div>
+
+<script src="js/storage.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/quiz.js"></script>
+</body>
+</html>

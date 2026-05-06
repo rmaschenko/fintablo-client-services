@@ -97,24 +97,13 @@
         '</span>' +
         '<span class="dg-fix-summary-text"></span>' +
       '</div>' +
-      '<a class="dg-fix-bridge" href="#section-final">' +
-        '<span class="dg-fix-bridge-text"></span>' +
-        '<span class="dg-fix-bridge-arrow">→</span>' +
-      '</a>';
+      '';
 
     fixCard.querySelector('.dg-fix-action').textContent = r.title;
     fixCard.querySelector('.dg-fix-lead').textContent = r.body;
     if (r.whyHard) fixCard.querySelector('.dg-fix-line-manual .dg-fix-line-text').textContent = r.whyHard;
     if (r.howFintablo) fixCard.querySelector('.dg-fix-line-fintablo .dg-fix-line-text').textContent = r.howFintablo;
     if (r.proofPoint) fixCard.querySelector('.dg-fix-summary-text').textContent = r.proofPoint;
-
-    // Bridge — прямая связка с финалом по маршруту
-    const bridgeText = (
-      data.route === 'icp_cfo'    ? 'Покажем как настроить это под ваш бизнес на встрече' :
-      data.route === 'icp_no_cfo' ? 'Подберём партнёра-финансиста — настроит и поведёт учёт' :
-                                    'Попробуйте Финтабло сами — 7 дней доступа в подарок'
-    );
-    fixCard.querySelector('.dg-fix-bridge-text').textContent = bridgeText;
   }
 
   function renderFinal() {

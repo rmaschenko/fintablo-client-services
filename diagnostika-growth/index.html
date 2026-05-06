@@ -293,8 +293,18 @@
     /* ─── Hero compact (CRO-оптимизированный) ─── */
     .hero-grid-compact{
       display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
-      gap:var(--sp-10);align-items:center;
+      gap:var(--sp-16);align-items:center;
     }
+    @media (max-width:1100px){ .hero-grid-compact{gap:var(--sp-10)} }
+    .hero-trust-row{
+      display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-2) var(--sp-3);
+      margin-top:var(--sp-6);padding-top:var(--sp-5);
+      border-top:1px solid var(--border);
+      font-size:14px;color:var(--slate-700);
+    }
+    .hero-trust-item{font-weight:500}
+    .hero-trust-item .mono{color:var(--navy-900);font-weight:700}
+    .hero-trust-sep{color:var(--slate-300);user-select:none}
     @media (max-width:880px){ .hero-grid-compact{grid-template-columns:1fr;gap:var(--sp-8)} }
     .hero-product{
       position:relative;background:var(--white);
@@ -777,6 +787,14 @@
             </a>
           </div>
           <div class="hero-micro">6&nbsp;вопросов · 2&nbsp;минуты · разбор появится на&nbsp;экране</div>
+
+          <div class="hero-trust-row">
+            <span class="hero-trust-item"><span class="mono">2 300+</span>&nbsp;компаний в&nbsp;Финтабло</span>
+            <span class="hero-trust-sep">·</span>
+            <span class="hero-trust-item">Интеграция с&nbsp;банками и&nbsp;системами учёта</span>
+            <span class="hero-trust-sep">·</span>
+            <span class="hero-trust-item">В&nbsp;реестре российского ПО</span>
+          </div>
         </div>
 
         <figure class="hero-product" aria-label="Финтабло — управленческий учёт">
@@ -792,19 +810,6 @@
         </figure>
       </div>
 
-    </div>
-
-    <!-- Узкая trust-полоса под hero -->
-    <div class="trust-strip">
-      <div class="container">
-        <div class="trust-strip-row">
-          <span class="trust-strip-item"><span class="mono">2 300+</span>&nbsp;компаний в&nbsp;Финтабло</span>
-          <span class="trust-strip-sep">·</span>
-          <span class="trust-strip-item">Интеграция с&nbsp;банками и&nbsp;системами учёта</span>
-          <span class="trust-strip-sep">·</span>
-          <span class="trust-strip-item">В&nbsp;реестре российского ПО</span>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -854,7 +859,7 @@
         </div>
       </div>
 
-      <p class="pain-bridge">На&nbsp;уровне отчётности это выглядит как «всё нормально». На&nbsp;уровне отдельных проектов и&nbsp;направлений — как тихая утечка прибыли, которую сложно увидеть без разбивки.</p>
+      <p class="pain-bridge">На&nbsp;уровне отчётности картина выглядит спокойно. На&nbsp;уровне отдельных проектов и&nbsp;направлений&nbsp;— это тихая утечка прибыли, которую сложно заметить без разбивки.</p>
     </div>
   </section>
 
@@ -877,11 +882,11 @@
         </div>
         <div class="symptom-item">
           <span class="symptom-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg></span>
-          <span>Кассовые разрывы появляются «внезапно», без&nbsp;заблаговременного сигнала</span>
+          <span>Кассовые разрывы появляются неожиданно&nbsp;— без заблаговременного сигнала</span>
         </div>
         <div class="symptom-item">
           <span class="symptom-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg></span>
-          <span>Решение «брать&nbsp;ли новый проект&nbsp;/ нанимать&nbsp;ли человека» принимаете на&nbsp;ощупь</span>
+          <span>Решения по&nbsp;новым проектам и&nbsp;найму принимаете на&nbsp;ощупь, без опоры на&nbsp;цифры</span>
         </div>
       </div>
 
@@ -934,7 +939,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
           </div>
           <h3>Что исправить в&nbsp;первую очередь</h3>
-          <p>Конкретный шаг на&nbsp;ближайшие 2&nbsp;недели, исходя из&nbsp;вашей ситуации. Без «настройте управленческий учёт» — конкретное действие.</p>
+          <p>Конкретный шаг на&nbsp;ближайшие 2&nbsp;недели, исходя из&nbsp;вашей ситуации. Без общих советов про управленческий учёт&nbsp;— конкретное действие.</p>
         </article>
       </div>
 

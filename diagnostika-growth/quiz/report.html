@@ -82,25 +82,50 @@
       <p class="dg-section-sub">Насколько прозрачны для&nbsp;вас финансы бизнеса в&nbsp;моменте. Шкала 0–100 на&nbsp;основе вашего профиля.</p>
     </div>
 
-    <div class="dg-index-hero">
-      <div class="dg-index-score">
-        <span class="mono" id="index-score">—</span>
-        <span class="dg-index-total">/100</span>
+    <div class="dg-gauge-wrap">
+      <!-- Полукруговой gauge SVG: дуга от 0 до 100, стрелка-указатель -->
+      <svg class="dg-gauge" viewBox="0 0 320 180" aria-hidden="true">
+        <!-- Фоновая дуга (серая) -->
+        <path d="M 30 160 A 130 130 0 0 1 290 160" fill="none" stroke="#E2E8F0" stroke-width="22" stroke-linecap="round"/>
+        <!-- Заливка по индексу — рендерится в JS через stroke-dasharray -->
+        <path id="gauge-fill" d="M 30 160 A 130 130 0 0 1 290 160" fill="none" stroke="url(#gauge-gradient)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 408" stroke-dashoffset="0"/>
+        <defs>
+          <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#DC2626"/>
+            <stop offset="40%" stop-color="#D97706"/>
+            <stop offset="80%" stop-color="#16A34A"/>
+          </linearGradient>
+        </defs>
+        <!-- Маркер «Лидеры» — мелкая точка на 75% дуги -->
+        <circle id="gauge-mark-top" cx="0" cy="0" r="5" fill="#16A34A" stroke="#fff" stroke-width="2"/>
+        <!-- Маркер «Когорта» — мелкая точка на peer% дуги -->
+        <circle id="gauge-mark-peer" cx="0" cy="0" r="5" fill="#64748B" stroke="#fff" stroke-width="2"/>
+      </svg>
+
+      <div class="dg-gauge-center">
+        <div class="dg-gauge-score">
+          <span class="mono" id="index-score">—</span>
+          <span class="dg-gauge-total">/100</span>
+        </div>
+        <div class="dg-gauge-zone" id="index-zone">—</div>
       </div>
-      <div class="dg-index-zone" id="index-zone">—</div>
     </div>
 
-    <div class="dg-bench">
-      <div class="dg-bench-track">
-        <div class="dg-bench-fill" id="bench-fill"></div>
-        <div class="dg-bench-marker dg-bench-you" id="bench-you" title="Вы"></div>
-        <div class="dg-bench-marker dg-bench-peer" id="bench-peer" title="Когорта"></div>
-        <div class="dg-bench-marker dg-bench-top" id="bench-top" title="Лидеры"></div>
+    <div class="dg-gauge-legend">
+      <div class="dg-gauge-leg-item dg-gauge-leg-you">
+        <span class="dg-gauge-dot"></span>
+        <span class="dg-gauge-leg-label">Ваш индекс</span>
+        <span class="dg-gauge-leg-val mono" id="bench-you-val">—</span>
       </div>
-      <div class="dg-bench-legend">
-        <span><span class="dg-dot dg-dot-you"></span>Вы&nbsp;— <b class="mono" id="bench-you-val">—</b></span>
-        <span><span class="dg-dot dg-dot-peer"></span>Когорта&nbsp;— <b class="mono" id="bench-peer-val">—</b></span>
-        <span><span class="dg-dot dg-dot-top"></span>Лидеры&nbsp;— <b class="mono" id="bench-top-val">—</b></span>
+      <div class="dg-gauge-leg-item dg-gauge-leg-peer">
+        <span class="dg-gauge-dot"></span>
+        <span class="dg-gauge-leg-label">Когорта по&nbsp;вашему профилю</span>
+        <span class="dg-gauge-leg-val mono" id="bench-peer-val">—</span>
+      </div>
+      <div class="dg-gauge-leg-item dg-gauge-leg-top">
+        <span class="dg-gauge-dot"></span>
+        <span class="dg-gauge-leg-label">Лидеры по&nbsp;учёту</span>
+        <span class="dg-gauge-leg-val mono" id="bench-top-val">—</span>
       </div>
     </div>
 

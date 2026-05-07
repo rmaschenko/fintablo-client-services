@@ -56,12 +56,95 @@
     const t = data.transparency;
     $('index-score').textContent = t.score;
     $('index-zone').textContent = t.zoneLabel;
-    $('bench-you').style.left = t.score + '%';
-    $('bench-peer').style.left = t.peerScore + '%';
-    $('bench-top').style.left = t.topScore + '%';
     $('bench-you-val').textContent = t.score;
     $('bench-peer-val').textContent = t.peerScore;
     $('bench-top-val').textContent = t.topScore;
+
+    // Gauge: дуга длиной ~408 (полуокружность r=130, длина = π·130 ≈ 408).
+    // Заливка пропорциональна score/100. Плавная анимация через CSS transition.
+    const arcLength = 408;
+    const fillEl = document.getElementById('gauge-fill');
+    if (fillEl) {
+      const fill = (t.score / 100) * arcLength;
+      // Запускаем анимацию через короткий setTimeout, чтобы был эффект «заполнения»
+      setTimeout(function () {
+        fillEl.style.transition = 'stroke-dasharray .9s cubic-bezier(.4,0,.2,1)';
+        fillEl.setAttribute('stroke-dasharray', fill + ' ' + arcLength);
+      }, 100);
+    }
+
+    // Позиционируем маркеры «когорта» и «лидеры» по дуге.
+    // SVG viewBox 0 0 320 180; центр окружности x=160 y=160; r=130.
+    // Угол: 0% → 180° (левая точка), 100% → 360°/0° (правая). По часовой.
+    function placeMarker(elId, percent) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      const angleRad = Math.PI * (1 - percent / 100); // 100% → 0°, 0% → 180°
+      const cx = 160 + 130 * Math.cos(angleRad);
+      const cy = 160 - 130 * Math.sin(angleRad);
+      el.setAttribute('cx', cx);
+      el.setAttribute('cy', cy);
+    }
+    placeMarker('gauge-mark-peer', t.peerScore);
+    placeMarker('gauge-mark-top', t.topScore);
+  }
+
+  // Тематические SVG-визуализации для каждой рекомендации
+  function getVisualSvg(kind) {
+    if (kind === 'margin') {
+      // Bar-chart: разноцветные горизонтальные колонки = маржа по направлениям
+      return (
+        '<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+          '<rect x="6" y="14" width="58" height="9" rx="2" fill="#16A34A"/>' +
+          '<rect x="6" y="29" width="42" height="9" rx="2" fill="#D97706"/>' +
+          '<rect x="6" y="44" width="68" height="9" rx="2" fill="#16A34A"/>' +
+          '<rect x="6" y="59" width="22" height="9" rx="2" fill="#DC2626"/>' +
+        '</svg>'
+      );
+    }
+    if (kind === 'cash') {
+      // Календарь с маркером кассового разрыва на 8-12 неделях
+      return (
+        '<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+          '<rect x="8" y="14" width="64" height="56" rx="6" stroke="#1D4ED8" stroke-width="2.5" fill="#EFF6FF"/>' +
+          '<line x1="8" y1="28" x2="72" y2="28" stroke="#1D4ED8" stroke-width="2.5"/>' +
+          '<line x1="22" y1="10" x2="22" y2="20" stroke="#1D4ED8" stroke-width="2.5" stroke-linecap="round"/>' +
+          '<line x1="58" y1="10" x2="58" y2="20" stroke="#1D4ED8" stroke-width="2.5" stroke-linecap="round"/>' +
+          '<circle cx="22" cy="42" r="3" fill="#1D4ED8"/>' +
+          '<circle cx="40" cy="42" r="3" fill="#1D4ED8"/>' +
+          '<circle cx="58" cy="42" r="3" fill="#DC2626" stroke="#fff" stroke-width="2"/>' +
+          '<circle cx="22" cy="56" r="3" fill="#1D4ED8"/>' +
+          '<circle cx="40" cy="56" r="3" fill="#1D4ED8"/>' +
+          '<circle cx="58" cy="56" r="3" fill="#1D4ED8"/>' +
+        '</svg>'
+      );
+    }
+    if (kind === 'time') {
+      // Часы с большой стрелкой и галочкой = ускорение (5 дней → 2 часа)
+      return (
+        '<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+          '<circle cx="40" cy="40" r="28" stroke="#1D4ED8" stroke-width="2.5" fill="#EFF6FF"/>' +
+          '<line x1="40" y1="40" x2="40" y2="22" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="40" y1="40" x2="54" y2="40" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/>' +
+          '<circle cx="40" cy="40" r="2.5" fill="#1D4ED8"/>' +
+          '<path d="M58 60l4 4 8-9" stroke="#16A34A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>' +
+        '</svg>'
+      );
+    }
+    if (kind === 'pillars') {
+      // 3 колонки: ДДС / ОПиУ / Баланс — три опоры решений
+      return (
+        '<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+          '<rect x="10" y="44" width="14" height="24" rx="2" fill="#1D4ED8"/>' +
+          '<rect x="33" y="32" width="14" height="36" rx="2" fill="#1D4ED8"/>' +
+          '<rect x="56" y="20" width="14" height="48" rx="2" fill="#1D4ED8"/>' +
+          '<text x="17" y="78" font-family="Inter,sans-serif" font-size="6" font-weight="700" fill="#1D4ED8" text-anchor="middle">ДДС</text>' +
+          '<text x="40" y="78" font-family="Inter,sans-serif" font-size="6" font-weight="700" fill="#1D4ED8" text-anchor="middle">ОПиУ</text>' +
+          '<text x="63" y="78" font-family="Inter,sans-serif" font-size="6" font-weight="700" fill="#1D4ED8" text-anchor="middle">Баланс</text>' +
+        '</svg>'
+      );
+    }
+    return '';
   }
 
   function renderFix() {
@@ -69,10 +152,17 @@
     const fixCard = document.querySelector('.dg-fix-card');
     if (!fixCard) return;
 
-    // Narrative-flow без коробок: рассказ → переход к Финтабло → действие
+    const visualHtml = r.visual ? '<div class="dg-fix-visual">' + getVisualSvg(r.visual) + '</div>' : '';
+
+    // Narrative-flow без коробок: визуал + рассказ → сравнение → итог
     fixCard.innerHTML =
-      '<h3 class="dg-fix-action"></h3>' +
-      '<p class="dg-fix-lead"></p>' +
+      '<div class="dg-fix-head">' +
+        visualHtml +
+        '<div class="dg-fix-head-text">' +
+          '<h3 class="dg-fix-action"></h3>' +
+          '<p class="dg-fix-lead"></p>' +
+        '</div>' +
+      '</div>' +
       '<div class="dg-fix-compare">' +
         '<div class="dg-fix-line dg-fix-line-manual">' +
           '<span class="dg-fix-line-label">В&nbsp;Excel и&nbsp;таблицах</span>' +

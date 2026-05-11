@@ -19,7 +19,7 @@
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="icon" href="/assets/favicon.ico">
+  <link rel="icon" href="https://fintablo.ru/favicon.ico">
 
   <!-- Inter — единый шрифт всех клиентских микросервисов Финтабло (4 веса локально, как в money-diagnosis) -->
   <link rel="preload" href="fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf" as="font" type="font/ttf" crossorigin>
@@ -101,6 +101,7 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       text-rendering:optimizeLegibility;
+      overflow-x:hidden;
     }
     @media (max-width:560px){ body{font-size:16px} }
     @media (prefers-reduced-motion:reduce){
@@ -210,16 +211,17 @@
         padding:14px 16px;font-size:14px;color:var(--slate-800);
       }
       .mobile-warning-text{margin-bottom:10px;line-height:1.5;font-weight:500}
-      .mobile-warning-form{display:flex;gap:8px;flex-wrap:wrap}
+      .mobile-warning-form{display:flex;flex-direction:column;gap:8px}
       .mobile-warning-form input{
-        flex:1;min-width:140px;padding:10px 12px;border:1px solid var(--blue-200);
+        width:100%;padding:10px 12px;border:1px solid var(--blue-200);
         border-radius:var(--radius-sm);font-size:14px;background:var(--white);
-        font-family:inherit;
+        font-family:inherit;box-sizing:border-box;
       }
       .mobile-warning-form input:focus{outline:none;border-color:var(--brand);box-shadow:var(--shadow-focus)}
+      .mw-btn-row{display:flex;gap:8px}
       .mobile-warning-form button{
-        padding:10px 14px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;
-        cursor:pointer;
+        flex:1;padding:10px 14px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;
+        cursor:pointer;border:0;
       }
       .mw-btn-send{background:var(--brand);color:var(--white)}
       .mw-btn-skip{background:transparent;color:var(--slate-700);border:1px solid var(--blue-200)}
@@ -540,7 +542,7 @@
     .benefit-num{
       position:absolute;top:18px;right:22px;
       font-family:var(--font-mono);font-variant-numeric:tabular-nums;
-      font-size:13px;font-weight:600;color:var(--slate-400);letter-spacing:.05em;
+      font-size:13px;font-weight:600;color:var(--slate-600);letter-spacing:.05em;
     }
     .benefit-icon{
       width:52px;height:52px;border-radius:var(--radius-lg);
@@ -628,7 +630,7 @@
     .footer-logo{display:inline-block;line-height:0;transition:opacity .15s var(--ease)}
     .footer-logo:hover{opacity:.85}
     .footer-brand-line{color:var(--slate-300);font-weight:600}
-    .footer-legal{font-size:12px;color:var(--slate-500);line-height:1.55}
+    .footer-legal{font-size:12px;color:var(--slate-300);line-height:1.55}
 
     .footer-links{
       display:flex;flex-direction:column;gap:10px;align-items:flex-end;
@@ -755,8 +757,10 @@
   <form class="mobile-warning-form" id="mw-form" onsubmit="return false;">
     <label for="mw-email" style="position:absolute;left:-9999px">Email</label>
     <input type="email" id="mw-email" placeholder="email@company.ru" autocomplete="email" inputmode="email">
-    <button type="submit" class="mw-btn-send" id="mw-send">Прислать</button>
-    <button type="button" class="mw-btn-skip" id="mw-skip">Продолжить →</button>
+    <div class="mw-btn-row">
+      <button type="submit" class="mw-btn-send" id="mw-send">Прислать</button>
+      <button type="button" class="mw-btn-skip" id="mw-skip">Продолжить →</button>
+    </div>
   </form>
 </div>
 

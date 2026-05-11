@@ -320,10 +320,10 @@
     return (
       '<div class="dg-final-eyebrow">3 шаблона под вашу боль</div>' +
       '<h2>Финтабло сейчас вам не&nbsp;подходит&nbsp;— но&nbsp;шаблоны работают</h2>' +
-      '<p>Финтабло сознательно специализирован под проектный бизнес и&nbsp;производство от&nbsp;60&nbsp;млн&nbsp;₽ годовой выручки. Под ваш профиль продукт пока неэффективен. Но&nbsp;на&nbsp;вашу боль (' + painLabel + ') у&nbsp;нас есть готовые рабочие инструменты&nbsp;— забирайте.</p>' +
+      '<p>Финтабло сознательно специализирован под проектный бизнес и&nbsp;производство от&nbsp;60&nbsp;млн&nbsp;₽ годовой выручки. Под вашу отрасль и&nbsp;масштаб продукт пока не&nbsp;даёт нужного эффекта. Но&nbsp;на&nbsp;вашу боль (' + painLabel + ') у&nbsp;нас есть готовые рабочие инструменты&nbsp;— забирайте.</p>' +
       '<div class="dg-templates">' + cards + '</div>' +
       bonusBlock +
-      '<div class="dg-final-meta">Возвращайтесь, когда дорастёте&nbsp;— Финтабло работает с&nbsp;проектным бизнесом и&nbsp;производством от&nbsp;60&nbsp;млн&nbsp;₽.</div>'
+      '<div class="dg-final-meta">Финтабло раскрывается с&nbsp;выручки от&nbsp;60&nbsp;млн&nbsp;₽ — будем рады встретиться, когда выйдете на&nbsp;этот масштаб.</div>'
     );
   }
 
@@ -392,13 +392,13 @@
         '<label class="dg-form-consent">' +
           '<input type="checkbox" id="lead-consent" class="dg-form-checkbox" required>' +
           '<span class="dg-form-consent-text">' +
-            'Даю согласие ООО&nbsp;«Нескучный финансовый софт» (ИНН&nbsp;2311303019) на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политикой обработки персональных данных</a> и&nbsp;<a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">Офертой</a>.' +
+            'Согласен с&nbsp;<a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой обработки персональных данных</a> и&nbsp;<a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">офертой</a> ООО&nbsp;«Нескучный финансовый софт».' +
           '</span>' +
         '</label>' +
         '<label class="dg-form-consent dg-form-consent-marketing">' +
           '<input type="checkbox" id="lead-marketing" class="dg-form-checkbox">' +
           '<span class="dg-form-consent-text">' +
-            'Согласен на&nbsp;получение информационных и&nbsp;рекламных материалов от&nbsp;Финтабло.' +
+            'Хочу получать материалы Финтабло на&nbsp;почту.' +
           '</span>' +
         '</label>' +
         '<button type="submit" class="dg-form-submit" id="lead-submit" data-goal="' + opts.ymGoal + '" disabled>' + opts.submitText + '</button>' +

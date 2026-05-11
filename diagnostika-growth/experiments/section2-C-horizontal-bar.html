@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Section 2 · Horizontal Bar · в фирстиле Финтабло</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #2951CA;
+  --brand-hover: #1C3C9B;
+  --brand-soft: #5A76C9;
+  --heading: #091A4E;
+  --text: #404C72;
+  --text-2: #818696;
+  --text-3: #C9C9C9;
+  --bg: #F4F7FF;
+  --surface: #FFFFFF;
+  --plate-light: #DDE6FF;
+  --accent: #FFFDB5;
+  --rule: rgba(9,26,78,.08);
+  --zone-low: #FF3A1D;
+  --zone-mid: #FFAF36;
+  --zone-good: #2951CA;
+  --zone-top: #01B554;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  font-feature-settings: 'cv11','ss01','ss03';
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding: 80px 24px;
+}
+.wrap { max-width: 980px; margin: 0 auto; }
+
+/* ─── Section header ─── */
+.section-head { margin-bottom: 48px; }
+.section-num {
+  display: inline-block;
+  font-size: 11px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--brand);
+  padding: 6px 14px;
+  background: rgba(41,81,202,.08);
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+.section-title {
+  font-size: clamp(32px, 4.4vw, 48px);
+  font-weight: 800; line-height: 1.05; letter-spacing: -.025em;
+  color: var(--heading); margin-bottom: 12px;
+}
+.section-sub { font-size: 17px; color: var(--text); max-width: 640px; }
+
+/* ─── Card ─── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 24px;
+  padding: 44px 40px 36px;
+  box-shadow:
+    0 1px 2px rgba(9,26,78,.04),
+    0 12px 32px -8px rgba(41,81,202,.08);
+}
+
+/* ─── Hero row: score + zone ─── */
+.hero-row {
+  display: flex; align-items: baseline; gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.hero-score {
+  display: flex; align-items: baseline; gap: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.hero-score-val {
+  font-size: clamp(72px, 9vw, 104px);
+  font-weight: 900;
+  letter-spacing: -.045em;
+  line-height: .9;
+  background: linear-gradient(180deg, var(--heading) 0%, var(--brand) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-score-max {
+  font-size: clamp(20px, 2.8vw, 30px);
+  font-weight: 700;
+  color: var(--text-2);
+  letter-spacing: -.02em;
+}
+.hero-zone {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 16px;
+  background: rgba(255,175,54,.14);
+  border: 1px solid rgba(255,175,54,.42);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #B36800;
+  letter-spacing: -.01em;
+}
+.hero-zone::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--zone-mid);
+  box-shadow: 0 0 12px var(--zone-mid);
+}
+.hero-explain {
+  font-size: 15px;
+  color: var(--text);
+  margin-top: 6px;
+  max-width: 720px;
+}
+
+/* ─── Horizontal scale ─── */
+.scale-wrap {
+  position: relative;
+  margin: 56px 0 80px;
+}
+.scale-track {
+  display: grid;
+  grid-template-columns: 34fr 20fr 20fr 26fr; /* 0-34 / 35-54 / 55-74 / 75-100 */
+  gap: 3px;
+  height: 18px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.scale-zone {
+  position: relative;
+}
+.scale-zone:nth-child(1) { background: linear-gradient(90deg, #FF3A1D, #FF7A55); opacity: .55; }
+.scale-zone:nth-child(2) { background: linear-gradient(90deg, #FFAF36, #FFCB6F); }
+.scale-zone:nth-child(3) { background: linear-gradient(90deg, #5A76C9, #2951CA); opacity: .55; }
+.scale-zone:nth-child(4) { background: linear-gradient(90deg, #01B554, #4FE08A); opacity: .55; }
+
+/* Position-marker: ваш индекс на 60% */
+.marker-you {
+  position: absolute;
+  top: -34px;
+  left: calc(60% - 28px);
+  display: flex; flex-direction: column; align-items: center;
+  z-index: 3;
+  animation: rise .8s cubic-bezier(.22,.61,.36,1) .2s both;
+}
+@keyframes rise { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+.marker-you-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px;
+  background: var(--heading);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px -4px rgba(9,26,78,.32);
+}
+.marker-you-pill-val {
+  font-variant-numeric: tabular-nums;
+  background: var(--accent);
+  color: var(--heading);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 900;
+}
+.marker-you-tip {
+  width: 14px; height: 14px;
+  background: var(--heading);
+  margin-top: -4px;
+  transform: rotate(45deg);
+  border-radius: 2px;
+  box-shadow: 0 6px 8px -4px rgba(9,26,78,.32);
+}
+.marker-you-line {
+  position: absolute;
+  left: 50%;
+  top: 32px;
+  width: 2px;
+  height: 56px;
+  background: var(--heading);
+  transform: translateX(-50%);
+}
+
+/* Маркеры peer / top — тонкие штрихи под шкалой */
+.marker-bottom {
+  position: absolute;
+  bottom: -42px;
+  display: flex; flex-direction: column; align-items: center;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.marker-bottom::before {
+  content: '';
+  width: 2px; height: 12px;
+  background: currentColor;
+  margin-bottom: 4px;
+}
+.marker-peer { left: calc(65% - 28px); color: var(--brand); }
+.marker-top  { left: calc(85% - 24px); color: var(--zone-top); }
+.marker-bottom span {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+}
+.marker-peer-name, .marker-top-name {
+  margin-top: 2px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+/* Labels по краям шкалы */
+.scale-ends {
+  display: flex; justify-content: space-between;
+  margin-top: 12px;
+  font-size: 11px; font-weight: 700; letter-spacing: .14em;
+  color: var(--text-3);
+}
+
+/* ─── Zones table ─── */
+.zones-table {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 32px;
+}
+.zone-cell {
+  background: var(--surface);
+  padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 6px;
+  position: relative;
+}
+.zone-cell.active {
+  background: linear-gradient(180deg, rgba(255,175,54,.10), var(--surface));
+}
+.zone-cell.active::before {
+  content: '';
+  position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: var(--zone-mid);
+}
+.zone-cell-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  margin-bottom: 4px;
+}
+.zone-cell:nth-child(1) .zone-cell-dot { background: var(--zone-low); }
+.zone-cell:nth-child(2) .zone-cell-dot { background: var(--zone-mid); }
+.zone-cell:nth-child(3) .zone-cell-dot { background: var(--zone-good); }
+.zone-cell:nth-child(4) .zone-cell-dot { background: var(--zone-top); }
+.zone-cell-range {
+  font-size: 12px; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+  letter-spacing: .04em;
+}
+.zone-cell-name {
+  font-size: 15px; font-weight: 700;
+  letter-spacing: -.015em;
+  color: var(--heading);
+}
+.zone-cell.active .zone-cell-name { color: var(--zone-mid); }
+.zone-cell-desc {
+  font-size: 12px; font-weight: 500;
+  color: var(--text);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.section-note {
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+  body { padding: 56px 16px; }
+  .card { padding: 28px 22px; border-radius: 16px; }
+  .hero-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .zones-table { grid-template-columns: 1fr; }
+  .marker-bottom { font-size: 10px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="section-head">
+    <span class="section-num">02 · Индекс прозрачности</span>
+    <h2 class="section-title">Где вы по шкале управленческой видимости</h2>
+    <p class="section-sub">Шкала 0–100 на основе профиля. Показываем вашу позицию, типичную когорту и лидеров по учёту.</p>
+  </div>
+
+  <section class="card">
+    <div class="hero-row">
+      <div class="hero-score">
+        <span class="hero-score-val">60</span><span class="hero-score-max">/100</span>
+      </div>
+      <div class="hero-zone">Фрагментарная видимость</div>
+    </div>
+    <p class="hero-explain">
+      Часть финансовых процессов системно ведётся, часть — без точного контроля. Решения возможны, но риск ошибки высокий: картина неполная.
+    </p>
+
+    <div class="scale-wrap">
+      <div class="scale-track">
+        <div class="scale-zone"></div>
+        <div class="scale-zone"></div>
+        <div class="scale-zone"></div>
+        <div class="scale-zone"></div>
+      </div>
+
+      <!-- Position-marker: ваш индекс на 60% -->
+      <div class="marker-you">
+        <div class="marker-you-pill">
+          <span>Ваш индекс</span>
+          <span class="marker-you-pill-val">60</span>
+        </div>
+        <div class="marker-you-tip"></div>
+      </div>
+
+      <!-- Маркеры peer / top -->
+      <div class="marker-bottom marker-peer">
+        <span>65 · Когорта</span>
+      </div>
+      <div class="marker-bottom marker-top">
+        <span>85 · Лидеры</span>
+      </div>
+
+      <div class="scale-ends"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+    </div>
+
+    <div class="zones-table">
+      <div class="zone-cell">
+        <span class="zone-cell-dot"></span>
+        <span class="zone-cell-range">0–34</span>
+        <span class="zone-cell-name">Реактивное</span>
+        <span class="zone-cell-desc">Учёт ведётся по факту, контроль — после события</span>
+      </div>
+      <div class="zone-cell active">
+        <span class="zone-cell-dot"></span>
+        <span class="zone-cell-range">35–54</span>
+        <span class="zone-cell-name">Фрагментарная</span>
+        <span class="zone-cell-desc">Часть процессов оцифрована, часть — нет</span>
+      </div>
+      <div class="zone-cell">
+        <span class="zone-cell-dot"></span>
+        <span class="zone-cell-range">55–74</span>
+        <span class="zone-cell-name">Системный</span>
+        <span class="zone-cell-desc">Регулярная управленческая отчётность ведётся</span>
+      </div>
+      <div class="zone-cell">
+        <span class="zone-cell-dot"></span>
+        <span class="zone-cell-range">75–100</span>
+        <span class="zone-cell-name">Прозрачный</span>
+        <span class="zone-cell-desc">Полная картина в моменте, решения с цифрой в руках</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-note">
+    Когорта — компании с похожим типом бизнеса и выручкой. Лидеры — топ-25% по уровню учёта в нашей методике.
+  </div>
+
+</div>
+</body>
+</html>

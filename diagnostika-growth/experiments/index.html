@@ -155,12 +155,65 @@ h1 .accent::before {
 <body>
 <div class="wrap">
   <div class="eyebrow">frontend-design skill · diagnostika-growth · experiments</div>
-  <h1>Один блок Anti-ICP — <span class="accent">шесть подходов</span></h1>
-  <p class="lede">Один и тот же контент (3 шаблона + бонус для торговли) реализован в шести направлениях. <b>v2</b> — в фирстиле Финтабло (палитра из брендбука Figma). <b>v1</b> — свободные эксперименты до открытия брендбука, для сравнения.</p>
+  <h1>Эксперименты дизайна — <span class="accent">в фирстиле Финтабло</span></h1>
+  <p class="lede">Прототипы блоков для diagnostika-growth. <b>Section 2</b> — три варианта индекса прозрачности (выбрать лучший в прод). <b>Anti-ICP</b> — варианты блока скачивания шаблонов.</p>
 
-  <!-- ─── v2 — фирстиль ─── -->
+  <!-- ─── Section 2 — 3 варианта на выбор ─── -->
   <div class="section-head">
-    <h2>v2 · в фирстиле (брендбук Figma)</h2>
+    <h2>Section 2 · Индекс прозрачности — 3 варианта</h2>
+    <span class="meta">Выбрать лучший · перенести в&nbsp;прод</span>
+  </div>
+
+  <div class="list">
+    <a class="item" href="section2-A-premium-gauge.html">
+      <div class="num">A</div>
+      <div class="body">
+        <h3>Premium gauge — объёмная дуга</h3>
+        <p>Полукруговая дуга 0–100 с brand-градиентом (#FF3A1D → #FFAF36 → #2951CA → #01B554), glow-эффекты, gradient-text по score, маркеры когорты/лидеров с outline. Анимация заливки.</p>
+        <div class="tags">
+          <span class="tag tag-brand">premium gauge</span>
+          <span class="tag">brand gradient</span>
+          <span class="tag">soft shadows</span>
+          <span class="tag">zone-row снизу</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="item" href="section2-B-bento.html">
+      <div class="num">B</div>
+      <div class="body">
+        <h3>Bento-дашборд — 4 плитки</h3>
+        <p>Большая плитка с brand-градиентом (score + zone + текст), 3 малых: когорта 65 / лидеры 85+ / шкала зон. Каждая плитка свой фон из палитры брендбука. Mini-bars в малых плитках.</p>
+        <div class="tags">
+          <span class="tag tag-brand">bento 2×2</span>
+          <span class="tag">gradient hero</span>
+          <span class="tag">accent #FFFDB5</span>
+          <span class="tag">mini-charts</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="item" href="section2-C-horizontal-bar.html">
+      <div class="num">C</div>
+      <div class="body">
+        <h3>Horizontal score-bar — fintech-стиль</h3>
+        <p>Горизонтальная шкала 0–100 с 4 зонами в цветах брендбука. Position-pill «Ваш индекс 60» на 60%, маркеры когорты и лидеров штрихами под шкалой. Таблица 4 зон с описаниями.</p>
+        <div class="tags">
+          <span class="tag tag-brand">horizontal bar</span>
+          <span class="tag">data-viz</span>
+          <span class="tag">pill-marker</span>
+          <span class="tag">zones-table</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <!-- ─── Anti-ICP блок v2 — фирстиль ─── -->
+  <div class="section-head">
+    <h2>Anti-ICP блок · v2 в фирстиле</h2>
     <span class="meta">Палитра · #2951CA / #091A4E / #FFFDB5</span>
   </div>
 

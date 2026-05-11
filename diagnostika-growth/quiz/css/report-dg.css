@@ -687,36 +687,48 @@
   letter-spacing: 0.02em;
 }
 
-/* 152-ФЗ согласие — явный чекбокс */
+/* 152-ФЗ согласие — лёгкая строка под формой (CRO: не давит на пользователя) */
 .dg-form-consent {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  margin: 18px 0 14px;
-  padding: 14px 16px;
-  background: rgba(255, 255, 255, .04);
-  border: 1px solid rgba(255, 255, 255, .08);
-  border-radius: 8px;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 6px 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
   cursor: pointer;
 }
+.dg-form-consent + .dg-form-consent { margin-top: 4px; }
 .dg-form-checkbox {
   flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-  margin: 1px 0 0;
+  width: 14px;
+  height: 14px;
+  margin: 3px 0 0;
   accent-color: var(--blue-500, #3B82F6);
   cursor: pointer;
+  opacity: .8;
+  transition: opacity .15s ease;
 }
 .dg-form-consent-text {
-  font-size: 12px;
-  color: var(--slate-300, #CBD5E1);
-  line-height: 1.55;
+  font-size: 11px;
+  color: var(--slate-400, #94A3B8);
+  line-height: 1.5;
+  opacity: .85;
+  transition: opacity .15s ease;
 }
 .dg-form-consent-text a {
   color: var(--blue-300, #93BBFD);
   text-decoration: underline;
+  text-decoration-color: rgba(147, 187, 253, .35);
+  text-underline-offset: 2px;
 }
-.dg-form-consent-text a:hover { color: #fff; }
+.dg-form-consent-text a:hover {
+  color: #fff;
+  text-decoration-color: currentColor;
+}
+.dg-form-consent:hover .dg-form-checkbox,
+.dg-form-consent:hover .dg-form-consent-text { opacity: 1; }
 
 /* ═════ Anti-ICP templates block ═════
    3 карточки шаблонов под боль + бонус для торговли со складом.

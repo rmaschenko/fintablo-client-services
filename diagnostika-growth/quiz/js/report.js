@@ -15,7 +15,14 @@
     return;
   }
 
-  if (window.ym) ym(61131877, 'reachGoal', 'dg_report_view');
+  // Обёртка вокруг Я.Метрики 61131877 — централизует counter ID + проверку window.ym
+  function fireGoal(name, params) {
+    if (!window.ym) return;
+    if (params) ym(61131877, 'reachGoal', name, params);
+    else ym(61131877, 'reachGoal', name);
+  }
+
+  fireGoal('dg_report_view');
 
   function renderHero() {
     const route = data.route;
@@ -188,63 +195,173 @@
     if (r.proofPoint) fixCard.querySelector('.dg-fix-summary-text').textContent = r.proofPoint;
   }
 
+  // ── Сегментные параметры для Я.Метрики (look-alike, exclusion, ретаргет) ──
+  function segmentParams() {
+    return {
+      business_type: data.profile.businessType || '',
+      revenue: data.profile.annualRevenue || 0,
+      pain: data.profile.primaryPain || '',
+      cfo_status: data.profile.cfoStatus || '',
+      anti_subtype: data.antiSubtype || ''
+    };
+  }
+
+  function fireSegmentGoal(goalName) {
+    fireGoal(goalName, segmentParams());
+  }
+
+  // SVG-чекмарк для пунктов чек-листа
+  const CHECK_SVG = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>';
+  function checkItem(text) {
+    return '<div class="dg-final-check-item">' + CHECK_SVG + '<span>' + text + '</span></div>';
+  }
+
   function renderFinal() {
     const route = data.route;
     const final = $('section-final');
-    if (route === 'icp') {
-      final.innerHTML = renderIcpBlock();
-      bindLeadForm('icp');
+    if (route === 'hot_icp' || route === 'hot_icp_no_finance') {
+      final.innerHTML = renderHotIcpBlock(route === 'hot_icp_no_finance');
+      fireSegmentGoal('dg_hot_icp_segment');
+      bindLeadForm();
+    } else if (route === 'warm_icp') {
+      final.innerHTML = renderWarmIcpBlock();
+      fireSegmentGoal('dg_warm_icp_segment');
+      bindWarmIcp();
     } else {
-      final.innerHTML = renderSelfServeBlock();
-      bindSelfServe();
+      // anti_icp — все 3 подтипа (trade / services / small)
+      final.innerHTML = renderAntiIcpBlock();
+      fireSegmentGoal('dg_anti_icp_segment');
+      bindAntiIcp();
     }
   }
 
-  // Единый блок для ICP-сегмента — копи проверенной акции Финтабло
-  // (бесплатная встреча с финансовым экспертом, 500+ бизнесов опыта).
-  // cfoStatus передаётся в amoCRM payload, чтобы менеджер видел контекст
-  // (компания с финдиром или без).
-  function renderIcpBlock() {
+  // Hot ICP: проектный/производство 60+ млн. Бесплатная встреча с финансовым
+  // экспертом — копи проверенной акции Финтабло, насмотренность 500+ бизнесов.
+  // noFinance=true → дополнительно «Подберём партнёра-финансиста» на встрече.
+  function renderHotIcpBlock(noFinance) {
+    const items = [
+      'Проведём экспертный аудит ваших финансовых показателей',
+      'Настроим отчёты, которые закроют 80% вопросов',
+      'Научим оценивать состояние бизнеса за&nbsp;5&nbsp;минут'
+    ];
+    if (noFinance) {
+      items.push('Подберём партнёра-финансиста из&nbsp;нашей сети&nbsp;— компания будет вести учёт под Финтабло');
+    }
+
     return (
       '<div class="dg-final-eyebrow">Бесплатно · насмотренность 500+ бизнесов</div>' +
       '<h2>Прозрачная картина в&nbsp;финансах бизнеса&nbsp;— уже сегодня</h2>' +
       '<p>Бесплатная встреча с&nbsp;финансовым экспертом Финтабло. Без презентаций и&nbsp;общих фраз&nbsp;— сразу к&nbsp;вашим цифрам и&nbsp;тому, что с&nbsp;ними делать.</p>' +
-      '<div class="dg-final-checklist">' +
-        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Проведём экспертный аудит ваших финансовых показателей</span></div>' +
-        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Настроим отчёты, которые закроют 80% вопросов</span></div>' +
-        '<div class="dg-final-check-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg><span>Научим оценивать состояние бизнеса за&nbsp;5&nbsp;минут</span></div>' +
-      '</div>' +
+      '<div class="dg-final-checklist">' + items.map(checkItem).join('') + '</div>' +
       buildLeadForm({
         title: 'Оставьте контакты&nbsp;— эксперт свяжется в&nbsp;течение рабочего дня',
         cityField: false,
         submitText: 'Записаться на встречу',
-        ymGoal: 'dg_lead_icp'
+        ymGoal: noFinance ? 'dg_lead_hot_icp_no_finance' : 'dg_lead_hot_icp'
       })
     );
   }
 
-  function renderSelfServeBlock() {
+  // Warm ICP: проектный/производство 30-60 млн. Не зовём на встречу
+  // (рано), отправляем в продуктовую воронку Финтабло — пусть пробуют сами.
+  function renderWarmIcpBlock() {
+    const items = [
+      'Загрузите выписку из&nbsp;банка&nbsp;— увидите ДДС за&nbsp;5&nbsp;минут',
+      'Откройте готовый шаблон ОПиУ под вашу отрасль',
+      'Настройте контуры под направления и&nbsp;проекты'
+    ];
     return (
       '<div class="dg-final-eyebrow">Полный доступ — 7 дней в подарок</div>' +
-      '<h2>Попробуйте Финтабло сами&nbsp;— без оплаты и&nbsp;обязательств</h2>' +
-      '<p>Финтабло раскрывается в&nbsp;полную силу у&nbsp;проектного бизнеса от&nbsp;60&nbsp;млн&nbsp;₽ годовой выручки с&nbsp;выделенным финансистом. Когда дорастёте&nbsp;— уже будете знать сервис изнутри.</p>' +
-      '<div class="dg-final-checklist">' +
-        '<div class="dg-final-check-item">' +
-          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>' +
-          '<span>Загрузите выписку из&nbsp;банка&nbsp;— увидите ДДС за&nbsp;5&nbsp;минут</span>' +
-        '</div>' +
-        '<div class="dg-final-check-item">' +
-          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>' +
-          '<span>Откройте готовый шаблон ОПиУ под вашу отрасль</span>' +
-        '</div>' +
-        '<div class="dg-final-check-item">' +
-          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>' +
-          '<span>Настройте контуры под направления и&nbsp;проекты</span>' +
-        '</div>' +
-      '</div>' +
-      '<button type="button" class="dg-final-cta" id="btn-self-serve">Открыть Финтабло →</button>' +
-      '<div class="dg-final-meta">Регистрация по&nbsp;email · 7&nbsp;дней полного доступа · Без передачи данных</div>'
+      '<h2>Финтабло&nbsp;— на&nbsp;вырост</h2>' +
+      '<p>На&nbsp;выручке 30&ndash;60&nbsp;млн&nbsp;₽ Финтабло уже может пригодиться, но&nbsp;раскрывается в&nbsp;полную силу с&nbsp;60+&nbsp;млн. Попробуйте сейчас бесплатно&nbsp;— увидите интеграции с&nbsp;банками и&nbsp;1С, отчёты под вашу отрасль, прогноз&nbsp;ДДС.</p>' +
+      '<div class="dg-final-checklist">' + items.map(checkItem).join('') + '</div>' +
+      '<button type="button" class="dg-final-cta" id="btn-warm-cta">Попробовать Финтабло →</button>' +
+      '<div class="dg-final-meta">Регистрация по&nbsp;email&nbsp;· 7&nbsp;дней полного доступа</div>'
     );
+  }
+
+  // Anti-ICP: торговля со складом / сервис на потоке / выручка <30 млн.
+  // Без формы и без email-gate — отдаём 3 шаблона прямо ссылками.
+  // Тон «осознанной специализации»: не оправдываемся, говорим прямо что
+  // Финтабло специализирован, но даём ценность в виде шаблонов.
+  function renderAntiIcpBlock() {
+    const T = window.Templates;
+    const pain = data.profile.primaryPain;
+    const businessType = data.profile.businessType;
+    const subtype = data.antiSubtype;
+    const list = T.getForPain(pain, businessType);
+    const bonus = T.getBonus(subtype);
+    const painLabel = (C.PAIN_LABEL[pain] || '').toLowerCase();
+
+    let cards = '';
+    list.forEach(function (t, i) {
+      cards +=
+        '<a class="dg-template-card" href="' + t.url + '" target="_blank" rel="noopener" data-tpl-id="' + t.id + '">' +
+          '<div class="dg-template-step">' + T.STEP_LABELS[i] + '</div>' +
+          '<div class="dg-template-name">' + t.name + '</div>' +
+          '<div class="dg-template-desc">' + t.desc + '</div>' +
+          '<div class="dg-template-action">Скачать xlsx&nbsp;→</div>' +
+        '</a>';
+    });
+
+    let bonusBlock = '';
+    if (bonus) {
+      bonusBlock =
+        '<div class="dg-template-bonus-wrap">' +
+          '<div class="dg-template-bonus-label">Бонус под ваш тип бизнеса</div>' +
+          '<a class="dg-template-card dg-template-card-bonus" href="' + bonus.url + '" target="_blank" rel="noopener" data-tpl-id="' + bonus.id + '">' +
+            '<div class="dg-template-name">' + bonus.name + '</div>' +
+            '<div class="dg-template-desc">' + bonus.desc + '</div>' +
+            '<div class="dg-template-action">Скачать xlsx&nbsp;→</div>' +
+          '</a>' +
+        '</div>';
+    }
+
+    return (
+      '<div class="dg-final-eyebrow">3 шаблона под вашу боль</div>' +
+      '<h2>Финтабло сейчас вам не&nbsp;подходит&nbsp;— но&nbsp;шаблоны работают</h2>' +
+      '<p>Финтабло сознательно специализирован под проектный бизнес и&nbsp;производство от&nbsp;60&nbsp;млн&nbsp;₽ годовой выручки. Под ваш профиль продукт пока неэффективен. Но&nbsp;на&nbsp;вашу боль (' + painLabel + ') у&nbsp;нас есть готовые рабочие инструменты&nbsp;— забирайте.</p>' +
+      '<div class="dg-templates">' + cards + '</div>' +
+      bonusBlock +
+      '<div class="dg-final-meta">Возвращайтесь, когда дорастёте&nbsp;— Финтабло работает с&nbsp;проектным бизнесом и&nbsp;производством от&nbsp;60&nbsp;млн&nbsp;₽.</div>'
+    );
+  }
+
+  function bindAntiIcp() {
+    document.querySelectorAll('.dg-template-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        const tplId = card.getAttribute('data-tpl-id');
+        fireGoal('dg_anti_icp_download', { template: tplId });
+      });
+    });
+  }
+
+  function bindWarmIcp() {
+    const btn = $('btn-warm-cta');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      fireGoal('dg_warm_icp_click', segmentParams());
+      const url = buildWarmTrialUrl();
+      setTimeout(function () { location.href = url; }, 80);
+    });
+  }
+
+  function buildWarmTrialUrl() {
+    let base = 'https://app.fintablo.ru/register?utm_source=diagnostika&utm_medium=quiz&utm_campaign=warm_partial_fit&utm_content=trial';
+    try {
+      const utmRaw = localStorage.getItem('ft_utm');
+      if (utmRaw) {
+        const utm = JSON.parse(utmRaw);
+        Object.keys(utm).forEach(function (k) {
+          if (k.charAt(0) === '_') return;
+          base += '&dg_' + encodeURIComponent(k) + '=' + encodeURIComponent(utm[k]);
+        });
+      }
+      base += '&dg_business_type=' + encodeURIComponent(data.profile.businessType || '');
+      base += '&dg_revenue=' + encodeURIComponent(data.profile.annualRevenue || '');
+      base += '&dg_pain=' + encodeURIComponent(data.profile.primaryPain || '');
+    } catch (e) {}
+    return base;
   }
 
   function buildLeadForm(opts) {
@@ -289,11 +406,10 @@
     );
   }
 
-  function bindLeadForm(routeTag) {
+  function bindLeadForm() {
     const form = $('lead-form');
     if (!form) return;
 
-    // Submit разблокируется только при отмеченном чекбоксе согласия (152-ФЗ)
     const consentEl = $('lead-consent');
     const submitEl = $('lead-submit');
     if (consentEl && submitEl) {
@@ -302,11 +418,10 @@
       });
     }
 
-    // Маска телефона при вводе
     const phoneEl = $('lead-phone');
-    if (phoneEl && window.Lead && window.Lead.maskPhone) {
+    if (phoneEl && L && L.maskPhone) {
       phoneEl.addEventListener('input', (e) => {
-        e.target.value = window.Lead.maskPhone(e.target.value);
+        e.target.value = L.maskPhone(e.target.value);
       });
     }
 
@@ -324,9 +439,11 @@
         errEl.classList.add('is-visible');
       }
 
+      const phoneCheck = L.validatePhone(phone);
+      const emailCheck = L.validateEmail(email);
       if (!name || name.length < 2) return showError('Укажите имя');
-      if (!phone || phone.replace(/\D/g, '').length < 10) return showError('Укажите корректный телефон');
-      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return showError('Укажите корректный email');
+      if (!phoneCheck.ok) return showError(phoneCheck.msg);
+      if (!emailCheck.ok) return showError(emailCheck.msg);
       if (!consent) return showError('Поставьте отметку о согласии на обработку персональных данных');
       errEl.classList.remove('is-visible');
 
@@ -337,14 +454,13 @@
       const payload = {
         source: 'diagnostika-growth',
         route: data.route,
-        routeTag: routeTag,
         name: name, phone: phone, email: email, city: city,
         profile: data.profile,
         transparencyScore: data.transparency.score,
         lossRange: { min: data.lossRange.min, max: data.lossRange.max },
         recommendation: data.recommendation.title,
         utm: S.getUTM ? S.getUTM() : null,
-        // 152-ФЗ — фиксируем явное согласие с timestamp для аудита
+        // 152-ФЗ: явное согласие с timestamp для аудита
         consent: {
           given: true,
           timestamp: new Date().toISOString(),
@@ -356,44 +472,17 @@
       };
 
       const goal = submitBtn.getAttribute('data-goal');
-      if (window.ym && goal) ym(61131877, 'reachGoal', goal);
+      if (goal) fireGoal(goal);
 
       L.sendLead(payload, function () {
-        if (window.ym) ym(61131877, 'reachGoal', 'dg_lead_sent');
+        fireGoal('dg_lead_sent', segmentParams());
         location.href = 'thankyou.html?route=' + encodeURIComponent(data.route);
       }, function () {
         submitBtn.disabled = false;
-        submitBtn.textContent = goal === 'dg_lead_partner' ? 'Подобрать партнёра' : 'Записаться на разбор';
+        submitBtn.textContent = 'Записаться на встречу';
         showError('Не удалось отправить — попробуйте ещё раз или напишите на support@help.fintablo.ru');
       });
     });
-  }
-
-  function bindSelfServe() {
-    const btn = $('btn-self-serve');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      if (window.ym) ym(61131877, 'reachGoal', 'dg_self_serve_click');
-      const url = buildTrialUrl();
-      setTimeout(function () { location.href = url; }, 80);
-    });
-  }
-
-  function buildTrialUrl() {
-    let base = 'https://app.fintablo.ru/register?utm_source=diagnostika&utm_medium=quiz&utm_campaign=anti_icp&utm_content=trial';
-    try {
-      const utmRaw = localStorage.getItem('ft_utm');
-      if (utmRaw) {
-        const utm = JSON.parse(utmRaw);
-        Object.keys(utm).forEach(function (k) {
-          if (k.charAt(0) === '_') return;
-          base += '&dg_' + encodeURIComponent(k) + '=' + encodeURIComponent(utm[k]);
-        });
-      }
-      base += '&dg_business_type=' + encodeURIComponent(data.profile.businessType || '');
-      base += '&dg_revenue=' + encodeURIComponent(data.profile.annualRevenue || '');
-    } catch (e) {}
-    return base;
   }
 
   renderHero();

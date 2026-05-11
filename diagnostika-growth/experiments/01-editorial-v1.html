@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anti-ICP · Editorial Brutalism · diagnostika-growth/experiments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500;700&family=Spectral:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #14110f;
+  --paper: #f4ede0;
+  --cream: #ede4d2;
+  --coral: #e94e2a;
+  --moss: #5a6b3f;
+  --rule: rgba(20,17,15,.18);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--paper); color: var(--ink); }
+body {
+  font-family: 'Spectral', Georgia, serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.55;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at top left, rgba(233,78,42,.06), transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(90,107,63,.05), transparent 60%);
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  opacity: .12;
+  mix-blend-mode: multiply;
+}
+.wrap { position: relative; z-index: 2; }
+
+/* ─── Top hairline ─────────────────────────────────── */
+.topbar {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 22px 40px 18px;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.topbar-l { color: var(--coral); font-weight: 700; }
+.topbar-r { color: var(--ink); opacity: .55; }
+
+/* ─── Hero ──────────────────────────────────────────── */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 60px;
+  padding: 80px 40px 60px;
+  align-items: end;
+  border-bottom: 1px solid var(--rule);
+}
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 16px;
+}
+.hero-eyebrow::before {
+  content: ''; display: block;
+  width: 60px; height: 2px; background: var(--coral);
+}
+.hero h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(54px, 8vw, 132px);
+  font-weight: 300;
+  line-height: .92;
+  letter-spacing: -.04em;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 1;
+  font-style: italic;
+  max-width: 1100px;
+}
+.hero h1 em {
+  font-style: normal;
+  font-weight: 700;
+  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
+  color: var(--coral);
+  letter-spacing: -.05em;
+}
+.hero-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--ink);
+  opacity: .55;
+  white-space: nowrap;
+}
+.hero-meta b { color: var(--ink); opacity: 1; display: block; font-weight: 700; }
+
+/* ─── Manifest ─────────────────────────────────────── */
+.manifest {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 60px;
+  padding: 50px 40px;
+  border-bottom: 1px solid var(--rule);
+}
+.manifest-num {
+  font-family: 'Fraunces', serif;
+  font-size: 88px;
+  font-weight: 200;
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "WONK" 1;
+  line-height: .9;
+  color: var(--ink);
+}
+.manifest-num span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .2em;
+  font-style: normal;
+  font-weight: 500;
+  display: block;
+  color: var(--ink); opacity: .55;
+  margin-top: 12px;
+  text-transform: uppercase;
+}
+.manifest-body {
+  font-family: 'Spectral', serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.5;
+  max-width: 720px;
+}
+.manifest-body strong {
+  font-weight: 600;
+  background: var(--ink); color: var(--paper);
+  padding: 2px 8px; margin: 0 -2px;
+}
+
+/* ─── Templates ─────────────────────────────────────── */
+.cards-section { padding: 80px 40px 60px; border-bottom: 1px solid var(--rule); }
+.cards-head {
+  display: flex; justify-content: space-between; align-items: end;
+  margin-bottom: 50px;
+}
+.cards-head h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -.03em;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+}
+.cards-head h2 em { font-style: normal; color: var(--coral); }
+.cards-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink); opacity: .55;
+  text-align: right;
+}
+.cards-counter b { display: block; font-size: 24px; color: var(--ink); opacity: 1; font-weight: 700; }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.card {
+  background: var(--paper);
+  padding: 36px 32px 32px;
+  display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
+  position: relative;
+  transition: background .25s ease, transform .25s ease;
+  min-height: 320px;
+}
+.card:hover {
+  background: var(--cream);
+  transform: translateY(-2px);
+}
+.card-step {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 36px;
+  display: flex; align-items: center; gap: 12px;
+}
+.card-step::after {
+  content: ''; flex: 1; height: 1px; background: var(--rule);
+}
+.card-num {
+  font-family: 'Fraunces', serif;
+  font-size: 14px;
+  font-weight: 700;
+  font-style: italic;
+  font-variation-settings: "opsz" 9;
+  color: var(--ink);
+}
+.card h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  font-variation-settings: "opsz" 96, "SOFT" 50, "WONK" 1;
+  margin-bottom: 16px;
+}
+.card p {
+  font-family: 'Spectral', serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  opacity: .72;
+  flex: 1;
+  margin-bottom: 24px;
+}
+.card-cta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  transition: gap .2s ease, color .2s ease;
+}
+.card-cta::after {
+  content: '→';
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  transition: transform .2s ease;
+}
+.card:hover .card-cta { color: var(--coral); gap: 14px; }
+.card:hover .card-cta::after { transform: translateX(4px); }
+
+/* ─── Bonus row ─────────────────────────────────────── */
+.bonus-section {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 60px;
+  padding: 60px 40px;
+  border-bottom: 1px solid var(--rule);
+  align-items: center;
+  background:
+    linear-gradient(120deg, var(--paper) 0%, var(--paper) 60%, rgba(233,78,42,.06) 100%);
+}
+.bonus-label {
+  font-family: 'Fraunces', serif;
+  font-weight: 200;
+  font-size: 64px;
+  line-height: .9;
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "WONK" 1;
+  letter-spacing: -.02em;
+  position: relative;
+}
+.bonus-label::after {
+  content: '+';
+  position: absolute;
+  top: -20px; right: -20px;
+  font-style: normal;
+  font-weight: 200;
+  color: var(--coral);
+  font-size: 96px;
+  line-height: 1;
+  opacity: .5;
+}
+.bonus-card {
+  display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
+  padding: 36px 38px;
+  background: var(--ink); color: var(--paper);
+  border-radius: 0;
+  transition: background .25s ease;
+  position: relative; overflow: hidden;
+}
+.bonus-card::before {
+  content: ''; position: absolute; inset: 0; opacity: 0;
+  background: linear-gradient(120deg, var(--coral), var(--ink));
+  transition: opacity .25s ease;
+}
+.bonus-card:hover::before { opacity: 1; }
+.bonus-card > * { position: relative; z-index: 1; }
+.bonus-card .card-step { color: var(--coral); margin-bottom: 16px; }
+.bonus-card .card-step::after { background: rgba(244,237,224,.18); }
+.bonus-card h3 { color: var(--paper); font-size: 36px; line-height: 1.05; }
+.bonus-card p { color: rgba(244,237,224,.78); margin-bottom: 16px; }
+.bonus-card .card-cta { color: var(--paper); border-top-color: rgba(244,237,224,.18); }
+.bonus-card:hover .card-cta { color: var(--paper); }
+
+/* ─── Footer ────────────────────────────────────────── */
+.outro {
+  padding: 80px 40px 100px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: end;
+}
+.outro-text {
+  font-family: 'Fraunces', serif;
+  font-weight: 200;
+  font-style: italic;
+  font-size: 44px;
+  line-height: 1.1;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 1;
+  letter-spacing: -.02em;
+  max-width: 800px;
+}
+.outro-text em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--coral);
+}
+.outro-sig {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink); opacity: .55;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ─── Animations ────────────────────────────────────── */
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.hero, .manifest, .cards-head, .bonus-section, .outro { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+.hero { animation-delay: .05s; }
+.manifest { animation-delay: .25s; }
+.cards-head { animation-delay: .45s; }
+.card { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+.card:nth-child(1) { animation-delay: .55s; }
+.card:nth-child(2) { animation-delay: .68s; }
+.card:nth-child(3) { animation-delay: .81s; }
+.bonus-section { animation-delay: 1s; }
+.outro { animation-delay: 1.2s; }
+
+/* ─── Responsive ────────────────────────────────────── */
+@media (max-width: 880px) {
+  .hero, .manifest, .cards-section, .bonus-section, .outro { padding-left: 22px; padding-right: 22px; }
+  .hero { grid-template-columns: 1fr; gap: 30px; padding-top: 40px; padding-bottom: 36px; }
+  .hero-meta { text-align: left; }
+  .manifest { grid-template-columns: 1fr; gap: 20px; padding: 40px 22px; }
+  .manifest-num { font-size: 64px; }
+  .manifest-body { font-size: 19px; }
+  .cards { grid-template-columns: 1fr; }
+  .cards-head { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .cards-head h2 { font-size: 40px; }
+  .bonus-section { grid-template-columns: 1fr; gap: 30px; padding: 40px 22px; }
+  .bonus-label { font-size: 44px; }
+  .outro { grid-template-columns: 1fr; padding: 50px 22px 70px; }
+  .outro-text { font-size: 30px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="topbar-l">Эксперимент · 01</div>
+    <div class="topbar-r">Editorial Brutalism · Anti-ICP</div>
+  </div>
+
+  <section class="hero">
+    <div>
+      <div class="hero-eyebrow">3 шаблона · под вашу боль</div>
+      <h1>Финтабло сейчас вам<br>не подходит&nbsp;— <em>но&nbsp;шаблоны работают.</em></h1>
+    </div>
+    <div class="hero-meta">
+      Время прочтения<br>
+      <b>02:14</b>
+    </div>
+  </section>
+
+  <section class="manifest">
+    <div class="manifest-num">№01<span>Manifest</span></div>
+    <div class="manifest-body">
+      Финтабло сознательно специализирован под <strong>проектный бизнес</strong> и&nbsp;<strong>производство от&nbsp;60&nbsp;млн&nbsp;₽</strong> годовой выручки. Под ваш профиль продукт пока неэффективен. Но&nbsp;на&nbsp;вашу боль (<em>«прибыль есть, денег нет»</em>) у&nbsp;нас есть готовые рабочие инструменты&nbsp;— забирайте.
+    </div>
+  </section>
+
+  <section class="cards-section">
+    <div class="cards-head">
+      <h2>Берите что <em>работает</em>.</h2>
+      <div class="cards-counter">3 файла<br><b>~ 1.0&nbsp;МБ</b></div>
+    </div>
+
+    <div class="cards">
+      <a class="card" href="#">
+        <div class="card-step"><span class="card-num">i.</span>Старт</div>
+        <h3>ОПиУ</h3>
+        <p>Отчёт о&nbsp;прибылях и&nbsp;убытках на&nbsp;12&nbsp;месяцев&nbsp;— главный управленческий отчёт. Покажет, что бизнес зарабатывает, даже если касса говорит обратное.</p>
+        <span class="card-cta">Скачать .xlsx</span>
+      </a>
+      <a class="card" href="#">
+        <div class="card-step"><span class="card-num">ii.</span>Инструмент</div>
+        <h3>ДДС <em style="font-style:italic;">Классический</em></h3>
+        <p>Отчёт о&nbsp;движении денежных средств. Опера­ционная, инвестиционная, финансовая деятельность&nbsp;— разнесены и&nbsp;считаются по&nbsp;месяцам.</p>
+        <span class="card-cta">Скачать .xlsx</span>
+      </a>
+      <a class="card" href="#">
+        <div class="card-step"><span class="card-num">iii.</span>Масштаб</div>
+        <h3>Платёжный календарь</h3>
+        <p>Прогноз кассовых разрывов на&nbsp;недели вперёд. Простой и&nbsp;сложный режим&nbsp;— под объём операций. Время на&nbsp;манёвр вместо тушения пожара.</p>
+        <span class="card-cta">Скачать .xlsx</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="bonus-section">
+    <div class="bonus-label">Бонус для<br><em>торговли</em>.</div>
+    <a class="bonus-card" href="#">
+      <div class="card-step">Под ваш тип бизнеса</div>
+      <h3>Управление запасами</h3>
+      <p>ABC/XYZ-анализ, ассорти­мент­ная матрица, точка заказа. 8&nbsp;листов с&nbsp;готовыми формулами под склад любого размера.</p>
+      <span class="card-cta">Скачать .xlsx</span>
+    </a>
+  </section>
+
+  <section class="outro">
+    <div class="outro-text">
+      Возвращайтесь, <em>когда дорастёте</em>&nbsp;— Финтабло работает с&nbsp;проектным бизнесом и&nbsp;производством от&nbsp;60&nbsp;млн&nbsp;₽.
+    </div>
+    <div class="outro-sig">
+      diagnostika · 2026<br>
+      experiment&nbsp;01
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

@@ -82,19 +82,30 @@
     }
   };
 
-  // ── Маршрутизация (3 ветки по reference_diagnostika_growth_icp.md) ──
+  // ── Маршрутизация — 4 ветки (см. project_diagnostika_growth_state.md) ──
+  // Приоритет правил (сверху вниз):
+  //   1. Тип = trade или services → Anti-ICP (структурный блокер)
+  //   2. Выручка <30 млн → Anti-ICP (рано для нас)
+  //   3. Выручка 30-60 → Warm ICP (продуктовая воронка register)
+  //   4. Выручка 60+ + (есть финансист или бухгалтер совмещает) → Hot ICP
+  //   5. Выручка 60+ + (сам собственник, нет ФФ) → Hot ICP без ФФ + допродажа партнёра
+  // Возраст и роль — не блокируют маршрут, передаются в amoCRM как контекст.
   function classifyRoute(answers) {
-    const isOwnerOrFinancier = answers.role === 'owner' || answers.role === 'financier';
-    const isProjectOrProduction = answers.businessType === 'project' || answers.businessType === 'production';
-    const revenueOk = answers.annualRevenue >= 60; // млн ₽/год
-    const ageOk = answers.businessAge !== 'young'; // 3+ лет
+    const type = answers.businessType;
+    const rev = answers.annualRevenue;
+    if (type === 'trade' || type === 'services') return 'anti_icp';
+    if (rev < 30) return 'anti_icp';
+    if (rev < 60) return 'warm_icp';
+    if (answers.cfoStatus === 'self_only') return 'hot_icp_no_finance';
+    return 'hot_icp';
+  }
 
-    const isICP = isOwnerOrFinancier && isProjectOrProduction && revenueOk && ageOk;
-    // 2-маршрутная развилка: оба ICP-сегмента (с финдиром и без) идут на одну
-    // и ту же бесплатную встречу с финансовым экспертом — проверенный формат
-    // акции Финтабло. cfoStatus передаётся в amoCRM для контекста менеджеру.
-    if (isICP) return 'icp';
-    return 'self_serve';
+  // Подтип anti-ICP — нужен для подбора шаблонов и пиксельных событий.
+  function getAntiSubtype(answers) {
+    if (answers.businessType === 'trade') return 'trade';
+    if (answers.businessType === 'services') return 'services';
+    if (answers.annualRevenue < 30) return 'small';
+    return null;
   }
 
   // ── Упущенная прибыль — диапазон-вилка ───────────────────
@@ -195,6 +206,7 @@
     const lossRange = calcLossRange(answers);
     const transparency = calcTransparencyIndex(answers);
     const route = classifyRoute(answers);
+    const antiSubtype = getAntiSubtype(answers);
     const recommendation = RECOMMENDATIONS[answers.primaryPain] || RECOMMENDATIONS.margin_blind;
 
     return {
@@ -202,6 +214,7 @@
       lossRange,
       transparency,
       route,
+      antiSubtype,
       recommendation,
       computedAt: Date.now()
     };
@@ -227,6 +240,7 @@
   window.Calculator = {
     computeAll,
     classifyRoute,
+    getAntiSubtype,
     calcLossRange,
     calcTransparencyIndex,
     formatMoney,

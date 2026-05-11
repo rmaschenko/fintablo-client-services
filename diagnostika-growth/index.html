@@ -629,7 +629,7 @@
     .footer-company{display:flex;flex-direction:column;gap:6px;max-width:480px}
     .footer-company .logo{margin-bottom:var(--sp-3)}
     /* В footer лого PNG превращаем в белый через invert (один источник истины) */
-    .footer-logo{display:inline-block;line-height:0;transition:opacity .15s var(--ease)}
+    .footer-logo{display:inline-block;line-height:0;margin-bottom:8px;transition:opacity .15s var(--ease)}
     .footer-logo:hover{opacity:.85}
     .footer-brand-line{color:var(--slate-300);font-weight:600}
     .footer-legal{font-size:12px;color:var(--slate-300);line-height:1.55}
@@ -769,14 +769,7 @@
 <header class="site-header">
   <div class="container">
     <a href="https://fintablo.ru" class="logo" aria-label="Финтабло — главная" target="_blank" rel="noopener">
-      <span class="logo-mark" aria-hidden="true">
-        <svg viewBox="0 0 18 18" fill="none">
-          <rect x="2" y="3"   width="11" height="2.4" rx="1" fill="white"/>
-          <rect x="2" y="7.8" width="7"  height="2.4" rx="1" fill="white"/>
-          <rect x="2" y="12.6" width="9" height="2.4" rx="1" fill="white"/>
-        </svg>
-      </span>
-      <span class="logo-text">Финтабло</span>
+      <img class="logo-img" src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.onerror=null;this.src='assets/logo.svg';">
     </a>
     <span class="header-meta">Финансовая диагностика&nbsp;· 2&nbsp;минуты</span>
   </div>
@@ -862,7 +855,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l6 6 4-4 8 8"/><path d="M14 17h7v-7"/></svg>
           </div>
           <div class="pain-card-num">−10%</div>
-          <div class="pain-card-text">средняя прибыль МСБ упала на&nbsp;10% в&nbsp;2025, при росте выручки на&nbsp;26%. Маржинальность сжимается</div>
+          <div class="pain-card-text">средняя прибыль МСБ упала на&nbsp;10% в&nbsp;2025 при росте выручки на&nbsp;26%. Каждый рубль выручки приносит меньше прибыли</div>
           <div class="pain-card-source">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h10v9H3zM3 8h10M6 4v9"/></svg>
             Сводные данные деловых СМИ РФ, IV&nbsp;квартал 2025
@@ -932,7 +925,7 @@
             </svg>
           </div>
           <h3>Упущенная прибыль за&nbsp;год — в&nbsp;рублях</h3>
-          <p>Раскладываем по&nbsp;трём источникам: время команды на&nbsp;ручные сверки, невидимые просадки маржи, задержка решений по&nbsp;убыточным направлениям.</p>
+          <p>Раскладываем по&nbsp;трём источникам: время команды на&nbsp;ручные сверки, невидимые просадки прибыли, задержка решений по&nbsp;убыточным направлениям.</p>
         </article>
 
         <article class="benefit-card">
@@ -990,6 +983,15 @@
   <div class="container">
     <div class="footer-inner">
       <div class="footer-company">
+        <a href="https://fintablo.ru" class="footer-logo" aria-label="Финтабло — главная" target="_blank" rel="noopener">
+          <svg viewBox="0 0 140 32" width="140" height="32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="0" y="6" width="20" height="20" rx="4" fill="#FFFFFF"/>
+            <rect x="3" y="9"    width="14" height="2.6" rx="0.8" fill="#0F172A"/>
+            <rect x="3" y="14.7" width="9"  height="2.6" rx="0.8" fill="#0F172A"/>
+            <rect x="3" y="20.4" width="11" height="2.6" rx="0.8" fill="#0F172A"/>
+            <text x="28" y="22" font-family="Inter,sans-serif" font-weight="700" font-size="18" fill="#FFFFFF" letter-spacing="-0.3">Финтабло</text>
+          </svg>
+        </a>
         <div class="footer-brand-line">© 2026, «Финтабло»</div>
         <div class="footer-legal">
           ООО&nbsp;«Нескучный финансовый софт»<br>

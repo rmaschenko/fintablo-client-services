@@ -96,17 +96,17 @@
   <!-- Микро-контекст вместо welcome — без дубля лендинга -->
   <div class="quiz-intro">
     <div class="quiz-intro-eyebrow">Финансовая диагностика&nbsp;· 6&nbsp;вопросов</div>
-    <p class="quiz-intro-text">Отвечаете на&nbsp;вопросы&nbsp;— разбор открывается сразу после последнего. Без регистрации, данные хранятся в&nbsp;браузере.</p>
+    <p class="quiz-intro-text">6&nbsp;вопросов&nbsp;— на&nbsp;выходе расчёт упущенной прибыли в&nbsp;рублях, индекс прозрачности 0–100 и&nbsp;следующий шаг. Без регистрации.</p>
   </div>
 
   <!-- ── Step 1: Роль (показывается сразу при входе) ── -->
   <section class="step active" id="step-1">
-    <h2 class="step-q">Ваша роль в&nbsp;компании</h2>
+    <h2 class="step-q">Кто вы в&nbsp;компании?</h2>
     <p class="step-sub">Подберём разбор под ваши задачи</p>
     <div class="options-group">
       <button class="option-card" type="button" data-value="owner">
         <span class="oc-title">Собственник или генеральный директор</span>
-        <span class="oc-sub">Хочу понять, что&nbsp;происходит с&nbsp;деньгами в&nbsp;моём бизнесе</span>
+        <span class="oc-sub">Хочу разобраться, куда уходит прибыль</span>
       </button>
       <button class="option-card" type="button" data-value="financier">
         <span class="oc-title">Финансовый директор или финансовый менеджер</span>
@@ -114,7 +114,7 @@
       </button>
       <button class="option-card" type="button" data-value="accountant">
         <span class="oc-title">Главный бухгалтер</span>
-        <span class="oc-sub">Веду налоговый учёт, частично закрываю и&nbsp;финансовый</span>
+        <span class="oc-sub">Веду налоговый учёт, иногда закрываю и&nbsp;управленческий</span>
       </button>
       <button class="option-card" type="button" data-value="other">
         <span class="oc-title">Другая роль</span>
@@ -166,12 +166,12 @@
   <!-- ── Step 4: Возраст бизнеса ── -->
   <section class="step" id="step-4">
     <h2 class="step-q">Сколько лет вашему бизнесу?</h2>
-    <p class="step-sub">Длительность работы влияет на&nbsp;применимость рекомендаций</p>
+    <p class="step-sub">От&nbsp;возраста зависит, какие шаги сработают</p>
     <div class="options-group">
-      <button class="option-card" type="button" data-value="young"><span class="oc-title">До&nbsp;3&nbsp;лет</span><span class="oc-sub">Новый бизнес, ещё формируется</span></button>
-      <button class="option-card" type="button" data-value="mid"><span class="oc-title">3&nbsp;— 5&nbsp;лет</span><span class="oc-sub">Прошли период становления</span></button>
-      <button class="option-card" type="button" data-value="mature"><span class="oc-title">5&nbsp;— 10&nbsp;лет</span><span class="oc-sub">Устоявшаяся структура и&nbsp;процессы</span></button>
-      <button class="option-card" type="button" data-value="veteran"><span class="oc-title">Больше 10&nbsp;лет</span><span class="oc-sub">Зрелая компания с&nbsp;историей</span></button>
+      <button class="option-card" type="button" data-value="young"><span class="oc-title">До&nbsp;3&nbsp;лет</span><span class="oc-sub">Стартап, бизнес-модель ещё ищется</span></button>
+      <button class="option-card" type="button" data-value="mid"><span class="oc-title">3&nbsp;— 5&nbsp;лет</span><span class="oc-sub">Бизнес-модель устоялась</span></button>
+      <button class="option-card" type="button" data-value="mature"><span class="oc-title">5&nbsp;— 10&nbsp;лет</span><span class="oc-sub">Стабильные процессы и&nbsp;команда</span></button>
+      <button class="option-card" type="button" data-value="veteran"><span class="oc-title">Больше 10&nbsp;лет</span><span class="oc-sub">Зрелая компания, 10+&nbsp;лет на&nbsp;рынке</span></button>
     </div>
     <div class="step-reward" id="reward-4" hidden></div>
   </section>
@@ -182,8 +182,8 @@
     <p class="step-sub">Выберите самое сильное&nbsp;— под него настроим разбор</p>
     <div class="options-group">
       <button class="option-card" type="button" data-value="margin_blind">
-        <span class="oc-title">Не&nbsp;знаю прибыль по&nbsp;направлениям</span>
-        <span class="oc-sub">Непонятно, какое приносит прибыль, а&nbsp;какое работает в&nbsp;убыток</span>
+        <span class="oc-title">Не&nbsp;вижу прибыль по&nbsp;направлениям</span>
+        <span class="oc-sub">Какое прибыльное, какое в&nbsp;убыток&nbsp;— на&nbsp;ощупь</span>
       </button>
       <button class="option-card" type="button" data-value="cash_surprise">
         <span class="oc-title">Кассовые разрывы появляются внезапно</span>
@@ -203,8 +203,8 @@
 
   <!-- ── Step 6: Финдир есть? ── -->
   <section class="step" id="step-6">
-    <h2 class="step-q">Есть&nbsp;ли в&nbsp;компании выделенный финансист?</h2>
-    <p class="step-sub">Не&nbsp;важно&nbsp;— штат или аутсорс. Важно: есть&nbsp;ли отдельный человек, который ведёт управленческий учёт.</p>
+    <h2 class="step-q">Кто ведёт управленческий учёт?</h2>
+    <p class="step-sub">Штатный финансист, бухгалтер или вы&nbsp;сами&nbsp;— важно, кто реально работает с&nbsp;цифрами.</p>
     <div class="options-group">
       <button class="option-card" type="button" data-value="yes_cfo">
         <span class="oc-title">Да, есть</span>

@@ -62,33 +62,57 @@
   function renderIndex() {
     const t = data.transparency;
     $('index-score').textContent = t.score;
-    $('index-zone').textContent = t.zoneLabel;
+    $('index-zone').textContent = t.zoneHeadline;
     $('bench-you-val').textContent = t.score;
     $('bench-peer-val').textContent = t.peerScore;
     $('bench-top-val').textContent = t.topScore;
 
-    // Gauge: дуга длиной ~408 (полуокружность r=130, длина = π·130 ≈ 408).
-    // Заливка пропорциональна score/100. Плавная анимация через CSS transition.
-    const arcLength = 408;
+    // Понятные термины вместо «когорта» и «лидеры по учёту»
+    if (t.peerLabel) $('bench-peer-label').textContent = t.peerLabel;
+    if (t.peerSubLabel) $('bench-peer-sub').textContent = t.peerSubLabel;
+    if (t.topLabel) $('bench-top-label').textContent = t.topLabel;
+    if (t.topSubLabel) $('bench-top-sub').textContent = t.topSubLabel;
+
+    // Интерпретация зоны на языке ценности (что упускаете на этом уровне)
+    const meaningEl = document.getElementById('index-meaning');
+    if (meaningEl && t.zoneGap) meaningEl.textContent = t.zoneGap;
+
+    // Зональный pill — цвет по зоне
+    const pill = document.getElementById('index-zone-pill');
+    if (pill) {
+      pill.classList.remove('is-low','is-mid','is-good','is-top');
+      pill.classList.add('is-' + t.zone);
+    }
+    // Активная зона в zone-row
+    document.querySelectorAll('.dg-zone').forEach(el => {
+      el.classList.toggle('is-active', el.dataset.zone === t.zone);
+    });
+
+    // Premium gauge: SVG viewBox 540×320, центр (270,270), r=220.
+    // Длина полудуги = π·220 ≈ 691. Угол: 0% → 180°, 100% → 0° (по часовой).
+    const ARC_LEN = 691;
+    const RADIUS = 220;
+    const CX = 270, CY = 270;
     const fillEl = document.getElementById('gauge-fill');
     if (fillEl) {
-      const fill = (t.score / 100) * arcLength;
-      // Запускаем анимацию через короткий setTimeout, чтобы был эффект «заполнения»
-      setTimeout(function () {
-        fillEl.style.transition = 'stroke-dasharray .9s cubic-bezier(.4,0,.2,1)';
-        fillEl.setAttribute('stroke-dasharray', fill + ' ' + arcLength);
-      }, 100);
+      const fill = (t.score / 100) * ARC_LEN;
+      // Inline style выигрывает над CSS rule. Стартуем с 0.01 (не 0 — иначе
+      // браузер игнорирует pattern и рисует solid stroke), затем через RAF
+      // переключаемся на target — CSS transition анимирует разницу.
+      fillEl.style.strokeDasharray = '0.01 ' + ARC_LEN;
+      requestAnimationFrame(function () {
+        setTimeout(function () {
+          fillEl.style.strokeDasharray = fill + ' ' + ARC_LEN;
+        }, 80);
+      });
     }
 
-    // Позиционируем маркеры «когорта» и «лидеры» по дуге.
-    // SVG viewBox 0 0 320 180; центр окружности x=160 y=160; r=130.
-    // Угол: 0% → 180° (левая точка), 100% → 360°/0° (правая). По часовой.
     function placeMarker(elId, percent) {
       const el = document.getElementById(elId);
       if (!el) return;
-      const angleRad = Math.PI * (1 - percent / 100); // 100% → 0°, 0% → 180°
-      const cx = 160 + 130 * Math.cos(angleRad);
-      const cy = 160 - 130 * Math.sin(angleRad);
+      const angleRad = Math.PI * (1 - percent / 100);
+      const cx = CX + RADIUS * Math.cos(angleRad);
+      const cy = CY - RADIUS * Math.sin(angleRad);
       el.setAttribute('cx', cx);
       el.setAttribute('cy', cy);
     }
@@ -485,9 +509,51 @@
     });
   }
 
+  // PLG-gate: hot_icp / hot_icp_no_finance / warm_icp — закрываем Section 3+4
+  // до контакта. anti_icp видит всё открыто (лид-магнит = шаблоны бесплатно).
+  function setupPaywall() {
+    const isAnti = data.route === 'anti_icp';
+    const paywall = $('paywall');
+    if (isAnti) {
+      if (paywall) paywall.hidden = true;
+      document.body.classList.add('is-unlocked');
+      return;
+    }
+    document.body.classList.add('is-locked');
+    if (!paywall) return;
+    paywall.hidden = false;
+    // Тексты paywall — по маршруту
+    if (data.route === 'warm_icp') {
+      $('paywall-title').innerHTML = 'Полный план&nbsp;+ доступ к&nbsp;Финтабло на&nbsp;7&nbsp;дней';
+      $('paywall-sub').innerHTML = 'Откройте конкретный шаг под вашу боль и&nbsp;попробуйте Финтабло бесплатно.';
+    } else {
+      $('paywall-title').innerHTML = 'Полный план&nbsp;+ встреча с&nbsp;финансовым экспертом';
+      $('paywall-sub').innerHTML = 'Откройте конкретный шаг под вашу боль и&nbsp;запишитесь на&nbsp;встречу — без презентаций и&nbsp;общих фраз.';
+    }
+    const cta = $('paywall-cta');
+    if (cta) {
+      cta.addEventListener('click', function () {
+        // Разблокируем Section 3 (анимация blur→clear) и показываем Section 4
+        document.body.classList.remove('is-locked');
+        document.body.classList.add('is-unlocked');
+        fireGoal('dg_paywall_unlock', segmentParams());
+        // Плавный скролл к форме (Section 4) — основная конверсионная точка
+        setTimeout(function () {
+          const final = $('section-final');
+          if (final && final.scrollIntoView) {
+            final.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const focusable = final.querySelector('input, button');
+            if (focusable) setTimeout(function () { focusable.focus({ preventScroll: true }); }, 600);
+          }
+        }, 350);
+      });
+    }
+  }
+
   renderHero();
   renderLoss();
   renderIndex();
   renderFix();
   renderFinal();
+  setupPaywall();
 })();

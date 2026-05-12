@@ -187,87 +187,369 @@
   font-style: normal;
 }
 
-/* Section 2: Index — полукруговой gauge (выделяет от Section 1, информативнее) */
+/* ═════ Section 2 · Premium Gauge (фирстиль брендбука Финтабло) ═════
+   Токены: #2951CA brand, #091A4E heading, #FFFDB5 accent, маркеры
+   #FF3A1D / #FFAF36 / #2951CA / #01B554 — зональная палитра. */
+.dg-gauge-card {
+  position: relative;
+  background: var(--white, #fff);
+  border: 1px solid var(--slate-200, #E2E8F0);
+  border-radius: 24px;
+  padding: 48px 40px 36px;
+  box-shadow:
+    0 1px 2px rgba(9,26,78,.04),
+    0 12px 32px -8px rgba(41,81,202,.08),
+    0 28px 60px -20px rgba(9,26,78,.12);
+  overflow: hidden;
+}
+.dg-gauge-card::before {
+  content: '';
+  position: absolute;
+  inset: -100px -100px auto auto;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255,253,181,.55), transparent 70%);
+  pointer-events: none;
+}
+.dg-gauge-card::after {
+  content: '';
+  position: absolute;
+  inset: auto auto -120px -120px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(41,81,202,.10), transparent 65%);
+  pointer-events: none;
+}
+
 .dg-gauge-wrap {
   position: relative;
-  max-width: 360px;
-  margin: 0 auto 28px;
-}
-.dg-gauge {
-  display: block;
   width: 100%;
-  height: auto;
+  max-width: 540px;
+  margin: 0 auto;
+  aspect-ratio: 540 / 320;
 }
+.dg-gauge { width: 100%; height: 100%; display: block; overflow: visible; }
+
+.dg-gauge-bg-arc {
+  stroke: #DDE6FF;
+  stroke-width: 28;
+  stroke-linecap: round;
+  fill: none;
+}
+.dg-gauge-tick {
+  stroke: #C9C9C9;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.dg-gauge-fill {
+  stroke: url(#dg-gauge-gradient);
+  stroke-width: 28;
+  stroke-linecap: round;
+  fill: none;
+  filter: drop-shadow(0 8px 16px rgba(41,81,202,.22));
+  /* стартуем с 0.01 (не 0 — иначе браузер интерпретирует как solid).
+     Точное значение dasharray устанавливается из JS через style.strokeDasharray. */
+  stroke-dasharray: 0.01 691;
+  transition: stroke-dasharray 1.4s cubic-bezier(.22,.61,.36,1);
+}
+.dg-gauge-marker {
+  fill: var(--white, #fff);
+  stroke: #2951CA;
+  stroke-width: 3;
+  filter: drop-shadow(0 4px 8px rgba(9,26,78,.18));
+}
+.dg-gauge-marker-top { stroke: #01B554; }
+
 .dg-gauge-center {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  pointer-events: none;
+  padding-top: 6%;
 }
 .dg-gauge-score {
   display: flex;
   align-items: baseline;
   justify-content: center;
   gap: 4px;
-  font-weight: 800;
-  color: var(--navy-900, #0F1D2F);
-  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
 }
-.dg-gauge-score .mono {
-  font-size: clamp(48px, 7vw, 64px);
-  letter-spacing: -.03em;
-  line-height: 1;
+.dg-gauge-score-val {
+  font-size: clamp(64px, 11vw, 110px);
+  font-weight: 900;
+  letter-spacing: -.045em;
+  line-height: .9;
+  background: linear-gradient(180deg, #091A4E 0%, #2951CA 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.dg-gauge-total {
-  font-size: 22px;
-  color: var(--slate-400, #94A3B8);
-  font-weight: 500;
+.dg-gauge-score-suffix {
+  font-size: clamp(18px, 2.6vw, 28px);
+  font-weight: 700;
+  color: #94A3B8;
 }
-.dg-gauge-zone {
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--slate-700, #334155);
+.dg-gauge-zone-pill {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 6px 14px;
-  background: var(--slate-100, #F1F5F9);
+  background: rgba(255,175,54,.14);
+  border: 1px solid rgba(255,175,54,.42);
   border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #B36800;
+  letter-spacing: -.01em;
+}
+.dg-gauge-zone-pill.is-low    { background: rgba(255,58,29,.10);  border-color: rgba(255,58,29,.42);  color: #B11A06; }
+.dg-gauge-zone-pill.is-good   { background: rgba(41,81,202,.10);  border-color: rgba(41,81,202,.40);  color: #1C3C9B; }
+.dg-gauge-zone-pill.is-top    { background: rgba(1,181,84,.12);   border-color: rgba(1,181,84,.40);   color: #008040; }
+.dg-gauge-zone-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #FFAF36;
+  box-shadow: 0 0 12px #FFAF36;
+}
+.is-low  .dg-gauge-zone-dot { background: #FF3A1D; box-shadow: 0 0 12px #FF3A1D; }
+.is-good .dg-gauge-zone-dot { background: #2951CA; box-shadow: 0 0 12px #2951CA; }
+.is-top  .dg-gauge-zone-dot { background: #01B554; box-shadow: 0 0 12px #01B554; }
+
+/* Интерпретация под gauge — что зона значит на языке ценности */
+.dg-gauge-meaning {
+  margin: 24px auto 0;
+  max-width: 640px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #404C72;
 }
 
-.dg-gauge-legend {
+/* Зональный ряд */
+.dg-zones {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(9,26,78,.08);
+}
+.dg-zone {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  margin-bottom: 20px;
-  border-top: 1px solid var(--slate-200, #E2E8F0);
+  gap: 4px;
+  padding: 12px 8px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  transition: background .2s ease;
+}
+.dg-zone.is-active {
+  background: linear-gradient(180deg, rgba(255,175,54,.12), transparent);
+}
+.dg-zone.is-active::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  width: 24px; height: 2px;
+  background: #FFAF36;
+  border-radius: 1px;
+  transform: translateX(-50%);
+}
+.dg-zone[data-zone=low].is-active    { background: linear-gradient(180deg, rgba(255,58,29,.10), transparent); }
+.dg-zone[data-zone=low].is-active::before    { background: #FF3A1D; }
+.dg-zone[data-zone=good].is-active   { background: linear-gradient(180deg, rgba(41,81,202,.10), transparent); }
+.dg-zone[data-zone=good].is-active::before   { background: #2951CA; }
+.dg-zone[data-zone=top].is-active    { background: linear-gradient(180deg, rgba(1,181,84,.10), transparent); }
+.dg-zone[data-zone=top].is-active::before    { background: #01B554; }
+.dg-zone-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin: 0 auto 4px;
+}
+.dg-zone[data-zone=low]  .dg-zone-dot { background: #FF3A1D; }
+.dg-zone[data-zone=mid]  .dg-zone-dot { background: #FFAF36; }
+.dg-zone[data-zone=good] .dg-zone-dot { background: #2951CA; }
+.dg-zone[data-zone=top]  .dg-zone-dot { background: #01B554; }
+.dg-zone-range {
+  font-size: 11px;
+  font-weight: 700;
+  color: #818696;
+  letter-spacing: .04em;
+}
+.dg-zone-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #091A4E;
+  letter-spacing: -.01em;
+}
+.dg-zone.is-active .dg-zone-label { color: #B36800; }
+.dg-zone[data-zone=low].is-active  .dg-zone-label { color: #B11A06; }
+.dg-zone[data-zone=good].is-active .dg-zone-label { color: #1C3C9B; }
+.dg-zone[data-zone=top].is-active  .dg-zone-label { color: #008040; }
+
+/* Легенда: вы / похожие / топ-25 */
+.dg-gauge-legend {
+  margin-top: 24px;
+  padding: 16px 18px;
+  background: #F4F7FF;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .dg-gauge-leg-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--slate-100, #F1F5F9);
+  gap: 12px;
   font-size: 14px;
-  color: var(--slate-700, #334155);
+  color: #404C72;
 }
-.dg-gauge-leg-item:last-child { border-bottom: none; }
-.dg-gauge-dot {
-  flex-shrink: 0;
-  width: 10px;
-  height: 10px;
+.dg-gauge-leg-marker {
+  width: 14px; height: 14px;
   border-radius: 50%;
+  background: var(--white, #fff);
+  border: 3px solid #2951CA;
+  flex-shrink: 0;
 }
-.dg-gauge-leg-you .dg-gauge-dot { background: var(--blue-600, #2563EB); width: 14px; height: 14px; }
-.dg-gauge-leg-peer .dg-gauge-dot { background: var(--slate-500, #64748B); }
-.dg-gauge-leg-top .dg-gauge-dot { background: var(--profit, #16A34A); }
-.dg-gauge-leg-label { flex: 1; }
+.dg-gauge-leg-you .dg-gauge-leg-marker { background: #2951CA; border-color: #2951CA; }
+.dg-gauge-leg-top .dg-gauge-leg-marker { border-color: #01B554; }
+.dg-gauge-leg-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.dg-gauge-leg-label {
+  font-weight: 600;
+  color: #091A4E;
+  letter-spacing: -.01em;
+  line-height: 1.3;
+}
+.dg-gauge-leg-sub {
+  font-size: 12px;
+  color: #818696;
+  line-height: 1.35;
+}
 .dg-gauge-leg-val {
-  font-weight: 700;
-  color: var(--navy-900, #0F1D2F);
+  font-weight: 800;
+  color: #091A4E;
   font-variant-numeric: tabular-nums;
-  font-size: 16px;
+  font-size: 18px;
+  letter-spacing: -.02em;
+  flex-shrink: 0;
 }
-.dg-gauge-leg-you .dg-gauge-leg-val { color: var(--blue-700, #1D4ED8); font-size: 18px; }
+.dg-gauge-leg-you .dg-gauge-leg-val { color: #2951CA; font-size: 22px; }
+
+@media (max-width: 720px) {
+  .dg-gauge-card { padding: 32px 18px 24px; border-radius: 18px; }
+  .dg-zones { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .dg-gauge-meaning { font-size: 14px; padding: 0 4px; }
+  .dg-gauge-legend { padding: 14px; }
+  .dg-gauge-leg-item { gap: 10px; }
+  .dg-gauge-leg-val { font-size: 16px; }
+  .dg-gauge-leg-you .dg-gauge-leg-val { font-size: 18px; }
+}
+
+/* ═════ PLG-gate · paywall перед Section 3 ═════
+   Бесплатно (Section 1+2) показывает aha. Полный план (Section 3+4) —
+   доступен после контакта. Anti-ICP исключён — там лид-магнит бесплатно. */
+.dg-fix-blur {
+  position: relative;
+  transition: filter .35s ease;
+}
+.is-locked .dg-fix-blur {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+.is-locked #section-fix { position: relative; }
+.is-locked #section-final { display: none; }
+.dg-paywall {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 24px;
+  padding: 22px 26px;
+  background: linear-gradient(120deg, #2951CA 0%, #1C3C9B 70%, #091A4E 100%);
+  color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px -8px rgba(41,81,202,.32);
+  position: relative;
+  overflow: hidden;
+}
+.dg-paywall::before {
+  content: '';
+  position: absolute;
+  inset: -80px -80px auto auto;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(255,253,181,.32), transparent 70%);
+  pointer-events: none;
+}
+.dg-paywall > * { position: relative; z-index: 1; }
+.dg-paywall-icon {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(255,253,181,.18);
+  border: 1px solid rgba(255,253,181,.42);
+  display: grid; place-items: center;
+  color: #FFFDB5;
+  flex-shrink: 0;
+}
+.dg-paywall-body { flex: 1; }
+.dg-paywall-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.dg-paywall-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,.78);
+  line-height: 1.45;
+}
+.dg-paywall-cta {
+  flex-shrink: 0;
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: #FFFDB5;
+  color: #091A4E;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+  font-family: inherit;
+}
+.dg-paywall-cta:hover {
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+/* После сабмита формы — секции 3/4 разблокированы. Класс is-unlocked
+   управляется из report.js по success-колбэку. */
+.is-unlocked .dg-fix-blur { filter: none; pointer-events: auto; user-select: auto; }
+.is-unlocked .dg-paywall { display: none; }
+.is-unlocked #section-final { display: block; }
+
+@media (max-width: 640px) {
+  .dg-paywall {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 22px;
+  }
+  .dg-paywall-cta { width: 100%; padding: 14px 18px; }
+  .dg-paywall-icon { width: 36px; height: 36px; }
+  .dg-paywall-title { font-size: 17px; }
+}
 
 /* Старые dg-index/dg-bench классы — не используются, оставлены для совместимости */
 .dg-index-hero {

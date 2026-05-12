@@ -153,6 +153,23 @@
   }
 
   // ── Индекс прозрачности 0-100 ────────────────────────────
+  // Зоны и интерпретации — на языке ценности, не академии.
+  // zoneHeadline = что зона значит в одной фразе (вместо «Фрагментарная видимость»).
+  // zoneGap = что юзер реально упускает на этом уровне (мотиватор внедрения).
+  // peerLabel/topLabel = понятные термины вместо «когорта» и «лидеры по учёту».
+  const ZONE_HEADLINES = {
+    low:  'Управление вслепую',
+    mid:  'Видите часть, теряете остальное',
+    good: 'Контроль есть, но без скорости',
+    top:  'Финансы — как на ладони'
+  };
+  const ZONE_GAPS = {
+    low:  'Каждое второе решение принимается на интуицию. План и факт расходятся, а узнаёте об этом по итогам года.',
+    mid:  'Половина процессов оцифрована, половина — нет. Решения возможны, но риск ошибки высокий: картина неполная.',
+    good: 'Регулярная отчётность ведётся, но цифры готовы через 3–5 дней после закрытия — поздно для оперативных решений.',
+    top:  'Финансы видны в реальном времени. Решения по найму, проектам и инвестициям принимаете с цифрой в руках.'
+  };
+
   function calcTransparencyIndex(answers) {
     let score = 30; // база
 
@@ -170,20 +187,39 @@
 
     score = Math.max(0, Math.min(100, score));
 
-    let zone, zoneLabel;
-    if (score < 35)      { zone = 'low'; zoneLabel = 'Реактивное управление'; }
-    else if (score < 55) { zone = 'mid'; zoneLabel = 'Фрагментарная видимость'; }
-    else if (score < 75) { zone = 'good'; zoneLabel = 'Системный учёт'; }
-    else                 { zone = 'top'; zoneLabel = 'Прозрачный учёт'; }
+    let zone;
+    if (score < 35)      zone = 'low';
+    else if (score < 55) zone = 'mid';
+    else if (score < 75) zone = 'good';
+    else                 zone = 'top';
 
-    // Бенчмарк когорты — типичный профиль с финансистом и без острой боли
+    const zoneHeadline = ZONE_HEADLINES[zone];
+    const zoneGap = ZONE_GAPS[zone];
+    // zoneLabel — короткая бирка для бэйджа около цифры (используется в новом UI).
+    const zoneLabel = zoneHeadline;
+
+    // Бенчмарк похожих компаний — типичный профиль с финансистом и без острой боли.
     const peerScore = (function () {
       let s = 30 + 20 + (typeBonus[answers.businessType] || 0) - 10 + (ageBonus[answers.businessAge] || 0);
       return Math.max(20, Math.min(85, s));
     })();
     const topScore = Math.min(95, peerScore + 20);
 
-    return { score, zone, zoneLabel, peerScore, topScore };
+    // Понятные термины вместо «когорта» и «лидеры по учёту»
+    const typeWord = (answers.businessType === 'trade' || answers.businessType === 'services')
+      ? 'компании похожего профиля'
+      : 'компании с похожим типом бизнеса и выручкой';
+    const peerLabel = typeWord;
+    const peerSubLabel = 'средний уровень учёта';
+    const topLabel = 'Топ-25% компаний';
+    const topSubLabel = 'с прозрачным управленческим учётом';
+
+    return {
+      score, zone, zoneLabel,
+      zoneHeadline, zoneGap,
+      peerScore, peerLabel, peerSubLabel,
+      topScore, topLabel, topSubLabel
+    };
   }
 
   // ── Профиль клиента ─────────────────────────────────────

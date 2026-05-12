@@ -264,23 +264,23 @@
   // noFinance=true → дополнительно «Подберём партнёра-финансиста» на встрече.
   function renderHotIcpBlock(noFinance) {
     const items = [
-      'Проведём экспертный аудит ваших финансовых показателей',
-      'Настроим отчёты, которые закроют 80% вопросов',
-      'Научим оценивать состояние бизнеса за&nbsp;5&nbsp;минут'
+      'Разберём ваш расчёт упущенной прибыли&nbsp;— где она реально утекает',
+      'Настроим отчёты под вашу отрасль&nbsp;— 80% управленческих вопросов закрыты',
+      'Покажем, как оценивать состояние бизнеса за&nbsp;5&nbsp;минут утром'
     ];
     if (noFinance) {
-      items.push('Подберём партнёра-финансиста из&nbsp;нашей сети&nbsp;— компания будет вести учёт под Финтабло');
+      items.push('Подберём финансиста из&nbsp;500+ партнёров&nbsp;— он&nbsp;ведёт ваш учёт под Финтабло');
     }
 
     return (
-      '<div class="dg-final-eyebrow">Бесплатно · насмотренность 500+ бизнесов</div>' +
-      '<h2>Прозрачная картина в&nbsp;финансах бизнеса&nbsp;— уже сегодня</h2>' +
-      '<p>Бесплатная встреча с&nbsp;финансовым экспертом Финтабло. Без презентаций и&nbsp;общих фраз&nbsp;— сразу к&nbsp;вашим цифрам и&nbsp;тому, что с&nbsp;ними делать.</p>' +
+      '<div class="dg-final-eyebrow">Бесплатно · 500+ внедрений за&nbsp;плечами</div>' +
+      '<h2>Расчёт + план от&nbsp;эксперта Финтабло</h2>' +
+      '<p>30 минут разговора с&nbsp;экспертом, у&nbsp;которого 500+ внедрений. Открываем вашу таблицу, разбираем три цифры из&nbsp;отчёта и&nbsp;формулируем 2–3 шага под вашу боль.</p>' +
       '<div class="dg-final-checklist">' + items.map(checkItem).join('') + '</div>' +
       buildLeadForm({
         title: 'Оставьте контакты&nbsp;— эксперт свяжется в&nbsp;течение рабочего дня',
         cityField: false,
-        submitText: 'Записаться на встречу',
+        submitText: 'Записаться на встречу с экспертом',
         ymGoal: noFinance ? 'dg_lead_hot_icp_no_finance' : 'dg_lead_hot_icp'
       })
     );
@@ -295,12 +295,12 @@
       'Настройте контуры под направления и&nbsp;проекты'
     ];
     return (
-      '<div class="dg-final-eyebrow">Полный доступ — 7 дней в подарок</div>' +
-      '<h2>Финтабло&nbsp;— на&nbsp;вырост</h2>' +
-      '<p>На&nbsp;выручке 30&ndash;60&nbsp;млн&nbsp;₽ Финтабло уже может пригодиться, но&nbsp;раскрывается в&nbsp;полную силу с&nbsp;60+&nbsp;млн. Попробуйте сейчас бесплатно&nbsp;— увидите интеграции с&nbsp;банками и&nbsp;1С, отчёты под вашу отрасль, прогноз&nbsp;ДДС.</p>' +
+      '<div class="dg-final-eyebrow">7 дней полного доступа · без оплаты, без карты</div>' +
+      '<h2>Финтабло раскрывается на&nbsp;60+&nbsp;млн&nbsp;— попробуйте сейчас на&nbsp;вырост</h2>' +
+      '<p>На&nbsp;вашей выручке 30–60&nbsp;млн&nbsp;₽ Финтабло уже работает. В&nbsp;полную силу раскрывается с&nbsp;60+&nbsp;млн&nbsp;— но&nbsp;настроить базу можно сейчас, чтобы быть готовым к&nbsp;росту.</p>' +
       '<div class="dg-final-checklist">' + items.map(checkItem).join('') + '</div>' +
-      '<button type="button" class="dg-final-cta" id="btn-warm-cta">Попробовать Финтабло →</button>' +
-      '<div class="dg-final-meta">Регистрация по&nbsp;email&nbsp;· 7&nbsp;дней полного доступа</div>'
+      '<button type="button" class="dg-final-cta" id="btn-warm-cta">Открыть демо-доступ на 7 дней →</button>' +
+      '<div class="dg-final-meta">Регистрация по&nbsp;email&nbsp;· 7&nbsp;дней полного доступа · без оплаты</div>'
     );
   }
 
@@ -343,11 +343,11 @@
 
     return (
       '<div class="dg-final-eyebrow">3 шаблона под вашу боль</div>' +
-      '<h2>Финтабло сейчас вам не&nbsp;подходит&nbsp;— но&nbsp;шаблоны работают</h2>' +
-      '<p>Финтабло сознательно специализирован под проектный бизнес и&nbsp;производство от&nbsp;60&nbsp;млн&nbsp;₽ годовой выручки. Под вашу отрасль и&nbsp;масштаб продукт пока не&nbsp;даёт нужного эффекта. Но&nbsp;на&nbsp;вашу боль (' + painLabel + ') у&nbsp;нас есть готовые рабочие инструменты&nbsp;— забирайте.</p>' +
+      '<h2>Под вашу боль&nbsp;— 3 готовых Excel-шаблона</h2>' +
+      '<p>На&nbsp;вашу главную боль (' + painLabel + ') у&nbsp;нас есть готовые рабочие инструменты&nbsp;— тот&nbsp;же стек, по&nbsp;которому работают компании в&nbsp;Финтабло. Забирайте, пользуйтесь.</p>' +
       '<div class="dg-templates">' + cards + '</div>' +
       bonusBlock +
-      '<div class="dg-final-meta">Финтабло раскрывается с&nbsp;выручки от&nbsp;60&nbsp;млн&nbsp;₽ — будем рады встретиться, когда выйдете на&nbsp;этот масштаб.</div>'
+      '<div class="dg-final-meta">Если шаблоны помогут&nbsp;— расскажите. Когда выйдете на&nbsp;60+ млн&nbsp;₽ выручки, попробуем дать больше.</div>'
     );
   }
 
@@ -413,19 +413,23 @@
         '</div>' +
         cityRow +
         '<div class="dg-form-error-text" id="lead-error"></div>' +
+        // Тексты согласий — ДОСЛОВНО с fintablo.ru (юридически выверенные формулировки)
         '<label class="dg-form-consent">' +
           '<input type="checkbox" id="lead-consent" class="dg-form-checkbox" required>' +
           '<span class="dg-form-consent-text">' +
-            'Согласен с&nbsp;<a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой обработки персональных данных</a> и&nbsp;<a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">офертой</a> ООО&nbsp;«Нескучный финансовый софт».' +
+            'С&nbsp;<a href="https://fintablo.ru/position" target="_blank" rel="noopener">политикой обработки персональных данных</a> ознакомлен и&nbsp;согласен.' +
           '</span>' +
         '</label>' +
         '<label class="dg-form-consent dg-form-consent-marketing">' +
           '<input type="checkbox" id="lead-marketing" class="dg-form-checkbox">' +
           '<span class="dg-form-consent-text">' +
-            'Хочу получать материалы Финтабло на&nbsp;почту.' +
+            'Согласен на&nbsp;получение информационных и&nbsp;рекламных материалов в&nbsp;соответствии с&nbsp;<a href="https://fintablo.ru/agreement_ads" target="_blank" rel="noopener">условиями</a>.' +
           '</span>' +
         '</label>' +
         '<button type="submit" class="dg-form-submit" id="lead-submit" data-goal="' + opts.ymGoal + '" disabled>' + opts.submitText + '</button>' +
+        '<div class="dg-form-submit-note">' +
+          'Нажимая на&nbsp;кнопку «' + opts.submitText + '», вы&nbsp;соглашаетесь с&nbsp;<a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">офертой</a> и&nbsp;<a href="https://fintablo.ru/position" target="_blank" rel="noopener">положением об&nbsp;обработке персональных данных</a>.' +
+        '</div>' +
       '</form>'
     );
   }
@@ -524,11 +528,11 @@
     paywall.hidden = false;
     // Тексты paywall — по маршруту
     if (data.route === 'warm_icp') {
-      $('paywall-title').innerHTML = 'Полный план&nbsp;+ доступ к&nbsp;Финтабло на&nbsp;7&nbsp;дней';
-      $('paywall-sub').innerHTML = 'Откройте конкретный шаг под вашу боль и&nbsp;попробуйте Финтабло бесплатно.';
+      $('paywall-title').innerHTML = 'План под вашу боль + 7 дней Финтабло';
+      $('paywall-sub').innerHTML = 'План показывает один шаг на&nbsp;2&nbsp;недели. Параллельно&nbsp;— 7&nbsp;дней полного доступа в&nbsp;Финтабло без оплаты.';
     } else {
-      $('paywall-title').innerHTML = 'Полный план&nbsp;+ встреча с&nbsp;финансовым экспертом';
-      $('paywall-sub').innerHTML = 'Откройте конкретный шаг под вашу боль и&nbsp;запишитесь на&nbsp;встречу — без презентаций и&nbsp;общих фраз.';
+      $('paywall-title').innerHTML = 'План под вашу боль + встреча с экспертом';
+      $('paywall-sub').innerHTML = 'План показывает один шаг на&nbsp;2&nbsp;недели. На&nbsp;встрече 30&nbsp;минут&nbsp;— эксперт Финтабло разбирает ваши цифры и&nbsp;помогает закрыть зоны утечки.';
     }
     const cta = $('paywall-cta');
     if (cta) {

@@ -1012,6 +1012,22 @@
 .dg-form-consent:hover .dg-form-checkbox,
 .dg-form-consent:hover .dg-form-consent-text { opacity: 1; }
 
+/* Подпись под submit-кнопкой — дублирует юридическое согласие fintablo.ru */
+.dg-form-submit-note {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--slate-400, #94A3B8);
+  line-height: 1.5;
+  text-align: center;
+  opacity: .8;
+}
+.dg-form-submit-note a {
+  color: var(--blue-300, #93BBFD);
+  text-decoration: underline;
+  text-decoration-color: rgba(147, 187, 253, .35);
+}
+.dg-form-submit-note a:hover { color: #fff; text-decoration-color: currentColor; }
+
 /* ═════ Anti-ICP templates block ═════
    3 карточки шаблонов под боль + бонус для торговли со складом.
    Тон «осознанной специализации» — без оправданий, шаблоны как ценность. */

@@ -25,10 +25,21 @@
   fireGoal('dg_report_view');
 
   function renderHero() {
-    const route = data.route;
-    let title, sub;
-    title = 'Разбор готов&nbsp;— что получилось по&nbsp;вашим ответам';
-    sub = 'Три цифры о&nbsp;финансах вашего бизнеса: потенциал возврата прибыли, индекс прозрачности учёта и&nbsp;один конкретный следующий шаг.';
+    const profileLabel = (data.profile && data.profile.businessTypeLabel) || 'бизнеса';
+    const lossLine = (data.lossRange && data.lossRange.min)
+      ? C.formatRange(data.lossRange.min, data.lossRange.max) + ' упущенной прибыли в&nbsp;год'
+      : '';
+    const score = (data.transparency && data.transparency.score != null)
+      ? data.transparency.score + '/100 прозрачность учёта'
+      : '';
+    const painLabel = (data.profile && data.profile.primaryPainLabel) || '';
+    // Hero персонализированный: тип бизнеса + 3 ключевые цифры
+    const title = 'Разбор готов&nbsp;— по&nbsp;вашим ответам про&nbsp;' + profileLabel;
+    const bullets = [lossLine, score, painLabel && 'главная боль: ' + painLabel.toLowerCase()]
+      .filter(Boolean).join('&nbsp;· ');
+    const sub = bullets
+      ? bullets + '. Один следующий шаг&nbsp;— ниже в&nbsp;разборе.'
+      : 'Три цифры о&nbsp;финансах вашего бизнеса: упущенная прибыль, прозрачность учёта и&nbsp;один следующий шаг.';
     $('hero-title').innerHTML = title;
     $('hero-sub').innerHTML = sub;
   }

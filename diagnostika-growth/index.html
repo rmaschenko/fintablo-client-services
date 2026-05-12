@@ -628,9 +628,12 @@
     }
     .footer-company{display:flex;flex-direction:column;gap:6px;max-width:480px}
     .footer-company .logo{margin-bottom:var(--sp-3)}
-    /* В footer лого PNG превращаем в белый через invert (один источник истины) */
-    .footer-logo{display:inline-block;line-height:0;margin-bottom:8px;transition:opacity .15s var(--ease)}
+    /* Реальный лого Финтабло (Tilda CDN PNG) на тёмном footer.
+       Чёрная иконка → инвертируем в белую через filter (один источник истины,
+       без выдуманных inline SVG). Текст «Финтабло» в PNG тоже становится белым. */
+    .footer-logo{display:inline-block;line-height:0;margin-bottom:10px;transition:opacity .15s var(--ease)}
     .footer-logo:hover{opacity:.85}
+    .footer-logo img{height:28px;display:block;filter:brightness(0) invert(1)}
     .footer-brand-line{color:var(--slate-300);font-weight:600}
     .footer-legal{font-size:12px;color:var(--slate-300);line-height:1.55}
 
@@ -984,13 +987,7 @@
     <div class="footer-inner">
       <div class="footer-company">
         <a href="https://fintablo.ru" class="footer-logo" aria-label="Финтабло — главная" target="_blank" rel="noopener">
-          <svg viewBox="0 0 140 32" width="140" height="32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect x="0" y="6" width="20" height="20" rx="4" fill="#FFFFFF"/>
-            <rect x="3" y="9"    width="14" height="2.6" rx="0.8" fill="#0F172A"/>
-            <rect x="3" y="14.7" width="9"  height="2.6" rx="0.8" fill="#0F172A"/>
-            <rect x="3" y="20.4" width="11" height="2.6" rx="0.8" fill="#0F172A"/>
-            <text x="28" y="22" font-family="Inter,sans-serif" font-weight="700" font-size="18" fill="#FFFFFF" letter-spacing="-0.3">Финтабло</text>
-          </svg>
+          <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="28" onerror="this.onerror=null;this.src='assets/logo.svg';">
         </a>
         <div class="footer-brand-line">© 2026, «Финтабло»</div>
         <div class="footer-legal">

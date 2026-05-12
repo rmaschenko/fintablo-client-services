@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#0F1D2F">
 
-  <title>Финансовая диагностика бизнеса за 2 минуты — Финтабло</title>
-  <meta name="description" content="6 вопросов о финансах вашей компании — персональный разбор: упущенная прибыль за год в рублях, индекс прозрачности учёта, что исправить в первую очередь. Бесплатно, без звонков.">
+  <title>Диагностика финансов бизнеса: где теряете прибыль — за 2 минуты | Финтабло</title>
+  <meta name="description" content="6 вопросов о финансах вашей компании — персональный разбор: упущенная прибыль за год в рублях, индекс прозрачности учёта, что исправить в первую очередь. Бесплатно, контакт не нужен для просмотра разбора.">
 
   <link rel="canonical" href="https://diagnostika.fintablo.ru/">
 
-  <meta property="og:title" content="Финансовая диагностика бизнеса за 2 минуты">
-  <meta property="og:description" content="Узнаете, где ваш бизнес теряет прибыль. 6 вопросов, персональный разбор сразу на экране.">
+  <meta property="og:title" content="Сколько прибыли теряет бизнес за год — расчёт за 2 минуты">
+  <meta property="og:description" content="Расчёт по 6 вопросам в рублях: упущенная прибыль, индекс прозрачности учёта, следующий шаг.">
   <meta property="og:image" content="https://rmaschenko.github.io/fintablo-client-services/diagnostika-growth/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -628,12 +628,12 @@
     }
     .footer-company{display:flex;flex-direction:column;gap:6px;max-width:480px}
     .footer-company .logo{margin-bottom:var(--sp-3)}
-    /* Реальный лого Финтабло (Tilda CDN PNG) на тёмном footer.
-       Чёрная иконка → инвертируем в белую через filter (один источник истины,
-       без выдуманных inline SVG). Текст «Финтабло» в PNG тоже становится белым. */
+    /* Реальный лого Финтабло, light-on-dark вариант (assets/logo-light.svg).
+       Тот же лого что в header — но инверсная цветовая схема под тёмный
+       footer: белый квадрат + тёмные штрихи + белый текст. */
     .footer-logo{display:inline-block;line-height:0;margin-bottom:10px;transition:opacity .15s var(--ease)}
     .footer-logo:hover{opacity:.85}
-    .footer-logo img{height:28px;display:block;filter:brightness(0) invert(1)}
+    .footer-logo img{height:28px;display:block}
     .footer-brand-line{color:var(--slate-300);font-weight:600}
     .footer-legal{font-size:12px;color:var(--slate-300);line-height:1.55}
 
@@ -785,11 +785,11 @@
     <div class="container">
       <div class="hero-grid hero-grid-compact">
         <div class="hero-text">
-          <h1 class="hero-h1" id="hero-h1">Где ваш бизнес теряет&nbsp;прибыль — <span class="accent">узнаете за&nbsp;2&nbsp;минуты</span></h1>
-          <p class="hero-sub">6&nbsp;вопросов&nbsp;— персональный разбор сразу на&nbsp;экране. Без регистрации, без звонков.</p>
+          <h1 class="hero-h1" id="hero-h1">Сколько прибыли теряет бизнес за&nbsp;год — <span class="accent">узнаете за&nbsp;2&nbsp;минуты</span></h1>
+          <p class="hero-sub">6&nbsp;вопросов о&nbsp;выручке, типе бизнеса и&nbsp;главной боли. На&nbsp;выходе&nbsp;— три цифры: упущенная прибыль в&nbsp;рублях, индекс прозрачности 0–100, один следующий шаг. Без регистрации.</p>
           <div class="hero-cta-row">
             <a href="quiz/" class="btn btn-primary btn-lg" data-cta="hero_cta_click">
-              Пройти диагностику
+              Получить расчёт за 2 минуты
               <span class="btn-arrow"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
             </a>
           </div>
@@ -875,7 +875,7 @@
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Самопроверка</span>
-        <h2 id="symptoms-h2">Узнаёте? Хотя&nbsp;бы 2&nbsp;пункта — повод пройти диагностику</h2>
+        <h2 id="symptoms-h2">Узнаёте 2 из 4 — пора посмотреть свои цифры</h2>
       </div>
 
       <div class="symptoms-grid">
@@ -899,7 +899,7 @@
 
       <div class="symptoms-cta-row">
         <a href="quiz/" class="btn btn-primary" data-cta="symptoms_cta_click">
-          Пройти диагностику
+          Посчитать упущенную прибыль
           <span class="btn-arrow"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
         </a>
         <span class="hero-micro">
@@ -964,11 +964,11 @@
         <span class="pulse"></span>
         2&nbsp;минуты вашего времени
       </span>
-      <h2 id="final-cta-h2">2&nbsp;минуты — и&nbsp;финансовая картина вашего бизнеса в&nbsp;одном экране</h2>
-      <p class="final-cta-sub">Без регистрации, без оплаты, без звонков от&nbsp;менеджеров. Контакт нужен только чтобы прислать вам сохранённую версию разбора — если захотите вернуться к&nbsp;ней позже.</p>
+      <h2 id="final-cta-h2">За&nbsp;2&nbsp;минуты — три цифры о&nbsp;финансах вашего бизнеса</h2>
+      <p class="final-cta-sub">Расчёт упущенной прибыли в&nbsp;рублях, индекс прозрачности учёта 0–100, один следующий шаг под вашу боль. Без регистрации.</p>
       <div class="final-cta-row">
         <a href="quiz/" class="btn btn-primary" data-cta="final_cta_click">
-          Начать диагностику
+          Получить расчёт за 2 минуты
           <span class="btn-arrow"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
         </a>
       </div>
@@ -987,7 +987,7 @@
     <div class="footer-inner">
       <div class="footer-company">
         <a href="https://fintablo.ru" class="footer-logo" aria-label="Финтабло — главная" target="_blank" rel="noopener">
-          <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="28" onerror="this.onerror=null;this.src='assets/logo.svg';">
+          <img src="assets/logo-light.svg" alt="Финтабло" height="28">
         </a>
         <div class="footer-brand-line">© 2026, «Финтабло»</div>
         <div class="footer-legal">

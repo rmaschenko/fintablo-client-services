@@ -1,8 +1,17 @@
 <?php
 /**
- * money-diagnosis · lead intake endpoint (v2)
- * 1) CSV backup (api/leads/fin_diagnostics_YYYY-MM.csv, UTF-8 BOM, ;)
- * 2) AmoCRM /api/v4/leads/complex (если заполнен ../.env)
+ * diagnostika-growth · lead intake endpoint
+ * 1) CSV backup в api/leads/dg_YYYY-MM.csv (UTF-8 BOM, ;)
+ * 2) AmoCRM /api/v4/leads/complex (если ../.env заполнен)
+ *
+ * Принимает payload от quiz/js/lead.js (sendLead):
+ *   name, phone, email, city, route, source, profile{}, transparencyScore,
+ *   lossRange{min,max}, recommendation, utm{}, consent{}, marketingConsent,
+ *   pageUrl, referrer, timestamp
+ *
+ * Без .env (нет amoCRM-токена) endpoint всё равно работает —
+ * CSV сохраняется, JSON возвращает success:true. Это значит лиды
+ * не теряются: даже без CRM-интеграции контакты лежат на FTP.
  */
 
 declare(strict_types=1);
@@ -17,107 +26,96 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST')   { http_response_code(405); echo '{"
 
 $raw = file_get_contents('php://input');
 $data = json_decode($raw, true);
-// v6: имя собирается на первом шаге квиза, поэтому на форме обязательны
-// имя + телефон. Email — опционально (по гайду UX квизов — одно поле контакта).
 if (!is_array($data) || empty($data['phone']) || empty($data['name'])) {
   http_response_code(400);
-  echo json_encode(['error' => 'name and phone required']);
+  echo json_encode(['error' => 'name and phone required'], JSON_UNESCAPED_UNICODE);
   exit;
 }
 
-// Honeypot
+// Honeypot — невидимое поле website. Боты заполняют, люди — нет.
 if (!empty($data['website'])) {
   http_response_code(200); echo '{"success":true}'; exit;
 }
 
-$answers = is_array($data['answers'] ?? null) ? $data['answers'] : [];
-$metrics = is_array($data['metrics'] ?? null) ? $data['metrics'] : [];
-$utm     = is_array($data['utm']     ?? null) ? $data['utm']     : [];
+$profile  = is_array($data['profile'] ?? null) ? $data['profile'] : [];
+$lossRange = is_array($data['lossRange'] ?? null) ? $data['lossRange'] : [];
+$utm      = is_array($data['utm']     ?? null) ? $data['utm']     : [];
+$consent  = is_array($data['consent'] ?? null) ? $data['consent'] : [];
 
-$industryLabels = [
-  'construction' => 'Строительство',
-  'it'           => 'IT',
-  'agency'       => 'Агентство',
-  'production'   => 'Производство',
-  'services'     => 'Услуги',
-  'other'        => 'Другое'
+// Человекочитаемые лейблы маршрутов и ролей — для CRM-менеджера
+$routeLabels = [
+  'hot_icp'            => 'Горячий ICP (на встречу)',
+  'hot_icp_no_finance' => 'Горячий ICP без финансиста (на встречу + партнёр)',
+  'warm_icp'           => 'Тёплый ICP (на триал)',
+  'anti_icp'           => 'Вне ICP (шаблоны)',
 ];
-$profileLabels = [
-  'blind'                  => 'Управление без цифр',
-  'scale_without_control'  => 'Масштаб перерос учёт',
-  'accounting_illusion'    => 'Только бухгалтерский учёт',
-  'early_stage'            => 'Ранняя стадия учёта',
-  'almost_there'           => 'Почти полная система',
-  'plateau'                => 'Переросший инструмент'
+$roleLabels = [
+  'owner'      => 'Собственник',
+  'financier'  => 'Финдир/Финансист',
+  'accountant' => 'Бухгалтер',
+  'other'      => 'Другая роль',
 ];
-$painLabels = [
-  'margin_blind'    => 'Не вижу прибыль по направлениям',
-  'late_loss'       => 'Узнаю об убытках задним числом',
-  'cash_surprise'   => 'Не понимаю, когда будет кассовый разрыв',
-  'data_lag'        => 'Цифры с задержкой, решения наугад',
-  'no_big_picture'  => 'Учёт есть, картины нет'
-];
-$systemLabels = [
-  'none'    => 'Нигде системно',
-  'excel'   => 'Excel / Google Sheets',
-  '1c'      => '1С (бухгалтерская)',
-  'other'   => 'Другие сервисы',
-  'service' => 'Спец. сервис управленческого учёта'
+$cfoLabels = [
+  'yes_cfo'             => 'Есть финансист/финдир',
+  'accountant_combined' => 'Бухгалтер совмещает',
+  'self_only'           => 'Собственник сам',
 ];
 
-$industry = (string)($answers['industry'] ?? '');
-$revenue  = (int)($answers['monthlyRevenue'] ?? 0);
-$profile  = (string)($metrics['profileCode'] ?? '');
-$pain     = (string)($answers['primaryPain'] ?? '');
-$system   = (string)($answers['accountingSystem'] ?? '');
-$teamH    = (string)($answers['teamHours'] ?? '');
-$ready    = (string)($answers['readiness'] ?? '');
+$route          = (string)($data['route'] ?? '');
+$role           = (string)($profile['role'] ?? '');
+$businessType   = (string)($profile['businessType'] ?? '');
+$businessLabel  = (string)($profile['businessTypeLabel'] ?? $businessType);
+$annualRevenue  = (int)($profile['annualRevenue'] ?? 0);
+$age            = (string)($profile['age'] ?? '');
+$primaryPain    = (string)($profile['primaryPain'] ?? '');
+$painLabel      = (string)($profile['primaryPainLabel'] ?? $primaryPain);
+$cfoStatus      = (string)($profile['cfoStatus'] ?? '');
+$transparency   = (int)($data['transparencyScore'] ?? 0);
+$lossMin        = (int)($lossRange['min'] ?? 0);
+$lossMax        = (int)($lossRange['max'] ?? 0);
+$recommendation = (string)($data['recommendation'] ?? '');
 
-$teamHoursLabels = [
-  'low'  => 'Меньше 5 ч/мес',
-  'mid'  => '10–20 ч/мес',
-  'high' => '20–40 ч/мес',
-  'huge' => 'Больше 40 ч/мес'
-];
-$readinessLabels = [
-  'cut'   => 'Отрезал бы убыточные направления',
-  'plan'  => 'Начал бы планировать',
-  'never' => 'Не знаю — никогда так не смотрел'
-];
+$revLabel = $annualRevenue > 0
+  ? ($annualRevenue . ' млн ₽/год')
+  : '';
+
+$lossLabel = ($lossMin > 0 && $lossMax > 0)
+  ? (number_format($lossMin, 0, ',', ' ') . ' – ' . number_format($lossMax, 0, ',', ' ') . ' ₽/год')
+  : '';
 
 $lead = [
-  'timestamp'          => date('c'),
+  'timestamp'          => (string)($data['timestamp'] ?? date('c')),
+  'route'              => $route,
+  'routeLabel'         => $routeLabels[$route] ?? $route,
   'name'               => (string)($data['name'] ?? ''),
   'phone'              => (string)($data['phone'] ?? ''),
   'email'              => (string)($data['email'] ?? ''),
-  'role'               => (string)($answers['role'] ?? ''),
-  'industry'           => $industry,
-  'industryLabel'      => $industryLabels[$industry] ?? $industry,
-  'monthlyRevenue'     => $revenue,
-  'annualRevenue'      => $revenue * 12,
-  'accountingSystem'   => $system,
-  'accountingLabel'    => $systemLabels[$system] ?? $system,
-  'primaryPain'        => $pain,
-  'primaryPainLabel'   => $painLabels[$pain] ?? $pain,
-  'teamHours'          => $teamH,
-  'teamHoursLabel'     => $teamHoursLabels[$teamH] ?? $teamH,
-  'readiness'          => $ready,
-  'readinessLabel'     => $readinessLabels[$ready] ?? $ready,
-  'profileCode'        => $profile,
-  'profileLabel'       => $profileLabels[$profile] ?? $profile,
-  'transparencyIndex'  => (int)($metrics['transparencyIndex'] ?? 0),
-  'estimatedAnnualLoss'=> (int)($metrics['estimatedAnnualLoss'] ?? 0),
-  'icpScore'           => (int)($metrics['icpScore'] ?? 0),
-  'icpTag'             => (string)($metrics['icpTag'] ?? ''),
+  'city'               => (string)($data['city'] ?? ''),
+  'role'               => $role,
+  'roleLabel'          => $roleLabels[$role] ?? $role,
+  'businessType'       => $businessType,
+  'businessLabel'      => $businessLabel,
+  'annualRevenueMln'   => $annualRevenue,
+  'age'                => $age,
+  'primaryPain'        => $primaryPain,
+  'painLabel'          => $painLabel,
+  'cfoStatus'          => $cfoStatus,
+  'cfoLabel'           => $cfoLabels[$cfoStatus] ?? $cfoStatus,
+  'transparencyIndex'  => $transparency,
+  'lossMin'            => $lossMin,
+  'lossMax'            => $lossMax,
+  'recommendation'     => $recommendation,
+  'marketingConsent'   => !empty($data['marketingConsent']) ? 'yes' : 'no',
+  'consentTimestamp'   => (string)($consent['timestamp'] ?? ''),
   'utm_source'         => (string)($utm['source']   ?? ''),
   'utm_medium'         => (string)($utm['medium']   ?? ''),
   'utm_campaign'       => (string)($utm['campaign'] ?? ''),
   'utm_content'        => (string)($utm['content']  ?? ''),
   'utm_term'           => (string)($utm['term']     ?? ''),
+  'pageUrl'            => (string)($data['pageUrl']  ?? ''),
   'referrer'           => (string)($data['referrer'] ?? ''),
-  'pageUrl'            => (string)($data['pageUrl'] ?? ''),
-  'ip'                 => $_SERVER['REMOTE_ADDR'] ?? '',
-  'userAgent'          => $_SERVER['HTTP_USER_AGENT'] ?? ''
+  'ip'                 => $_SERVER['REMOTE_ADDR']      ?? '',
+  'userAgent'          => $_SERVER['HTTP_USER_AGENT'] ?? '',
 ];
 
 // ── CSV backup ──
@@ -126,7 +124,7 @@ if (!is_dir($csvDir)) { @mkdir($csvDir, 0755, true); }
 $ht = $csvDir . '/.htaccess';
 if (!file_exists($ht)) { @file_put_contents($ht, "Deny from all\n"); }
 
-$csvFile = $csvDir . '/fin_diagnostics_' . date('Y-m') . '.csv';
+$csvFile = $csvDir . '/dg_' . date('Y-m') . '.csv';
 $isNew = !file_exists($csvFile);
 $fp = @fopen($csvFile, 'a');
 if ($fp) {
@@ -152,30 +150,29 @@ if (file_exists($envPath)) {
 $amoDomain     = $env['AMO_DOMAIN']      ?? '';
 $amoToken      = $env['AMO_TOKEN']       ?? '';
 $amoPipelineId = (int)($env['AMO_PIPELINE_ID'] ?? 0);
-$amoStatusId   = (int)($env['AMO_STATUS_ID']   ?? 0);
+
+// Каждый маршрут попадает в свой этап воронки. Конфигурируется через .env:
+//   AMO_STATUS_HOT_ICP, AMO_STATUS_HOT_ICP_NO_FINANCE,
+//   AMO_STATUS_WARM_ICP, AMO_STATUS_ANTI_ICP.
+$statusMap = [
+  'hot_icp'            => (int)($env['AMO_STATUS_HOT_ICP']            ?? 0),
+  'hot_icp_no_finance' => (int)($env['AMO_STATUS_HOT_ICP_NO_FINANCE'] ?? 0),
+  'warm_icp'           => (int)($env['AMO_STATUS_WARM_ICP']           ?? 0),
+  'anti_icp'           => (int)($env['AMO_STATUS_ANTI_ICP']           ?? 0),
+];
+$amoStatusId = $statusMap[$route] ?? 0;
 
 $amoResult = null;
 if ($amoDomain && $amoToken && $amoPipelineId && $amoStatusId && function_exists('curl_init')) {
   $tags = [
-    ['name' => 'micro_service'],
-    ['name' => 'fin_diagnostics'],
-    ['name' => 'direct_client'],
-    ['name' => $lead['icpTag'] ?: 'lead_C'],
+    ['name' => 'diagnostika-growth'],
+    ['name' => 'route_' . $route],
   ];
-  // Readiness-тег — hot/warm/cold под поведенческий сигнал
-  if ($ready === 'cut')        { $tags[] = ['name' => 'ready_hot']; }
-  elseif ($ready === 'plan')   { $tags[] = ['name' => 'ready_warm']; }
-  elseif ($ready === 'never')  { $tags[] = ['name' => 'ready_cold']; }
+  if (!empty($utm['source']))   $tags[] = ['name' => 'utm_' . preg_replace('/[^a-z0-9_]/i', '', $utm['source'])];
+  if (!empty($primaryPain))     $tags[] = ['name' => 'pain_' . $primaryPain];
+  if (!empty($businessType))    $tags[] = ['name' => 'type_' . $businessType];
 
-  // ICP оценивается по годовому обороту → sales видит именно его
-  $annual = $revenue * 12;
-  $revLabel = $annual >= 1_000_000_000
-    ? (round($annual / 1_000_000_000, 1) . ' млрд/год')
-    : ($annual >= 1_000_000
-        ? (round($annual / 1_000_000) . ' млн/год')
-        : (round($annual / 1000) . ' тыс/год'));
-
-  $leadName = 'Диагностика: ' . $lead['name'] . ' — ' . $lead['industryLabel'] . ' — ' . $lead['profileLabel'] . ' — ' . $revLabel;
+  $leadName = 'Диагностика: ' . $lead['name'] . ' — ' . $businessLabel . ' — ' . $revLabel . ' — ' . $lead['routeLabel'];
 
   $amoLead = [[
     'name'         => $leadName,
@@ -207,26 +204,28 @@ if ($amoDomain && $amoToken && $amoPipelineId && $amoStatusId && function_exists
   $amoResponse = json_decode($amoResponseRaw ?: 'null', true);
   $leadId = $amoResponse[0]['id'] ?? null;
 
+  // Подробная заметка к сделке — менеджеру под звонок
   if ($leadId) {
     $note =
-      "=== ДИАГНОСТИКА ФИНАНСОВОГО УЧЁТА ===\n" .
-      "Роль: {$lead['role']}\n" .
-      "Отрасль: {$lead['industryLabel']}\n" .
-      "Оборот: {$revLabel}\n" .
-      "Система учёта: {$lead['accountingLabel']}\n" .
-      "Главная боль: {$lead['primaryPainLabel']}\n" .
-      "Часы команды на сверку: {$lead['teamHoursLabel']}\n" .
-      "Первый шаг (readiness): {$lead['readinessLabel']}\n\n" .
-      "=== РЕЗУЛЬТАТ РАСЧЁТА ===\n" .
-      "Профиль: {$lead['profileLabel']}\n" .
+      "=== ДИАГНОСТИКА РОСТА ПРИБЫЛИ ===\n" .
+      "Маршрут: {$lead['routeLabel']}\n" .
+      "Роль: {$lead['roleLabel']}\n" .
+      "Тип бизнеса: {$lead['businessLabel']}\n" .
+      "Годовая выручка: {$revLabel}\n" .
+      "Возраст бизнеса: {$lead['age']}\n" .
+      "Главная боль: {$lead['painLabel']}\n" .
+      "Финансы ведёт: {$lead['cfoLabel']}\n\n" .
+      "=== РАСЧЁТ ===\n" .
       "Индекс прозрачности: {$lead['transparencyIndex']}/100\n" .
-      "Оценочные потери: " . number_format($lead['estimatedAnnualLoss'], 0, ',', ' ') . " ₽/год\n" .
-      "ICP-балл: {$lead['icpScore']}/100 ({$lead['icpTag']})\n\n" .
+      "Упущенная прибыль: {$lossLabel}\n" .
+      "Рекомендация: {$lead['recommendation']}\n\n" .
       "=== ИСТОЧНИК ===\n" .
       "UTM: {$lead['utm_source']} / {$lead['utm_medium']} / {$lead['utm_campaign']} / {$lead['utm_content']} / {$lead['utm_term']}\n" .
       "Referrer: {$lead['referrer']}\n" .
       "Страница: {$lead['pageUrl']}\n" .
-      "Время: {$lead['timestamp']}";
+      "Время: {$lead['timestamp']}\n" .
+      "152-ФЗ: " . ($lead['consentTimestamp'] ?: 'нет timestamp') . "\n" .
+      "Маркетинговое согласие: {$lead['marketingConsent']}";
     $noteBody = [[
       'entity_id' => $leadId,
       'note_type' => 'common',
@@ -249,7 +248,7 @@ if ($amoDomain && $amoToken && $amoPipelineId && $amoStatusId && function_exists
 
 http_response_code(200);
 echo json_encode([
-  'success'  => true,
-  'csv'      => (bool)$fp,
-  'amo'      => $amoResult,
+  'success' => true,
+  'csv'     => (bool)$fp,
+  'amo'     => $amoResult,
 ], JSON_UNESCAPED_UNICODE);

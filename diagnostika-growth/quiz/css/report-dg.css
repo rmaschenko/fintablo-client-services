@@ -868,6 +868,92 @@
 }
 .is-unlocked .dg-fix-locked-block { filter: none; pointer-events: auto; user-select: auto; }
 
+/* Gate-overlay messaging — explicit объяснение что скрыто и зачем форма.
+   Видно только при body.is-locked. Цель: убрать «откуда мутная зона»
+   и явно перевести взгляд к форме (главная конверсионная точка). */
+.dg-fix-gate-overlay { display: none; }
+.is-locked .dg-fix-gate-overlay {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 16px 0 12px;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, rgba(41, 81, 202, .06) 0%, rgba(255, 253, 181, .14) 100%);
+  border: 1px solid rgba(41, 81, 202, .14);
+  border-radius: 14px;
+}
+.dg-fix-gate-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #2951CA;
+  color: #FFFDB5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dg-fix-gate-icon svg { width: 20px; height: 20px; }
+.dg-fix-gate-body { flex: 1; min-width: 0; }
+.dg-fix-gate-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #091A4E;
+  letter-spacing: -.005em;
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+.dg-fix-gate-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #404C72;
+  line-height: 1.45;
+}
+.dg-fix-gate-list li {
+  position: relative;
+  padding-left: 18px;
+}
+.dg-fix-gate-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2951CA;
+}
+.dg-fix-gate-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2951CA;
+  text-decoration: none;
+  padding: 6px 12px;
+  background: #FFFFFF;
+  border: 1px solid rgba(41, 81, 202, .25);
+  border-radius: 8px;
+  transition: background .15s, border-color .15s;
+}
+.dg-fix-gate-cta:hover {
+  background: #2951CA;
+  color: #FFFFFF;
+  border-color: #2951CA;
+}
+@media (max-width: 560px) {
+  .is-locked .dg-fix-gate-overlay { padding: 14px 16px; gap: 12px; }
+  .dg-fix-gate-icon { width: 32px; height: 32px; }
+  .dg-fix-gate-title { font-size: 14px; }
+  .dg-fix-gate-list { font-size: 12px; }
+}
+
 /* Bridge — связка с финалом, главная конверсионная точка отчёта */
 .dg-fix-bridge {
   display: flex;

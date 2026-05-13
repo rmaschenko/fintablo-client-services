@@ -456,99 +456,46 @@
   .dg-gauge-leg-you .dg-gauge-leg-val { font-size: 18px; }
 }
 
-/* ═════ PLG-gate · paywall перед Section 3 ═════
-   Бесплатно (Section 1+2) показывает aha. Полный план (Section 3+4) —
-   доступен после контакта. Anti-ICP исключён — там лид-магнит бесплатно. */
-.dg-fix-blur {
-  position: relative;
-  transition: filter .35s ease;
-}
-.is-locked .dg-fix-blur {
-  filter: blur(6px);
-  pointer-events: none;
-  user-select: none;
-}
-.is-locked #section-fix { position: relative; }
-.is-locked #section-final { display: none; }
-.dg-paywall {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-top: 24px;
-  padding: 22px 26px;
-  background: linear-gradient(120deg, #2951CA 0%, #1C3C9B 70%, #091A4E 100%);
-  color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 12px 32px -8px rgba(41,81,202,.32);
-  position: relative;
+/* PLG-gate v2 — частичный blur только на .dg-fix-locked-block (compare/
+   roadmap/summary), title+lead+decomposition Section 3 видны всегда.
+   Section 4 (форма) — без скрытия, рядом с разблокированной частью.
+   Стили .dg-fix-locked-block выше (после .dg-fix-roadmap). */
+
+/* Trust-bar над лид-формой — снижает friction формы (3 цифры доверия) */
+.dg-final-trust-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin: 24px 0;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 12px;
   overflow: hidden;
 }
-.dg-paywall::before {
-  content: '';
-  position: absolute;
-  inset: -80px -80px auto auto;
-  width: 220px; height: 220px;
-  background: radial-gradient(circle, rgba(255,253,181,.32), transparent 70%);
-  pointer-events: none;
+.dg-final-trust-item {
+  background: rgba(15, 29, 47, .55);
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
 }
-.dg-paywall > * { position: relative; z-index: 1; }
-.dg-paywall-icon {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: rgba(255,253,181,.18);
-  border: 1px solid rgba(255,253,181,.42);
-  display: grid; place-items: center;
-  color: #FFFDB5;
-  flex-shrink: 0;
+.dg-final-trust-num {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--blue-300, #93BBFD);
+  font-variant-numeric: tabular-nums;
 }
-.dg-paywall-body { flex: 1; }
-.dg-paywall-title {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -.015em;
-  color: #fff;
-  margin-bottom: 4px;
+.dg-final-trust-item span:not(.dg-final-trust-num) {
+  font-size: 12px;
+  color: var(--slate-300, #CBD5E1);
+  line-height: 1.35;
 }
-.dg-paywall-sub {
-  font-size: 14px;
-  color: rgba(255,255,255,.78);
-  line-height: 1.45;
-}
-.dg-paywall-cta {
-  flex-shrink: 0;
-  padding: 12px 22px;
-  border: 0;
-  border-radius: 999px;
-  background: #FFFDB5;
-  color: #091A4E;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: -.01em;
-  cursor: pointer;
-  transition: background .2s ease, transform .2s ease;
-  font-family: inherit;
-}
-.dg-paywall-cta:hover {
-  background: #fff;
-  transform: translateY(-1px);
-}
-
-/* После сабмита формы — секции 3/4 разблокированы. Класс is-unlocked
-   управляется из report.js по success-колбэку. */
-.is-unlocked .dg-fix-blur { filter: none; pointer-events: auto; user-select: auto; }
-.is-unlocked .dg-paywall { display: none; }
-.is-unlocked #section-final { display: block; }
-
 @media (max-width: 640px) {
-  .dg-paywall {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 20px 22px;
-  }
-  .dg-paywall-cta { width: 100%; padding: 14px 18px; }
-  .dg-paywall-icon { width: 36px; height: 36px; }
-  .dg-paywall-title { font-size: 17px; }
+  .dg-final-trust-bar { grid-template-columns: 1fr; gap: 1px; }
+  .dg-final-trust-item { padding: 14px 16px; flex-direction: row; gap: 12px; align-items: center; text-align: left; }
+  .dg-final-trust-num { font-size: 18px; flex-shrink: 0; min-width: 70px; }
 }
 
 /* Старые dg-index/dg-bench классы — не используются, оставлены для совместимости */
@@ -771,6 +718,104 @@
 }
 .dg-fix-summary-icon { display: inline-flex; }
 .dg-fix-summary-icon svg { width: 16px; height: 16px; }
+
+/* Декомпозиция боли — где это проявляется в бизнесе (3-4 пункта) */
+.dg-fix-decomposition {
+  margin-top: 22px;
+  padding: 18px 20px;
+  background: rgba(41, 81, 202, .04);
+  border-left: 3px solid var(--blue-500, #3B82F6);
+  border-radius: 0 10px 10px 0;
+}
+.dg-fix-decomp-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue-300, #93BBFD);
+  margin-bottom: 12px;
+}
+.dg-fix-decomp-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dg-fix-decomp-item {
+  position: relative;
+  padding-left: 22px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--slate-300, #CBD5E1);
+}
+.dg-fix-decomp-item::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue-400, #60A5FA);
+}
+
+/* Roadmap — что меняется через 3 / 12 месяцев */
+.dg-fix-roadmap {
+  margin-top: 22px;
+  padding: 18px 20px;
+  background: rgba(255, 253, 181, .06);
+  border-left: 3px solid var(--accent, #FFFDB5);
+  border-radius: 0 10px 10px 0;
+}
+.dg-fix-roadmap-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #FFE060;
+  margin-bottom: 12px;
+}
+.dg-fix-roadmap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.dg-fix-roadmap-step {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dg-fix-roadmap-when {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--blue-300, #93BBFD);
+  text-transform: uppercase;
+}
+.dg-fix-roadmap-text {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #fff;
+}
+@media (max-width: 640px) {
+  .dg-fix-roadmap-grid { grid-template-columns: 1fr; gap: 18px; }
+  .dg-fix-decomposition, .dg-fix-roadmap { padding: 16px; }
+}
+
+/* PLG-gate частичный blur: title+lead+decomposition открыты,
+   compare/roadmap/summary под blur'ом до сабмита формы */
+.dg-fix-locked-block {
+  position: relative;
+  transition: filter .35s ease;
+}
+.is-locked .dg-fix-locked-block {
+  filter: blur(5px);
+  pointer-events: none;
+  user-select: none;
+}
+.is-unlocked .dg-fix-locked-block { filter: none; pointer-events: auto; user-select: auto; }
 
 /* Bridge — связка с финалом, главная конверсионная точка отчёта */
 .dg-fix-bridge {

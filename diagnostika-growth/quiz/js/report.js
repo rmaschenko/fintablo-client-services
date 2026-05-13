@@ -196,7 +196,38 @@
 
     const visualHtml = r.visual ? '<div class="dg-fix-visual">' + getVisualSvg(r.visual) + '</div>' : '';
 
-    // Narrative-flow без коробок: визуал + рассказ → сравнение → итог
+    // Декомпозиция боли — где это проявляется в бизнесе (3-4 пункта)
+    let decompositionHtml = '';
+    if (Array.isArray(r.decomposition) && r.decomposition.length) {
+      const items = r.decomposition.map(function (s) {
+        return '<li class="dg-fix-decomp-item">' + s + '</li>';
+      }).join('');
+      decompositionHtml =
+        '<div class="dg-fix-decomposition">' +
+          '<div class="dg-fix-decomp-label">Где эта боль проявляется в&nbsp;вашем бизнесе</div>' +
+          '<ul class="dg-fix-decomp-list">' + items + '</ul>' +
+        '</div>';
+    }
+
+    // Roadmap — что меняется через 3 / 12 месяцев
+    let roadmapHtml = '';
+    if (r.roadmap && (r.roadmap.in_3m || r.roadmap.in_12m)) {
+      roadmapHtml =
+        '<div class="dg-fix-roadmap">' +
+          '<div class="dg-fix-roadmap-label">Что изменится</div>' +
+          '<div class="dg-fix-roadmap-grid">' +
+            (r.roadmap.in_3m
+              ? '<div class="dg-fix-roadmap-step"><div class="dg-fix-roadmap-when">через&nbsp;3 месяца</div><div class="dg-fix-roadmap-text">' + r.roadmap.in_3m + '</div></div>'
+              : '') +
+            (r.roadmap.in_12m
+              ? '<div class="dg-fix-roadmap-step"><div class="dg-fix-roadmap-when">через&nbsp;12 месяцев</div><div class="dg-fix-roadmap-text">' + r.roadmap.in_12m + '</div></div>'
+              : '') +
+          '</div>' +
+        '</div>';
+    }
+
+    // Narrative-flow: визуал + рассказ → декомпозиция → сравнение → roadmap → итог
+    // Часть после декомпозиции — внутри .dg-fix-locked-block для PLG-gate (частичный blur)
     fixCard.innerHTML =
       '<div class="dg-fix-head">' +
         visualHtml +
@@ -205,21 +236,25 @@
           '<p class="dg-fix-lead"></p>' +
         '</div>' +
       '</div>' +
-      '<div class="dg-fix-compare">' +
-        '<div class="dg-fix-line dg-fix-line-manual">' +
-          '<span class="dg-fix-line-label">В&nbsp;Excel и&nbsp;таблицах</span>' +
-          '<span class="dg-fix-line-text"></span>' +
+      decompositionHtml +
+      '<div class="dg-fix-locked-block">' +
+        '<div class="dg-fix-compare">' +
+          '<div class="dg-fix-line dg-fix-line-manual">' +
+            '<span class="dg-fix-line-label">В&nbsp;Excel и&nbsp;таблицах</span>' +
+            '<span class="dg-fix-line-text"></span>' +
+          '</div>' +
+          '<div class="dg-fix-line dg-fix-line-fintablo">' +
+            '<span class="dg-fix-line-label">В&nbsp;Финтабло</span>' +
+            '<span class="dg-fix-line-text"></span>' +
+          '</div>' +
         '</div>' +
-        '<div class="dg-fix-line dg-fix-line-fintablo">' +
-          '<span class="dg-fix-line-label">В&nbsp;Финтабло</span>' +
-          '<span class="dg-fix-line-text"></span>' +
+        roadmapHtml +
+        '<div class="dg-fix-summary">' +
+          '<span class="dg-fix-summary-icon">' +
+            '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l4-4 4 4 6-6"/><path d="M11 6h6v6"/></svg>' +
+          '</span>' +
+          '<span class="dg-fix-summary-text"></span>' +
         '</div>' +
-      '</div>' +
-      '<div class="dg-fix-summary">' +
-        '<span class="dg-fix-summary-icon">' +
-          '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l4-4 4 4 6-6"/><path d="M11 6h6v6"/></svg>' +
-        '</span>' +
-        '<span class="dg-fix-summary-text"></span>' +
       '</div>' +
       '';
 
@@ -285,11 +320,16 @@
 
     return (
       '<div class="dg-final-eyebrow">Бесплатно · 500+ внедрений за&nbsp;плечами</div>' +
-      '<h2>Расчёт + план от&nbsp;эксперта Финтабло</h2>' +
+      '<h2>Бесплатная встреча с&nbsp;финансовым экспертом Финтабло</h2>' +
       '<p>30 минут разговора с&nbsp;экспертом, у&nbsp;которого 500+ внедрений. Открываем вашу таблицу, разбираем три цифры из&nbsp;отчёта и&nbsp;формулируем 2–3 шага под вашу боль.</p>' +
       '<div class="dg-final-checklist">' + items.map(checkItem).join('') + '</div>' +
+      '<div class="dg-final-trust-bar">' +
+        '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">2&nbsp;300+</span><span>компаний работают в&nbsp;Финтабло</span></div>' +
+        '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">500+</span><span>внедрений финансовых экспертов</span></div>' +
+        '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">30&nbsp;мин</span><span>встреча по&nbsp;вашему календарю</span></div>' +
+      '</div>' +
       buildLeadForm({
-        title: 'Оставьте контакты&nbsp;— эксперт свяжется в&nbsp;течение рабочего дня',
+        title: 'Заполните контакт &mdash; раскроем полный план под боль и&nbsp;пригласим на&nbsp;встречу',
         cityField: false,
         submitText: 'Записаться на встречу с экспертом',
         ymGoal: noFinance ? 'dg_lead_hot_icp_no_finance' : 'dg_lead_hot_icp'
@@ -409,7 +449,7 @@
         '<div class="dg-form-row">' +
           '<label class="dg-form-field">' +
             '<span class="dg-form-label">Имя</span>' +
-            '<input class="dg-form-input" id="lead-name" type="text" placeholder="Сергей" autocomplete="given-name" required>' +
+            '<input class="dg-form-input" id="lead-name" type="text" placeholder="Как к&nbsp;вам обращаться" autocomplete="given-name" required>' +
           '</label>' +
           '<label class="dg-form-field">' +
             '<span class="dg-form-label">Телефон</span>' +
@@ -419,7 +459,7 @@
         '<div class="dg-form-row" style="grid-template-columns:1fr">' +
           '<label class="dg-form-field">' +
             '<span class="dg-form-label">Email</span>' +
-            '<input class="dg-form-input" id="lead-email" type="email" placeholder="ivanov@company.ru" autocomplete="email" required>' +
+            '<input class="dg-form-input" id="lead-email" type="email" placeholder="email@company.ru" autocomplete="email" required>' +
           '</label>' +
         '</div>' +
         cityRow +
@@ -524,45 +564,21 @@
     });
   }
 
-  // PLG-gate: hot_icp / hot_icp_no_finance / warm_icp — закрываем Section 3+4
-  // до контакта. anti_icp видит всё открыто (лид-магнит = шаблоны бесплатно).
+  // PLG-gate v2 (частичный blur, без лишнего клика):
+  //   • hot_icp / hot_icp_no_finance / warm_icp → ставим body.is-locked.
+  //     CSS делает blur только на .dg-fix-locked-block (compare/roadmap/summary).
+  //     title + body + decomposition Section 3 — открыты (даём контекст и aha).
+  //     Section 4 (форма) показывается всегда — без лишней кнопки-промежутка.
+  //   • anti_icp → is-unlocked, всё открыто (бесплатный лид-магнит шаблонов).
+  // После сабмита формы → renderFinal() / bindLeadForm() переключают
+  // body на is-unlocked при успешном лиде (см. ниже).
   function setupPaywall() {
     const isAnti = data.route === 'anti_icp';
-    const paywall = $('paywall');
     if (isAnti) {
-      if (paywall) paywall.hidden = true;
       document.body.classList.add('is-unlocked');
       return;
     }
     document.body.classList.add('is-locked');
-    if (!paywall) return;
-    paywall.hidden = false;
-    // Тексты paywall — по маршруту
-    if (data.route === 'warm_icp') {
-      $('paywall-title').innerHTML = 'План под вашу боль + 7 дней Финтабло';
-      $('paywall-sub').innerHTML = 'План показывает один шаг на&nbsp;2&nbsp;недели. Параллельно&nbsp;— 7&nbsp;дней полного доступа в&nbsp;Финтабло без оплаты.';
-    } else {
-      $('paywall-title').innerHTML = 'План под вашу боль + встреча с экспертом';
-      $('paywall-sub').innerHTML = 'План показывает один шаг на&nbsp;2&nbsp;недели. На&nbsp;встрече 30&nbsp;минут&nbsp;— эксперт Финтабло разбирает ваши цифры и&nbsp;помогает закрыть зоны утечки.';
-    }
-    const cta = $('paywall-cta');
-    if (cta) {
-      cta.addEventListener('click', function () {
-        // Разблокируем Section 3 (анимация blur→clear) и показываем Section 4
-        document.body.classList.remove('is-locked');
-        document.body.classList.add('is-unlocked');
-        fireGoal('dg_paywall_unlock', segmentParams());
-        // Плавный скролл к форме (Section 4) — основная конверсионная точка
-        setTimeout(function () {
-          const final = $('section-final');
-          if (final && final.scrollIntoView) {
-            final.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            const focusable = final.querySelector('input, button');
-            if (focusable) setTimeout(function () { focusable.focus({ preventScroll: true }); }, 600);
-          }
-        }, 350);
-      });
-    }
   }
 
   renderHero();

@@ -461,6 +461,57 @@
    Section 4 (форма) — без скрытия, рядом с разблокированной частью.
    Стили .dg-fix-locked-block выше (после .dg-fix-roadmap). */
 
+/* Реальный отзыв с fintablo.ru/case — социальное доказательство в формате
+   цитата + автор + роль. Перед trust-bar, перед формой. Точный ICP — */
+.dg-final-quote {
+  margin: 24px 0 16px;
+  padding: 20px 22px;
+  background: rgba(255, 253, 181, .06);
+  border-left: 3px solid #FFFDB5;
+  border-radius: 0 12px 12px 0;
+  position: relative;
+}
+.dg-final-quote::before {
+  content: '\201C';
+  position: absolute;
+  top: -8px;
+  left: 14px;
+  font-size: 56px;
+  line-height: 1;
+  color: rgba(255, 253, 181, .35);
+  font-family: Georgia, 'Times New Roman', serif;
+  pointer-events: none;
+}
+.dg-final-quote-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #F4F7FF;
+  font-weight: 500;
+  letter-spacing: -.005em;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+.dg-final-quote-author {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.dg-final-quote-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFDB5;
+  letter-spacing: -.005em;
+}
+.dg-final-quote-role {
+  font-size: 12px;
+  color: rgba(244, 247, 255, .65);
+  line-height: 1.4;
+}
+@media (max-width: 560px) {
+  .dg-final-quote { padding: 18px 18px 18px 20px; }
+  .dg-final-quote-text { font-size: 15px; }
+}
+
 /* Trust-bar над лид-формой — снижает friction формы (3 цифры доверия) */
 .dg-final-trust-bar {
   display: grid;

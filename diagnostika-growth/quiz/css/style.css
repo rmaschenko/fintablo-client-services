@@ -135,9 +135,16 @@ header{
   max-width:800px;margin:0 auto;
   display:flex;align-items:center;justify-content:space-between;gap:12px;
 }
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--navy-900)}
 .logo img{display:block;height:32px}
 .logo-fallback{display:none;font-weight:700;color:var(--brand-blue);font-size:18px}
+.logo-mark{
+  width:32px;height:32px;border-radius:7px;
+  background:var(--navy-900);
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.logo-mark svg{width:18px;height:18px;display:block}
+.logo-text{display:inline-block;font-weight:700;font-size:18px;letter-spacing:-.015em;color:var(--navy-900)}
 .header-meta{font-size:12px;color:var(--text-muted);font-weight:500}
 @media(max-width:480px){.header-meta{display:none}}
 
@@ -659,6 +666,9 @@ body:has(.sticky-cta.visible) .site-footer{padding-bottom:140px}
   max-width:800px;margin:0 auto;display:flex;justify-content:space-between;
   align-items:flex-start;flex-wrap:wrap;gap:16px;
 }
+.footer-logo{display:inline-block;line-height:0;margin-bottom:10px;transition:opacity .15s ease}
+.footer-logo:hover{opacity:.85}
+.footer-logo img{height:28px;display:block}
 .footer-brand{font-size:13px;color:var(--text-secondary);font-weight:500;margin-bottom:4px}
 .footer-legal{font-size:12px;color:var(--text-muted);line-height:1.5}
 .footer-links{display:flex;flex-direction:column;gap:6px;align-items:flex-end}

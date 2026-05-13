@@ -58,7 +58,7 @@
 <!-- ═════ HEADER ═════ -->
 <header>
   <div class="header-inner">
-    <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
+    <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener" aria-label="Финтабло — главная">
       <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.onerror=null;this.src='img/logo.svg';">
     </a>
     <div class="header-meta">Диагностика&nbsp;· 2&nbsp;минуты</div>
@@ -96,17 +96,17 @@
   <!-- Микро-контекст вместо welcome — без дубля лендинга -->
   <div class="quiz-intro">
     <div class="quiz-intro-eyebrow">Финансовая диагностика&nbsp;· 6&nbsp;вопросов</div>
-    <p class="quiz-intro-text">Отвечаете на&nbsp;вопросы&nbsp;— разбор открывается сразу после последнего. Без регистрации, данные хранятся в&nbsp;браузере.</p>
+    <p class="quiz-intro-text">6&nbsp;вопросов&nbsp;— на&nbsp;выходе расчёт упущенной прибыли в&nbsp;рублях, индекс прозрачности 0–100 и&nbsp;следующий шаг. Без регистрации.</p>
   </div>
 
   <!-- ── Step 1: Роль (показывается сразу при входе) ── -->
   <section class="step active" id="step-1">
-    <h2 class="step-q">Ваша роль в&nbsp;компании</h2>
+    <h2 class="step-q">Кто вы в&nbsp;компании?</h2>
     <p class="step-sub">Подберём разбор под ваши задачи</p>
     <div class="options-group">
       <button class="option-card" type="button" data-value="owner">
         <span class="oc-title">Собственник или генеральный директор</span>
-        <span class="oc-sub">Хочу понять, что&nbsp;происходит с&nbsp;деньгами в&nbsp;моём бизнесе</span>
+        <span class="oc-sub">Хочу разобраться, куда уходит прибыль</span>
       </button>
       <button class="option-card" type="button" data-value="financier">
         <span class="oc-title">Финансовый директор или финансовый менеджер</span>
@@ -114,7 +114,7 @@
       </button>
       <button class="option-card" type="button" data-value="accountant">
         <span class="oc-title">Главный бухгалтер</span>
-        <span class="oc-sub">Веду налоговый учёт, частично закрываю и&nbsp;финансовый</span>
+        <span class="oc-sub">Веду налоговый учёт, иногда закрываю и&nbsp;управленческий</span>
       </button>
       <button class="option-card" type="button" data-value="other">
         <span class="oc-title">Другая роль</span>
@@ -127,23 +127,23 @@
   <!-- ── Step 2: Тип бизнеса ── -->
   <section class="step" id="step-2">
     <h2 class="step-q">Какой у&nbsp;вас бизнес?</h2>
-    <p class="step-sub">Под модель бизнеса настроим формулы расчёта</p>
+    <p class="step-sub">Выберите вариант, в&nbsp;который попадает основная выручка</p>
     <div class="options-group">
       <button class="option-card" type="button" data-value="project">
-        <span class="oc-title">Проектный</span>
-        <span class="oc-sub">Стройка, ремонт, IT-разработка, агентство, консалтинг</span>
+        <span class="oc-title">Услуги под заказ</span>
+        <span class="oc-sub">Агентство, IT-разработка, консалтинг, ремонты, дизайн</span>
       </button>
       <button class="option-card" type="button" data-value="production">
-        <span class="oc-title">Производство или монтаж</span>
-        <span class="oc-sub">Серийный или штучный выпуск продукции, оборудование</span>
-      </button>
-      <button class="option-card" type="button" data-value="services">
-        <span class="oc-title">Услуги без проектной модели</span>
-        <span class="oc-sub">Сервис по&nbsp;подписке, B2C-услуги, поддержка</span>
+        <span class="oc-title">Производство</span>
+        <span class="oc-sub">Мебель, оборудование, упаковка, продукты, одежда</span>
       </button>
       <button class="option-card" type="button" data-value="trade">
-        <span class="oc-title">Торговля со&nbsp;складом</span>
-        <span class="oc-sub">Опт, розница, дистрибуция</span>
+        <span class="oc-title">Торговля</span>
+        <span class="oc-sub">Опт, розница, маркетплейс, интернет-магазин</span>
+      </button>
+      <button class="option-card" type="button" data-value="services">
+        <span class="oc-title">Сервис на&nbsp;потоке</span>
+        <span class="oc-sub">Кафе, барбершоп, фитнес, стоматология, автосервис</span>
       </button>
     </div>
     <div class="step-reward" id="reward-2" hidden></div>
@@ -166,12 +166,12 @@
   <!-- ── Step 4: Возраст бизнеса ── -->
   <section class="step" id="step-4">
     <h2 class="step-q">Сколько лет вашему бизнесу?</h2>
-    <p class="step-sub">Длительность работы влияет на&nbsp;применимость рекомендаций</p>
+    <p class="step-sub">От&nbsp;возраста зависит, какие шаги сработают</p>
     <div class="options-group">
-      <button class="option-card" type="button" data-value="young"><span class="oc-title">До&nbsp;3&nbsp;лет</span><span class="oc-sub">Новый бизнес, ещё формируется</span></button>
-      <button class="option-card" type="button" data-value="mid"><span class="oc-title">3&nbsp;— 5&nbsp;лет</span><span class="oc-sub">Прошли период становления</span></button>
-      <button class="option-card" type="button" data-value="mature"><span class="oc-title">5&nbsp;— 10&nbsp;лет</span><span class="oc-sub">Устоявшаяся структура и&nbsp;процессы</span></button>
-      <button class="option-card" type="button" data-value="veteran"><span class="oc-title">Больше 10&nbsp;лет</span><span class="oc-sub">Зрелая компания с&nbsp;историей</span></button>
+      <button class="option-card" type="button" data-value="young"><span class="oc-title">До&nbsp;3&nbsp;лет</span><span class="oc-sub">Стартап, бизнес-модель ещё ищется</span></button>
+      <button class="option-card" type="button" data-value="mid"><span class="oc-title">3&nbsp;— 5&nbsp;лет</span><span class="oc-sub">Бизнес-модель устоялась</span></button>
+      <button class="option-card" type="button" data-value="mature"><span class="oc-title">5&nbsp;— 10&nbsp;лет</span><span class="oc-sub">Стабильные процессы и&nbsp;команда</span></button>
+      <button class="option-card" type="button" data-value="veteran"><span class="oc-title">Больше 10&nbsp;лет</span><span class="oc-sub">Зрелая компания, 10+&nbsp;лет на&nbsp;рынке</span></button>
     </div>
     <div class="step-reward" id="reward-4" hidden></div>
   </section>
@@ -182,8 +182,8 @@
     <p class="step-sub">Выберите самое сильное&nbsp;— под него настроим разбор</p>
     <div class="options-group">
       <button class="option-card" type="button" data-value="margin_blind">
-        <span class="oc-title">Не&nbsp;знаю прибыль по&nbsp;направлениям</span>
-        <span class="oc-sub">Непонятно, какое направление кормит, а&nbsp;какое съедает</span>
+        <span class="oc-title">Не&nbsp;вижу прибыль по&nbsp;направлениям</span>
+        <span class="oc-sub">Какое прибыльное, какое в&nbsp;убыток&nbsp;— на&nbsp;ощупь</span>
       </button>
       <button class="option-card" type="button" data-value="cash_surprise">
         <span class="oc-title">Кассовые разрывы появляются внезапно</span>
@@ -203,8 +203,8 @@
 
   <!-- ── Step 6: Финдир есть? ── -->
   <section class="step" id="step-6">
-    <h2 class="step-q">Есть&nbsp;ли в&nbsp;компании выделенный финансист?</h2>
-    <p class="step-sub">Не&nbsp;важно&nbsp;— штат или аутсорс. Важно: есть&nbsp;ли отдельный человек, который ведёт управленческий учёт.</p>
+    <h2 class="step-q">Кто отвечает за&nbsp;финансы?</h2>
+    <p class="step-sub">Не&nbsp;важно&nbsp;— штат или аутсорс</p>
     <div class="options-group">
       <button class="option-card" type="button" data-value="yes_cfo">
         <span class="oc-title">Да, есть</span>
@@ -234,6 +234,9 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-company">
+      <a href="https://fintablo.ru" class="footer-logo" aria-label="Финтабло — главная" target="_blank" rel="noopener">
+        <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="28" onerror="this.onerror=null;this.src='img/logo.svg';">
+      </a>
       <div class="footer-brand">© 2026, «Финтабло»</div>
       <div class="footer-legal">
         ООО&nbsp;«Нескучный финансовый софт»<br>

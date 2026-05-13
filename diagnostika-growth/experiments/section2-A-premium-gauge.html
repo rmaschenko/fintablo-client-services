@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Section 2 · Premium Gauge · в фирстиле Финтабло</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Брендбук Финтабло */
+  --brand: #2951CA;
+  --brand-hover: #1C3C9B;
+  --brand-soft: #5A76C9;
+  --heading: #091A4E;
+  --plate-deep: #171339;
+  --text: #404C72;
+  --text-2: #818696;
+  --text-3: #C9C9C9;
+  --bg: #F4F7FF;
+  --surface: #FFFFFF;
+  --plate-light: #DDE6FF;
+  --accent: #FFFDB5;
+  --rule: rgba(9,26,78,.08);
+
+  /* Зональная палитра брендбука для индекса */
+  --zone-low: #FF3A1D;
+  --zone-mid: #FFAF36;
+  --zone-good: #2951CA;
+  --zone-top: #01B554;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  font-feature-settings: 'cv11','ss01','ss03';
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding: 80px 24px;
+}
+.wrap { max-width: 980px; margin: 0 auto; }
+
+/* ─── Section 02 ─── */
+.section { padding: 0; }
+.section-head { margin-bottom: 48px; }
+.section-num {
+  display: inline-block;
+  font-size: 11px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--brand);
+  padding: 6px 14px;
+  background: rgba(41,81,202,.08);
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+.section-title {
+  font-size: clamp(32px, 4.4vw, 48px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.025em;
+  color: var(--heading);
+  margin-bottom: 12px;
+}
+.section-sub {
+  font-size: 17px;
+  color: var(--text);
+  max-width: 640px;
+}
+
+/* ─── Premium gauge card ─── */
+.gauge-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 24px;
+  padding: 56px 48px 40px;
+  box-shadow:
+    0 1px 2px rgba(9,26,78,.04),
+    0 12px 32px -8px rgba(41,81,202,.08),
+    0 28px 60px -20px rgba(9,26,78,.12);
+  overflow: hidden;
+}
+.gauge-card::before {
+  content: '';
+  position: absolute;
+  inset: -100px -100px auto auto;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255,253,181,.6), transparent 70%);
+  pointer-events: none;
+}
+.gauge-card::after {
+  content: '';
+  position: absolute;
+  inset: auto auto -120px -120px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(41,81,202,.12), transparent 65%);
+  pointer-events: none;
+}
+
+.gauge-wrap {
+  position: relative;
+  width: 100%; max-width: 540px;
+  margin: 0 auto;
+  aspect-ratio: 540 / 320;
+}
+
+.gauge-svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+/* Дуга background */
+.gauge-bg-arc {
+  stroke: var(--plate-light);
+  stroke-width: 28;
+  stroke-linecap: round;
+  fill: none;
+}
+
+/* Декоративные тики */
+.gauge-tick {
+  stroke: var(--text-3);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* Дуга fill — анимированная заливка */
+.gauge-fill {
+  stroke: url(#brand-gradient);
+  stroke-width: 28;
+  stroke-linecap: round;
+  fill: none;
+  filter: drop-shadow(0 8px 16px rgba(41,81,202,.25));
+  stroke-dasharray: 0 408;
+  animation: fillArc 1.4s cubic-bezier(.22,.61,.36,1) forwards;
+  animation-delay: .25s;
+}
+@keyframes fillArc {
+  to { stroke-dasharray: 244.8 408; } /* 60% of arc */
+}
+
+/* Маркеры на дуге */
+.gauge-marker {
+  fill: var(--surface);
+  stroke: var(--brand);
+  stroke-width: 3;
+  filter: drop-shadow(0 4px 8px rgba(9,26,78,.18));
+}
+.gauge-marker-top {
+  stroke: var(--zone-top);
+}
+
+/* Центральная цифра */
+.gauge-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+  padding-top: 8%;
+}
+.gauge-score {
+  font-size: clamp(72px, 12vw, 120px);
+  font-weight: 900;
+  letter-spacing: -.045em;
+  line-height: .9;
+  background: linear-gradient(180deg, var(--heading) 0%, var(--brand) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+.gauge-score-suffix {
+  font-size: clamp(20px, 2.8vw, 30px);
+  font-weight: 600;
+  color: var(--text-2);
+  margin-left: 4px;
+  vertical-align: super;
+  font-variant-numeric: tabular-nums;
+}
+.gauge-zone {
+  margin-top: 8px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  background: rgba(255,175,54,.14);
+  border: 1px solid rgba(255,175,54,.4);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #B36800;
+  letter-spacing: -.01em;
+}
+.gauge-zone::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--zone-mid);
+  box-shadow: 0 0 12px var(--zone-mid);
+}
+
+/* ─── Zones row ─── */
+.zones {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+}
+.zone {
+  display: flex; flex-direction: column;
+  gap: 4px;
+  padding: 12px 8px;
+  border-radius: 10px;
+  text-align: center;
+  transition: background .2s ease;
+  position: relative;
+}
+.zone.active {
+  background: linear-gradient(180deg, rgba(255,175,54,.10), transparent);
+}
+.zone.active::before {
+  content: '';
+  position: absolute;
+  inset: auto 50% 0 50%;
+  width: 24px; height: 2px;
+  background: var(--zone-mid);
+  border-radius: 1px;
+  transform: translateX(-50%);
+}
+.zone-range {
+  font-size: 11px; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+  letter-spacing: .04em;
+}
+.zone-label {
+  font-size: 13px; font-weight: 600;
+  color: var(--heading);
+  letter-spacing: -.01em;
+}
+.zone.active .zone-label { color: var(--zone-mid); }
+.zone:nth-child(1) .zone-dot { background: var(--zone-low); }
+.zone:nth-child(2) .zone-dot { background: var(--zone-mid); }
+.zone:nth-child(3) .zone-dot { background: var(--zone-good); }
+.zone:nth-child(4) .zone-dot { background: var(--zone-top); }
+.zone-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  margin: 0 auto 4px;
+}
+
+/* ─── Legend ─── */
+.legend {
+  display: flex; flex-wrap: wrap; gap: 24px;
+  margin-top: 32px;
+  padding: 18px 22px;
+  background: var(--plate-light);
+  border-radius: 12px;
+  font-size: 13px;
+}
+.legend-item { display: flex; align-items: center; gap: 8px; color: var(--text); }
+.legend-marker {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--brand);
+}
+.legend-marker-top { border-color: var(--zone-top); }
+.legend-marker-fill { background: var(--brand); border: 0; }
+.legend-val {
+  font-weight: 700; color: var(--heading);
+  font-variant-numeric: tabular-nums;
+  margin-left: auto;
+}
+
+.section-note {
+  margin-top: 28px;
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+  body { padding: 56px 16px; }
+  .gauge-card { padding: 36px 24px 28px; border-radius: 18px; }
+  .zones { grid-template-columns: repeat(2, 1fr); }
+  .legend { gap: 14px; padding: 14px 16px; flex-direction: column; }
+  .legend-item { width: 100%; }
+}
+</style>
+<!-- counter -->
+<script>
+    !function() {function t(t, e){return function(){window.analystasync.push([t, arguments])}}
+        if (typeof analyst == "undefined") {var e = document.createElement("script");e.type = "text/javascript", e.async = !0, e.src = "//analyst.fintablo.ru/jsapi/api.min.js", document.getElementsByTagName("head")[0].appendChild(e), window.analyst = {}, window.analystasync = [];for (var n = ["init", "track", "props", "ident"], a = 0; a < n.length; a++) analyst[n[a]] = t(n[a])}}(), analyst.init("apiKey-PeblK5cQmecxkFlCLYC4KrNneo0BiluLLd7lx3lie6bQABFw", {'sessionEvent': false, 'visitEvent': false, 'session': false});
+</script>
+<!-- counter -->
+</head>
+<body>
+<div class="wrap">
+
+  <div class="section-head">
+    <span class="section-num">02 · Индекс прозрачности</span>
+    <h2 class="section-title">Где вы по шкале управленческой видимости</h2>
+    <p class="section-sub">Шкала 0–100 на основе профиля. Маркеры показывают типичных конкурентов и лидеров.</p>
+  </div>
+
+  <section class="gauge-card">
+    <div class="gauge-wrap">
+      <svg class="gauge-svg" viewBox="0 0 540 320" aria-hidden="true">
+        <defs>
+          <linearGradient id="brand-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#FF3A1D"/>
+            <stop offset="35%"  stop-color="#FFAF36"/>
+            <stop offset="75%"  stop-color="#2951CA"/>
+            <stop offset="100%" stop-color="#01B554"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Дуга фон (радиус 240, центр 270, 220) -->
+        <path class="gauge-bg-arc" d="M 50 270 A 220 220 0 0 1 490 270"/>
+
+        <!-- Декоративные тики на 0/25/50/75/100 -->
+        <line class="gauge-tick" x1="40" y1="265" x2="58" y2="263"/>
+        <line class="gauge-tick" x1="129" y1="113" x2="143" y2="123"/>
+        <line class="gauge-tick" x1="270" y1="48" x2="270" y2="66"/>
+        <line class="gauge-tick" x1="411" y1="113" x2="397" y2="123"/>
+        <line class="gauge-tick" x1="500" y1="265" x2="482" y2="263"/>
+
+        <!-- Дуга заливки (анимированная до 60%) -->
+        <path class="gauge-fill" d="M 50 270 A 220 220 0 0 1 490 270"/>
+
+        <!-- Маркер «Когорта 65» (на 65% дуги) -->
+        <!-- 65% от полудуги: angle = 180 - 1.8*65 = 63 deg -->
+        <!-- 220*cos(63) ≈ 100, 220*sin(63) ≈ 196 → точка (270-100·, 270-196) ≈ (170, 74) — приблизительно. Используем вычисленный по skрипту: см. ниже -->
+        <circle class="gauge-marker" id="m-peer" cx="370" cy="76" r="10"/>
+        <!-- Маркер «Лидеры 85» -->
+        <circle class="gauge-marker gauge-marker-top" id="m-top" cx="445" cy="143" r="10"/>
+      </svg>
+
+      <div class="gauge-center">
+        <div>
+          <span class="gauge-score">60</span><span class="gauge-score-suffix">/100</span>
+        </div>
+        <div class="gauge-zone">Фрагментарная видимость</div>
+      </div>
+    </div>
+
+    <div class="zones">
+      <div class="zone">
+        <span class="zone-dot"></span>
+        <span class="zone-range">0–34</span>
+        <span class="zone-label">Реактивное</span>
+      </div>
+      <div class="zone active">
+        <span class="zone-dot"></span>
+        <span class="zone-range">35–54</span>
+        <span class="zone-label">Фрагментарная</span>
+      </div>
+      <div class="zone">
+        <span class="zone-dot"></span>
+        <span class="zone-range">55–74</span>
+        <span class="zone-label">Системный</span>
+      </div>
+      <div class="zone">
+        <span class="zone-dot"></span>
+        <span class="zone-range">75–100</span>
+        <span class="zone-label">Прозрачный</span>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-marker legend-marker-fill"></span>
+        <span>Ваш индекс</span>
+        <span class="legend-val">60</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-marker"></span>
+        <span>Когорта по вашему профилю</span>
+        <span class="legend-val">65</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-marker legend-marker-top"></span>
+        <span>Лидеры по учёту</span>
+        <span class="legend-val">85</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-note">
+    Когорта — компании с похожим типом бизнеса и выручкой. Лидеры — топ-25% по уровню учёта в нашей методике.
+  </div>
+
+</div>
+
+<script>
+// Точное позиционирование маркеров по углу на дуге
+// Центр (270, 270), радиус 220, угол от 180° (левая точка) до 360°/0° (правая)
+function placeMarker(id, percent) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const rad = Math.PI * (1 - percent / 100);
+  const cx = 270 + 220 * Math.cos(rad);
+  const cy = 270 - 220 * Math.sin(rad);
+  el.setAttribute('cx', cx);
+  el.setAttribute('cy', cy);
+}
+placeMarker('m-peer', 65);
+placeMarker('m-top', 85);
+</script>
+</body>
+</html>

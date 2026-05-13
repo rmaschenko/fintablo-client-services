@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Frontend-design experiments · diagnostika-growth</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #2951CA;
+  --brand-soft: #5A76C9;
+  --heading: #091A4E;
+  --text: #404C72;
+  --text-2: #818696;
+  --bg: #F4F7FF;
+  --surface: #FFFFFF;
+  --plate: #DDE6FF;
+  --accent: #FFFDB5;
+  --rule: rgba(9,26,78,.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px; line-height: 1.55;
+  font-feature-settings: 'cv11','ss01','ss03';
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding: 56px 32px 80px;
+}
+.wrap { max-width: 980px; margin: 0 auto; }
+.eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 18px;
+}
+h1 {
+  font-weight: 800; font-size: 44px; line-height: 1.05; letter-spacing: -.025em;
+  color: var(--heading);
+  margin-bottom: 14px;
+}
+h1 .accent {
+  position: relative; display: inline-block; z-index: 1;
+}
+h1 .accent::before {
+  content: ''; position: absolute; inset: 22% -.06em 8% -.06em;
+  background: var(--accent); z-index: -1;
+}
+.lede { font-size: 17px; color: var(--text); max-width: 720px; margin-bottom: 56px; }
+
+/* ─── Section header ─── */
+.section-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 16px;
+  margin: 56px 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+.section-head h2 {
+  font-size: 12px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--brand);
+}
+.section-head .meta {
+  font-size: 12px; font-weight: 500;
+  color: var(--text-2);
+}
+
+/* ─── List ─── */
+.list { display: flex; flex-direction: column; gap: 12px; }
+.item {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 24px;
+  padding: 22px 26px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  text-decoration: none; color: inherit;
+  align-items: center;
+  transition: background .25s, border-color .25s, transform .25s;
+}
+.item:hover { background: var(--plate); border-color: var(--brand-soft); transform: translateY(-2px); }
+.num {
+  font-size: 28px; font-weight: 800;
+  color: var(--brand);
+  letter-spacing: -.02em;
+  line-height: 1;
+}
+.body h3 { font-size: 20px; font-weight: 700; letter-spacing: -.015em; color: var(--heading); margin-bottom: 4px; }
+.body p { font-size: 14px; color: var(--text); }
+.tags {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-top: 10px;
+}
+.tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--text-2);
+  padding: 3px 8px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+.tag-brand { color: var(--brand); border-color: rgba(41,81,202,.25); }
+.arrow {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  display: grid; place-items: center;
+  font-size: 15px;
+  color: var(--brand);
+  transition: background .25s, transform .25s, color .25s, border-color .25s;
+}
+.item:hover .arrow { background: var(--brand); border-color: var(--brand); color: #fff; transform: translate(2px,-2px); }
+
+/* ─── v1 archive — мутнее ─── */
+.list-archive .item {
+  background: rgba(255,255,255,.5);
+  opacity: .8;
+}
+.list-archive .item:hover { opacity: 1; }
+.list-archive .num { color: var(--text-2); font-weight: 700; }
+
+/* ─── Note ─── */
+.note {
+  margin-top: 56px;
+  padding: 22px 26px;
+  border-left: 3px solid var(--brand);
+  background: var(--surface);
+  border-radius: 0 14px 14px 0;
+  font-size: 14px;
+  color: var(--text);
+}
+.note b { color: var(--heading); font-weight: 700; }
+.note code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
+}
+
+@media (max-width: 640px) {
+  body { padding: 36px 16px 60px; }
+  h1 { font-size: 30px; }
+  .item { grid-template-columns: 44px 1fr; gap: 14px; padding: 18px 18px; }
+  .arrow { display: none; }
+  .num { font-size: 22px; }
+  .body h3 { font-size: 17px; }
+  .lede { font-size: 15px; }
+}
+</style>
+<!-- counter -->
+<script>
+    !function() {function t(t, e){return function(){window.analystasync.push([t, arguments])}}
+        if (typeof analyst == "undefined") {var e = document.createElement("script");e.type = "text/javascript", e.async = !0, e.src = "//analyst.fintablo.ru/jsapi/api.min.js", document.getElementsByTagName("head")[0].appendChild(e), window.analyst = {}, window.analystasync = [];for (var n = ["init", "track", "props", "ident"], a = 0; a < n.length; a++) analyst[n[a]] = t(n[a])}}(), analyst.init("apiKey-PeblK5cQmecxkFlCLYC4KrNneo0BiluLLd7lx3lie6bQABFw", {'sessionEvent': false, 'visitEvent': false, 'session': false});
+</script>
+<!-- counter -->
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">frontend-design skill · diagnostika-growth · experiments</div>
+  <h1>Эксперименты дизайна — <span class="accent">в фирстиле Финтабло</span></h1>
+  <p class="lede">Прототипы блоков для diagnostika-growth. <b>Section 2</b> — три варианта индекса прозрачности (выбрать лучший в прод). <b>Anti-ICP</b> — варианты блока скачивания шаблонов.</p>
+
+  <!-- ─── Section 2 — 3 варианта на выбор ─── -->
+  <div class="section-head">
+    <h2>Section 2 · Индекс прозрачности — 3 варианта</h2>
+    <span class="meta">Выбрать лучший · перенести в&nbsp;прод</span>
+  </div>
+
+  <div class="list">
+    <a class="item" href="section2-A-premium-gauge.html">
+      <div class="num">A</div>
+      <div class="body">
+        <h3>Premium gauge — объёмная дуга</h3>
+        <p>Полукруговая дуга 0–100 с brand-градиентом (#FF3A1D → #FFAF36 → #2951CA → #01B554), glow-эффекты, gradient-text по score, маркеры когорты/лидеров с outline. Анимация заливки.</p>
+        <div class="tags">
+          <span class="tag tag-brand">premium gauge</span>
+          <span class="tag">brand gradient</span>
+          <span class="tag">soft shadows</span>
+          <span class="tag">zone-row снизу</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="item" href="section2-B-bento.html">
+      <div class="num">B</div>
+      <div class="body">
+        <h3>Bento-дашборд — 4 плитки</h3>
+        <p>Большая плитка с brand-градиентом (score + zone + текст), 3 малых: когорта 65 / лидеры 85+ / шкала зон. Каждая плитка свой фон из палитры брендбука. Mini-bars в малых плитках.</p>
+        <div class="tags">
+          <span class="tag tag-brand">bento 2×2</span>
+          <span class="tag">gradient hero</span>
+          <span class="tag">accent #FFFDB5</span>
+          <span class="tag">mini-charts</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="item" href="section2-C-horizontal-bar.html">
+      <div class="num">C</div>
+      <div class="body">
+        <h3>Horizontal score-bar — fintech-стиль</h3>
+        <p>Горизонтальная шкала 0–100 с 4 зонами в цветах брендбука. Position-pill «Ваш индекс 60» на 60%, маркеры когорты и лидеров штрихами под шкалой. Таблица 4 зон с описаниями.</p>
+        <div class="tags">
+          <span class="tag tag-brand">horizontal bar</span>
+          <span class="tag">data-viz</span>
+          <span class="tag">pill-marker</span>
+          <span class="tag">zones-table</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <!-- ─── Anti-ICP блок v2 — фирстиль ─── -->
+  <div class="section-head">
+    <h2>Anti-ICP блок · v2 в фирстиле</h2>
+    <span class="meta">Палитра · #2951CA / #091A4E / #FFFDB5</span>
+  </div>
+
+  <div class="list">
+    <a class="item" href="01-editorial.html">
+      <div class="num">01</div>
+      <div class="body">
+        <h3>Editorial Light</h3>
+        <p>Премиум-журнальная подача на light theme. Большие display-заголовки с жёлтым акцентом-маркером, карточки на белом, подача «бизнес-журнал».</p>
+        <div class="tags">
+          <span class="tag tag-brand">Inter 800</span>
+          <span class="tag">light theme</span>
+          <span class="tag">#2951CA brand</span>
+          <span class="tag">#FFFDB5 accent</span>
+          <span class="tag">italic display</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="item" href="02-glass.html">
+      <div class="num">02</div>
+      <div class="body">
+        <h3>Tech Dark Glass</h3>
+        <p>Tech-fintech подача на dark theme брендбука. Mesh-градиенты на брендовых цветах, glass-карточки с blur, gradient-text в hero, pulse-индикатор статуса.</p>
+        <div class="tags">
+          <span class="tag tag-brand">Inter 200/700</span>
+          <span class="tag">dark theme</span>
+          <span class="tag">#091A4E base</span>
+          <span class="tag">#5A76C9 на тёмном</span>
+          <span class="tag">mesh + glass</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="item" href="03-strict.html">
+      <div class="num">03</div>
+      <div class="body">
+        <h3>Swiss Light</h3>
+        <p>Swiss-минимализм на light theme. Точные hairlines, vertical rhythm 8px, brand используется точечно (CTA + ссылки). Самый production-готовый вариант.</p>
+        <div class="tags">
+          <span class="tag tag-brand">Inter 700</span>
+          <span class="tag">light theme</span>
+          <span class="tag">#FFFFFF / #F4F7FF</span>
+          <span class="tag">бренд точечно</span>
+          <span class="tag">subtle motion</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <!-- ─── v1 архив ─── -->
+  <div class="section-head">
+    <h2>v1 · свободные эксперименты (до брендбука)</h2>
+    <span class="meta">До открытия Figma — для сравнения</span>
+  </div>
+
+  <div class="list list-archive">
+    <a class="item" href="01-editorial-v1.html">
+      <div class="num">01</div>
+      <div class="body">
+        <h3>Editorial Brutalism (v1)</h3>
+        <p>Полная свобода. Журнальная типографика Fraunces+Spectral, асимметричный layout, шум-текстура, акцент-coral. Ушёл от фирстиля Финтабло.</p>
+        <div class="tags">
+          <span class="tag">Fraunces</span>
+          <span class="tag">Spectral</span>
+          <span class="tag">cream / ink / coral</span>
+          <span class="tag">noise overlay</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="item" href="02-glass-v1.html">
+      <div class="num">02</div>
+      <div class="body">
+        <h3>Modern Luxury Glass (v1)</h3>
+        <p>Гибрид. Палитра близкая к diagnostika-growth (#3B82F6, не брендбук), но композиция / типографика / motion переработаны. Manrope + Instrument Serif.</p>
+        <div class="tags">
+          <span class="tag">Manrope</span>
+          <span class="tag">Instrument Serif</span>
+          <span class="tag">#3B82F6 (не брендбук)</span>
+          <span class="tag">mesh + glass</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="item" href="03-strict-v1.html">
+      <div class="num">03</div>
+      <div class="body">
+        <h3>Strict DS Kit (v1)</h3>
+        <p>Только токены diagnostika-growth (dark, #3B82F6). Опирался на текущий quiz/report, не на брендбук — поэтому теперь в архиве.</p>
+        <div class="tags">
+          <span class="tag">Inter</span>
+          <span class="tag">dark theme</span>
+          <span class="tag">токены diagnostika-growth</span>
+          <span class="tag">grid + hairlines</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <div class="note">
+    <b>Что изменилось в v2:</b> точные токены из брендбука Финтабло (Figma <code>cqd05XX2P1fqh3JfZIl1JH</code>) — brand <code>#2951CA</code>, headings <code>#091A4E</code>, accent <code>#FFFDB5</code>, темы обе канон. Шрифт по брендбуку — Lab Grotesque (коммерческий), на проде заменён Inter — оставлен. Сегмент: <code>anti_icp</code> · подтип <code>trade</code> · боль <code>cash_surprise</code>.
+  </div>
+</div>
+</body>
+</html>

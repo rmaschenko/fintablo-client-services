@@ -34,7 +34,7 @@
 
 <header>
   <div class="header-inner">
-    <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener">
+    <a class="logo" href="https://fintablo.ru" target="_blank" rel="noopener" aria-label="Финтабло — главная">
       <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="32" onerror="this.onerror=null;this.src='img/logo.svg';">
     </a>
     <div class="header-meta">Ваш разбор</div>
@@ -50,16 +50,16 @@
     <p class="dg-sub" id="hero-sub">—</p>
   </section>
 
-  <!-- ── Секция 1: Сколько прибыли можно вернуть ── -->
+  <!-- ── Секция 1: Сколько прибыли упускает бизнес ── -->
   <section class="dg-section dg-loss" id="section-loss">
     <div class="dg-section-head">
       <div class="dg-section-num">01</div>
-      <h2 class="dg-section-title">Сколько прибыли можно вернуть за&nbsp;год</h2>
+      <h2 class="dg-section-title">Сколько прибыли упускает ваш бизнес за&nbsp;год</h2>
       <p class="dg-section-sub">Расчёт по&nbsp;вашим ответам&nbsp;— насколько острая боль, какой тип бизнеса, какая выручка. Декомпозиция на&nbsp;три источника ниже.</p>
     </div>
 
     <div class="dg-loss-hero">
-      <div class="dg-loss-label">Потенциал возврата прибыли</div>
+      <div class="dg-loss-label">Расчётный диапазон упущенной прибыли за&nbsp;год</div>
       <div class="dg-loss-range mono" id="loss-range">— — —</div>
       <div class="dg-loss-pct" id="loss-pct">— % годовой выручки</div>
     </div>
@@ -78,59 +78,102 @@
   <section class="dg-section dg-index" id="section-index">
     <div class="dg-section-head">
       <div class="dg-section-num">02</div>
-      <h2 class="dg-section-title">Индекс прозрачности учёта</h2>
-      <p class="dg-section-sub">Насколько прозрачны для&nbsp;вас финансы бизнеса в&nbsp;моменте. Шкала 0–100 на&nbsp;основе вашего профиля.</p>
+      <h2 class="dg-section-title">Насколько прозрачны ваши финансы</h2>
+      <p class="dg-section-sub">Индекс 0–100 на&nbsp;основе вашего профиля. Маркеры показывают похожие компании и&nbsp;топ-25% по&nbsp;учёту.</p>
     </div>
 
-    <div class="dg-gauge-wrap">
-      <!-- Полукруговой gauge SVG: дуга от 0 до 100, стрелка-указатель -->
-      <svg class="dg-gauge" viewBox="0 0 320 180" aria-hidden="true">
-        <!-- Фоновая дуга (серая) -->
-        <path d="M 30 160 A 130 130 0 0 1 290 160" fill="none" stroke="#E2E8F0" stroke-width="22" stroke-linecap="round"/>
-        <!-- Заливка по индексу — рендерится в JS через stroke-dasharray -->
-        <path id="gauge-fill" d="M 30 160 A 130 130 0 0 1 290 160" fill="none" stroke="url(#gauge-gradient)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 408" stroke-dashoffset="0"/>
-        <defs>
-          <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#DC2626"/>
-            <stop offset="40%" stop-color="#D97706"/>
-            <stop offset="80%" stop-color="#16A34A"/>
-          </linearGradient>
-        </defs>
-        <!-- Маркер «Лидеры» — мелкая точка на 75% дуги -->
-        <circle id="gauge-mark-top" cx="0" cy="0" r="5" fill="#16A34A" stroke="#fff" stroke-width="2"/>
-        <!-- Маркер «Когорта» — мелкая точка на peer% дуги -->
-        <circle id="gauge-mark-peer" cx="0" cy="0" r="5" fill="#64748B" stroke="#fff" stroke-width="2"/>
-      </svg>
+    <div class="dg-gauge-card">
+      <div class="dg-gauge-wrap">
+        <svg class="dg-gauge" viewBox="0 0 540 320" aria-hidden="true">
+          <defs>
+            <linearGradient id="dg-gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#FF3A1D"/>
+              <stop offset="35%"  stop-color="#FFAF36"/>
+              <stop offset="75%"  stop-color="#2951CA"/>
+              <stop offset="100%" stop-color="#01B554"/>
+            </linearGradient>
+          </defs>
 
-      <div class="dg-gauge-center">
-        <div class="dg-gauge-score">
-          <span class="mono" id="index-score">—</span>
-          <span class="dg-gauge-total">/100</span>
+          <!-- Фоновая дуга (центр 270,270; r=220; полудуга 50→490) -->
+          <path class="dg-gauge-bg-arc" d="M 50 270 A 220 220 0 0 1 490 270"/>
+
+          <!-- Декоративные тики на 0/25/50/75/100 -->
+          <line class="dg-gauge-tick" x1="40" y1="265" x2="58" y2="263"/>
+          <line class="dg-gauge-tick" x1="129" y1="113" x2="143" y2="123"/>
+          <line class="dg-gauge-tick" x1="270" y1="48" x2="270" y2="66"/>
+          <line class="dg-gauge-tick" x1="411" y1="113" x2="397" y2="123"/>
+          <line class="dg-gauge-tick" x1="500" y1="265" x2="482" y2="263"/>
+
+          <!-- Заливка дуги — анимируется в JS через stroke-dasharray -->
+          <path id="gauge-fill" class="dg-gauge-fill" d="M 50 270 A 220 220 0 0 1 490 270"/>
+
+          <!-- Маркеры — позиционируются JS-ом по углу (peer / top) -->
+          <circle id="gauge-mark-peer" class="dg-gauge-marker" cx="0" cy="0" r="10"/>
+          <circle id="gauge-mark-top" class="dg-gauge-marker dg-gauge-marker-top" cx="0" cy="0" r="10"/>
+        </svg>
+
+        <div class="dg-gauge-center">
+          <div class="dg-gauge-score">
+            <span class="dg-gauge-score-val mono" id="index-score">—</span><span class="dg-gauge-score-suffix mono">/100</span>
+          </div>
+          <div class="dg-gauge-zone-pill" id="index-zone-pill">
+            <span class="dg-gauge-zone-dot"></span>
+            <span id="index-zone">—</span>
+          </div>
         </div>
-        <div class="dg-gauge-zone" id="index-zone">—</div>
       </div>
-    </div>
 
-    <div class="dg-gauge-legend">
-      <div class="dg-gauge-leg-item dg-gauge-leg-you">
-        <span class="dg-gauge-dot"></span>
-        <span class="dg-gauge-leg-label">Ваш индекс</span>
-        <span class="dg-gauge-leg-val mono" id="bench-you-val">—</span>
-      </div>
-      <div class="dg-gauge-leg-item dg-gauge-leg-peer">
-        <span class="dg-gauge-dot"></span>
-        <span class="dg-gauge-leg-label">Когорта по&nbsp;вашему профилю</span>
-        <span class="dg-gauge-leg-val mono" id="bench-peer-val">—</span>
-      </div>
-      <div class="dg-gauge-leg-item dg-gauge-leg-top">
-        <span class="dg-gauge-dot"></span>
-        <span class="dg-gauge-leg-label">Лидеры по&nbsp;учёту</span>
-        <span class="dg-gauge-leg-val mono" id="bench-top-val">—</span>
-      </div>
-    </div>
+      <div class="dg-gauge-meaning" id="index-meaning">—</div>
 
-    <div class="dg-section-note">
-      Когорта&nbsp;— компании с&nbsp;похожим типом бизнеса и&nbsp;выручкой. Лидеры&nbsp;— топ-25% по&nbsp;уровню учёта в&nbsp;нашей методике.
+      <div class="dg-zones">
+        <div class="dg-zone" data-zone="low">
+          <span class="dg-zone-dot"></span>
+          <span class="dg-zone-range mono">0–34</span>
+          <span class="dg-zone-label">Вслепую</span>
+        </div>
+        <div class="dg-zone" data-zone="mid">
+          <span class="dg-zone-dot"></span>
+          <span class="dg-zone-range mono">35–54</span>
+          <span class="dg-zone-label">Частично</span>
+        </div>
+        <div class="dg-zone" data-zone="good">
+          <span class="dg-zone-dot"></span>
+          <span class="dg-zone-range mono">55–74</span>
+          <span class="dg-zone-label">Системно</span>
+        </div>
+        <div class="dg-zone" data-zone="top">
+          <span class="dg-zone-dot"></span>
+          <span class="dg-zone-range mono">75–100</span>
+          <span class="dg-zone-label">Прозрачно</span>
+        </div>
+      </div>
+
+      <div class="dg-gauge-legend">
+        <div class="dg-gauge-leg-item dg-gauge-leg-you">
+          <span class="dg-gauge-leg-marker"></span>
+          <span class="dg-gauge-leg-info">
+            <span class="dg-gauge-leg-label">Вы</span>
+            <span class="dg-gauge-leg-sub" id="bench-you-sub">по&nbsp;вашим ответам</span>
+          </span>
+          <span class="dg-gauge-leg-val mono" id="bench-you-val">—</span>
+        </div>
+        <div class="dg-gauge-leg-item dg-gauge-leg-peer">
+          <span class="dg-gauge-leg-marker"></span>
+          <span class="dg-gauge-leg-info">
+            <span class="dg-gauge-leg-label" id="bench-peer-label">Похожие компании</span>
+            <span class="dg-gauge-leg-sub" id="bench-peer-sub">средний уровень учёта</span>
+          </span>
+          <span class="dg-gauge-leg-val mono" id="bench-peer-val">—</span>
+        </div>
+        <div class="dg-gauge-leg-item dg-gauge-leg-top">
+          <span class="dg-gauge-leg-marker"></span>
+          <span class="dg-gauge-leg-info">
+            <span class="dg-gauge-leg-label" id="bench-top-label">Топ-25% компаний</span>
+            <span class="dg-gauge-leg-sub" id="bench-top-sub">с&nbsp;прозрачным управленческим учётом</span>
+          </span>
+          <span class="dg-gauge-leg-val mono" id="bench-top-val">—</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -139,9 +182,14 @@
     <div class="dg-section-head">
       <div class="dg-section-num">03</div>
       <h2 class="dg-section-title">Что исправить в&nbsp;первую очередь</h2>
-      <p class="dg-section-sub">Один конкретный шаг под вашу главную боль&nbsp;— без общих советов про управленческий учёт.</p>
+      <p class="dg-section-sub">Один шаг на&nbsp;ближайшие 2&nbsp;недели под вашу главную боль.</p>
     </div>
 
+    <!-- Section 3 содержимое рендерится в report.js → renderFix.
+         Для hot/warm маршрутов часть блока (compare + roadmap + summary)
+         заворачивается в .dg-fix-locked-block — он blur'ится через CSS,
+         когда body имеет класс is-locked. После сабмита формы → unlock.
+         Anti-ICP видит всё открытым. -->
     <div class="dg-fix-card">
       <div class="dg-fix-title" id="fix-title">—</div>
       <div class="dg-fix-body" id="fix-body">—</div>
@@ -159,6 +207,9 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-company">
+      <a href="https://fintablo.ru" class="footer-logo" aria-label="Финтабло — главная" target="_blank" rel="noopener">
+        <img src="https://static.tildacdn.com/tild3138-6332-4262-a166-613434313066/Logo.png" alt="Финтабло" height="28" onerror="this.onerror=null;this.src='img/logo.svg';">
+      </a>
       <div class="footer-brand">© 2026, «Финтабло»</div>
       <div class="footer-legal">
         ООО&nbsp;«Нескучный финансовый софт»<br>
@@ -175,6 +226,7 @@
 
 <script src="js/storage.js"></script>
 <script src="js/calculator.js"></script>
+<script src="js/templates.js"></script>
 <script src="js/lead.js"></script>
 <script src="js/report.js"></script>
 </body>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Section 2 · Bento · в фирстиле Финтабло</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #2951CA;
+  --brand-hover: #1C3C9B;
+  --brand-soft: #5A76C9;
+  --heading: #091A4E;
+  --text: #404C72;
+  --text-2: #818696;
+  --text-3: #C9C9C9;
+  --bg: #F4F7FF;
+  --surface: #FFFFFF;
+  --plate-light: #DDE6FF;
+  --plate-2: #F6F6F6;
+  --accent: #FFFDB5;
+  --rule: rgba(9,26,78,.08);
+  --zone-low: #FF3A1D;
+  --zone-mid: #FFAF36;
+  --zone-good: #2951CA;
+  --zone-top: #01B554;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  font-feature-settings: 'cv11','ss01','ss03';
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding: 80px 24px;
+}
+.wrap { max-width: 1080px; margin: 0 auto; }
+
+/* ─── Section header ─── */
+.section-head { margin-bottom: 48px; }
+.section-num {
+  display: inline-block;
+  font-size: 11px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--brand);
+  padding: 6px 14px;
+  background: rgba(41,81,202,.08);
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+.section-title {
+  font-size: clamp(32px, 4.4vw, 48px);
+  font-weight: 800; line-height: 1.05; letter-spacing: -.025em;
+  color: var(--heading); margin-bottom: 12px;
+}
+.section-sub { font-size: 17px; color: var(--text); max-width: 640px; }
+
+/* ─── Bento grid 2×2 ─── */
+.bento {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  min-height: 480px;
+}
+
+.cell {
+  position: relative;
+  padding: 32px 28px;
+  border-radius: 20px;
+  border: 1px solid var(--rule);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Главная ячейка — большой score */
+.cell-main {
+  grid-row: 1 / span 2;
+  background: linear-gradient(140deg, var(--heading) 0%, var(--brand) 65%, var(--brand-soft) 100%);
+  color: #fff;
+  border: 0;
+  padding: 44px 40px;
+  justify-content: space-between;
+  position: relative;
+}
+.cell-main::before {
+  content: '';
+  position: absolute;
+  inset: -80px -80px auto auto;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(255,253,181,.35), transparent 70%);
+  pointer-events: none;
+}
+.cell-main::after {
+  content: '';
+  position: absolute;
+  inset: auto auto -100px -50px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(255,255,255,.08), transparent 60%);
+  pointer-events: none;
+}
+.cell-main > * { position: relative; z-index: 1; }
+
+.main-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(255,253,181,.85);
+  margin-bottom: auto;
+}
+.main-score {
+  display: flex; align-items: baseline; gap: 4px;
+  font-variant-numeric: tabular-nums;
+  margin: 24px 0 8px;
+}
+.main-score-val {
+  font-size: clamp(96px, 13vw, 156px);
+  font-weight: 900;
+  letter-spacing: -.05em;
+  line-height: .85;
+  background: linear-gradient(180deg, #fff 30%, var(--accent) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.main-score-max {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  color: rgba(255,255,255,.45);
+  letter-spacing: -.02em;
+}
+.main-zone {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 14px;
+  padding: 8px 16px;
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,253,181,.35);
+  border-radius: 999px;
+  font-size: 14px; font-weight: 600;
+  color: var(--accent);
+  width: max-content;
+  backdrop-filter: blur(8px);
+}
+.main-zone::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--zone-mid);
+  box-shadow: 0 0 12px var(--zone-mid);
+}
+.main-description {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.78);
+  margin-top: 24px;
+  max-width: 380px;
+}
+
+/* Малые ячейки */
+.cell-peer {
+  background: var(--plate-light);
+  color: var(--text);
+}
+.cell-top {
+  background: var(--accent);
+  color: var(--heading);
+}
+.cell-zones {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.cell-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 12px;
+}
+.cell-top .cell-label { color: #B36800; }
+.cell-zones .cell-label { color: var(--text-2); }
+
+.cell-val {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 800; line-height: .9;
+  letter-spacing: -.035em;
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 6px;
+}
+.cell-name {
+  font-size: 13px; font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.cell-mini {
+  margin-top: auto;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--text-2);
+}
+
+/* Sparkline / mini-bar в малых ячейках */
+.mini-bar {
+  flex: 1;
+  display: flex; align-items: flex-end; gap: 2px;
+  height: 28px;
+}
+.mini-bar span {
+  flex: 1;
+  background: currentColor;
+  opacity: .35;
+  border-radius: 2px;
+}
+.cell-peer .mini-bar { color: var(--brand); }
+.cell-top .mini-bar { color: var(--zone-top); }
+
+/* Zones cell — горизонтальная шкала */
+.zones-track {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  position: relative;
+}
+.zones-track > div {
+  height: 6px;
+  border-radius: 3px;
+}
+.zones-track > div:nth-child(1) { background: var(--zone-low); opacity: .35; }
+.zones-track > div:nth-child(2) { background: var(--zone-mid); }
+.zones-track > div:nth-child(3) { background: var(--zone-good); opacity: .35; }
+.zones-track > div:nth-child(4) { background: var(--zone-top); opacity: .35; }
+.zones-labels {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 10px; font-weight: 700; letter-spacing: .04em;
+  color: var(--text-2);
+}
+.zones-labels > div { text-align: center; }
+.zones-labels > div:nth-child(2) { color: var(--zone-mid); }
+
+/* ─── Animations ─── */
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.cell { animation: rise .7s cubic-bezier(.22,.61,.36,1) both; }
+.cell-main { animation-delay: .1s; }
+.cell-peer { animation-delay: .2s; }
+.cell-top { animation-delay: .3s; }
+.cell-zones { animation-delay: .4s; }
+
+.section-note {
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+  body { padding: 56px 16px; }
+  .bento { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .cell-main { grid-row: auto; }
+  .cell { padding: 24px 22px; }
+}
+</style>
+<!-- counter -->
+<script>
+    !function() {function t(t, e){return function(){window.analystasync.push([t, arguments])}}
+        if (typeof analyst == "undefined") {var e = document.createElement("script");e.type = "text/javascript", e.async = !0, e.src = "//analyst.fintablo.ru/jsapi/api.min.js", document.getElementsByTagName("head")[0].appendChild(e), window.analyst = {}, window.analystasync = [];for (var n = ["init", "track", "props", "ident"], a = 0; a < n.length; a++) analyst[n[a]] = t(n[a])}}(), analyst.init("apiKey-PeblK5cQmecxkFlCLYC4KrNneo0BiluLLd7lx3lie6bQABFw", {'sessionEvent': false, 'visitEvent': false, 'session': false});
+</script>
+<!-- counter -->
+</head>
+<body>
+<div class="wrap">
+
+  <div class="section-head">
+    <span class="section-num">02 · Индекс прозрачности</span>
+    <h2 class="section-title">Где вы по шкале управленческой видимости</h2>
+    <p class="section-sub">Шкала 0–100 на основе профиля бизнеса. Сравниваем с типичной когортой и лидерами по учёту.</p>
+  </div>
+
+  <div class="bento">
+
+    <div class="cell cell-main">
+      <div class="main-label">Ваш индекс</div>
+      <div>
+        <div class="main-score">
+          <span class="main-score-val">60</span><span class="main-score-max">/100</span>
+        </div>
+        <div class="main-zone">Фрагментарная видимость</div>
+        <p class="main-description">
+          Часть финансовых процессов системно ведётся, часть — на ощупь. Решения возможны, но риск ошибки высокий, так как картина неполная.
+        </p>
+      </div>
+    </div>
+
+    <div class="cell cell-peer">
+      <div class="cell-label">Когорта</div>
+      <div class="cell-val">65</div>
+      <div class="cell-name">Похожие компании<br>по типу и&nbsp;выручке</div>
+      <div class="cell-mini">
+        <div class="mini-bar">
+          <span style="height:30%"></span>
+          <span style="height:45%"></span>
+          <span style="height:55%"></span>
+          <span style="height:65%"></span>
+          <span style="height:60%"></span>
+          <span style="height:70%"></span>
+          <span style="height:65%"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cell cell-top">
+      <div class="cell-label">Лидеры по учёту</div>
+      <div class="cell-val">85+</div>
+      <div class="cell-name">Топ-25% компаний<br>в&nbsp;нашей методике</div>
+      <div class="cell-mini">
+        <div class="mini-bar">
+          <span style="height:65%"></span>
+          <span style="height:75%"></span>
+          <span style="height:80%"></span>
+          <span style="height:85%"></span>
+          <span style="height:90%"></span>
+          <span style="height:85%"></span>
+          <span style="height:95%"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cell cell-zones">
+      <div class="cell-label">Зоны шкалы</div>
+      <div class="cell-name" style="margin-bottom:auto;font-size:12px;color:var(--text-2)">
+        Реактивное · Фрагментарная · Системный · Прозрачный
+      </div>
+      <div class="zones-track">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="zones-labels">
+        <div>0–34</div>
+        <div>35–54</div>
+        <div>55–74</div>
+        <div>75–100</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-note">
+    Когорта — компании с похожим типом бизнеса и выручкой. Лидеры — топ-25% по уровню учёта в нашей методике.
+  </div>
+
+</div>
+</body>
+</html>

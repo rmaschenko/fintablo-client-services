@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anti-ICP · Swiss Light · diagnostika-growth/experiments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Брендбук — light theme, точные токены */
+  --brand: #2951CA;
+  --brand-hover: #1C3C9B;
+  --brand-soft: #5A76C9;
+  --heading: #091A4E;
+  --text: #404C72;
+  --text-2: #818696;
+  --text-3: #C9C9C9;
+  --bg: #FFFFFF;
+  --bg-soft: #F4F7FF;
+  --plate: #DDE6FF;
+  --plate-2: #F6F6F6;
+  --accent: #FFFDB5;
+  --rule: rgba(9,26,78,.08);
+  --rule-strong: rgba(9,26,78,.14);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  font-feature-settings: 'cv11','ss01','ss03','cv02';
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+
+/* ─── Topbar ───────────────────────────────────────── */
+.topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.topbar-l { color: var(--brand); font-weight: 700; }
+
+/* ─── Hero — vertical rhythm 8px ───────────────────── */
+.hero { padding: 96px 0 64px; }
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 32px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before {
+  content: ''; display: inline-block;
+  width: 28px; height: 1px; background: var(--brand);
+}
+.hero h1 {
+  font-weight: 800;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1.04;
+  letter-spacing: -.025em;
+  color: var(--heading);
+  max-width: 920px;
+  margin-bottom: 24px;
+}
+.hero h1 .accent {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+.hero h1 .accent::before {
+  content: '';
+  position: absolute;
+  inset: 22% -.08em 8% -.08em;
+  background: var(--accent);
+  z-index: -1;
+}
+.hero-sub {
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 720px;
+  margin-bottom: 48px;
+  font-weight: 400;
+}
+.hero-sub b { font-weight: 600; color: var(--heading); }
+
+.hero-meta {
+  display: flex; gap: 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 20px 0;
+}
+.hero-meta-item {
+  flex: 1;
+  padding-right: 32px;
+  position: relative;
+}
+.hero-meta-item:not(:last-child)::after {
+  content: ''; position: absolute; right: 0; top: 4px; bottom: 4px; width: 1px;
+  background: var(--rule);
+}
+.hero-meta-item:not(:first-child) { padding-left: 32px; }
+.hero-meta-l {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin-bottom: 6px;
+}
+.hero-meta-r {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -.01em;
+  color: var(--heading);
+}
+.hero-meta-r span { color: var(--brand); font-weight: 800; }
+
+/* ─── Cards ─────────────────────────────────────────── */
+.cards-section { padding: 80px 0 32px; }
+.cards-head {
+  display: flex; justify-content: space-between; align-items: end;
+  margin-bottom: 40px;
+}
+.cards-head h2 {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: var(--heading);
+}
+.cards-head-r {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.cards-head-r b { color: var(--brand); font-weight: 700; }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.card {
+  display: flex; flex-direction: column;
+  padding: 28px 26px 24px;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .25s ease, background .25s ease, transform .25s ease;
+  position: relative;
+  min-height: 296px;
+}
+.card:hover {
+  background: var(--plate);
+  border-color: var(--brand-soft);
+  transform: translateY(-2px);
+}
+.card-step {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 28px;
+}
+.card-step-num {
+  font-feature-settings: 'tnum';
+  color: var(--text-2);
+  font-weight: 500;
+}
+.card h3 {
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -.015em;
+  color: var(--heading);
+  margin-bottom: 10px;
+}
+.card p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+  flex: 1;
+  margin-bottom: 22px;
+}
+.card-cta {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--heading);
+}
+.card-cta-arrow {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--rule-strong);
+  display: grid; place-items: center;
+  font-size: 13px;
+  color: var(--brand);
+  transition: background .25s, border-color .25s, transform .25s, color .25s;
+  font-weight: 400;
+}
+.card:hover .card-cta-arrow {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  transform: translate(2px, -2px);
+}
+
+/* ─── Bonus row ─────────────────────────────────────── */
+.bonus-section { padding: 16px 0 80px; }
+.bonus-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  padding: 24px 28px;
+  background:
+    linear-gradient(110deg, rgba(255,253,181,.32), rgba(255,253,181,.06) 60%),
+    var(--bg-soft);
+  border: 1px solid rgba(255,253,181,.62);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  align-items: center;
+  transition: border-color .25s, transform .25s;
+}
+.bonus-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.bonus-content { display: flex; flex-direction: column; gap: 8px; }
+.bonus-step {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--heading);
+  display: flex; align-items: center; gap: 8px;
+}
+.bonus-step::before {
+  content: '＋';
+  font-size: 14px;
+  color: var(--brand);
+}
+.bonus-card h3 {
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -.015em;
+  color: var(--heading);
+  margin-bottom: 4px;
+}
+.bonus-card p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 720px;
+}
+.bonus-cta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--heading);
+}
+.bonus-cta-arrow {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 1px solid rgba(9,26,78,.18);
+  display: grid; place-items: center;
+  font-size: 14px;
+  color: var(--heading);
+  transition: background .25s, transform .25s, border-color .25s;
+}
+.bonus-card:hover .bonus-cta-arrow {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  transform: translate(2px, -2px);
+}
+
+/* ─── Outro ────────────────────────────────────────── */
+.outro {
+  padding: 48px 0 80px;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: end;
+}
+.outro-text {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--text-2);
+  max-width: 760px;
+  font-weight: 400;
+}
+.outro-text b {
+  color: var(--heading);
+  font-weight: 600;
+}
+.outro-sig {
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  text-align: right;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+/* ─── Animations — subtle ──────────────────────────── */
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.hero, .cards-head, .bonus-card, .outro { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+.hero { animation-delay: .05s; }
+.cards-head { animation-delay: .25s; }
+.card { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+.card:nth-child(1) { animation-delay: .35s; }
+.card:nth-child(2) { animation-delay: .45s; }
+.card:nth-child(3) { animation-delay: .55s; }
+.bonus-card { animation-delay: .7s; }
+.outro { animation-delay: .85s; }
+
+/* ─── Responsive ────────────────────────────────────── */
+@media (max-width: 880px) {
+  .wrap { padding: 0 18px; }
+  .hero { padding: 56px 0 40px; }
+  .hero-meta { flex-direction: column; gap: 16px; padding: 16px 0; }
+  .hero-meta-item:not(:last-child)::after { display: none; }
+  .hero-meta-item:not(:first-child) { padding-left: 0; padding-top: 16px; border-top: 1px solid var(--rule); }
+  .cards-head { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .cards { grid-template-columns: 1fr; gap: 12px; }
+  .bonus-card { grid-template-columns: 1fr; gap: 16px; }
+  .outro { grid-template-columns: 1fr; padding: 40px 0 60px; }
+}
+</style>
+<!-- counter -->
+<script>
+    !function() {function t(t, e){return function(){window.analystasync.push([t, arguments])}}
+        if (typeof analyst == "undefined") {var e = document.createElement("script");e.type = "text/javascript", e.async = !0, e.src = "//analyst.fintablo.ru/jsapi/api.min.js", document.getElementsByTagName("head")[0].appendChild(e), window.analyst = {}, window.analystasync = [];for (var n = ["init", "track", "props", "ident"], a = 0; a < n.length; a++) analyst[n[a]] = t(n[a])}}(), analyst.init("apiKey-PeblK5cQmecxkFlCLYC4KrNneo0BiluLLd7lx3lie6bQABFw", {'sessionEvent': false, 'visitEvent': false, 'session': false});
+</script>
+<!-- counter -->
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>Эксперимент · 03</div>
+    <div class="topbar-l">Swiss Light · в фирстиле</div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-eyebrow">3 шаблона под вашу боль</div>
+    <h1>Финтабло сейчас вам не&nbsp;подходит&nbsp;— но&nbsp;<span class="accent">шаблоны работают.</span></h1>
+    <p class="hero-sub">Финтабло сознательно специализирован под <b>проектный бизнес и&nbsp;производство от&nbsp;60&nbsp;млн&nbsp;₽</b> годовой выручки. Под ваш профиль продукт пока неэффективен. Но&nbsp;на&nbsp;вашу боль («прибыль есть, денег нет») у&nbsp;нас есть готовые рабочие инструменты&nbsp;— забирайте.</p>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hero-meta-l">Файлов</div>
+        <div class="hero-meta-r"><span>3</span> + 1 бонус</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-l">Формат</div>
+        <div class="hero-meta-r">.xlsx</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-l">Ваша боль</div>
+        <div class="hero-meta-r">Прибыль ≠ касса</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cards-section">
+    <div class="cards-head">
+      <h2>Берите что работает</h2>
+      <div class="cards-head-r">3 файла · ~ 1.0 МБ · <b>прямые ссылки</b></div>
+    </div>
+
+    <div class="cards">
+      <a class="card" href="#">
+        <div class="card-step"><span>Старт</span><span class="card-step-num">01 / 03</span></div>
+        <h3>ОПиУ</h3>
+        <p>Отчёт о&nbsp;прибылях и&nbsp;убытках на&nbsp;12&nbsp;месяцев&nbsp;— главный управленческий отчёт. Покажет, что бизнес зарабатывает, даже если касса говорит обратное.</p>
+        <div class="card-cta">
+          <span>Скачать .xlsx</span>
+          <span class="card-cta-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="card" href="#">
+        <div class="card-step"><span>Инструмент</span><span class="card-step-num">02 / 03</span></div>
+        <h3>ДДС — Классический</h3>
+        <p>Отчёт о&nbsp;движении денежных средств. Опера­ционная, инвестиционная, финансовая&nbsp;— разнесены и&nbsp;считаются по&nbsp;месяцам.</p>
+        <div class="card-cta">
+          <span>Скачать .xlsx</span>
+          <span class="card-cta-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="card" href="#">
+        <div class="card-step"><span>Масштаб</span><span class="card-step-num">03 / 03</span></div>
+        <h3>Платёжный календарь</h3>
+        <p>Прогноз кассовых разрывов на&nbsp;недели вперёд. Простой и&nbsp;сложный режим под объём операций. Время на&nbsp;манёвр вместо тушения пожара.</p>
+        <div class="card-cta">
+          <span>Скачать .xlsx</span>
+          <span class="card-cta-arrow">↗</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="bonus-section">
+    <a class="bonus-card" href="#">
+      <div class="bonus-content">
+        <div class="bonus-step">Бонус под ваш тип бизнеса</div>
+        <h3>Управление запасами</h3>
+        <p>ABC/XYZ-анализ, ассорти­мент­ная матрица, точка заказа. 8&nbsp;листов с&nbsp;готовыми формулами под склад любого размера.</p>
+      </div>
+      <div class="bonus-cta">
+        <span>Скачать .xlsx</span>
+        <span class="bonus-cta-arrow">↗</span>
+      </div>
+    </a>
+  </section>
+
+  <section class="outro">
+    <div class="outro-text">Возвращайтесь, <b>когда дорастёте</b>&nbsp;— Финтабло работает с&nbsp;проектным бизнесом и&nbsp;производством от&nbsp;60&nbsp;млн&nbsp;₽.</div>
+    <div class="outro-sig">
+      diagnostika · 2026<br>
+      experiment&nbsp;03 · v2
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

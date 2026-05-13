@@ -226,7 +226,28 @@
         '</div>';
     }
 
-    // Narrative-flow: визуал + рассказ → декомпозиция → сравнение → roadmap → итог
+    // PLG-gate explicit messaging — поясняет, что скрыто и почему форма ниже.
+    // Видно только когда body.is-locked (CSS); после открытия скрывается.
+    const gateOverlayHtml =
+      '<div class="dg-fix-gate-overlay">' +
+        '<div class="dg-fix-gate-icon" aria-hidden="true">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<rect x="4" y="11" width="16" height="10" rx="2"/>' +
+            '<path d="M8 11V7a4 4 0 0 1 8 0v4"/>' +
+          '</svg>' +
+        '</div>' +
+        '<div class="dg-fix-gate-body">' +
+          '<div class="dg-fix-gate-title">Полный план раскрывается ниже после&nbsp;формы</div>' +
+          '<ul class="dg-fix-gate-list">' +
+            '<li>Что именно вы делаете в&nbsp;Excel сейчас&nbsp;— и&nbsp;как это&nbsp;же делается в&nbsp;Финтабло</li>' +
+            '<li>Что измеримо изменится через 3 и&nbsp;12 месяцев</li>' +
+            '<li>Конкретный proof-point с&nbsp;цифрами из&nbsp;нашей практики</li>' +
+          '</ul>' +
+          '<a class="dg-fix-gate-cta" href="#dg-final">К&nbsp;форме&nbsp;↓</a>' +
+        '</div>' +
+      '</div>';
+
+    // Narrative-flow: визуал + рассказ → декомпозиция → [gate overlay при is-locked] → сравнение → roadmap → итог
     // Часть после декомпозиции — внутри .dg-fix-locked-block для PLG-gate (частичный blur)
     fixCard.innerHTML =
       '<div class="dg-fix-head">' +
@@ -237,6 +258,7 @@
         '</div>' +
       '</div>' +
       decompositionHtml +
+      gateOverlayHtml +
       '<div class="dg-fix-locked-block">' +
         '<div class="dg-fix-compare">' +
           '<div class="dg-fix-line dg-fix-line-manual">' +
@@ -356,8 +378,8 @@
     ];
     return (
       '<div class="dg-final-eyebrow">7 дней полного доступа · без оплаты, без карты</div>' +
-      '<h2>Финтабло раскрывается на&nbsp;60+&nbsp;млн&nbsp;— попробуйте сейчас на&nbsp;вырост</h2>' +
-      '<p>На&nbsp;вашей выручке 30–60&nbsp;млн&nbsp;₽ Финтабло уже работает. В&nbsp;полную силу раскрывается с&nbsp;60+&nbsp;млн&nbsp;— но&nbsp;настроить базу можно сейчас, чтобы быть готовым к&nbsp;росту.</p>' +
+      '<h2>Финтабло уже работает на&nbsp;вашей выручке&nbsp;— попробуйте 7&nbsp;дней бесплатно</h2>' +
+      '<p>На&nbsp;30–60&nbsp;млн&nbsp;₽ выручки Финтабло закрывает базовые отчёты и&nbsp;учёт по&nbsp;направлениям. Настроить можно сейчас&nbsp;— вырастете уже с&nbsp;управляемой структурой, а&nbsp;не&nbsp;с&nbsp;нуля.</p>' +
       '<div class="dg-final-checklist">' + items.map(checkItem).join('') + '</div>' +
       '<button type="button" class="dg-final-cta" id="btn-warm-cta">Открыть демо-доступ на 7 дней →</button>' +
       '<div class="dg-final-meta">Регистрация по&nbsp;email&nbsp;· 7&nbsp;дней полного доступа · без оплаты</div>'

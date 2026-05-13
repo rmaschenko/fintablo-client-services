@@ -943,18 +943,25 @@
 }
 
 /* Lead form (внутри final) */
+/* Лид-форма — светлая плашка на тёмной странице (CRO best practice:
+   контрастный «остров действия» против тёмного фона; см. amoCRM,
+   Битрикс24, Stripe Atlas, Tilda Business). */
 .dg-form {
-  margin-top: 24px;
-  background: rgba(255, 255, 255, .04);
-  border: 1px solid rgba(255, 255, 255, .08);
-  border-radius: 12px;
-  padding: 22px;
+  margin-top: 28px;
+  background: #FFFFFF;
+  border: 1px solid rgba(9, 26, 78, .08);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 24px 60px -20px rgba(9, 26, 78, .35), 0 8px 24px -12px rgba(9, 26, 78, .15);
 }
+@media (max-width: 560px) { .dg-form { padding: 22px 20px; border-radius: 14px; } }
 .dg-form-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #091A4E;
+  margin-bottom: 18px;
+  line-height: 1.35;
+  letter-spacing: -.01em;
 }
 .dg-form-row {
   display: grid;
@@ -965,62 +972,73 @@
 @media (max-width: 560px) { .dg-form-row { grid-template-columns: 1fr; } }
 .dg-form-input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 13px 14px;
   font-size: 15px;
   font-family: inherit;
-  color: #fff;
-  background: rgba(255, 255, 255, .08);
-  border: 1px solid rgba(255, 255, 255, .15);
-  border-radius: 8px;
-  transition: border-color .15s, background .15s;
+  color: #091A4E;
+  background: #F4F7FF;
+  border: 1px solid rgba(9, 26, 78, .14);
+  border-radius: 10px;
+  transition: border-color .15s, background .15s, box-shadow .15s;
 }
-.dg-form-input::placeholder { color: rgba(203, 213, 225, .55); }
+.dg-form-input::placeholder { color: rgba(64, 76, 114, .55); }
 .dg-form-input:focus {
   outline: none;
-  border-color: var(--blue-400, #60A5FA);
-  background: rgba(255, 255, 255, .12);
+  border-color: #2951CA;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(41, 81, 202, .14);
 }
 .dg-form-error {
-  border-color: var(--loss, #DC2626) !important;
-  background: rgba(220, 38, 38, .12) !important;
+  border-color: #FF3A1D !important;
+  background: rgba(255, 58, 29, .06) !important;
 }
 .dg-form-error-text {
   display: none;
   font-size: 12px;
-  color: var(--loss, #DC2626);
+  color: #FF3A1D;
   margin-top: 6px;
 }
 .dg-form-error-text.is-visible { display: block; }
 .dg-form-submit {
   width: 100%;
-  padding: 14px 24px;
+  padding: 16px 24px;
   font-size: 16px;
   font-weight: 700;
-  color: #fff;
-  background: var(--blue-500, #3B82F6);
+  color: #FFFFFF;
+  background: #2951CA;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background .15s;
+  transition: background .15s, transform .12s, box-shadow .15s;
+  box-shadow: 0 8px 20px -8px rgba(41, 81, 202, .55);
+  margin-top: 8px;
+  letter-spacing: -.005em;
 }
-.dg-form-submit:hover { background: var(--blue-400, #60A5FA); }
-.dg-form-submit:disabled { background: var(--slate-600, #475569); cursor: not-allowed; }
+.dg-form-submit:hover { background: #1C3C9B; transform: translateY(-1px); box-shadow: 0 12px 24px -8px rgba(41, 81, 202, .65); }
+.dg-form-submit:active { transform: translateY(0); }
+.dg-form-submit:disabled {
+  background: #C9D2EA;
+  color: #6E7AA0;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
 /* Поля с label-ами над инпутами (профессионально, лучше для CR) */
 .dg-form-field { display: flex; flex-direction: column; gap: 6px; }
 .dg-form-label {
   font-size: 12px;
   font-weight: 600;
-  color: var(--slate-300, #CBD5E1);
+  color: #404C72;
   letter-spacing: 0.02em;
 }
 
-/* 152-ФЗ согласие — лёгкая строка под формой (CRO: не давит на пользователя) */
+/* 152-ФЗ согласие — лёгкая строка ВНУТРИ светлой формы (CRO: не давит) */
 .dg-form-consent {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  margin: 14px 0 0;
-  padding: 6px 0;
+  margin: 12px 0 0;
+  padding: 4px 0;
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -1032,46 +1050,46 @@
   width: 14px;
   height: 14px;
   margin: 3px 0 0;
-  accent-color: var(--blue-500, #3B82F6);
+  accent-color: #2951CA;
   cursor: pointer;
-  opacity: .8;
+  opacity: .85;
   transition: opacity .15s ease;
 }
 .dg-form-consent-text {
   font-size: 11px;
-  color: var(--slate-400, #94A3B8);
+  color: #818696;
   line-height: 1.5;
-  opacity: .85;
+  opacity: .9;
   transition: opacity .15s ease;
 }
 .dg-form-consent-text a {
-  color: var(--blue-300, #93BBFD);
+  color: #2951CA;
   text-decoration: underline;
-  text-decoration-color: rgba(147, 187, 253, .35);
+  text-decoration-color: rgba(41, 81, 202, .35);
   text-underline-offset: 2px;
 }
 .dg-form-consent-text a:hover {
-  color: #fff;
+  color: #1C3C9B;
   text-decoration-color: currentColor;
 }
 .dg-form-consent:hover .dg-form-checkbox,
 .dg-form-consent:hover .dg-form-consent-text { opacity: 1; }
 
-/* Подпись под submit-кнопкой — дублирует юридическое согласие fintablo.ru */
+/* Подпись под submit-кнопкой — на светлой форме */
 .dg-form-submit-note {
   margin-top: 10px;
   font-size: 11px;
-  color: var(--slate-400, #94A3B8);
+  color: #818696;
   line-height: 1.5;
   text-align: center;
-  opacity: .8;
+  opacity: .85;
 }
 .dg-form-submit-note a {
-  color: var(--blue-300, #93BBFD);
+  color: #2951CA;
   text-decoration: underline;
-  text-decoration-color: rgba(147, 187, 253, .35);
+  text-decoration-color: rgba(41, 81, 202, .35);
 }
-.dg-form-submit-note a:hover { color: #fff; text-decoration-color: currentColor; }
+.dg-form-submit-note a:hover { color: #1C3C9B; text-decoration-color: currentColor; }
 
 /* ═════ Anti-ICP templates block ═════
    3 карточки шаблонов под боль + бонус для торговли со складом.

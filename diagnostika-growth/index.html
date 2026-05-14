@@ -22,8 +22,8 @@
   <link rel="icon" href="assets/favicon.ico">
 
   <!-- Inter — единый шрифт всех клиентских микросервисов Финтабло (4 веса локально, как в money-diagnosis) -->
-  <link rel="preload" href="fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="preload" href="fonts/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf?v=202605140843" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="fonts/fonts.css?v=202605140843">
 
   <script>
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -619,12 +619,11 @@
        CSS-фильтром brightness(0) invert(1) → белая инверсия на тёмном.
        Идентичные стили в quiz/css/style.css. ═════════════ */
     .site-footer{
-      margin-top:40px;
-      padding:32px 24px 40px;
+      margin-top:0;
+      padding:36px 24px 40px;
       background:#0F1D2F;
       color:#CBD5E1;
       font-size:13px;line-height:1.6;
-      border-top:1px solid rgba(255,255,255,.06);
     }
     .site-footer a{color:#94A3B8;transition:color .15s var(--ease)}
     .site-footer a:hover{color:#FFFFFF}
@@ -637,10 +636,10 @@
     .footer-company{display:flex;flex-direction:column;gap:8px;max-width:480px}
     .footer-logo{display:inline-block;line-height:0;margin-bottom:10px;transition:opacity .15s var(--ease)}
     .footer-logo:hover{opacity:.85}
-    /* Реальный лого Финтабло (PNG из Tilda CDN, скачан локально в assets/logo.png).
-       На тёмном фоне футера показываем оригинальный лого на белой плашке —
-       стандартный приём, лого читается без искажений (значок ФТ + текст «Финтабло»). */
-    .footer-logo img{height:32px;display:block;background:#FFFFFF;padding:4px 10px;border-radius:6px}
+    /* Лого Финтабло для тёмного футера: SVG с brand-синим значком ФТ
+       и белым текстом (точная копия структуры Tilda PNG, цвет текста
+       инвертирован под тёмный фон). */
+    .footer-logo img{height:32px;display:block}
     .footer-brand{color:#E2E8F0;font-weight:600;font-size:13px}
     .footer-legal{font-size:12px;color:#94A3B8;line-height:1.55}
 
@@ -993,7 +992,7 @@
   <div class="footer-inner">
     <div class="footer-company">
       <a href="https://fintablo.ru" class="footer-logo" aria-label="Финтабло — главная" target="_blank" rel="noopener">
-        <img src="assets/logo.png" alt="Финтабло" height="28">
+        <img src="assets/logo-footer.svg" alt="Финтабло" height="32">
       </a>
       <div class="footer-brand">© 2026, «Финтабло»</div>
       <div class="footer-legal">

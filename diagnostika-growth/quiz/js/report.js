@@ -317,11 +317,10 @@
       items.push('Покажем, как делегировать учёт партнёру-финансисту Финтабло&nbsp;— по&nbsp;запросу, без обязательств');
     }
 
-    // Порядок CTA: eyebrow → H2 → sub → trust-bar (proof до контента) →
-    // checklist (что получите) → form (действие) → цитата (post-decision
-    // social proof, дополнительное убеждение если форма не отправлена сразу).
-    // Цитата с fintablo.ru/case — Сергей Табачников, собственник производства
-    // домашнего текстиля. Реальный кейс из ICP-сегмента.
+    // Hot ICP converging block — единая стилистика без жёлтого/смеси цветов.
+    // Порядок: eyebrow → H2 → sub → trust-bar (3 цифры доверия) →
+    // checklist (что получите на встрече) → форма (действие).
+    // Цитата клиента убрана из этого блока — она здесь не на месте по UX.
     return (
       '<div class="dg-final-eyebrow">Бесплатно · 30&nbsp;минут · с&nbsp;финансовым экспертом</div>' +
       '<h2>Бесплатная встреча с&nbsp;финансовым экспертом Финтабло</h2>' +
@@ -337,14 +336,7 @@
         cityField: false,
         submitText: 'Записаться на встречу',
         ymGoal: noFinance ? 'dg_lead_hot_icp_no_finance' : 'dg_lead_hot_icp'
-      }) +
-      '<div class="dg-final-quote">' +
-        '<div class="dg-final-quote-text">«Здесь уже не&nbsp;ошибиться, потому что человеческий фактор исключён»</div>' +
-        '<div class="dg-final-quote-author">' +
-          '<span class="dg-final-quote-name">Сергей Табачников</span>' +
-          '<span class="dg-final-quote-role">собственник, производство домашнего текстиля</span>' +
-        '</div>' +
-      '</div>'
+      })
     );
   }
 

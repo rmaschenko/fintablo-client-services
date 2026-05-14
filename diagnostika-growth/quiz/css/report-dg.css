@@ -769,19 +769,19 @@
 /* Декомпозиция боли — на светлой Section-карточке (тёмный текст,
    высокий контраст WCAG AA). Цвет фона мягкий синий, border-left brand. */
 .dg-fix-decomposition {
-  margin-top: 22px;
-  padding: 18px 20px;
-  background: rgba(41, 81, 202, .06);
-  border-left: 3px solid var(--blue-600, #2563EB);
-  border-radius: 0 10px 10px 0;
+  margin-top: 24px;
+  padding: 22px 24px;
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 12px;
 }
 .dg-fix-decomp-label {
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .12em;
+  font-weight: 800;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--blue-700, #1D4ED8);
-  margin-bottom: 12px;
+  color: #1D4ED8;
+  margin-bottom: 14px;
 }
 .dg-fix-decomp-list {
   list-style: none;
@@ -789,47 +789,48 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 .dg-fix-decomp-item {
   position: relative;
-  padding-left: 22px;
-  font-size: 14px;
+  padding-left: 26px;
+  font-size: 15px;
   line-height: 1.5;
-  color: var(--slate-800, #1E293B);
+  color: #0F172A;
+  font-weight: 500;
 }
 .dg-fix-decomp-item::before {
   content: '';
   position: absolute;
   left: 4px;
-  top: 8px;
-  width: 6px;
-  height: 6px;
+  top: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: var(--blue-600, #2563EB);
+  background: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .18);
 }
 
-/* Roadmap — что меняется через 3 / 12 месяцев. Светлая карточка, тёмный
-   текст, акцент-warm border-left + жёлтая плашка для контраста. */
+/* Roadmap — янтарная плашка с тёмным текстом, явный визуальный контраст */
 .dg-fix-roadmap {
-  margin-top: 22px;
-  padding: 18px 20px;
-  background: rgba(217, 119, 6, .07);
-  border-left: 3px solid var(--caution, #D97706);
-  border-radius: 0 10px 10px 0;
+  margin-top: 20px;
+  padding: 22px 24px;
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  border-radius: 12px;
 }
 .dg-fix-roadmap-label {
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .12em;
+  font-weight: 800;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: #92400E;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .dg-fix-roadmap-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 18px;
 }
 .dg-fix-roadmap-step {
   display: flex;
@@ -840,17 +841,18 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .04em;
-  color: var(--blue-700, #1D4ED8);
+  color: #92400E;
   text-transform: uppercase;
 }
 .dg-fix-roadmap-text {
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--slate-800, #1E293B);
+  font-size: 15px;
+  line-height: 1.5;
+  color: #0F172A;
+  font-weight: 500;
 }
 @media (max-width: 640px) {
-  .dg-fix-roadmap-grid { grid-template-columns: 1fr; gap: 18px; }
-  .dg-fix-decomposition, .dg-fix-roadmap { padding: 16px; }
+  .dg-fix-roadmap-grid { grid-template-columns: 1fr; gap: 16px; }
+  .dg-fix-decomposition, .dg-fix-roadmap { padding: 18px 20px; }
 }
 
 /* PLG-gate (blur, gate-overlay, locked-block) — УДАЛЕНО.

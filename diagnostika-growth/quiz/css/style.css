@@ -645,15 +645,25 @@ header{
 .consent a{color:var(--text-muted);text-decoration:underline}
 .consent-sub{font-size:11px;color:var(--text-muted);margin-top:-4px}
 
-/* ═════ STEP NAV ═════ */
+/* ═════ STEP NAV ═════
+   На мобиле — sticky-полоса внизу экрана (удобно листать большим пальцем).
+   На десктопе — обычная кнопка в потоке после вариантов, без прилипания. */
 .step-nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:90;
-  background:var(--surface);border-top:1px solid var(--border);
-  padding:10px 0;padding-bottom:calc(10px + env(safe-area-inset-bottom));
+  margin-top:32px;
+  background:transparent;border-top:0;
+  padding:0;
 }
 .step-nav .nav-inner{display:flex;gap:12px;align-items:center;max-width:780px;margin:0 auto;padding:0 24px}
 .step-nav .btn-back{flex-shrink:0}
 .step-nav .btn-primary{flex:1;padding:12px 20px;min-height:44px}
+@media(max-width:720px){
+  .step-nav{
+    position:fixed;bottom:0;left:0;right:0;z-index:90;
+    margin-top:0;
+    background:var(--surface);border-top:1px solid var(--border);
+    padding:10px 0;padding-bottom:calc(10px + env(safe-area-inset-bottom));
+  }
+}
 
 /* ═════ FOOTER · CANONICAL · единый сквозной ═════
    Светлый фон — потому что настоящий лого Финтабло (assets/logo.png)
@@ -665,8 +675,11 @@ header{
   font-size:13px;line-height:1.6;
   border-top:1px solid var(--slate-200,#E2E8F0);
 }
-body:has(.step-nav:not([hidden])) .site-footer,
-body:has(.sticky-cta.visible) .site-footer{padding-bottom:140px}
+/* Компенсация sticky-CTA только на мобиле — там step-nav и sticky-cta fixed */
+@media(max-width:720px){
+  body:has(.step-nav:not([hidden])) .site-footer,
+  body:has(.sticky-cta.visible) .site-footer{padding-bottom:140px}
+}
 .site-footer a{color:#475569;transition:color .15s ease}
 .site-footer a:hover{color:#0F172A;text-decoration:underline}
 .footer-inner{

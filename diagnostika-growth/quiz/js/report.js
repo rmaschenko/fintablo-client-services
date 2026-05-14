@@ -451,7 +451,7 @@
         '<div class="dg-form-row">' +
           '<label class="dg-form-field">' +
             '<span class="dg-form-label">Имя</span>' +
-            '<input class="dg-form-input" id="lead-name" type="text" placeholder="Как к&nbsp;вам обращаться" autocomplete="given-name" required>' +
+            '<input class="dg-form-input" id="lead-name" type="text" placeholder="Как к&nbsp;вам обращаться" autocomplete="given-name" required>' +
           '</label>' +
           '<label class="dg-form-field">' +
             '<span class="dg-form-label">Телефон</span>' +

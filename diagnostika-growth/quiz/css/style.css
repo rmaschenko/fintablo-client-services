@@ -659,10 +659,9 @@ header{
    Тёмный navy-900 фон, настоящий лого PNG с CSS-фильтром
    brightness(0) invert(1). Идентичен .site-footer в index.html. */
 .site-footer{
-  margin-top:40px;padding:32px 24px 40px;
+  margin-top:0;padding:36px 24px 40px;
   background:#0F1D2F;color:#CBD5E1;
   font-size:13px;line-height:1.6;
-  border-top:1px solid rgba(255,255,255,.06);
 }
 body:has(.step-nav:not([hidden])) .site-footer,
 body:has(.sticky-cta.visible) .site-footer{padding-bottom:140px}
@@ -675,10 +674,9 @@ body:has(.sticky-cta.visible) .site-footer{padding-bottom:140px}
 .footer-company{display:flex;flex-direction:column;gap:8px;max-width:480px}
 .footer-logo{display:inline-block;line-height:0;margin-bottom:10px;transition:opacity .15s ease}
 .footer-logo:hover{opacity:.85}
-/* Реальный лого Финтабло (PNG из Tilda CDN, скачан в assets/logo.png).
-   На тёмном фоне футера показываем оригинальный лого на белой плашке —
-   значок ФТ + текст «Финтабло» читаются без искажений. */
-.footer-logo img{height:32px;display:block;background:#FFFFFF;padding:4px 10px;border-radius:6px}
+/* Лого Финтабло для тёмного футера: SVG с brand-синим значком ФТ
+   и белым текстом (assets/logo-footer.svg). */
+.footer-logo img{height:32px;display:block}
 .footer-brand{font-size:13px;color:#E2E8F0;font-weight:600}
 .footer-legal{font-size:12px;color:#94A3B8;line-height:1.55}
 .footer-links{display:flex;flex-direction:column;gap:8px;align-items:flex-end;font-size:13px}

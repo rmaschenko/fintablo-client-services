@@ -226,29 +226,9 @@
         '</div>';
     }
 
-    // PLG-gate explicit messaging — поясняет, что скрыто и почему форма ниже.
-    // Видно только когда body.is-locked (CSS); после открытия скрывается.
-    const gateOverlayHtml =
-      '<div class="dg-fix-gate-overlay">' +
-        '<div class="dg-fix-gate-icon" aria-hidden="true">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-            '<rect x="4" y="11" width="16" height="10" rx="2"/>' +
-            '<path d="M8 11V7a4 4 0 0 1 8 0v4"/>' +
-          '</svg>' +
-        '</div>' +
-        '<div class="dg-fix-gate-body">' +
-          '<div class="dg-fix-gate-title">Полный план раскрывается ниже после&nbsp;формы</div>' +
-          '<ul class="dg-fix-gate-list">' +
-            '<li>Что именно вы делаете в&nbsp;Excel сейчас&nbsp;— и&nbsp;как это&nbsp;же делается в&nbsp;Финтабло</li>' +
-            '<li>Что измеримо изменится через 3 и&nbsp;12 месяцев</li>' +
-            '<li>Конкретный proof-point с&nbsp;цифрами из&nbsp;нашей практики</li>' +
-          '</ul>' +
-          '<a class="dg-fix-gate-cta" href="#dg-final">К&nbsp;форме&nbsp;↓</a>' +
-        '</div>' +
-      '</div>';
-
-    // Narrative-flow: визуал + рассказ → декомпозиция → [gate overlay при is-locked] → сравнение → roadmap → итог
-    // Часть после декомпозиции — внутри .dg-fix-locked-block для PLG-gate (частичный blur)
+    // Narrative-flow Section 3 (всё открыто, без blur, без gate-overlay):
+    // визуал + действие → декомпозиция → сравнение Excel↔Финтабло → roadmap 3/12м → итог.
+    // PLG-логика держится за счёт встречи с экспертом в Section 4 — это и есть ценность за форму.
     fixCard.innerHTML =
       '<div class="dg-fix-head">' +
         visualHtml +
@@ -258,25 +238,22 @@
         '</div>' +
       '</div>' +
       decompositionHtml +
-      gateOverlayHtml +
-      '<div class="dg-fix-locked-block">' +
-        '<div class="dg-fix-compare">' +
-          '<div class="dg-fix-line dg-fix-line-manual">' +
-            '<span class="dg-fix-line-label">В&nbsp;Excel и&nbsp;таблицах</span>' +
-            '<span class="dg-fix-line-text"></span>' +
-          '</div>' +
-          '<div class="dg-fix-line dg-fix-line-fintablo">' +
-            '<span class="dg-fix-line-label">В&nbsp;Финтабло</span>' +
-            '<span class="dg-fix-line-text"></span>' +
-          '</div>' +
+      '<div class="dg-fix-compare">' +
+        '<div class="dg-fix-line dg-fix-line-manual">' +
+          '<span class="dg-fix-line-label">В&nbsp;Excel и&nbsp;таблицах</span>' +
+          '<span class="dg-fix-line-text"></span>' +
         '</div>' +
-        roadmapHtml +
-        '<div class="dg-fix-summary">' +
-          '<span class="dg-fix-summary-icon">' +
-            '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l4-4 4 4 6-6"/><path d="M11 6h6v6"/></svg>' +
-          '</span>' +
-          '<span class="dg-fix-summary-text"></span>' +
+        '<div class="dg-fix-line dg-fix-line-fintablo">' +
+          '<span class="dg-fix-line-label">В&nbsp;Финтабло</span>' +
+          '<span class="dg-fix-line-text"></span>' +
         '</div>' +
+      '</div>' +
+      roadmapHtml +
+      '<div class="dg-fix-summary">' +
+        '<span class="dg-fix-summary-icon">' +
+          '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l4-4 4 4 6-6"/><path d="M11 6h6v6"/></svg>' +
+        '</span>' +
+        '<span class="dg-fix-summary-text"></span>' +
       '</div>' +
       '';
 
@@ -340,31 +317,34 @@
       items.push('Покажем, как делегировать учёт партнёру-финансисту Финтабло&nbsp;— по&nbsp;запросу, без обязательств');
     }
 
-    // Trust-цитата с fintablo.ru/case — Сергей Табачников, собственник
-    // производства домашнего текстиля (точный ICP: проектный/производство).
+    // Порядок CTA: eyebrow → H2 → sub → trust-bar (proof до контента) →
+    // checklist (что получите) → form (действие) → цитата (post-decision
+    // social proof, дополнительное убеждение если форма не отправлена сразу).
+    // Цитата с fintablo.ru/case — Сергей Табачников, собственник производства
+    // домашнего текстиля. Реальный кейс из ICP-сегмента.
     return (
       '<div class="dg-final-eyebrow">Бесплатно · 30&nbsp;минут · с&nbsp;финансовым экспертом</div>' +
       '<h2>Бесплатная встреча с&nbsp;финансовым экспертом Финтабло</h2>' +
       '<p>Открываем ваш расчёт, проверяем три ключевые цифры и&nbsp;формулируем план под вашу главную боль. Унесёте конкретные шаги, по&nbsp;которым можно работать сразу.</p>' +
+      '<div class="dg-final-trust-bar">' +
+        '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">2&nbsp;300+</span><span>компаний работают в&nbsp;Финтабло</span></div>' +
+        '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">500+</span><span>внедрений финансовых экспертов</span></div>' +
+        '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">30&nbsp;мин</span><span>встреча по&nbsp;вашему календарю</span></div>' +
+      '</div>' +
       '<div class="dg-final-checklist">' + items.map(checkItem).join('') + '</div>' +
+      buildLeadForm({
+        title: 'Оставьте контакт&nbsp;— подберём удобное время и&nbsp;пришлём ссылку на&nbsp;встречу',
+        cityField: false,
+        submitText: 'Записаться на встречу',
+        ymGoal: noFinance ? 'dg_lead_hot_icp_no_finance' : 'dg_lead_hot_icp'
+      }) +
       '<div class="dg-final-quote">' +
         '<div class="dg-final-quote-text">«Здесь уже не&nbsp;ошибиться, потому что человеческий фактор исключён»</div>' +
         '<div class="dg-final-quote-author">' +
           '<span class="dg-final-quote-name">Сергей Табачников</span>' +
           '<span class="dg-final-quote-role">собственник, производство домашнего текстиля</span>' +
         '</div>' +
-      '</div>' +
-      '<div class="dg-final-trust-bar">' +
-        '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">2&nbsp;300+</span><span>компаний работают в&nbsp;Финтабло</span></div>' +
-        '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">500+</span><span>внедрений финансовых экспертов</span></div>' +
-        '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">30&nbsp;мин</span><span>встреча по&nbsp;вашему календарю</span></div>' +
-      '</div>' +
-      buildLeadForm({
-        title: 'Оставьте контакт&nbsp;— подберём удобное время и&nbsp;пришлём ссылку на&nbsp;встречу',
-        cityField: false,
-        submitText: 'Записаться на встречу',
-        ymGoal: noFinance ? 'dg_lead_hot_icp_no_finance' : 'dg_lead_hot_icp'
-      })
+      '</div>'
     );
   }
 
@@ -428,8 +408,7 @@
       '<h2>Под вашу боль&nbsp;— 3 готовых Excel-шаблона</h2>' +
       '<p>На&nbsp;вашу главную боль (' + painLabel + ') у&nbsp;нас есть готовые рабочие инструменты&nbsp;— тот&nbsp;же стек, по&nbsp;которому работают компании в&nbsp;Финтабло. Забирайте, пользуйтесь.</p>' +
       '<div class="dg-templates">' + cards + '</div>' +
-      bonusBlock +
-      '<div class="dg-final-meta">Если шаблоны помогут в&nbsp;работе&nbsp;— будем рады обратной связи на&nbsp;<a href="mailto:hello@fintablo.ru">hello@fintablo.ru</a>.</div>'
+      bonusBlock
     );
   }
 
@@ -595,22 +574,10 @@
     });
   }
 
-  // PLG-gate v2 (частичный blur, без лишнего клика):
-  //   • hot_icp / hot_icp_no_finance / warm_icp → ставим body.is-locked.
-  //     CSS делает blur только на .dg-fix-locked-block (compare/roadmap/summary).
-  //     title + body + decomposition Section 3 — открыты (даём контекст и aha).
-  //     Section 4 (форма) показывается всегда — без лишней кнопки-промежутка.
-  //   • anti_icp → is-unlocked, всё открыто (бесплатный лид-магнит шаблонов).
-  // После сабмита формы → renderFinal() / bindLeadForm() переключают
-  // body на is-unlocked при успешном лиде (см. ниже).
-  function setupPaywall() {
-    const isAnti = data.route === 'anti_icp';
-    if (isAnti) {
-      document.body.classList.add('is-unlocked');
-      return;
-    }
-    document.body.classList.add('is-locked');
-  }
+  // PLG v3 — без paywall: весь Section 3 открыт всегда. PLG-логика
+  // держится за встречу с экспертом в Section 4 (Hot ICP) — это
+  // ценность за форму. Для warm/anti — отдельные CTA.
+  function setupPaywall() { /* no-op: ничего не блокируем */ }
 
   renderHero();
   renderLoss();

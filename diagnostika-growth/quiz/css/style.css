@@ -655,26 +655,34 @@ header{
 .step-nav .btn-back{flex-shrink:0}
 .step-nav .btn-primary{flex:1;padding:12px 20px;min-height:44px}
 
-/* ═════ FOOTER ═════ */
+/* ═════ FOOTER · CANONICAL · единый сквозной ═════
+   Тёмный navy-900 фон, настоящий лого PNG с CSS-фильтром
+   brightness(0) invert(1). Идентичен .site-footer в index.html. */
 .site-footer{
-  margin-top:40px;padding:24px 24px 80px;
-  border-top:1px solid var(--border);background:var(--surface);
+  margin-top:40px;padding:32px 24px 40px;
+  background:#0F1D2F;color:#CBD5E1;
+  font-size:13px;line-height:1.6;
+  border-top:1px solid rgba(255,255,255,.06);
 }
 body:has(.step-nav:not([hidden])) .site-footer,
 body:has(.sticky-cta.visible) .site-footer{padding-bottom:140px}
+.site-footer a{color:#94A3B8;transition:color .15s ease}
+.site-footer a:hover{color:#FFFFFF}
 .footer-inner{
-  max-width:800px;margin:0 auto;display:flex;justify-content:space-between;
-  align-items:flex-start;flex-wrap:wrap;gap:16px;
+  max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;
+  align-items:flex-start;flex-wrap:wrap;gap:32px;
 }
+.footer-company{display:flex;flex-direction:column;gap:8px;max-width:480px}
 .footer-logo{display:inline-block;line-height:0;margin-bottom:10px;transition:opacity .15s ease}
 .footer-logo:hover{opacity:.85}
-.footer-logo img{height:28px;display:block}
-.footer-brand{font-size:13px;color:var(--text-secondary);font-weight:500;margin-bottom:4px}
-.footer-legal{font-size:12px;color:var(--text-muted);line-height:1.5}
-.footer-links{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
-.footer-links a{font-size:12px;color:var(--text-muted)}
-.footer-links a:hover{color:var(--text-secondary);text-decoration:underline}
-@media(max-width:480px){
+/* Реальный лого Финтабло (PNG из Tilda CDN, скачан в assets/logo.png).
+   На тёмном фоне футера показываем оригинальный лого на белой плашке —
+   значок ФТ + текст «Финтабло» читаются без искажений. */
+.footer-logo img{height:32px;display:block;background:#FFFFFF;padding:4px 10px;border-radius:6px}
+.footer-brand{font-size:13px;color:#E2E8F0;font-weight:600}
+.footer-legal{font-size:12px;color:#94A3B8;line-height:1.55}
+.footer-links{display:flex;flex-direction:column;gap:8px;align-items:flex-end;font-size:13px}
+@media(max-width:720px){
   .footer-inner{flex-direction:column;align-items:flex-start;text-align:left}
   .footer-links{align-items:flex-start}
 }

@@ -25,7 +25,6 @@
   fireGoal('dg_report_view');
 
   function renderHero() {
-    const profileLabel = (data.profile && data.profile.businessTypeLabel) || 'бизнеса';
     const lossLine = (data.lossRange && data.lossRange.min)
       ? C.formatRange(data.lossRange.min, data.lossRange.max) + ' упущенной прибыли в&nbsp;год'
       : '';
@@ -33,13 +32,13 @@
       ? data.transparency.score + '/100 прозрачность учёта'
       : '';
     const painLabel = (data.profile && data.profile.primaryPainLabel) || '';
-    // Hero персонализированный: тип бизнеса + 3 ключевые цифры
-    const title = 'Разбор готов&nbsp;— по&nbsp;вашим ответам про&nbsp;' + profileLabel;
-    const bullets = [lossLine, score, painLabel && 'главная боль: ' + painLabel.toLowerCase()]
+    // Hero отчёта: ценностное обещание + 3 ключевых результата (без слова «боль»)
+    const title = 'Сколько прибыли упускает ваш бизнес за&nbsp;год';
+    const bullets = [lossLine, score, painLabel && 'главная точка роста: ' + painLabel.toLowerCase()]
       .filter(Boolean).join('&nbsp;· ');
     const sub = bullets
       ? bullets + '. Один следующий шаг&nbsp;— ниже в&nbsp;разборе.'
-      : 'Три цифры о&nbsp;финансах вашего бизнеса: упущенная прибыль, прозрачность учёта и&nbsp;один следующий шаг.';
+      : 'Три ключевых показателя о&nbsp;финансах вашего бизнеса: упущенная прибыль, прозрачность учёта и&nbsp;один следующий шаг.';
     $('hero-title').innerHTML = title;
     $('hero-sub').innerHTML = sub;
   }
@@ -162,14 +161,20 @@
       );
     }
     if (kind === 'time') {
-      // Часы с большой стрелкой и галочкой = ускорение (5 дней → 2 часа)
+      // Стрелка ускорения: «5 дней → 2 часа». Восходящая bar-chart с молнией —
+      // визуально читается как «было медленно, стало быстро + сразу результат».
       return (
         '<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
-          '<circle cx="40" cy="40" r="28" stroke="#1D4ED8" stroke-width="2.5" fill="#EFF6FF"/>' +
-          '<line x1="40" y1="40" x2="40" y2="22" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/>' +
-          '<line x1="40" y1="40" x2="54" y2="40" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/>' +
-          '<circle cx="40" cy="40" r="2.5" fill="#1D4ED8"/>' +
-          '<path d="M58 60l4 4 8-9" stroke="#16A34A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>' +
+          // фон-плашка
+          '<rect x="6" y="10" width="68" height="60" rx="10" fill="#EFF6FF"/>' +
+          // три колонки времени: высокая (5 дней) → средняя (1-2 дня) → низкая (2 часа)
+          '<rect x="14" y="22" width="10" height="38" rx="2" fill="#BFDBFE"/>' +
+          '<rect x="30" y="32" width="10" height="28" rx="2" fill="#60A5FA"/>' +
+          '<rect x="46" y="46" width="10" height="14" rx="2" fill="#1D4ED8"/>' +
+          // молния поверх — ускорение
+          '<path d="M62 22 l-6 14 h5 l-3 12 8-16 h-5 z" fill="#FACC15" stroke="#CA8A04" stroke-width="1.2" stroke-linejoin="round"/>' +
+          // короткая базовая линия снизу
+          '<line x1="14" y1="62" x2="60" y2="62" stroke="#1D4ED8" stroke-width="1.5" stroke-linecap="round"/>' +
         '</svg>'
       );
     }
@@ -204,7 +209,7 @@
       }).join('');
       decompositionHtml =
         '<div class="dg-fix-decomposition">' +
-          '<div class="dg-fix-decomp-label">Где эта боль проявляется в&nbsp;вашем бизнесе</div>' +
+          '<div class="dg-fix-decomp-label">Как это влияет на&nbsp;ваш бизнес</div>' +
           '<ul class="dg-fix-decomp-list">' + items + '</ul>' +
         '</div>';
     }
@@ -214,13 +219,13 @@
     if (r.roadmap && (r.roadmap.in_3m || r.roadmap.in_12m)) {
       roadmapHtml =
         '<div class="dg-fix-roadmap">' +
-          '<div class="dg-fix-roadmap-label">Что изменится</div>' +
+          '<div class="dg-fix-roadmap-label">Что вы получите, если начнёте&nbsp;сейчас</div>' +
           '<div class="dg-fix-roadmap-grid">' +
             (r.roadmap.in_3m
-              ? '<div class="dg-fix-roadmap-step"><div class="dg-fix-roadmap-when">через&nbsp;3 месяца</div><div class="dg-fix-roadmap-text">' + r.roadmap.in_3m + '</div></div>'
+              ? '<div class="dg-fix-roadmap-step"><div class="dg-fix-roadmap-when">Уже&nbsp;в&nbsp;первый квартал</div><div class="dg-fix-roadmap-text">' + r.roadmap.in_3m + '</div></div>'
               : '') +
             (r.roadmap.in_12m
-              ? '<div class="dg-fix-roadmap-step"><div class="dg-fix-roadmap-when">через&nbsp;12 месяцев</div><div class="dg-fix-roadmap-text">' + r.roadmap.in_12m + '</div></div>'
+              ? '<div class="dg-fix-roadmap-step"><div class="dg-fix-roadmap-when">За&nbsp;год работы</div><div class="dg-fix-roadmap-text">' + r.roadmap.in_12m + '</div></div>'
               : '') +
           '</div>' +
         '</div>';
@@ -311,7 +316,7 @@
     const items = [
       'Разберём ваш расчёт упущенной прибыли&nbsp;— где она реально утекает',
       'Подберём отчёты под вашу отрасль&nbsp;— 80% управленческих вопросов закрыты',
-      'Сформулируем 2–3 первых шага под вашу главную боль'
+      'Сформулируем 2–3 первых шага под вашу главную точку роста'
     ];
     if (noFinance) {
       items.push('Покажем, как делегировать учёт партнёру-финансисту Финтабло&nbsp;— по&nbsp;запросу, без обязательств');
@@ -324,7 +329,7 @@
     return (
       '<div class="dg-final-eyebrow">Бесплатно · 30&nbsp;минут · с&nbsp;финансовым экспертом</div>' +
       '<h2>Бесплатная встреча с&nbsp;финансовым экспертом Финтабло</h2>' +
-      '<p>Открываем ваш расчёт, проверяем три ключевые цифры и&nbsp;формулируем план под вашу главную боль. Унесёте конкретные шаги, по&nbsp;которым можно работать сразу.</p>' +
+      '<p>Открываем ваш расчёт, проверяем три ключевых показателя и&nbsp;формулируем план под вашу главную точку роста. Унесёте конкретные шаги, по&nbsp;которым можно работать сразу.</p>' +
       '<div class="dg-final-trust-bar">' +
         '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">2&nbsp;300+</span><span>компаний работают в&nbsp;Финтабло</span></div>' +
         '<div class="dg-final-trust-item"><span class="dg-final-trust-num mono">500+</span><span>внедрений финансовых экспертов</span></div>' +
@@ -350,11 +355,11 @@
     ];
     return (
       '<div class="dg-final-eyebrow">7 дней полного доступа · без оплаты, без карты</div>' +
-      '<h2>Откройте Финтабло на&nbsp;7 дней&nbsp;— увидите все цифры в&nbsp;одной системе</h2>' +
-      '<p>Загрузите банковскую выписку и&nbsp;шаблоны под вашу отрасль&nbsp;— получите ДДС, ОПиУ и&nbsp;учёт по&nbsp;направлениям. За&nbsp;неделю поймёте, как удобнее закрывать управленческие вопросы.</p>' +
+      '<h2>Соберите финансы бизнеса в&nbsp;одной системе&nbsp;— попробуйте Финтабло 7 дней бесплатно</h2>' +
+      '<p>Загрузите банковскую выписку, откройте шаблоны под вашу отрасль&nbsp;— получите ДДС, ОПиУ и&nbsp;учёт по&nbsp;направлениям уже в&nbsp;первый день. За&nbsp;неделю увидите, что управленческие вопросы закрываются быстрее.</p>' +
       '<div class="dg-final-checklist">' + items.map(checkItem).join('') + '</div>' +
       '<button type="button" class="dg-final-cta" id="btn-warm-cta">Открыть демо-доступ на 7 дней →</button>' +
-      '<div class="dg-final-meta">Регистрация по&nbsp;email&nbsp;· 7&nbsp;дней полного доступа · без оплаты</div>'
+      '<div class="dg-final-meta">Достаточно адреса электронной почты&nbsp;· 7&nbsp;дней полного доступа · без оплаты</div>'
     );
   }
 
@@ -396,9 +401,9 @@
     }
 
     return (
-      '<div class="dg-final-eyebrow">3 шаблона под вашу боль</div>' +
-      '<h2>Под вашу боль&nbsp;— 3 готовых Excel-шаблона</h2>' +
-      '<p>На&nbsp;вашу главную боль (' + painLabel + ') у&nbsp;нас есть готовые рабочие инструменты&nbsp;— тот&nbsp;же стек, по&nbsp;которому работают компании в&nbsp;Финтабло. Забирайте, пользуйтесь.</p>' +
+      '<div class="dg-final-eyebrow">3 шаблона под вашу ситуацию</div>' +
+      '<h2>Готовые Excel-шаблоны под&nbsp;вашу главную точку роста</h2>' +
+      '<p>На&nbsp;вашу ситуацию (' + painLabel + ') у&nbsp;нас есть готовые рабочие инструменты&nbsp;— тот&nbsp;же стек, по&nbsp;которому работают компании в&nbsp;Финтабло. Забирайте, пользуйтесь.</p>' +
       '<div class="dg-templates">' + cards + '</div>' +
       bonusBlock
     );
@@ -423,22 +428,54 @@
     });
   }
 
+  // Ссылка на регистрацию + UTM-проброс.
+  // Принцип: оригинальные UTM пользователя (из Я.Директа и пр.) — приоритет.
+  // Если пользователь пришёл с utm_source=yandex — Я.Метрика на странице
+  // регистрации увидит ИМЕННО ЭТУ метку, не нашу внутреннюю. Это важно
+  // для корректной атрибуции в Я.Директе.
+  // Свой контекст (тип бизнеса, боль, маршрут) — в кастомных параметрах,
+  // префикс dg_ чтобы не конфликтовать со стандартными UTM.
   function buildWarmTrialUrl() {
-    let base = 'https://app.fintablo.ru/register?utm_source=diagnostika&utm_medium=quiz&utm_campaign=warm_partial_fit&utm_content=trial';
+    const base = 'https://fintablo.ru/registration';
+    const params = new URLSearchParams();
+
+    // 1. Оригинальный UTM пользователя — НЕ ЗАТИРАТЬ
+    let hasOrigUtm = false;
     try {
       const utmRaw = localStorage.getItem('ft_utm');
       if (utmRaw) {
         const utm = JSON.parse(utmRaw);
-        Object.keys(utm).forEach(function (k) {
-          if (k.charAt(0) === '_') return;
-          base += '&dg_' + encodeURIComponent(k) + '=' + encodeURIComponent(utm[k]);
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'yclid'].forEach(function (k) {
+          if (utm[k]) {
+            params.set(k, utm[k]);
+            hasOrigUtm = true;
+          }
         });
       }
-      base += '&dg_business_type=' + encodeURIComponent(data.profile.businessType || '');
-      base += '&dg_revenue=' + encodeURIComponent(data.profile.annualRevenue || '');
-      base += '&dg_pain=' + encodeURIComponent(data.profile.primaryPain || '');
     } catch (e) {}
-    return base;
+
+    // 2. Если пользователь пришёл напрямую (нет UTM) — наша атрибуция
+    if (!hasOrigUtm) {
+      params.set('utm_source', 'fintablo');
+      params.set('utm_medium', 'tools');
+      params.set('utm_campaign', 'diagnostika-growth');
+      params.set('utm_content', 'warm_partial_fit');
+    } else {
+      // Добавим только utm_content с пометкой если он пустой
+      if (!params.has('utm_content')) {
+        params.set('utm_content', 'dg_warm_partial_fit');
+      }
+    }
+
+    // 3. Внутренний контекст — кастомные dg_* параметры (амоCRM подберёт)
+    if (data.profile) {
+      params.set('dg_route', data.route || '');
+      params.set('dg_business_type', data.profile.businessType || '');
+      params.set('dg_revenue', data.profile.annualRevenue || '');
+      params.set('dg_pain', data.profile.primaryPain || '');
+    }
+
+    return base + '?' + params.toString();
   }
 
   function buildLeadForm(opts) {

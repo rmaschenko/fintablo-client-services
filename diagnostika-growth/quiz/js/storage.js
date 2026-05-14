@@ -26,7 +26,29 @@
     } catch (e) { /* privacy mode */ }
   }
 
+  // getUTM возвращает оригинальные UTM-метки пользователя.
+  // Приоритет: localStorage.ft_utm (first-touch, переживает закрытие квиза)
+  // → sessionStorage.dg_utm (если был захвачен прямо в квизе). Это
+  // обеспечивает корректную атрибуцию для amoCRM/CRM — оригинальный
+  // источник из Я.Директа доходит до лида, не теряется.
   function getUTM() {
+    // 1. Сначала пробуем localStorage.ft_utm (single source of truth)
+    try {
+      const ftRaw = localStorage.getItem('ft_utm');
+      if (ftRaw) {
+        const ft = JSON.parse(ftRaw);
+        return {
+          source:   ft.utm_source   || '',
+          medium:   ft.utm_medium   || '',
+          campaign: ft.utm_campaign || '',
+          content:  ft.utm_content  || '',
+          term:     ft.utm_term     || '',
+          yclid:    ft.yclid        || '',
+          captured_at: ft._captured_at || null
+        };
+      }
+    } catch (e) {}
+    // 2. Fallback на sessionStorage.dg_utm (если ft_utm пуст)
     try {
       const raw = sessionStorage.getItem(UTM_KEY);
       return raw ? JSON.parse(raw) : null;

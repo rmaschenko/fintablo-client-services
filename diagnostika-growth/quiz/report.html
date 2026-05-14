@@ -79,7 +79,7 @@
     <div class="dg-section-head">
       <div class="dg-section-num">02</div>
       <h2 class="dg-section-title">Насколько прозрачны ваши финансы</h2>
-      <p class="dg-section-sub">Индекс 0–100 на&nbsp;основе вашего профиля. Маркеры показывают похожие компании и&nbsp;топ-25% по&nbsp;учёту.</p>
+      <p class="dg-section-sub">Индекс 0–100 на&nbsp;основе вашего профиля. Маркеры показывают похожие компании и&nbsp;лидеров по&nbsp;управленческому учёту.</p>
     </div>
 
     <div class="dg-gauge-card">
@@ -97,12 +97,7 @@
           <!-- Фоновая дуга (центр 270,270; r=220; полудуга 50→490) -->
           <path class="dg-gauge-bg-arc" d="M 50 270 A 220 220 0 0 1 490 270"/>
 
-          <!-- Декоративные тики на 0/25/50/75/100 -->
-          <line class="dg-gauge-tick" x1="40" y1="265" x2="58" y2="263"/>
-          <line class="dg-gauge-tick" x1="129" y1="113" x2="143" y2="123"/>
-          <line class="dg-gauge-tick" x1="270" y1="48" x2="270" y2="66"/>
-          <line class="dg-gauge-tick" x1="411" y1="113" x2="397" y2="123"/>
-          <line class="dg-gauge-tick" x1="500" y1="265" x2="482" y2="263"/>
+          <!-- Tick'и удалены — конфликтовали с маркерами Вы/Похожие/Лидеры -->
 
           <!-- Заливка дуги — анимируется в JS через stroke-dasharray -->
           <path id="gauge-fill" class="dg-gauge-fill" d="M 50 270 A 220 220 0 0 1 490 270"/>
@@ -168,7 +163,7 @@
         <div class="dg-gauge-leg-item dg-gauge-leg-top">
           <span class="dg-gauge-leg-marker"></span>
           <span class="dg-gauge-leg-info">
-            <span class="dg-gauge-leg-label" id="bench-top-label">Топ-25% компаний</span>
+            <span class="dg-gauge-leg-label" id="bench-top-label">Лидеры по управленческому учёту</span>
             <span class="dg-gauge-leg-sub" id="bench-top-sub">с&nbsp;прозрачным управленческим учётом</span>
           </span>
           <span class="dg-gauge-leg-val mono" id="bench-top-val">—</span>
@@ -182,7 +177,7 @@
     <div class="dg-section-head">
       <div class="dg-section-num">03</div>
       <h2 class="dg-section-title">Что исправить в&nbsp;первую очередь</h2>
-      <p class="dg-section-sub">Главный фокус ближайших 2&nbsp;недель + что измеримо изменится через 3&nbsp;и&nbsp;12 месяцев.</p>
+      <p class="dg-section-sub">Один шаг прямо сейчас и&nbsp;измеримый результат через 3&nbsp;и&nbsp;12 месяцев.</p>
     </div>
 
     <!-- Section 3 содержимое рендерится в report.js → renderFix.

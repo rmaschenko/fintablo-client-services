@@ -234,11 +234,7 @@
   stroke-linecap: round;
   fill: none;
 }
-.dg-gauge-tick {
-  stroke: #C9C9C9;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
+/* .dg-gauge-tick удалён — конфликтовал с маркерами Вы/Похожие/Лидеры */
 .dg-gauge-fill {
   stroke: url(#dg-gauge-gradient);
   stroke-width: 28;
@@ -770,12 +766,13 @@
 .dg-fix-summary-icon { display: inline-flex; }
 .dg-fix-summary-icon svg { width: 16px; height: 16px; }
 
-/* Декомпозиция боли — где это проявляется в бизнесе (3-4 пункта) */
+/* Декомпозиция боли — на светлой Section-карточке (тёмный текст,
+   высокий контраст WCAG AA). Цвет фона мягкий синий, border-left brand. */
 .dg-fix-decomposition {
   margin-top: 22px;
   padding: 18px 20px;
-  background: rgba(41, 81, 202, .04);
-  border-left: 3px solid var(--blue-500, #3B82F6);
+  background: rgba(41, 81, 202, .06);
+  border-left: 3px solid var(--blue-600, #2563EB);
   border-radius: 0 10px 10px 0;
 }
 .dg-fix-decomp-label {
@@ -783,7 +780,7 @@
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--blue-300, #93BBFD);
+  color: var(--blue-700, #1D4ED8);
   margin-bottom: 12px;
 }
 .dg-fix-decomp-list {
@@ -799,7 +796,7 @@
   padding-left: 22px;
   font-size: 14px;
   line-height: 1.5;
-  color: var(--slate-300, #CBD5E1);
+  color: var(--slate-800, #1E293B);
 }
 .dg-fix-decomp-item::before {
   content: '';
@@ -809,15 +806,16 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--blue-400, #60A5FA);
+  background: var(--blue-600, #2563EB);
 }
 
-/* Roadmap — что меняется через 3 / 12 месяцев */
+/* Roadmap — что меняется через 3 / 12 месяцев. Светлая карточка, тёмный
+   текст, акцент-warm border-left + жёлтая плашка для контраста. */
 .dg-fix-roadmap {
   margin-top: 22px;
   padding: 18px 20px;
-  background: rgba(255, 253, 181, .06);
-  border-left: 3px solid var(--accent, #FFFDB5);
+  background: rgba(217, 119, 6, .07);
+  border-left: 3px solid var(--caution, #D97706);
   border-radius: 0 10px 10px 0;
 }
 .dg-fix-roadmap-label {
@@ -825,7 +823,7 @@
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: #FFE060;
+  color: #92400E;
   margin-bottom: 12px;
 }
 .dg-fix-roadmap-grid {
@@ -842,117 +840,22 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .04em;
-  color: var(--blue-300, #93BBFD);
+  color: var(--blue-700, #1D4ED8);
   text-transform: uppercase;
 }
 .dg-fix-roadmap-text {
   font-size: 14px;
   line-height: 1.45;
-  color: #fff;
+  color: var(--slate-800, #1E293B);
 }
 @media (max-width: 640px) {
   .dg-fix-roadmap-grid { grid-template-columns: 1fr; gap: 18px; }
   .dg-fix-decomposition, .dg-fix-roadmap { padding: 16px; }
 }
 
-/* PLG-gate частичный blur: title+lead+decomposition открыты,
-   compare/roadmap/summary под blur'ом до сабмита формы */
-.dg-fix-locked-block {
-  position: relative;
-  transition: filter .35s ease;
-}
-.is-locked .dg-fix-locked-block {
-  filter: blur(5px);
-  pointer-events: none;
-  user-select: none;
-}
-.is-unlocked .dg-fix-locked-block { filter: none; pointer-events: auto; user-select: auto; }
-
-/* Gate-overlay messaging — explicit объяснение что скрыто и зачем форма.
-   Видно только при body.is-locked. Цель: убрать «откуда мутная зона»
-   и явно перевести взгляд к форме (главная конверсионная точка). */
-.dg-fix-gate-overlay { display: none; }
-.is-locked .dg-fix-gate-overlay {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin: 16px 0 12px;
-  padding: 18px 22px;
-  background: linear-gradient(135deg, rgba(41, 81, 202, .06) 0%, rgba(255, 253, 181, .14) 100%);
-  border: 1px solid rgba(41, 81, 202, .14);
-  border-radius: 14px;
-}
-.dg-fix-gate-icon {
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: #2951CA;
-  color: #FFFDB5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.dg-fix-gate-icon svg { width: 20px; height: 20px; }
-.dg-fix-gate-body { flex: 1; min-width: 0; }
-.dg-fix-gate-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #091A4E;
-  letter-spacing: -.005em;
-  margin-bottom: 8px;
-  line-height: 1.35;
-}
-.dg-fix-gate-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 13px;
-  color: #404C72;
-  line-height: 1.45;
-}
-.dg-fix-gate-list li {
-  position: relative;
-  padding-left: 18px;
-}
-.dg-fix-gate-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 8px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #2951CA;
-}
-.dg-fix-gate-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #2951CA;
-  text-decoration: none;
-  padding: 6px 12px;
-  background: #FFFFFF;
-  border: 1px solid rgba(41, 81, 202, .25);
-  border-radius: 8px;
-  transition: background .15s, border-color .15s;
-}
-.dg-fix-gate-cta:hover {
-  background: #2951CA;
-  color: #FFFFFF;
-  border-color: #2951CA;
-}
-@media (max-width: 560px) {
-  .is-locked .dg-fix-gate-overlay { padding: 14px 16px; gap: 12px; }
-  .dg-fix-gate-icon { width: 32px; height: 32px; }
-  .dg-fix-gate-title { font-size: 14px; }
-  .dg-fix-gate-list { font-size: 12px; }
-}
+/* PLG-gate (blur, gate-overlay, locked-block) — УДАЛЕНО.
+   Section 3 теперь полностью открыт, без paywall. PLG-логика держится
+   за встречу с экспертом в Section 4 = ценность за форму. */
 
 /* Bridge — связка с финалом, главная конверсионная точка отчёта */
 .dg-fix-bridge {
@@ -1153,12 +1056,15 @@
 }
 .dg-form-submit:hover { background: #1C3C9B; transform: translateY(-1px); box-shadow: 0 12px 24px -8px rgba(41, 81, 202, .65); }
 .dg-form-submit:active { transform: translateY(0); }
+/* Disabled — полупрозрачный brand-blue: понятно «спит, ждёт галочку»,
+   а не «сломан». UX: пользователь видит куда вернуться галочкой. */
 .dg-form-submit:disabled {
-  background: #C9D2EA;
-  color: #6E7AA0;
+  background: rgba(41, 81, 202, .45);
+  color: #FFFFFF;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
+  opacity: 1;
 }
 /* Поля с label-ами над инпутами (профессионально, лучше для CR) */
 .dg-form-field { display: flex; flex-direction: column; gap: 6px; }

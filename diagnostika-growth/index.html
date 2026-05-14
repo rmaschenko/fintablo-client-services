@@ -613,32 +613,39 @@
     .final-cta-proof .mono{color:var(--white);font-weight:700;font-size:16px}
     .final-cta-proof .sep{color:var(--slate-500)}
 
-    /* ═════════════ FOOTER (компактный, по образцу money-diagnosis) ═════════════ */
+    /* ═════════════ FOOTER · CANONICAL · единый сквозной для всех 4 страниц
+       (index.html, quiz/index.html, quiz/report.html, quiz/thankyou.html).
+       Тёмный фон #0F1D2F, настоящий лого Финтабло (assets/logo.png) с
+       CSS-фильтром brightness(0) invert(1) → белая инверсия на тёмном.
+       Идентичные стили в quiz/css/style.css. ═════════════ */
     .site-footer{
-      padding:var(--sp-10) 0 var(--sp-8);
-      background:var(--slate-900);color:var(--slate-400);
+      margin-top:40px;
+      padding:32px 24px 40px;
+      background:#0F1D2F;
+      color:#CBD5E1;
       font-size:13px;line-height:1.6;
+      border-top:1px solid rgba(255,255,255,.06);
     }
-    .site-footer a{color:var(--slate-300);transition:color .15s var(--ease)}
-    .site-footer a:hover{color:var(--white)}
+    .site-footer a{color:#94A3B8;transition:color .15s var(--ease)}
+    .site-footer a:hover{color:#FFFFFF}
 
     .footer-inner{
-      display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-8);
+      max-width:1080px;margin:0 auto;
+      display:flex;justify-content:space-between;align-items:flex-start;gap:32px;
       flex-wrap:wrap;
     }
-    .footer-company{display:flex;flex-direction:column;gap:6px;max-width:480px}
-    .footer-company .logo{margin-bottom:var(--sp-3)}
-    /* Реальный лого Финтабло, light-on-dark вариант (assets/logo-light.svg).
-       Тот же лого что в header — но инверсная цветовая схема под тёмный
-       footer: белый квадрат + тёмные штрихи + белый текст. */
+    .footer-company{display:flex;flex-direction:column;gap:8px;max-width:480px}
     .footer-logo{display:inline-block;line-height:0;margin-bottom:10px;transition:opacity .15s var(--ease)}
     .footer-logo:hover{opacity:.85}
-    .footer-logo img{height:28px;display:block}
-    .footer-brand-line{color:var(--slate-300);font-weight:600}
-    .footer-legal{font-size:12px;color:var(--slate-300);line-height:1.55}
+    /* Реальный лого Финтабло (PNG из Tilda CDN, скачан локально в assets/logo.png).
+       На тёмном фоне футера показываем оригинальный лого на белой плашке —
+       стандартный приём, лого читается без искажений (значок ФТ + текст «Финтабло»). */
+    .footer-logo img{height:32px;display:block;background:#FFFFFF;padding:4px 10px;border-radius:6px}
+    .footer-brand{color:#E2E8F0;font-weight:600;font-size:13px}
+    .footer-legal{font-size:12px;color:#94A3B8;line-height:1.55}
 
     .footer-links{
-      display:flex;flex-direction:column;gap:10px;align-items:flex-end;
+      display:flex;flex-direction:column;gap:8px;align-items:flex-end;
       font-size:13px;
     }
     @media (max-width:720px){
@@ -875,7 +882,7 @@
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Самопроверка</span>
-        <h2 id="symptoms-h2">Узнаёте 2 из 4 — пора посмотреть свои цифры</h2>
+        <h2 id="symptoms-h2">Узнаёте 2 из 4 — стоит проверить цифры</h2>
       </div>
 
       <div class="symptoms-grid">
@@ -983,23 +990,21 @@
 </main>
 
 <footer class="site-footer">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-company">
-        <a href="https://fintablo.ru" class="footer-logo" aria-label="Финтабло — главная" target="_blank" rel="noopener">
-          <img src="assets/logo-light.svg" alt="Финтабло" height="28">
-        </a>
-        <div class="footer-brand-line">© 2026, «Финтабло»</div>
-        <div class="footer-legal">
-          ООО&nbsp;«Нескучный финансовый софт»<br>
-          ИНН&nbsp;2311303019&nbsp;· ОГРН&nbsp;1202300015103
-        </div>
+  <div class="footer-inner">
+    <div class="footer-company">
+      <a href="https://fintablo.ru" class="footer-logo" aria-label="Финтабло — главная" target="_blank" rel="noopener">
+        <img src="assets/logo.png" alt="Финтабло" height="28">
+      </a>
+      <div class="footer-brand">© 2026, «Финтабло»</div>
+      <div class="footer-legal">
+        ООО&nbsp;«Нескучный финансовый софт»<br>
+        ИНН&nbsp;2311303019&nbsp;· ОГРН&nbsp;1202300015103
       </div>
-      <div class="footer-links">
-        <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-        <a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">Оферта</a>
-        <a href="mailto:support@help.fintablo.ru">support@help.fintablo.ru</a>
-      </div>
+    </div>
+    <div class="footer-links">
+      <a href="https://fintablo.ru/position" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+      <a href="https://fintablo.ru/oferta" target="_blank" rel="noopener">Оферта</a>
+      <a href="mailto:support@help.fintablo.ru">support@help.fintablo.ru</a>
     </div>
   </div>
 </footer>

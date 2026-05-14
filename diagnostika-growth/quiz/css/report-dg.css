@@ -712,6 +712,18 @@
   line-height: 1.65;
   color: var(--slate-700, #334155);
   margin: 0;
+  /* Safeguard: если в тексте окажутся длинные nbsp-цепочки, браузер
+     всё равно сможет перенести строку и не распирать контейнер. */
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+/* Safeguard для всех текстовых блоков Section 3 */
+.dg-fix-decomp-item,
+.dg-fix-roadmap-text,
+.dg-fix-line-text,
+.dg-fix-summary {
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
 }
 
 .dg-fix-compare {
